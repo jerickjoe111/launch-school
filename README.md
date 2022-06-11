@@ -8,7 +8,7 @@ This repo will contain:
 4. One folder for each set inside the exercises folder (i.e.: "exercises/easy_01")
 5. One extra folder for practice, testing, etc.
 
-Feel free also to visit my personal projects' repos.
+Feel free also to visit my personal projects repos.
 
 Thank you.
 
