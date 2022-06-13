@@ -1,6 +1,6 @@
 Hi! Welcome to my Launch School core curriculum remote repository.
 
-This repo will contain:
+Here you will find:
 
 1. One folder for each course (i.e.: "RB101/")
 2. One folder for each lesson inside each course (i.e.: "RB101/02_small_programs")
