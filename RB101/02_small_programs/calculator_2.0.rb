@@ -1,4 +1,4 @@
-# This is the Calculator program corresponding to Assignment "11. Walk-through: Refactoring Calculator". 
+# This is the Calculator program corresponding to Assignment "11. Walk-through: Refactoring Calculator".
 
 # To see my own version of this program, please go to "calculator_2.1.rb" in this same folder.
 
@@ -71,14 +71,14 @@ What operation would you like to perform?
     3) multiply 
     4) divide
   MSG
-  
+
   prompt(operator_prompt)
 
   operator = ""
 
   loop do
     operator = Kernel.gets.chomp
-    
+
     if %w(1 2 3 4).include?(operator)
       break
     else
@@ -90,15 +90,15 @@ What operation would you like to perform?
 
   result = case operator
            when "1"
-            number1 + number2
+             number1 + number2
            when "2"
-            number1 - number2
+             number1 - number2
            when "3"
-            number1 * number2
+             number1 * number2
            when "4"
-            number1.to_f / number2
-  end
-    
+             number1.to_f / number2
+           end
+
   Kernel.puts("The result is #{result}.")
   prompt("Do you want to perform another calculation? (Y to calculate again)")
   answer = Kernel.gets.chomp
