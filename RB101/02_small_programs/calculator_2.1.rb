@@ -10,13 +10,14 @@ def prompt(message)
 end
 
 def valid_number?(number)
-  !(number.match?(/\D/)) && number.empty? == false
+  !(number.match?(/\D/)) && !(number.empty?)
 end
 
-prompt "Welcome to Calculator! Please, enter your name: "
+prompt "Welcome to Calculator!"
 
 name = ""
 loop do
+  prompt "Please, enter your name:"
   name = gets.chomp
   break unless name.empty?
 end
@@ -55,7 +56,8 @@ loop do
   operator = ""
   loop do
     operator = gets.chomp
-    operator.match?(/[^1-4]/) ? prompt("Must choose 1, 2, 3 or 4.") : break
+    break if !(operator.match?(/[^1-4]/)) && !(operator.empty?)
+    prompt("Must choose 1, 2, 3 or 4.")
   end
 
   result = case operator
