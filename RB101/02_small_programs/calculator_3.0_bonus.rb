@@ -42,7 +42,7 @@ end
 
 puts MESSAGES[LANGUAGE]["greet"] + name + "!"
 
-loop do # Main loop (see lines 102-108)
+loop do # Main loop (see lines 105-111)
   number01 = ""
   loop do
     prompt "prompt_number01"
