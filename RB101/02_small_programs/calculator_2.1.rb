@@ -10,7 +10,7 @@ def prompt(message)
 end
 
 def valid_number?(number)
-  !(number.match?(/\D/)) && !(number.empty?)
+  !number.match?(/\D/) && !number.empty?
 end
 
 prompt "Welcome to Calculator!"
@@ -56,7 +56,7 @@ loop do
   operator = ""
   loop do
     operator = gets.chomp
-    break if !(operator.match?(/[^1-4]/)) && !(operator.empty?)
+    break if !operator.match?(/[^1-4]/) && !operator.empty?
     prompt("Must choose 1, 2, 3 or 4.")
   end
 
@@ -78,7 +78,7 @@ loop do
   puts "The result is #{result}."
   prompt("Do you want to perform another calculation? (Y to calculate again)")
   answer = gets.chomp
-  break unless answer.downcase.start_with?("y")
+  break if answer.downcase.start_with?("n")
 end
 
 prompt("Thank you for using the calculator. Good bye!")
