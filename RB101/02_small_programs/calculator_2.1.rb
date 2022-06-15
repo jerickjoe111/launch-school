@@ -24,7 +24,7 @@ end
 
 prompt "Hi #{name}!"
 
-loop do
+loop do # Main loop (see line 81)
   number01 = ""
   loop do
     prompt "What's the first number?"
