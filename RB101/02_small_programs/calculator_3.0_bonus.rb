@@ -2,9 +2,22 @@
 
 # Calculator 3.0
 
-# by Lucas Sorribes, June 2022.
+# Available languages: English (en), Spanish (es)
+# To change language, assign LANGUAGE to desired language.
 
-def prompt(message)
+# Lucas Sorribes, June 2022.
+
+require "yaml"
+
+MESSAGES = YAML.load_file('calculator_messages.yml')
+LANGUAGE = "es"
+
+def messages(message, lang='en')
+  MESSAGES[lang][message]
+end
+
+def prompt(key)
+  message = messages(key, LANGUAGE)
   puts "=> #{message}"
 end
 
@@ -17,55 +30,50 @@ def float_or_int(number)
 end
 
 system("clear")
-puts " Welcome to Calculator 3.0!(now with bonus features) ".center(120, "#")
+puts MESSAGES[LANGUAGE]["welcome"].center(120, "#")
 puts "\n"
 
 name = ""
 loop do
-  prompt "Please, enter your name:"
+  prompt "prompt_name"
   name = gets.chomp.strip
   break unless name.empty?
 end
 
-prompt "Hi #{name}!"
+puts MESSAGES[LANGUAGE]["greet"] + name + "!"
 
-loop do # Main loop (see lines 92-98)
+loop do # Main loop (see lines 102-108)
   number01 = ""
   loop do
-    prompt "What's the first number?"
+    prompt "prompt_number01"
     number01 = gets.chomp.strip
     if valid_number?(number01)
       number01 = float_or_int(number01)
       break
     else
-      prompt "Please, enter a valid integer or decimal."
+      prompt "valid_number"
     end
   end
 
   number02 = ""
   loop do
-    prompt "What's the second number?"
+    prompt "prompt_number02"
     number02 = gets.chomp.strip
     if valid_number?(number02)
       number02 = float_or_int(number02)
       break
     else
-      prompt "Please, enter a valid integer or decimal."
+      prompt "valid_number"
     end
   end
 
-  prompt "What operation would you like to perform?
-    1) add
-    2) subtract
-    3) multiply
-    4) divide
-  "
+  prompt "prompt_operation"
 
   operator = ""
   loop do
     operator = gets.chomp.strip
     break if !operator.match?(/[^1-4]/) && !operator.empty?
-    prompt("Must choose 1, 2, 3 or 4.")
+    prompt "valid_operation"
   end
 
   result = case operator
@@ -77,27 +85,32 @@ loop do # Main loop (see lines 92-98)
              number01 * number02
            when "4"
              if number02 == 0
-               prompt "You can't divide a number by 0!"
+               prompt "zero_division"
              else
                number01.to_f / number02
              end
            end
 
-  operation = { "1" => "addition", "2" => "subtraction", "3" => "multiplication", "4" => "division" }
+  operation = {
+    "1" => MESSAGES[LANGUAGE]["addition"],
+    "2" => MESSAGES[LANGUAGE]["subtraction"],
+    "3" => MESSAGES[LANGUAGE]["multiplication"],
+    "4" => MESSAGES[LANGUAGE]["division"]
+  }
   if result
-    prompt "Performing" + " " + operation[operator] + "... "
-    puts "The result is #{result}." if result
+    puts MESSAGES[LANGUAGE]["performing"] + " " + operation[operator] + "... "
+    puts MESSAGES[LANGUAGE]["result"] + " #{format('%.2f', result)}"
   end
 
   answer = ""
   loop do
-    prompt("Do you want to perform another calculation? (Y/N)")
-    answer = gets.chomp.strip.upcase[0]
-    break if answer == "Y" || answer == "N"
+    prompt "prompt_another_calc"
+    answer = gets.chomp.strip.downcase[0]
+    break if answer == "y" || answer == "n"
   end
-  break if answer == "N"
+  break if answer == "n"
 
   system("clear")
 end
 
-puts " Thank you for using Calculator 3.0. Good bye! ".center(120, "#")
+puts MESSAGES[LANGUAGE]["goodbye"].center(120, "#")

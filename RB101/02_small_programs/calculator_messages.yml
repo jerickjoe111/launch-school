@@ -1,0 +1,49 @@
+# Configuration file for calculator_3.0_bonus.rb
+
+en: 
+  welcome: " Welcome to Calculator 3.0! (now with bonus features) "
+  prompt_name: "Please, enter your name:"
+  greet: "Hi "
+  prompt_number01: "What's the first number?"
+  prompt_number02: "What's the second number?"
+  valid_number: "Please, enter a valid integer or decimal number."
+  prompt_operation: "What operation would you like to perform?\n
+      1) add\n
+      2) subtract\n
+      3) multiply\n
+      4) divide
+    "
+  valid_operation: "Must choose 1, 2, 3 or 4."
+  zero_division: "You can't divide a number by 0!"
+  addition: "addition"
+  subtraction: "subtraction"
+  multiplication: "multiplication"
+  division: "division"
+  performing: "Performing"
+  result: "The result is"
+  prompt_another_calc: "Do you want to perform another calculation? (y/n)"
+  goodbye: " Thanks for using Calculator 3.0. Good bye! "
+
+es:
+  welcome: " Bienvenido a Calculadora 3.0! (ahora con nuevas características) "
+  prompt_name: "Por favor, escriba su nombre:"
+  greet: "Hola "
+  prompt_number01: "Cual es el primer número?"
+  prompt_number02: "Cual es el segundo número?"
+  valid_number: "Por favor, escriba un número natural o decimal válido."
+  prompt_operation: "Qué operación desea realizar?\n
+      1) suma\n
+      2) resta\n
+      3) multiplicación\n
+      4) división
+    "
+  valid_operation: "Debe escribir 1, 2, 3 or 4."
+  zero_division: "No puede dividir un número por 0!"
+  addition: "suma"
+  subtraction: "resta"
+  multiplication: "multiplicación"
+  division: "división"
+  performing: "Realizando"
+  result: "El resultado es"
+  prompt_another_calc: "Desea realizar otro cálculo? (y/n)"
+  goodbye: " Gracias por usar Calculadora 3.0. Adiós! "
