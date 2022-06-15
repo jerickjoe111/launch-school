@@ -12,7 +12,7 @@ require "yaml"
 MESSAGES = YAML.load_file('calculator_messages.yml')
 LANGUAGE = "en"
 
-def messages(message, lang='en')
+def messages(message, lang="en")
   MESSAGES[lang][message]
 end
 
