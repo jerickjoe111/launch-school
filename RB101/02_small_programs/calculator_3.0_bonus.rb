@@ -10,7 +10,7 @@
 require "yaml"
 
 MESSAGES = YAML.load_file('calculator_messages.yml')
-LANGUAGE = "es"
+LANGUAGE = "en"
 
 def messages(message, lang='en')
   MESSAGES[lang][message]
@@ -84,7 +84,7 @@ loop do # Main loop (see lines 102-108)
            when "3"
              number01 * number02
            when "4"
-             if number02 == 0
+             if number02.abs == 0
                prompt "zero_division"
              else
                number01.to_f / number02
