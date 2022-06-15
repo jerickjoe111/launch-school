@@ -3,7 +3,7 @@
 # Calculator 3.0
 
 # Available languages: English (en), Spanish (es)
-# To change language, assign LANGUAGE to desired language.
+# To change language, set LANGUAGE constant.
 
 # Lucas Sorribes, June 2022.
 
