@@ -99,7 +99,7 @@ loop do # Main loop (see lines 105-111)
   }
   if result
     puts MESSAGES[LANGUAGE]["performing"] + " " + operation[operator] + "... "
-    puts MESSAGES[LANGUAGE]["result"] + " #{format('%.2f', result)}"
+    puts MESSAGES[LANGUAGE]["result"] + " #{format('%.4f', result)}"
   end
 
   answer = ""
