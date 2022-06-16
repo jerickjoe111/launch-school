@@ -9,7 +9,7 @@ operation = ""
 loop do
   print "Enter 's' to compute the sum, 'p' to compute the product: "
   operation = gets.chomp.strip.downcase
-  break if %w(s p).include?(operation)
+  break if %w{s p}.include?(operation)
 end
 
 case operation
