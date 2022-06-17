@@ -1,12 +1,39 @@
 # 16. Assignment Mortgage/Car Loan Calculator
 
-# Loan calculator 1.0
+# Loan Calculator 1.0
 
 # Lucas Sorribes, June 2022.
 
+# Available languages: English (en), Spanish (sp)
+# To change language, set LANGUAGE constant.
+
 require "date"
+require "yaml"
+
+MESSAGES = YAML.load_file("loan_messages.yml")
+LANGUAGE = "en"
 
 # Helper methods:
+
+# messages
+# prompt
+# greet_validname
+# valid_integer?
+# valid_apr?
+# validate_input_integer
+# validate_input_apr
+# ask
+# wait_output
+# format_number
+
+def messages(message, lang="en")
+  MESSAGES[lang][message]
+end
+
+def prompt(key)
+  message = messages(key, LANGUAGE)
+  "=> #{message}"
+end
 
 def greet_valid_name(message)
   name = ""
@@ -17,7 +44,7 @@ def greet_valid_name(message)
   end
 
   puts "\n"
-  puts "Hello, Mr./Ms. #{name.capitalize}."
+  puts MESSAGES[LANGUAGE]["greet"] + name.capitalize + "."
   puts "\n"
 
   name
@@ -30,7 +57,7 @@ def valid_integer?(amount)
 end
 
 def valid_apr?(apr)
-  false if apr.to_i == 0
+  return false if apr.to_i == 0
 
   apr.match?(/^\d+(\.\d+)*$/) && !apr.empty?
 end
@@ -100,10 +127,8 @@ end
 # Main program
 
 system("clear")
-puts " Welcome to Mortgage / Car Loan Calculator 1.0 ".center(120, "#")
+puts MESSAGES[LANGUAGE]["welcome"].center(120, "#")
 puts "\n"
-
-# maybe use a hash {username: hash{variable: data}} ?????????????????????????????
 
 username = ""
 loan_amount = ""
@@ -112,34 +137,36 @@ apr = ""
 loan_term_months = ""
 user_info = ""
 
-loop do # User data input loop. It iterates again if user wants to modify data (see line 142) !!!!!!!!!!!!!!!!!!!
-  username = greet_valid_name("Please, enter your name:")
+loop do # User data input loop. It iterates again if user wants to modify data (see line 149)
+  username = greet_valid_name(prompt("prompt_name"))
 
-  loan_amount = validate_input_integer("Please, enter the loan amount in dollars:",
-                                       "Please, enter a valid loan amount. Decimals are not allowed.")
+  loan_amount = validate_input_integer(prompt("prompt_loan_amount"),
+                                       prompt("invalid_loan_amount"))
 
-  apr = validate_input_apr("Please, enter the Annual Percentage Rate (APR):",
-                           "Please, enter a valid Annual Percentage Rate.")
+  apr = validate_input_apr(prompt("prompt_apr"),
+                           prompt("invalid_apr"))
   monthly_interest_rate = apr / 12 / 100
 
-  loan_term_months = if ask("Will you enter the loan term in years? (y/n)")
-                       validate_input_integer("How many years do you need to pay back the loan?",
-                                              "Please, enter a valid number of years.") * 12
+  loan_term_months = if ask(prompt("prompt_term_in_years"))
+                       validate_input_integer(prompt("prompt_years"),
+                                              prompt("invalid_years")) * 12
                      else
-                       validate_input_integer("How many months do you need to pay back the loan?",
-                                              "Please, enter a valid number of months.")
+                       validate_input_integer(prompt("prompt_months"),
+                                              prompt("invalid_years"))
                      end
 
   user_info = "
-    Name: #{username}
-    Loan amount: $#{format_number(loan_amount)}
-    Annual Percentage Rate: #{apr} % (Monthly interest rate: #{format('%.3f', monthly_interest_rate)} %)
-    Loan term: #{loan_term_months} months (#{loan_term_months / 12} years)
+    #{MESSAGES[LANGUAGE]['output_name']}                   #{username.capitalize}
+    #{MESSAGES[LANGUAGE]['output_loan']}            $#{format_number(loan_amount)}
+    #{MESSAGES[LANGUAGE]['output_apr']}  #{apr} %
+    #{MESSAGES[LANGUAGE]['output_monthly_rate']}  #{format('%.3f', monthly_interest_rate)} %
+    #{MESSAGES[LANGUAGE]['output_term']}           #{loan_term_months} #{MESSAGES[LANGUAGE]['output_months']}
+                          (#{loan_term_months / 12} #{MESSAGES[LANGUAGE]['output_years']})
   "
 
-  wait_output("Saving information...", user_info)
+  wait_output(MESSAGES[LANGUAGE]['output_saving'], user_info)
 
-  break if ask("Is this information correct? (y/n)")
+  break if ask(prompt("prompt_correct_info"))
 
   system("clear")
 end # This is the end of the user data input loop
@@ -151,32 +178,31 @@ total_payment = monthly_payment * loan_term_months
 total_interest = total_payment - loan_amount
 
 calculation_output = "
-    Monthly payment: $#{format_number(format('%.2f', monthly_payment))}
-    Number of payments: #{loan_term_months}
-    Total of #{loan_term_months} payments: $#{format_number(format('%.2f', total_payment))}
-    Total interest: $#{format_number(format('%.2f', total_interest))}
-    Current date: #{Date.today}
-    Date of final payment: #{Date.today.next_month(loan_term_months)}
+    #{MESSAGES[LANGUAGE]['output_monthly_payment']}        $#{format_number(format('%.2f', monthly_payment))}
+    #{MESSAGES[LANGUAGE]['output_payments']}         #{loan_term_months}
+    #{MESSAGES[LANGUAGE]['output_total']}   $#{format_number(format('%.2f', total_payment))}
+    #{MESSAGES[LANGUAGE]['output_interest']}       $#{format_number(format('%.2f', total_interest))}
+    #{MESSAGES[LANGUAGE]['output_date']}          #{Date.today.strftime('%x')}
+    #{MESSAGES[LANGUAGE]['output_end_date']} #{Date.today.next_month(loan_term_months).strftime('%x')}
 "
 
-wait_output("Calculating loan...", calculation_output)
+wait_output(MESSAGES[LANGUAGE]['output_calculating'], calculation_output)
 
-if ask("Would you like to export loan information to a .txt file? (y/n)")
+if ask(prompt("prompt_export"))
 
-  wait_output("Exporting data...")
+  wait_output(MESSAGES[LANGUAGE]["output_exporting"])
 
   txt_file = File.new("loan_#{username.delete(' ').downcase}_#{Date.today.strftime('%m%d%Y')}.txt", "w")
-  txt_file.puts "Mortgage / Car Loan Calculator 1.0"
+  txt_file.puts MESSAGES[LANGUAGE]['file_program_name']
   txt_file.puts "\n"
-  txt_file.puts "Amortized loan information:"
+  txt_file.puts MESSAGES[LANGUAGE]['file_info']
   txt_file.puts "\n"
   txt_file.puts user_info
   txt_file.puts calculation_output
   txt_file.close
 end
 
-puts "\n"
-puts "Good bye Mr./Ms. #{username.capitalize}!"
+puts MESSAGES[LANGUAGE]['bye'] + username.capitalize + "!"
 puts "\n"
 
-puts " Thanks for using Mortgage/Loan Calculator 1.0 ".center(120, "#")
+puts MESSAGES[LANGUAGE]['thanks'].center(120, "#")
