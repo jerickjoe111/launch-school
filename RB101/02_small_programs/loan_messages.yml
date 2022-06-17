@@ -2,7 +2,7 @@
 
 en:
   welcome: " Welcome to Loan Calculator 1.0 "
-  prompt_name: "Please, enter your name."
+  prompt_name: "Please, enter your name:"
   greet: "Hello, Mr./Ms. "
   prompt_loan_amount: "Please, enter the loan amount in dollars:"
   invalid_loan_amount: "Please, enter a valid loan amount. Decimals are not allowed."
@@ -40,8 +40,8 @@ sp:
   welcome: " Bienvenido/a a la Calculadora de Préstamos 1.0 "
   prompt_name: "Por favor, escriba su nombre:"
   greet: "Hola Sr./Sra. "
-  prompt_loan_amount: "Please, enter the loan amount in dollars:"
-  invalid_loan_amount: "Por favor, introduzca la cantidad del préstamo en dólares."
+  prompt_loan_amount: "Por favor, introduza la cantidad del préstamo en dólares."
+  invalid_loan_amount: "Por favor, introduzca una cantidad válida. No se permiten decimales."
   prompt_apr: "Por favor, introduzca la Tasa de Porcentaje Anual (APR):"
   invalid_apr: "Por favor, introduzca una Tasa de Porcentaje Anual válida."
   prompt_term_in_years:  "¿Introducirá el plazo del préstamo en años? (y/n)"
