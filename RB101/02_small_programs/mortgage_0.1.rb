@@ -54,6 +54,8 @@ def format_number(number)
   [whole, decimal].compact.join('.')
 end
 
+# Main program
+
 system("clear")
 puts " Welcome to Mortgage / Car Loan Calculator 1.0 ".center(120, "#")
 puts "\n"
@@ -67,7 +69,7 @@ apr = ""
 loan_term_months = ""
 user_info = ""
 
-loop do # User data input loop. It iterates again if user wants to modify data (see lines ###-###)
+loop do # User data input loop. It iterates again if user wants to modify data (see lines ###-###) !!!!!!!!!!!!!!!!!!!!!!
   loop do
     puts "Please, enter your name:"
     username = gets.chomp.strip
