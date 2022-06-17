@@ -1,5 +1,7 @@
 # 16. Assignment Mortgage/Car Loan Calculator
 
+# Loan calculator 1.0
+
 # Lucas Sorribes, June 2022.
 
 require "date"
@@ -39,32 +41,24 @@ def validate_input(input, prompt_message, invalid_message)
     case input
     when "integer"
       puts prompt_message
-
       valid_number = gets.chomp.delete("$").strip
-
       if valid_integer?(valid_number)
         valid_number = valid_number.to_i
         break
       else
         puts invalid_message
       end
-
     when "apr"
       puts prompt_message
-
       valid_number = gets.chomp.delete("%").strip
-
       if valid_apr?(valid_number)
         valid_number = valid_number.to_f
         break
       else
         puts invalid_message
       end
-
     end
-
   end
-
   valid_number
 end
 
@@ -73,9 +67,7 @@ def ask(message)
 
   loop do
     puts message
-
     answer = gets.chomp.downcase.strip[0]
-
     break if %w{y m}.include?(answer)
   end
 
@@ -86,9 +78,7 @@ def wait_output(message, data="")
   puts "\n"
 
   puts message
-
   sleep(1)
-
   puts data
 
   puts "\n"
@@ -122,13 +112,13 @@ user_info = ""
 loop do # User data input loop. It iterates again if user wants to modify data (see lines ###-###) !!!!!!!!!!!!!!!!!!!
   username = greet_valid_name("Please, enter your name:")
 
-  loan_amount = validate_input("integer", 
-                               "Please, enter the loan amount in dollars:", 
+  loan_amount = validate_input("integer",
+                               "Please, enter the loan amount in dollars:",
                                "Please, enter a valid loan amount. Decimals are not allowed.")
 
-  apr = validate_input("apr", 
-                       "Please, enter the Annual Percentage Rate (APR):", 
-                       "Please, enter a valid Annual Percentage Rate.")                     
+  apr = validate_input("apr",
+                       "Please, enter the Annual Percentage Rate (APR):",
+                       "Please, enter a valid Annual Percentage Rate.")
   monthly_interest_rate = apr / 12 / 100
 
   loan_term_months = if ask("Will you enter the loan term in years? (y/n)")
@@ -172,8 +162,7 @@ calculation_output = "
 
 wait_output("Calculating loan...", calculation_output)
 
-if ask("Would you like to export data to
-       'loan_#{username.delete(' ').downcase}_#{Date.today.strftime('%m%d%Y')}.txt' file? (y/n)")
+if ask("Would you like to export loan information to a external .txt file? (y/n)")
 
   wait_output("Exporting data...")
 
@@ -188,7 +177,7 @@ if ask("Would you like to export data to
 end
 
 puts "\n"
-puts "Good bye Mr./Ms/ #{username.capitalize}!"
+puts "Good bye Mr./Ms. #{username.capitalize}!"
 puts "\n"
 
 puts " Thanks for using Mortgage/Loan Calculator 1.0 ".center(120, "#")
