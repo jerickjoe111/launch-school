@@ -35,31 +35,34 @@ def valid_apr?(apr)
   apr.match?(/^\d+(\.\d+)*$/) && !apr.empty?
 end
 
-def validate_input(input, prompt_message, invalid_message)
-  valid_number = ""
+def validate_input_integer(prompt_message, invalid_message)
+  valid_integer = ""
   loop do
-    case input
-    when "integer"
-      puts prompt_message
-      valid_number = gets.chomp.delete("$").strip
-      if valid_integer?(valid_number)
-        valid_number = valid_number.to_i
-        break
-      else
-        puts invalid_message
-      end
-    when "apr"
-      puts prompt_message
-      valid_number = gets.chomp.delete("%").strip
-      if valid_apr?(valid_number)
-        valid_number = valid_number.to_f
-        break
-      else
-        puts invalid_message
-      end
+    puts prompt_message
+    valid_integer = gets.chomp.delete("$%").strip
+    if valid_integer?(valid_integer)
+      valid_integer = valid_integer.to_i
+      break
+    else
+      puts invalid_message
     end
   end
-  valid_number
+  valid_integer
+end
+
+def validate_input_apr(prompt_message, invalid_message)
+  valid_apr = ""
+  loop do
+    puts prompt_message
+    valid_apr = gets.chomp.delete("$%").strip
+    if valid_apr?(valid_apr)
+      valid_apr = valid_apr.to_f
+      break
+    else
+      puts invalid_message
+    end
+  end
+  valid_apr
 end
 
 def ask(message)
@@ -68,10 +71,10 @@ def ask(message)
   loop do
     puts message
     answer = gets.chomp.downcase.strip[0]
-    break if %w{y m}.include?(answer)
+    break if %w{y n}.include?(answer)
   end
 
-  answer
+  answer == "y"
 end
 
 def wait_output(message, data="")
@@ -109,26 +112,22 @@ apr = ""
 loan_term_months = ""
 user_info = ""
 
-loop do # User data input loop. It iterates again if user wants to modify data (see lines ###-###) !!!!!!!!!!!!!!!!!!!
+loop do # User data input loop. It iterates again if user wants to modify data (see line 142) !!!!!!!!!!!!!!!!!!!
   username = greet_valid_name("Please, enter your name:")
 
-  loan_amount = validate_input("integer",
-                               "Please, enter the loan amount in dollars:",
-                               "Please, enter a valid loan amount. Decimals are not allowed.")
+  loan_amount = validate_input_integer("Please, enter the loan amount in dollars:",
+                                       "Please, enter a valid loan amount. Decimals are not allowed.")
 
-  apr = validate_input("apr",
-                       "Please, enter the Annual Percentage Rate (APR):",
-                       "Please, enter a valid Annual Percentage Rate.")
+  apr = validate_input_apr("Please, enter the Annual Percentage Rate (APR):",
+                           "Please, enter a valid Annual Percentage Rate.")
   monthly_interest_rate = apr / 12 / 100
 
   loan_term_months = if ask("Will you enter the loan term in years? (y/n)")
-                       validate_input("integer",
-                                      "How many years do you need to pay back the loan?",
-                                      "Please, enter a valid number of years.") * 12
+                       validate_input_integer("How many years do you need to pay back the loan?",
+                                              "Please, enter a valid number of years.") * 12
                      else
-                       validate_input("integer",
-                                      "How many months do you need to pay back the loan?",
-                                      "Please, enter a valid number of months.")
+                       validate_input_integer("How many months do you need to pay back the loan?",
+                                              "Please, enter a valid number of months.")
                      end
 
   user_info = "
@@ -145,12 +144,12 @@ loop do # User data input loop. It iterates again if user wants to modify data (
   system("clear")
 end # This is the end of the user data input loop
 
+# Interest rate calculation formula:
 monthly_payment = loan_amount * (monthly_interest_rate / (1 - (1 + monthly_interest_rate)**(-loan_term_months)))
 
 total_payment = monthly_payment * loan_term_months
 total_interest = total_payment - loan_amount
 
-# TODO keep data in hash???????
 calculation_output = "
     Monthly payment: $#{format_number(format('%.2f', monthly_payment))}
     Number of payments: #{loan_term_months}
@@ -162,7 +161,7 @@ calculation_output = "
 
 wait_output("Calculating loan...", calculation_output)
 
-if ask("Would you like to export loan information to a external .txt file? (y/n)")
+if ask("Would you like to export loan information to a .txt file? (y/n)")
 
   wait_output("Exporting data...")
 
