@@ -1,10 +1,27 @@
 # 16. Assignment Mortgage/Car Loan Calculator
 
+# Loan calculator 1.0
+
 # Lucas Sorribes, June 2022.
 
 require "date"
 
 # Helper methods:
+
+def greet_valid_name(message)
+  name = ""
+  loop do
+    puts message
+    name = gets.chomp.strip
+    break unless name.empty?
+  end
+
+  puts "\n"
+  puts "Hello, Mr./Ms. #{name.capitalize}."
+  puts "\n"
+
+  name
+end
 
 def valid_integer?(amount)
   return false if amount.to_i == 0
@@ -18,40 +35,66 @@ def valid_apr?(apr)
   apr.match?(/^\d+(\.\d+)*$/) && !apr.empty?
 end
 
+def validate_input_integer(prompt_message, invalid_message)
+  valid_integer = ""
+  loop do
+    puts prompt_message
+    valid_integer = gets.chomp.delete("$%").strip
+    if valid_integer?(valid_integer)
+      valid_integer = valid_integer.to_i
+      break
+    else
+      puts invalid_message
+    end
+  end
+  valid_integer
+end
+
+def validate_input_apr(prompt_message, invalid_message)
+  valid_apr = ""
+  loop do
+    puts prompt_message
+    valid_apr = gets.chomp.delete("$%").strip
+    if valid_apr?(valid_apr)
+      valid_apr = valid_apr.to_f
+      break
+    else
+      puts invalid_message
+    end
+  end
+  valid_apr
+end
+
 def ask(message)
   answer = ""
 
   loop do
     puts message
-
     answer = gets.chomp.downcase.strip[0]
-
-    break if %w{y m}.include?(answer)
+    break if %w{y n}.include?(answer)
   end
 
-  answer
+  answer == "y"
 end
 
-def wait_output(message, data)
+def wait_output(message, data="")
   puts "\n"
 
   puts message
-
   sleep(1)
-
   puts data
 
   puts "\n"
 end
 
 def format_number(number)
-  whole, decimal = number.to_s.split('.')
+  whole, decimal = number.to_s.split(".")
 
   if whole.to_i < -999 || whole.to_i > 999
-    whole.reverse!.gsub!(/(\d{3})(?=\d)/, '\\1,').reverse!
+    whole.reverse!.gsub!(/(\d{3})(?=\d)/, "\\1,").reverse!
   end
 
-  [whole, decimal].compact.join('.')
+  [whole, decimal].compact.join(".")
 end
 
 # Main program
@@ -69,68 +112,23 @@ apr = ""
 loan_term_months = ""
 user_info = ""
 
-loop do # User data input loop. It iterates again if user wants to modify data (see lines ###-###) !!!!!!!!!!!!!!!!!!!!!!
-  loop do
-    puts "Please, enter your name:"
-    username = gets.chomp.strip
-    break unless username.empty?
-  end
-  puts "\n"
-  puts "Hello, #{username}."
-  puts "\n"
+loop do # User data input loop. It iterates again if user wants to modify data (see line 142) !!!!!!!!!!!!!!!!!!!
+  username = greet_valid_name("Please, enter your name:")
 
-  loop do
-    puts "Please, enter the loan amount in dollars:"
-    loan_amount = gets.chomp.delete("$").strip
-    if valid_integer?(loan_amount)
-      loan_amount = loan_amount.to_i
-      break
-    else
-      puts "Please, enter a valid loan amount. Decimals are not allowed."
-    end
-  end
+  loan_amount = validate_input_integer("Please, enter the loan amount in dollars:",
+                                       "Please, enter a valid loan amount. Decimals are not allowed.")
 
-  loop do
-    puts "Please, enter the Annual Percentage Rate (APR):"
-    apr = gets.chomp.delete("%").strip
-    if valid_apr?(apr)
-      apr = apr.to_f
-      monthly_interest_rate = apr / 12 / 100
-      break
-    else
-      puts "Please, enter a valid Annual Percentage Rate."
-    end
-  end
+  apr = validate_input_apr("Please, enter the Annual Percentage Rate (APR):",
+                           "Please, enter a valid Annual Percentage Rate.")
+  monthly_interest_rate = apr / 12 / 100
 
-  # TODO: code helper methods !!!!!!!!!!
-
-  loan_term_months =
-    case ask("Will you enter the loan term in years? (y/n)")
-    when "y"
-      years = ""
-      loop do
-        puts "How many years do you need to pay back the loan?"
-        years = gets.chomp.strip
-        if valid_integer?(years)
-          years = years.to_i
-          break
-        end
-        puts "Please, enter a valid number of years."
-      end
-      years * 12
-    when "m"
-      months = ""
-      loop do
-        puts "How many months do you need to pay back the loan?"
-        months = gets.chomp.strip
-        if valid_integer?(months)
-          months = months.to_i
-          break
-        end
-        puts "Please, enter a valid number of months."
-      end
-      months
-    end
+  loan_term_months = if ask("Will you enter the loan term in years? (y/n)")
+                       validate_input_integer("How many years do you need to pay back the loan?",
+                                              "Please, enter a valid number of years.") * 12
+                     else
+                       validate_input_integer("How many months do you need to pay back the loan?",
+                                              "Please, enter a valid number of months.")
+                     end
 
   user_info = "
     Name: #{username}
@@ -141,17 +139,17 @@ loop do # User data input loop. It iterates again if user wants to modify data (
 
   wait_output("Saving information...", user_info)
 
-  break if ask("Is this information correct? 'y' to continue / 'n' to enter data again") == "y"
+  break if ask("Is this information correct? (y/n)")
 
   system("clear")
 end # This is the end of the user data input loop
 
+# Interest rate calculation formula:
 monthly_payment = loan_amount * (monthly_interest_rate / (1 - (1 + monthly_interest_rate)**(-loan_term_months)))
 
 total_payment = monthly_payment * loan_term_months
 total_interest = total_payment - loan_amount
 
-# TODO keep data in hash???????
 calculation_output = "
     Monthly payment: $#{format_number(format('%.2f', monthly_payment))}
     Number of payments: #{loan_term_months}
@@ -163,10 +161,10 @@ calculation_output = "
 
 wait_output("Calculating loan...", calculation_output)
 
-if ask("Do you want to export this data to
-       'loan_#{username.delete(' ').downcase}_#{Date.today.strftime('%m%d%Y')}.txt' file? (y/n)")
-  puts "Exporting data..."
-  sleep(1)
+if ask("Would you like to export loan information to a .txt file? (y/n)")
+
+  wait_output("Exporting data...")
+
   txt_file = File.new("loan_#{username.delete(' ').downcase}_#{Date.today.strftime('%m%d%Y')}.txt", "w")
   txt_file.puts "Mortgage / Car Loan Calculator 1.0"
   txt_file.puts "\n"
@@ -178,7 +176,7 @@ if ask("Do you want to export this data to
 end
 
 puts "\n"
-puts "Good bye #{username}!"
+puts "Good bye Mr./Ms. #{username.capitalize}!"
 puts "\n"
 
 puts " Thanks for using Mortgage/Loan Calculator 1.0 ".center(120, "#")
