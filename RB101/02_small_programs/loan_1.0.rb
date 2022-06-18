@@ -166,7 +166,7 @@ loop do # User data input loop. It iterates again if user wants to modify data (
     #{MESSAGES[LANGUAGE]['output_name']}                      #{username.capitalize}
     #{MESSAGES[LANGUAGE]['output_loan']}              $#{format_number(loan_amount)}
     #{MESSAGES[LANGUAGE]['output_apr']}    #{apr} %
-    #{MESSAGES[LANGUAGE]['output_monthly_rate']}    #{format('%.3f', monthly_interest_rate)} %
+    #{MESSAGES[LANGUAGE]['output_monthly_rate']}    #{format('%.3f', monthly_interest_rate * 100)} %
     #{MESSAGES[LANGUAGE]['output_term']}             #{loan_term_months} #{MESSAGES[LANGUAGE]['output_months']}
                            (#{format('%.1f', loan_term_months / 12.0)} #{MESSAGES[LANGUAGE]['output_years']})
   "
