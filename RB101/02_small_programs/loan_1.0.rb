@@ -144,7 +144,7 @@ apr = ""
 loan_term_months = ""
 user_info = ""
 
-loop do # User data input loop. It iterates again if user wants to modify data (see line 169)
+loop do # User data input loop. It iterates again if user wants to modify data (see line 176)
   username = greet_valid_name(prompt("prompt_name"))
 
   loan_amount = validate_input_integer(prompt("prompt_loan_amount"),
