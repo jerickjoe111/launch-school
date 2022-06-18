@@ -3,7 +3,7 @@
 en:
   welcome: " Welcome to Loan Calculator 1.0 "
   prompt_name: "Please, enter your name:"
-  greet: "Hello, Mr./Ms. "
+  greet: "Hello, "
   prompt_loan_amount: "Please, enter the loan amount in dollars:"
   invalid_loan_amount: "Please, enter a valid loan amount. Decimals are not allowed."
   prompt_apr: "Please, enter the Annual Percentage Rate (APR):"
@@ -33,7 +33,7 @@ en:
   output_exporting: "Exporting data..."
   file_program_name: "Loan Calculator 1.0"
   file_info: "Amortized loan information:"
-  bye: "Good bye Mr./Ms. "
+  bye: "Good bye "
   thanks: " Thanks for using Loan Calculator 1.0 "
 
 sp:
@@ -69,5 +69,5 @@ sp:
   output_exporting: "Exportando datos..."
   file_program_name: "Calculadora de préstamos 1.0"
   file_info: "Información del préstamo amortizado:"
-  bye: "Adiós Sr./Sra."
+  bye: "Adiós "
   thanks: " Gracias por usar la Calculadora de Préstamos 1.0 "

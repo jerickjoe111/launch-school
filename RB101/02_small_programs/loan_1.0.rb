@@ -52,12 +52,12 @@ end
 
 def valid_integer?(amount)
   return false if amount.to_i == 0
-
   !amount.match?(/\D/) && !amount.empty?
 end
 
 def valid_apr?(apr)
   return false if apr.to_i == 0
+  return false if apr.to_i >= 101
 
   apr.match?(/^\d+(\.\d+)*$/) && !apr.empty?
 end
@@ -152,16 +152,16 @@ loop do # User data input loop. It iterates again if user wants to modify data (
                                               prompt("invalid_years")) * 12
                      else
                        validate_input_integer(prompt("prompt_months"),
-                                              prompt("invalid_years"))
+                                              prompt("invalid_months"))
                      end
 
   user_info = "
-    #{MESSAGES[LANGUAGE]['output_name']}                   #{username.capitalize}
-    #{MESSAGES[LANGUAGE]['output_loan']}            $#{format_number(loan_amount)}
-    #{MESSAGES[LANGUAGE]['output_apr']}  #{apr} %
-    #{MESSAGES[LANGUAGE]['output_monthly_rate']}  #{format('%.3f', monthly_interest_rate)} %
-    #{MESSAGES[LANGUAGE]['output_term']}           #{loan_term_months} #{MESSAGES[LANGUAGE]['output_months']}
-                          (#{loan_term_months / 12} #{MESSAGES[LANGUAGE]['output_years']})
+    #{MESSAGES[LANGUAGE]['output_name']}                      #{username.capitalize}
+    #{MESSAGES[LANGUAGE]['output_loan']}              $#{format_number(loan_amount)}
+    #{MESSAGES[LANGUAGE]['output_apr']}    #{apr} %
+    #{MESSAGES[LANGUAGE]['output_monthly_rate']}    #{format('%.3f', monthly_interest_rate)} %
+    #{MESSAGES[LANGUAGE]['output_term']}             #{loan_term_months} #{MESSAGES[LANGUAGE]['output_months']}
+                           (#{format('%.1f', loan_term_months / 12.0)} #{MESSAGES[LANGUAGE]['output_years']})
   "
 
   wait_output(MESSAGES[LANGUAGE]['output_saving'], user_info)
@@ -178,12 +178,12 @@ total_payment = monthly_payment * loan_term_months
 total_interest = total_payment - loan_amount
 
 calculation_output = "
-    #{MESSAGES[LANGUAGE]['output_monthly_payment']}        $#{format_number(format('%.2f', monthly_payment))}
-    #{MESSAGES[LANGUAGE]['output_payments']}         #{loan_term_months}
-    #{MESSAGES[LANGUAGE]['output_total']}   $#{format_number(format('%.2f', total_payment))}
-    #{MESSAGES[LANGUAGE]['output_interest']}       $#{format_number(format('%.2f', total_interest))}
-    #{MESSAGES[LANGUAGE]['output_date']}          #{Date.today.strftime('%x')}
-    #{MESSAGES[LANGUAGE]['output_end_date']} #{Date.today.next_month(loan_term_months).strftime('%x')}
+    #{MESSAGES[LANGUAGE]['output_monthly_payment']}          $#{format_number(format('%.2f', monthly_payment))}
+    #{MESSAGES[LANGUAGE]['output_payments']}           #{loan_term_months}
+    #{MESSAGES[LANGUAGE]['output_total']}     $#{format_number(format('%.2f', total_payment))}
+    #{MESSAGES[LANGUAGE]['output_interest']}        $#{format_number(format('%.2f', total_interest))}
+    #{MESSAGES[LANGUAGE]['output_date']}          #{Date.today.strftime('%d/%m/%Y')}
+    #{MESSAGES[LANGUAGE]['output_end_date']} #{Date.today.next_month(loan_term_months).strftime('%d/%m/%Y')}
 "
 
 wait_output(MESSAGES[LANGUAGE]['output_calculating'], calculation_output)
