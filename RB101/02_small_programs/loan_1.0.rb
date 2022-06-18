@@ -37,6 +37,7 @@ end
 
 def greet_valid_name(message)
   name = ""
+
   loop do
     puts message
     name = gets.chomp.strip
@@ -64,9 +65,11 @@ end
 
 def validate_input_integer(prompt_message, invalid_message)
   valid_integer = ""
+
   loop do
     puts prompt_message
     valid_integer = gets.chomp.delete("$%").strip
+
     if valid_integer?(valid_integer)
       valid_integer = valid_integer.to_i
       break
@@ -74,14 +77,17 @@ def validate_input_integer(prompt_message, invalid_message)
       puts invalid_message
     end
   end
+
   valid_integer
 end
 
 def validate_input_apr(prompt_message, invalid_message)
   valid_apr = ""
+
   loop do
     puts prompt_message
     valid_apr = gets.chomp.delete("$%").strip
+
     if valid_apr?(valid_apr)
       valid_apr = valid_apr.to_f
       break
@@ -89,6 +95,7 @@ def validate_input_apr(prompt_message, invalid_message)
       puts invalid_message
     end
   end
+
   valid_apr
 end
 
