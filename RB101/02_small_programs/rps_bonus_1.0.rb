@@ -125,6 +125,9 @@ loop do # Game loop (See lines 169-175)
     retro_display((MESSAGES["loading_round"] + "#{round} ").ljust(40, "#"))
     puts "\n"
 
+    puts MESSAGES["abbreviations"]
+    puts "\n"
+
     player_weapon = ask(MESSAGES["ask_weapon"], true, WEAPONS_RULES.keys)
 
     skynet_weapon = WEAPONS_RULES.keys.sample
