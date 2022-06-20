@@ -1,0 +1,48 @@
+# Configuration file for rps_bonus_1.0.rb
+
+story1: "
+Year 2022.
+\n
+"
+story2: " Skynet has won."
+story3: "
+\n
+The AI has captured an important member of the human resistance and has uploaded\n
+his soul to its main computer. With the help of other comrades, you are trying to hack\n
+into Skynet's database to recover your friends' soul. Before long, you are detected\n
+by Synet security systems. However, surprised by your hacking skills ('impressive even\n
+for a human like you', you read on the little screen), the evil AI has decided\n
+to challenge you: if you win, Skynet will download your friend's soul back to his body,\n 
+and your friend will be free. But, if you lose, his soul will be downloaded into a robotic\n
+body instead, and he will become a slave for all eternity.\n
+Skynet tells you that the challenge will be to an old human game, a name called...\n
+"
+welcome: " Welcome to Rock/Paper/Scissors/Lizard/Spock 1986 Edition! "
+continue?: "Enter y/yes to continue..."
+skynet_invalid_input: "WRONG INPUT. ENTER DATA AGAIN"
+invalid_input: "Please, enter y/yes or n/no."
+connection: "ESTABLISHING NEURAL CONNECTION...\nSTATUS: CONNECTED"
+instructions: "
+DISPLAYING HUMAN-READABLE INSTRUCTIONS...\n
+\n
+$SCISSORS BEATS $LIZARD, $PAPER\n
+$SPOCK BEATS $SCISSORS, $ROCK\n
+$LIZARD BEATS $PAPER, $SPOCK\n
+$PAPER BEATS $SPOCK, $ROCK\n
+$ROCK BEATS $SCISSORS, $LIZARD\n
+"
+confirm_instructions: "ENTER YES/Y TO UPLOAD INSTRUCTIONS TO LOCAL BRAINWARE"
+loading_round: "LOADING: ROUND "
+ask_weapon: "HUMAN INPUT MODE: ACTIVATED\nENTER WEAPON:"
+abbreviations: "<< 's' for Scissors, 'o' for Spock, 'l' for Lizard, 'p' for Paper, 'r' for Rock >>"
+processing: "PROCESSING RESULT..."
+tie_check: "HUMAN/COMPUTER INPUT EQUALITY CHECK: POSITIVE"
+result_tie: "RESULT: TIE"
+not_tie: "HUMAN/COMPUTER INPUT EQUALITY CHECK: NEGATIVE"
+resetting: "RESETTING..."
+player_wins: "RESULT: HUMAN WINS"
+skynet_wins: "RESULT: SKYNET WINS"
+player_winning: "WARNING#301.3! CONNECTION STATUS: UNSTABLE"
+skynet_winning: "(You hear a distant synthesized laughter...)"
+play_again: "Do you want to play again? (yes/no)"
+thanks: " Thanks for playing Rock/Paper/Scissors/Lizard/Spock 1986 Edition! "
