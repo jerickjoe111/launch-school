@@ -114,12 +114,12 @@ loop do
   break if answer == "y" || answer == "yes"
 end
 
-loop do # Game loop (See lines 151-157)
+loop do # Game loop (See lines 169-175)
   score_player = 0
   score_skynet = 0
   round = 1
 
-  loop do # Set of rounds loop (See line 133)
+  loop do # Set of rounds loop (See line 159)
     system("clear")
 
     retro_display((MESSAGES["loading_round"] + "#{round} ").ljust(40, "#"))
