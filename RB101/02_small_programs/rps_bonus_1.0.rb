@@ -97,7 +97,7 @@ loop do # Main game loop (See lines 150-156)
   score_skynet = 0
   round = 1
 
-  loop do # Set of rounds loop (See line 134)
+  loop do # Set of rounds loop (See line 132)
     system("clear")
 
     retro_display((MESSAGES["loading_round"] + "#{round} ").ljust(40, "#"))
