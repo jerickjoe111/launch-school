@@ -8,6 +8,7 @@ require "./rps_animations"
 require "yaml"
 
 MESSAGES = YAML.load_file("rps_messages.yml")
+
 WEAPONS_RULES = {
   "s" => ["p", "l"],
   "o" => ["s", "r"],
@@ -15,14 +16,16 @@ WEAPONS_RULES = {
   "p" => ["r", "o"],
   "r" => ["s", "l"]
 }
-GAMES_TO_WIN = 3
 
-# Abbreviations:
-# "scissors" => "s",
-# "spock"    => "o",
-# "lizard"   => "l"
-# "paper"    => "p",
-# "rock"     => "r"
+ABBREVIATIONS = {
+  "scissors" => "s",
+  "spock" => "o",
+  "lizard" => "l",
+  "paper" => "p",
+  "rock" => "r"
+}
+
+GAMES_TO_WIN = 3
 
 # Methods
 
@@ -37,11 +40,18 @@ def ask(message, skynet=true, answers=%w{y yes n no})
 
   loop do
     retro_display(message)
-    answer = gets.chomp.downcase.strip
+    answer = abbreviated_weapon?(gets.chomp.downcase.strip)
     break if answers.include?(answer)
     retro_display(invalid_input_message)
   end
   answer
+end
+
+def abbreviated_weapon?(weapon)
+  return weapon if weapon.size <= 3
+
+  weapon = ABBREVIATIONS[weapon]
+  weapon
 end
 
 def retro_display(string, slow=false)
@@ -90,7 +100,7 @@ retro_display(MESSAGES["story3"])
 animation(TITLE_ART, true)
 system("clear")
 
-retro_display(MESSAGES["welcome"].center(80))
+puts MESSAGES["welcome"].center(80)
 sleep(1.5)
 
 system("clear")
@@ -115,14 +125,15 @@ loop do # Game loop (See lines 151-157)
     retro_display((MESSAGES["loading_round"] + "#{round} ").ljust(40, "#"))
     puts "\n"
 
-    puts MESSAGES["abbreviations"]
-    puts "\n"
-
     player_weapon = ask(MESSAGES["ask_weapon"], true, WEAPONS_RULES.keys)
 
     skynet_weapon = WEAPONS_RULES.keys.sample
 
-    player_wins_round = WEAPONS_RULES[player_weapon].include?(skynet_weapon) ? true : false
+    player_wins_round = if WEAPONS_RULES[player_weapon].include?(skynet_weapon)
+                          true
+                        else
+                          false
+                        end
 
     if player_weapon == skynet_weapon
       retro_display(MESSAGES["tie_check"])

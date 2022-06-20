@@ -19,7 +19,7 @@ Skynet tells you that the challenge will be to an old human game, a name called.
 "
 welcome: " Welcome to Rock/Paper/Scissors/Lizard/Spock 1986 Edition! "
 continue?: "Enter y/yes to continue..."
-skynet_invalid_input: "WRONG INPUT. ENTER DATA AGAIN"
+skynet_invalid_input: "WRONG INPUT"
 invalid_input: "Please, enter y/yes or n/no."
 connection: "ESTABLISHING NEURAL CONNECTION...\nSTATUS: CONNECTED"
 instructions: "
