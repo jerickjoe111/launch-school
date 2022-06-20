@@ -92,7 +92,7 @@ loop do
   break if answer == "y" || answer == "yes"
 end
 
-loop do # Main game loop (See lines 150-156)
+loop do # Game loop (See lines 150-156)
   score_player = 0
   score_skynet = 0
   round = 1
@@ -153,7 +153,7 @@ loop do # Main game loop (See lines 150-156)
   end
 
   break if answer[0] == "n"
-end # This is the end of the main game loop
+end # This is the end of the game loop
 
 system("clear")
 
