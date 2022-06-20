@@ -8,14 +8,14 @@ require "./rps_animations"
 require "yaml"
 
 MESSAGES = YAML.load_file("rps_messages.yml")
-WEAPONS = %w{s o l p r}
-RULES = {
+WEAPONS_RULES = {
   "s" => ["p", "l"],
   "o" => ["s", "r"],
   "l" => ["o", "p"],
   "p" => ["r", "o"],
   "r" => ["s", "l"]
 }
+GAMES_TO_WIN = 3
 
 # Abbreviations:
 # "scissors" => "s",
@@ -67,6 +67,18 @@ def animation(array, title=false)
   puts "\n"
 end
 
+def ending_animation(score)
+  if score == 3
+    animation(FLAG_ART)
+    sleep(0.5)
+    puts PLAYER_WINS
+  else
+    animation(SKYNET_ART)
+    sleep(0.5)
+    puts SKYNET_WINS
+  end
+end
+
 # Main program
 
 system("clear")
@@ -92,29 +104,31 @@ loop do
   break if answer == "y" || answer == "yes"
 end
 
-loop do # Game loop (See lines 150-156)
+loop do # Game loop (See lines 151-157)
   score_player = 0
   score_skynet = 0
   round = 1
 
-  loop do # Set of rounds loop (See line 132)
+  loop do # Set of rounds loop (See line 133)
     system("clear")
 
     retro_display((MESSAGES["loading_round"] + "#{round} ").ljust(40, "#"))
     puts "\n"
 
     puts MESSAGES["abbreviations"]
-    player_weapon = ask(MESSAGES["ask_weapon"], true, WEAPONS)
+    puts "\n"
 
-    skynet_weapon = WEAPONS[rand(0..WEAPONS.size - 1)]
+    player_weapon = ask(MESSAGES["ask_weapon"], true, WEAPONS_RULES.keys)
 
-    result = RULES[player_weapon].include?(skynet_weapon) ? true : false
+    skynet_weapon = WEAPONS_RULES.keys.sample
+
+    player_wins_round = WEAPONS_RULES[player_weapon].include?(skynet_weapon) ? true : false
 
     if player_weapon == skynet_weapon
       retro_display(MESSAGES["tie_check"])
       retro_display(MESSAGES["result_tie"])
       retro_display(MESSAGES["resetting"])
-    elsif result
+    elsif player_wins_round
       retro_display(MESSAGES["not_tie"])
       retro_display(MESSAGES["player_wins"])
       score_player += 1
@@ -128,21 +142,13 @@ loop do # Game loop (See lines 150-156)
 
     round += 1
 
-    break if score_player == 3 || score_skynet == 3
+    break if score_player == GAMES_TO_WIN || score_skynet == GAMES_TO_WIN
   end # This is the end of the rounds loop
 
   sleep(0.5)
   system("clear")
 
-  if score_player == 3
-    animation(FLAG_ART)
-    sleep(0.5)
-    puts PLAYER_WINS
-  else
-    animation(SKYNET_ART)
-    sleep(0.5)
-    puts SKYNET_WINS
-  end
+  ending_animation(score_player)
 
   puts "\n" * 2
 
