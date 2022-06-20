@@ -138,15 +138,18 @@ loop do # Game loop (See lines 151-157)
     if player_weapon == skynet_weapon
       retro_display(MESSAGES["tie_check"])
       retro_display(MESSAGES["result_tie"])
+
       retro_display(MESSAGES["resetting"])
     elsif player_wins_round
       retro_display(MESSAGES["not_tie"])
       retro_display(MESSAGES["player_wins"])
+
       score_player += 1
       retro_display(MESSAGES["player_winning"]) if score_player == 2
     else
       retro_display(MESSAGES["not_tie"])
       retro_display(MESSAGES["skynet_wins"])
+
       score_skynet += 1
       retro_display(MESSAGES["skynet_winning"]) if score_skynet == 2
     end
