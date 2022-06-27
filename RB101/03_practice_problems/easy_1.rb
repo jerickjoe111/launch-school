@@ -32,5 +32,62 @@
 
 # Question 3
 
+  # Replace the word "important" with "urgent" in this string:
+
+  advice = "Few things in life are as important as house training your pet dinosaur."
+
+  advice["important"] = "urgent"
+
+# Question 4
+
+  numbers = [1, 2, 3, 4, 5]
+
+  # 1. delete_at(1) deletes element at the second position (index 1): 2
+  # 2. delete(1) deletes all elements in the array that are equal (==) to 1
+
+# Question 5
+
+  (10..100).include?(42)
+
+# Question 6
+  
+  # show two different ways to put the expected "Four score and " in front of it.
+
+  famous_words = "seven years ago..."
+  
+  # First way
+  # puts "Four score and " + famous_words
+
+  # Second way
+  # puts "Four score and ".concat(famous_words)
+
+# Question 7
+
+  # Make this into an un-nested array.
+  flintstones = ["Fred", "Wilma"]
+  flintstones << ["Barney", "Betty"]
+  flintstones << ["BamBam", "Pebbles"]
+
+  flintstones.flatten!
+
+# Question 8
+
+  # Given the hash below:
+  flintstones = { "Fred" => 0, "Wilma" => 1, "Barney" => 2, "Betty" => 3, "BamBam" => 4, "Pebbles" => 5 }
+
+  flintstones = flintstones.select { |k| k == "Barney" }.to_a.flatten
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
