@@ -3,7 +3,7 @@ numbers_array = []
 last_number = ""
 
 6.times do |times|
-  unless times + 1 == 6
+  if times < 5
     puts "Enter the number ##{times + 1}: "
     numbers_array << gets.chomp.strip.to_i
   else
