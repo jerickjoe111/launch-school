@@ -5,6 +5,6 @@ def integer_to_string(number)
 end
 
 def integer_to_string_v2(number)
-  number.digits.reverse.map { |number| (number + ASCII_ZERO).chr }.join
+  number.digits.reverse.map { |digit| (digit + ASCII_ZERO).chr }.join
 end
 
