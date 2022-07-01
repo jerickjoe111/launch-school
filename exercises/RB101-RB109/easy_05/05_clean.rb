@@ -5,5 +5,3 @@ def cleanup(string)
 
   filtered_string
 end
-
-puts cleanup("---what's my +*& line?") == ' what s my line '
