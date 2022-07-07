@@ -134,4 +134,157 @@ sorted_array = arr.map do |sub_array|
             end
 
 
-# 10. 
+# 10. Given the following data structure and without modifying the original array, use the map method to return 
+#     a new array identical in structure to the original but where the value of each integer is incremented by 1.
+
+original_array = [{a: 1}, {b: 2, c: 3}, {d: 4, e: 5, f: 6}]
+
+new_array = original_array.map do |hash|
+              hash.map do |key, value|
+                [key, value += 1]
+              end.to_h
+            end
+
+
+# 11. Given the following data structure use a combination of methods, including either the select or reject method, 
+#     to return a new array identical in structure to the original but containing only the integers that are multiples of 3.
+
+original_array = [[2], [3, 5, 7], [9], [11, 13, 15]]
+
+new_array = original_array.map do |sub_array|
+              sub_array.select do |integer|
+                integer % 3 == 0
+              end
+            end
+
+
+# 12. Given the following data structure, and without using the Array#to_h method, write some code that will 
+#     return a hash where the key is the first item in each sub array and the value is the second item.
+
+arr = [[:a, 1], ['b', 'two'], ['sea', {c: 3}], [{a: 1, b: 2, c: 3, d: 4}, 'D']]
+# expected return value: {:a=>1, "b"=>"two", "sea"=>{:c=>3}, {:a=>1, :b=>2, :c=>3, :d=>4}=>"D"}
+
+hash = {}
+arr.each do |sub_array|
+  hash[sub_array[0]] = sub_array[1]
+end
+
+
+# 13. Given the following data structure, return a new array containing the same sub-arrays as the original 
+#     but ordered logically by only taking into consideration the odd numbers they contain.
+
+arr = [[1, 6, 9], [6, 1, 7], [1, 8, 3], [1, 5, 9]]
+
+sorted = arr.sort_by do |sub_array|
+           sub_array.select do |integer|
+             integer.odd?
+           end
+         end
+
+# 14. Given this data structure write some code to return an array containing the colors of the fruits 
+#     and the sizes of the vegetables. The sizes should be uppercase and the colors should be capitalized.
+
+hash = {
+  'grape' => {type: 'fruit', colors: ['red', 'green'], size: 'small'},
+  'carrot' => {type: 'vegetable', colors: ['orange'], size: 'medium'},
+  'apple' => {type: 'fruit', colors: ['red', 'green'], size: 'medium'},
+  'apricot' => {type: 'fruit', colors: ['orange'], size: 'medium'},
+  'marrow' => {type: 'vegetable', colors: ['green'], size: 'large'},
+}
+
+=begin
+P:
+  input: hash
+  output: array with:
+                    - colors ONLY from fruits
+                    - sizes ONLY from vegetables
+  rules: 
+                    - colors BE capitalized !
+                    - sizes BE uppercase !
+DS:
+  initialize an empty array ?
+  use it to store retrieved values
+A:
+  1. initialize empty array
+  2. iterate through each element in hash
+      a. check if the element is a fruit:
+          - if yes: store colors in array
+          - if no: store size in array (the item is a vegetable)
+  3. return array
+=end
+
+array = []
+
+hash.each do |name, characteristics|
+  case characteristics[:type]
+  when "fruit" then array << characteristics[:colors].map do |color|
+                                                  color.capitalize
+                                                end
+  else array << characteristics[:size].upcase
+  end
+end
+
+
+# 15. Given this data structure write some code to return an array which contains only 
+#     the hashes where all the integers are even.
+
+arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
+
+selected_array = arr.select do |hash|
+                   hash.all? do |_, hash_array|
+                     hash_array.all? do |integer|
+                       integer.even?
+                     end                    
+                   end
+                 end
+
+
+# # 16. Write a method that returns one UUID when called with no parameters.
+
+#       Each UUID consists of 32 hexadecimal characters, and is typically broken 
+
+#       into 5 sections like this 8-4-4-4-12 and represented as a string.
+
+#       It looks like this: "f65c57f6-a6aa-17a8-faa1-a67f2dc9fa91"
+
+=begin
+
+PEDAC
+
+input: none
+output: UUID string (32 hex. characters -characters between 0 and f-, broken into 5 sections by dashes: 8-4-4-4-12 )
+
+DS:
+- initialize CONSTANT with array containing all hexadecimal characters (0-f)
+- initialize CONSTANT with array containing the number of needed characers as integers ([8, 4, 4, 4, 12]) ?
+- empty string on which every character will be added, and then output.
+
+- write minifunction to generate random hex. character ?
+
+ALGORITHM:
+1. initialize CONSTANT with all possible hex. characters HEX
+2. initialize CONSTANT with number of needed characters NUMBERS
+3. initialize empty string ("") UUID
+4. UUID generation process:
+   a. for each integer N in NUMBERS array:
+     - repeat N times: add random character from HEX array to UUID string 
+     - add '-' symbol
+   b. delete last '-' symbol in UUID string
+5. return UUID string
+=end
+
+HEX_CHARACTERS = %w[0 1 2 3 4 5 6 7 8 9 a b c d e f]
+
+SECTIONS = [8, 4, 4, 4, 12]
+
+def uuid_generator()
+  uuid = ""
+
+  SECTIONS.each do |number_of_characters|
+    number_of_characters.times { uuid << HEX_CHARACTERS.sample }
+    uuid << "-" unless number_of_characters == SECTIONS[-1] 
+  end
+
+  uuid
+end
+
