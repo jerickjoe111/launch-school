@@ -1,4 +1,4 @@
-Hi! Welcome to my Launch School core curriculum remote repository.
+# Hi! Welcome to my Launch School core curriculum remote repository.
 
 Here you will find:
 
