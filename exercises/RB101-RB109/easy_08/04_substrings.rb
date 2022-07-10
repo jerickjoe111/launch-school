@@ -1,3 +1,4 @@
+
 def leading_substrings(string)
   array = []
   string.size.times do |index|
