@@ -1,21 +1,6 @@
-# Practice Problems: Hard 1
+# Lesson 5: Medium 02 Practice Problems.
 
 # Lucas Sorribes, June 2022.
-
-# Question 1
-
-  # Greeting is nil because it was initialized within a if block, and local variables are always initialized to nil
-  # even if the block it's never executed.
-
-# Question 2
-
-  # {:a=>"hi there"}
-
-# Question 3
-
-  # A: "one is one"; "two is two"; "three is three"
-  # B: "one is one"; "two is two"; "three is three"
-  # C: "one is two"; "two is three"; "three is one"
 
 # Question 4
 
@@ -51,4 +36,3 @@
     true
   end
   
-
