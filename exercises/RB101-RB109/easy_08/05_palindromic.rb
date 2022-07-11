@@ -59,31 +59,6 @@ def palindromic?(string)
   string == string.reverse && string.size > 1
 end
 
-
-# def palindromes(string)
-
-#   array = []
-
-#   index_left = 0
-#   loop do
-#     break if index_left >= string.size - 1
-
-#     index_right = index_left + 1
-#     loop do
-#       break if index_right >= string.size
-
-#       substring = string[index_left..index_right]
-#       array << substring if palindromic?(substring) 
-      
-#       index_right += 1
-#     end
-
-#     index_left += 1
-#   end
-  
-#   array
-# end
-
 def palindromes(string)
   substrings = substrings(string)
 
@@ -91,17 +66,6 @@ def palindromes(string)
   substrings.each do |substring|
     array << substring if palindromic?(substring)
   end
-  
+
   array
 end
-
-p palindromes('abcd') == []
-p palindromes('madam') == ['madam', 'ada']
-p palindromes('hello-madam-did-madam-goodbye') == [
-  'll', '-madam-', '-madam-did-madam-', 'madam', 'madam-did-madam', 'ada',
-  'adam-did-mada', 'dam-did-mad', 'am-did-ma', 'm-did-m', '-did-', 'did',
-  '-madam-', 'madam', 'ada', 'oo'
-]
-p palindromes('knitting cassettes') == [
-  'nittin', 'itti', 'tt', 'ss', 'settes', 'ette', 'tt'
-]
