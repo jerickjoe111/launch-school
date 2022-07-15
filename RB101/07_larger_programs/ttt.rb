@@ -53,7 +53,7 @@ end
 # This constant's hash will automatically fill each key with an array of
 # arrays, each one containing all square numbers for each corresponding
 # line. This is used by the program to build the board and to check all
-# possible win conditions (see lines 64 and 137)
+# possible win conditions (see lines 68 and 142)
 LINES = {
   rows: populate_rows,
   columns: populate_columns,
