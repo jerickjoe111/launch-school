@@ -5,7 +5,7 @@
 # Lucas Sorribes, July 2022.
 
 # The program is fully automated: if you wish to change the 
-# board's size, just reset the `SQUARE_ORDER` constant in line 26.
+# board's size, just reset the `SQUARE_ORDER` constant in line 22.
 # But be careful! A bigger size implies more enemies...
 
 require "pry"
@@ -18,14 +18,16 @@ COMPUTER02_MARK = "🤖"
 EMPTY_ROW = "          |"
 FLOOR =     "----------+"
 
+# Number of squares in one row (see https://en.wikipedia.org/wiki/Magic_square):
+SQUARE_ORDER = 3
+
 WINNING_ROUNDS = 5
 
-SIZE_FOR_ROBOTS = 5
-
-# Number of squares in one row (see https://en.wikipedia.org/wiki/Magic_square):
-SQUARE_ORDER = 5
+SIZE_FOR_ROBOTS = 6
 
 BOARD_SQUARES = (1..SQUARE_ORDER**2)
+
+CENTER_SQUARE = (SQUARE_ORDER**2 / 2).round
 
 def populate_rows
   1.step(by: SQUARE_ORDER).take(SQUARE_ORDER).each_with_object([]) do
@@ -53,7 +55,7 @@ end
 # This constant's hash will automatically fill each key with an array of
 # arrays, each one containing all square numbers for each corresponding
 # line. This is used by the program to build the board and to check all
-# possible win conditions (see lines 68 and 142)
+# possible win conditions (see lines 68 and 146) TODO: UPDATE LINES !!!!!!!!!
 LINES = {
   rows: populate_rows,
   columns: populate_columns,
@@ -120,13 +122,35 @@ end
 
 # TODO: Implement AI
 def computer_moves!(board)
-  square01 = empty_squares(board).sample
-  board[square01] = COMPUTER01_MARK
-  sleep(0.3)
-  if SQUARE_ORDER >= SIZE_FOR_ROBOTS
-    square02 = empty_squares(board).sample
-    board[square02] = COMPUTER02_MARK
+  if SQUARE_ORDER < SIZE_FOR_ROBOTS
+    square = offensive_deffensive_ai(board, COMPUTER01_MARK)
+    square = empty_squares(board).index[CENTER_SQUARE] if square == nil
+    square = empty_squares(board).sample if square == nil
+
+    board[square] = COMPUTER01_MARK
+  else
+    [COMPUTER01_MARK, COMPUTER02_MARK].each do |enemy_mark|
+      square = offensive_deffensive_ai(board, enemy_mark)
+      square = empty_squares(board).index[CENTER_SQUARE] if square == nil
+      square = empty_squares(board).sample if square == nil
+
+      board[square] = enemy_mark
+    end
   end
+end
+
+def offensive_deffensive_ai(board, enemy_mark)
+  LINES.values.flatten(1).each do |line|
+    # Offensive movement
+    if board.values_at(*line).count(enemy_mark) == SQUARE_ORDER - 1
+      return line.select { |square| board[square] == EMPTY_MARK }[0]
+    # Defensive movement
+    elsif board.values_at(*line).count(PLAYER_MARK) == SQUARE_ORDER - 1
+      return line.select { |square| board[square] == EMPTY_MARK }[0]
+    end
+  end
+
+  nil
 end
 
 def board_full?(board)
@@ -180,7 +204,7 @@ end
 def prompt_continue
   loop do
     prompt "Enter 'c' to continue"
-    answer = gets.chomp
+    answer = gets.chomp.strip.downcase
     break if answer == "c"
     prompt "Please, enter 'c'"
   end
@@ -198,11 +222,10 @@ def exit_game?
   answer[0] == "n"
 end
 
-
 # Main loop
 loop do
   system "clear"
-  
+
   won_rounds = {
     player: 0,
     computer01: 0,
@@ -222,6 +245,7 @@ loop do
 
       computer_moves!(board)
       break if someone_won_round?(board) || board_full?(board)
+
     end
 
     display_board(board)
