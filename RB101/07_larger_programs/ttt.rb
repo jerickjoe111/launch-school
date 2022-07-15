@@ -5,7 +5,7 @@
 # Lucas Sorribes, July 2022.
 
 # The program is fully automated: if you wish to change the 
-# board's size, just reset the `SQUARE_ORDER` constant in line 25.
+# board's size, just reset the `SQUARE_ORDER` constant in line 26.
 # But be careful! A bigger size implies more enemies...
 
 require "pry"
