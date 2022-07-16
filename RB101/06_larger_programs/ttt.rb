@@ -295,11 +295,19 @@ loop do
     computer02: 0
   }
 
+  round = 1
+
   # Rounds loop
   loop do
     board = initialize_board
 
     current_player = player_moves_first? ? "player" : "computer"
+
+    puts ""
+
+    prompt "Round #{round}!"
+
+    puts ""
 
     prompt_continue
 
@@ -326,6 +334,8 @@ loop do
     end
 
     prompt_continue
+
+    round += 1
 
     break if game_winner?(won_rounds)
 
