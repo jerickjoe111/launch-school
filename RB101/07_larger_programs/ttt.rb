@@ -291,6 +291,8 @@ loop do
 
   prompt_continue
 
+  system "clear"
+
   won_rounds = {
     player: 0,
     computer01: 0,
@@ -340,5 +342,7 @@ loop do
 
   # End of the main loop
 end
+
+system "clear"
 
 puts " Good Bye! Thanks for playing! ".center(120, "#")
