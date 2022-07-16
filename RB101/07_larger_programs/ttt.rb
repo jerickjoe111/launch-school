@@ -8,8 +8,6 @@
 # board's size, just reset the `SQUARE_ORDER` constant in line 22.
 # But be careful! A bigger size implies more enemies...
 
-require "pry"
-
 EMPTY_MARK = "  "
 PLAYER_MARK = "🤠"
 COMPUTER01_MARK = "👽"
@@ -23,7 +21,7 @@ SQUARE_ORDER = 3
 
 WINNING_ROUNDS = 5
 
-SIZE_FOR_ROBOTS = 6
+SIZE_FOR_ROBOTS = 5
 
 BOARD_SQUARES = (1..SQUARE_ORDER**2)
 
@@ -55,7 +53,7 @@ end
 # This constant's hash will automatically fill each key with an array of
 # arrays, each one containing all square numbers for each corresponding
 # line. This is used by the program to build the board and to check all
-# possible win conditions (see lines 68 and 146) TODO: UPDATE LINES !!!!!!!!!
+# possible win conditions (see lines 68, 183 and 226)
 LINES = {
   rows: populate_rows,
   columns: populate_columns,
