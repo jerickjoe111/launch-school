@@ -263,7 +263,7 @@ end
 
 def prompt_continue
   prompt "Press enter to continue."
-  answer = gets
+  gets
 end
 
 def exit_game?
