@@ -5,7 +5,7 @@
 # Lucas Sorribes, July 2022.
 
 # The program is fully automated: if you wish to change the
-# board's size, just reset the `SQUARE_ORDER` constant in line 22.
+# board's size, just reset the `SQUARE_ORDER` constant in line 20.
 # But be careful! A bigger size implies more enemies...
 
 EMPTY_MARK = "  "
@@ -182,11 +182,11 @@ end
 def offensive_deffensive_move(board, enemy_mark)
   LINES.values.flatten(1).each do |line|
     # Winning move
-    if movement_available?(line, enemy_mark, board)
+    if move_available?(line, enemy_mark, board)
 
       return line.select { |square| board[square] == EMPTY_MARK }[0]
     # Defensive move
-    elsif movement_available?(line, PLAYER_MARK, board)
+    elsif move_available?(line, PLAYER_MARK, board)
 
       return line.select { |square| board[square] == EMPTY_MARK }[0]
     end
@@ -195,7 +195,7 @@ def offensive_deffensive_move(board, enemy_mark)
   nil
 end
 
-def movement_available?(squares, mark, board)
+def move_available?(squares, mark, board)
   board.values_at(*squares).count(mark) == SQUARE_ORDER - 1 &&
     squares.any? { |square| board[square] == EMPTY_MARK }
 end
@@ -262,12 +262,8 @@ def display_winner(won_rounds)
 end
 
 def prompt_continue
-  loop do
-    prompt "Enter 'c' to continue"
-    answer = gets.chomp.strip.downcase
-    break if answer == "c"
-    prompt "Please, enter 'c'"
-  end
+  prompt "Press enter to continue."
+  answer = gets
 end
 
 def exit_game?
