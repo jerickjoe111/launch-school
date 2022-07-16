@@ -4,7 +4,7 @@
 
 # Lucas Sorribes, July 2022.
 
-# The program is fully automated: if you wish to change the 
+# The program is fully automated: if you wish to change the
 # board's size, just reset the `SQUARE_ORDER` constant in line 22.
 # But be careful! A bigger size implies more enemies...
 
@@ -27,7 +27,7 @@ SIZE_FOR_ROBOTS = 6
 
 BOARD_SQUARES = (1..SQUARE_ORDER**2)
 
-CENTER_SQUARE = (SQUARE_ORDER**2 / 2).round
+CENTER_SQUARE = (SQUARE_ORDER**2 / 2.0).round
 
 def populate_rows
   1.step(by: SQUARE_ORDER).take(SQUARE_ORDER).each_with_object([]) do
@@ -108,6 +108,36 @@ def joinor(array, separator=", ", last_sep="or")
   end
 end
 
+def player_moves_first?
+  answer = prompt_move_first
+
+  if answer[0] == "y"
+    prompt "You go first!"
+    true
+  else
+    computer_chooses = [true, false].sample
+    if computer_chooses
+      prompt "The Computer decided you go first!"
+      true
+    else
+      prompt "The Computer goes first!"
+      false
+    end
+  end
+end
+
+def prompt_move_first
+  answer = ""
+  loop do
+    prompt "Would you like to move first? (yes/no)"
+    answer = gets.chomp.strip.downcase
+    break if %w(yes y no n).include?(answer)
+    prompt "Please, enter yes or no."
+  end
+
+  answer
+end
+
 def player_moves!(board)
   square = ""
   loop do
@@ -120,37 +150,70 @@ def player_moves!(board)
   board[square] = PLAYER_MARK
 end
 
-# TODO: Implement AI
 def computer_moves!(board)
   if SQUARE_ORDER < SIZE_FOR_ROBOTS
-    square = offensive_deffensive_ai(board, COMPUTER01_MARK)
-    square = empty_squares(board).index[CENTER_SQUARE] if square == nil
-    square = empty_squares(board).sample if square == nil
+    square = ai_choses_square(board, COMPUTER01_MARK)
 
     board[square] = COMPUTER01_MARK
   else
     [COMPUTER01_MARK, COMPUTER02_MARK].each do |enemy_mark|
-      square = offensive_deffensive_ai(board, enemy_mark)
-      square = empty_squares(board).index[CENTER_SQUARE] if square == nil
-      square = empty_squares(board).sample if square == nil
+      square = ai_choses_square(board, enemy_mark)
 
       board[square] = enemy_mark
     end
   end
 end
 
-def offensive_deffensive_ai(board, enemy_mark)
+# AI movement priorities:
+def ai_choses_square(board, enemy)
+  # Goes for the winning move or defends from player advances:
+  square = offensive_deffensive_move(board, enemy)
+
+  # If not able, tries to capture the center of the board:
+  center_square_index = empty_squares(board).index(CENTER_SQUARE)
+  if square.nil? && !(center_square_index.nil?)
+    square = empty_squares(board)[center_square_index]
+  end
+
+  # If not able, choses a random square:
+  square = empty_squares(board).sample if square.nil?
+
+  square
+end
+
+def offensive_deffensive_move(board, enemy_mark)
   LINES.values.flatten(1).each do |line|
-    # Offensive movement
-    if board.values_at(*line).count(enemy_mark) == SQUARE_ORDER - 1
+    # Winning move
+    if movement_available?(line, enemy_mark)
+
       return line.select { |square| board[square] == EMPTY_MARK }[0]
-    # Defensive movement
-    elsif board.values_at(*line).count(PLAYER_MARK) == SQUARE_ORDER - 1
+    # Defensive move
+    elsif movement_available?(line, PLAYER_MARK)
+
       return line.select { |square| board[square] == EMPTY_MARK }[0]
     end
   end
 
   nil
+end
+
+def movement_available?(squares, mark)
+  board.values_at(*squares).count(mark) == SQUARE_ORDER - 1 &&
+    squares.any? { |square| board[square] == EMPTY_MARK }
+end
+
+def place_mark!(board, current_player)
+  case current_player
+  when "player" then player_moves!(board)
+  else computer_moves!(board)
+  end
+end
+
+def alternate_player(current_player)
+  case current_player
+  when "player" then "computer"
+  else "player"
+  end
 end
 
 def board_full?(board)
@@ -236,16 +299,19 @@ loop do
   loop do
     board = initialize_board
 
+    current_player = player_moves_first? ? "player" : "computer"
+
+    prompt_continue
+
     # Movements loop
     loop do
       display_board(board)
 
-      player_moves!(board)
-      break if someone_won_round?(board) || board_full?(board)
+      place_mark!(board, current_player)
 
-      computer_moves!(board)
-      break if someone_won_round?(board) || board_full?(board)
+      current_player = alternate_player(current_player)
 
+      break if someone_won_round?(board) || board_full?(board)
     end
 
     display_board(board)
