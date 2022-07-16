@@ -117,10 +117,10 @@ def player_moves_first?
   else
     computer_chooses = [true, false].sample
     if computer_chooses
-      prompt "The Computer decided you go first!"
+      prompt "The invaders decided you go first!"
       true
     else
-      prompt "The Computer goes first!"
+      prompt "The invaders go first!"
       false
     end
   end
@@ -184,11 +184,11 @@ end
 def offensive_deffensive_move(board, enemy_mark)
   LINES.values.flatten(1).each do |line|
     # Winning move
-    if movement_available?(line, enemy_mark)
+    if movement_available?(line, enemy_mark, board)
 
       return line.select { |square| board[square] == EMPTY_MARK }[0]
     # Defensive move
-    elsif movement_available?(line, PLAYER_MARK)
+    elsif movement_available?(line, PLAYER_MARK, board)
 
       return line.select { |square| board[square] == EMPTY_MARK }[0]
     end
@@ -197,7 +197,7 @@ def offensive_deffensive_move(board, enemy_mark)
   nil
 end
 
-def movement_available?(squares, mark)
+def movement_available?(squares, mark, board)
   board.values_at(*squares).count(mark) == SQUARE_ORDER - 1 &&
     squares.any? { |square| board[square] == EMPTY_MARK }
 end
@@ -224,7 +224,6 @@ def someone_won_round?(board)
   !!determine_round_winner(board)
 end
 
-# TODO: Refactor ??
 def determine_round_winner(board)
   LINES.values.flatten(1).each do |line|
     if board.values_at(*line).count(PLAYER_MARK) == SQUARE_ORDER
@@ -289,6 +288,11 @@ end
 loop do
   system "clear"
 
+  puts " Welcome to Tic Tac Toe 2.0!\
+  (Now with Killer Robots! Edition) ".center(120, "#")
+
+  prompt_continue
+
   won_rounds = {
     player: 0,
     computer01: 0,
@@ -339,4 +343,4 @@ loop do
   # End of the main loop
 end
 
-prompt "Good bye!"
+puts " Good Bye! Thanks for playing! ".center(120, "#")
