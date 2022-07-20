@@ -386,17 +386,19 @@ end
 
 def display_score(won_rounds, round)
   rounds_left = ROUNDS_TO_WIN - round
-  plural_s = rounds_left == 1 ? "" : "s"
+  plural_s_player = won_rounds[:player] == 1 ? "" : "s"
+  plural_s_dealer = won_rounds[:dealer] == 1 ? "" : "s"
+  plural_s_left = rounds_left == 1 ? "" : "s"
 
   puts <<~MSG
 
   Score:
 
-  You have won #{won_rounds[:player]} rounds.
+  You have won #{won_rounds[:player]} round#{plural_s_player}.
 
-  The Dealer has won #{won_rounds[:dealer]} rounds.
+  The Dealer has won #{won_rounds[:dealer]} round#{plural_s_dealer}.
 
-  #{ROUNDS_TO_WIN - round} round#{plural_s} left!
+  #{rounds_left} round#{plural_s_left} left!
 
   Press 'enter' to continue
 
