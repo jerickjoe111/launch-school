@@ -1,8 +1,8 @@
-# RB101 Lesson 6: Assignment: Twenty-One
+# RB101 Lesson 6: Assignment: Twenty-One + Bonus Features
+
+# Twenty-One 1.2
 
 # Lucas Sorribes, July 2022.
-
-require "pry"
 
 DECK_SIZE = 52
 
@@ -265,12 +265,11 @@ end
 # The AI will show the card with less value in order to trick the player
 def show_card(dealer, deck)
   prompt "The Dealer shows:"
-  
-  card_shown = [dealer[:hand].min do |card_a, card_b| 
+
+  card_shown = [dealer[:hand].min do |card_a, card_b|
     deck[card_a][:value] <=> deck[card_b][:value]
   end]
-  
-  
+
   display_art(card_shown, deck)
   puts ""
 end
@@ -437,7 +436,7 @@ loop do
   # Rund loop
   loop do
     deck = initialize_deck
-    
+
     player = { name: player_name, hand: deal_cards!(deck), busted: false }
     dealer = { name: "The Dealer", hand: deal_cards!(deck), busted: false }
 
