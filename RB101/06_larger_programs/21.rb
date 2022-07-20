@@ -326,6 +326,7 @@ end
 
 def check_bust?(opponent, deck)
   if hand_value(opponent, deck) > BUST_NUMBER
+    puts ""
     prompt "💥 BOOM! 💥"
     prompt "👻  #{opponent[:name]} is busted! 👻"
 
@@ -341,6 +342,7 @@ def busted?(opponent)
 end
 
 def compare(player, dealer, deck)
+  puts ""
   prompt "🃏 Let's see who has the bigger hand! 🃏"
 
   player_hand = hand_value(player, deck)
@@ -435,8 +437,7 @@ loop do
   # Rund loop
   loop do
     deck = initialize_deck
-    binding.pry
-
+    
     player = { name: player_name, hand: deal_cards!(deck), busted: false }
     dealer = { name: "The Dealer", hand: deal_cards!(deck), busted: false }
 
