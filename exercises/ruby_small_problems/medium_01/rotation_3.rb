@@ -42,5 +42,3 @@ def max_rotation(digit)
   end
   max_rotation
 end
-
-max_rotation(735291)
