@@ -9,6 +9,8 @@
 # you might notice that the sum is off: 
 # It's lower than it should be. Why is that?
 
+require "pry"
+
 cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
 deck = { :hearts   => cards,
