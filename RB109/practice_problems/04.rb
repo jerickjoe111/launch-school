@@ -39,3 +39,36 @@ def closest_numbers(input_array)
     combination.max - combination.min
   end
 end
+
+# No `combination` method:
+def closest_numbers_nocomb(input_array)
+  output_array = [input_array[0], input_array[1]]
+  smallest_difference = output_array.max - output_array.min
+
+  array_size = input_array.size
+
+  counter_a = 0
+  loop do
+
+    counter_b = 0
+    loop do
+      unless counter_a == counter_b
+        current_pair = [input_array[counter_a], input_array[counter_b]]
+        difference = current_pair.max - current_pair.min
+
+        if difference < smallest_difference
+          output_array = current_pair 
+          smallest_difference = difference
+        end
+      end
+
+      counter_b += 1
+      break if counter_b == array_size
+    end
+  
+    counter_a += 1
+    break if counter_a > array_size - 2
+  end
+
+  output_array
+end
