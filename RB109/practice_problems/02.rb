@@ -28,7 +28,7 @@
 
 # 1. return nil if the size of the array is < five 
 
-# 2. init. minimum_sum to the sum of all elements in the array
+# 2. init. minimum_sum to the sum of first five elements in the array
 #   2b. return minumum_sum if the size of the array is exactly five 
 
 # 3. set a counter to 0
