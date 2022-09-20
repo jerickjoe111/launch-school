@@ -176,13 +176,13 @@ def get_consecutives(input_string, size)
   input_string.chars.each_with_index do |letter, index|
     substring = input_string[index, size]
 
-    consecutives << substring if substring.size == size && only_unique?(substring)
+    consecutives << substring if single_char?(substring)
   end
 
   consecutives
 end
 
-def only_unique?(substring)
+def single_char?(substring)
   substring.chars.uniq.size == 1
 end
 
