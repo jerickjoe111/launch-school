@@ -192,3 +192,38 @@ def copy(input)
   input.each_with_object([]) { |element, output| output << element }
 end
 
+# Check performance:
+
+require 'benchmark'
+
+def foo
+ time = Benchmark.measure {
+  # code to test
+ }
+ puts time.real
+end
+
+# Scalable way to get all possible substrings of SIZE size
+SIZE = 3
+
+def solve(string)
+  last_index = string.size - SIZE
+
+  (0..last_index).each_with_object([]) do |index_a, output|
+    output << string[index_a, SIZE]
+  end
+end
+
+# Letter shifter
+
+A_VALUE = "A".ord
+A_D_VALUE = "a".ord
+ALPH_LETTERS = 26
+
+def shifter(letter, shift_value)
+  reset_value = letter.match?(/[A-Z]/) ? A_VALUE : A_D_VALUE
+
+  new_value = ((letter.ord - reset_value) + shift_value) % ALPH_LETTERS
+  new_value += reset_value
+  new_value.chr
+end
