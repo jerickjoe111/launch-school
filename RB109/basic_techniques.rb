@@ -155,11 +155,11 @@ end
 
 # each on negative ranges
 
-# (-5..-1).reverse_each { |i| p i }
+(-5..-1).reverse_each { |i| i }
 
 # reverse each
 
-# input.reverse_each { |i| p i }
+(1..10)).reverse_each { |i| i }
 
 
 # Get array of substrings of at least size x
@@ -184,5 +184,11 @@ end
 
 def only_unique?(substring)
   substring.chars.uniq.size == 1
+end
+
+# Make copies of objects inside a DS:
+
+def copy(input)
+  input.each_with_object([]) { |element, output| output << element }
 end
 
