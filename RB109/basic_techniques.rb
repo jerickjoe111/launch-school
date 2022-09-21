@@ -227,3 +227,11 @@ def shifter(letter, shift_value)
   new_value += reset_value
   new_value.chr
 end
+
+# Get nth Fibonacci number
+
+def fibonacci(n)
+  return 1 if n < 2
+
+  fibonacci(n - 1) + fibonacci(n - 2)
+end
