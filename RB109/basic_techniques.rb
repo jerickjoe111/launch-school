@@ -1,4 +1,4 @@
-# Get all possible substrings/subarrays (in order) of a string/array:
+# Get all possible substrings/subarrays (in order, size 2 or more) of a string/array:
 
 def get_subs(input)
   last_index = input.size - 1
@@ -48,7 +48,7 @@ def get_sized(input, size)
   output
 end
 
-string.scan(/.{1,#{size}}/)
+string.scan(/.{1,#{size}}/) # the dot stands for everything. You can change it for any set of characters
 
 
 
