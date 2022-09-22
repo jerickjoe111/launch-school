@@ -71,10 +71,11 @@ end
 # Delete digits in a number:
 
 def delete_digits(input_integer)
-  input_integer.digits.reverse.each_index do |index|
+  input_integer.digits.each_index do |index|
     string_integer = input_integer.to_s
     string_integer.slice!(index)
     
+    string_integer.to_i
     # do x with resulting string_integer
   end
 end
@@ -84,7 +85,7 @@ end
 # Get all possible combinations of elements in an array
 
 def get_combinations(input_array)
-  input_array.permutation.to_a.map
+  input_array.permutation.to_a
 end
 
 
@@ -159,7 +160,7 @@ end
 
 # reverse each
 
-(1..10)).reverse_each { |i| i }
+(1..10).reverse_each { |i| i }
 
 
 # Get array of substrings of at least size x
