@@ -48,6 +48,8 @@ def get_sized(input, size)
   output
 end
 
+string.scan(/.{1,#{size}}/)
+
 
 
 # Reverse/sort only certain elements from an array/substring:
@@ -235,4 +237,10 @@ def fibonacci(n)
   return 1 if n < 2
 
   fibonacci(n - 1) + fibonacci(n - 2)
+end
+
+# Get shortest and longest from double input:
+
+def shortest_longest(input_a, input_b)
+  [input_a, input_b].sort_by { |element| element.size }
 end
