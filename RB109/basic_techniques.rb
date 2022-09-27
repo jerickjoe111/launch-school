@@ -244,3 +244,9 @@ end
 def shortest_longest(input_a, input_b)
   [input_a, input_b].sort_by { |element| element.size }
 end
+
+# A float number has no decimals:
+
+def no_decimals?(input_float)
+  input_float.to_s.to_i == input_float
+end
