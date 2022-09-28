@@ -1,4 +1,5 @@
 test.rb
+test*.rb
 .rubocop.yml
 *.txt
 rps_animations
