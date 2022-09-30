@@ -1,3 +1,10 @@
+# 1. Given the usage of Person class, code the class definition
+# 2. Modify the class definition to include the given methods
+# 3. Create a smart #name= method that takes either a first or full name
+#   - Should set first_name and last_name appropriately
+# 4. Create some more person objects, compare their names for equality
+# 5. What does the given code print?
+
 class Person
   attr_accessor :first_name, :last_name
 
@@ -23,6 +30,18 @@ class Person
   end
 end
 
-bob = Person.new("Robert Smith")
+bob = Person.new('Robert')
+puts bob.name                  # => 'Robert'
+puts bob.first_name            # => 'Robert'
+puts bob.last_name             # => ''
+bob.last_name = 'Smith'
+puts bob.name                  # => 'Robert Smith'
 
-puts "The person's name is: #{bob}"
+bob.name = "John Adams"
+puts bob.first_name            # => 'John'
+puts bob.last_name             # => 'Adams'
+
+bob = Person.new('Robert Smith')
+rob = Person.new('Robert Smith')
+
+puts bob.name == rob.name      # -> true
