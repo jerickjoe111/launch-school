@@ -41,6 +41,3 @@ end
 car = Car.new("make", "model")
 motorcycle = Motorcycle.new("make", "model")
 truck = Truck.new("make", "model", "payload")
-
-
-binding.irb
