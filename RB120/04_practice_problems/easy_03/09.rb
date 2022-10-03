@@ -1,2 +1,0 @@
-# Exercise 09
-
