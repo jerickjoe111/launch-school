@@ -290,7 +290,6 @@ class Computer < Player
   end
 end
 
-
 class Display
   include UserInterface
 
