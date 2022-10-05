@@ -82,6 +82,7 @@ class RPSGame
     @computer = Computer.new
     @display = Display.new
     @history = History.new(human, computer)
+    @game_counter = 1
   end
 
   def play
@@ -102,7 +103,7 @@ class RPSGame
   private
 
   attr_reader :human, :computer, :display, :history
-  attr_accessor :round_number
+  attr_accessor :round_number, :game_counter
 
   def each_player(method)
     puts ''
@@ -123,19 +124,19 @@ class RPSGame
     end
 
     display.game_winner(game_winner)
+    self.game_counter += 1
   end
 
   def round
     display.round(round_number)
 
-    each_player(:choose)
+    each_player(:choose!)
     system 'clear'
     display.round(round_number)
     each_player(:display_move)
-
     winner = round_winner
     display.round_winner(winner)
-    history.keep(winner)
+    history.keep!(winner, game_counter)
 
     self.round_number += 1
   end
@@ -186,8 +187,8 @@ class History < RPSGame
     @total_round_number = 1
   end
 
-  def keep(player)
-    round = format_round(player)
+  def keep!(player, game_counter)
+    round = format_round(player, game_counter)
 
     self.total_round_number += 1
 
@@ -200,6 +201,7 @@ class History < RPSGame
         "
         Date: #{round[:date]}
         Round: #{round[:round]}
+        Game: #{round[:game]}
         #{human.name} move: #{round[:human_move]}
         Computer move: #{round[:computer_move]}
         #{round[:winner]}
@@ -217,10 +219,11 @@ class History < RPSGame
     human.move == computer.move
   end
 
-  def format_round(player)
+  def format_round(player, game_counter)
     round = {
       date: Time.now.strftime('%H:%M:%S %m-%d-%Y'),
       round: total_round_number,
+      game: game_counter,
       human_move: human.move.capitalize,
       computer_move: computer.move.capitalize,
       winner: player.to_s.capitalize
@@ -230,6 +233,63 @@ class History < RPSGame
     round
   end
 end
+
+class Player
+  attr_accessor :move, :score
+  attr_reader :name
+
+  def display_move
+    emoji = move_emoji
+    puts "#{emoji} #{name} chose #{move}! #{emoji}"
+  end
+
+  def display_score
+    puts "#{name} score: #{score}"
+  end
+
+  def reset_score
+    self.score = 0
+  end
+
+  private
+
+  def move_emoji
+    case move
+    when 'rock' then '✊'
+    when 'paper' then '✋'
+    when 'scissors' then '✌'
+    when 'lizard' then '🤏'
+    else '🖖'
+    end
+  end
+end
+
+class Human < Player
+  include UserInterface
+
+  def initialize
+    @name = ask_name
+  end
+
+  def choose!
+    self.move = ask_weapon
+  end
+
+  def >(computer)
+    score > computer.score
+  end
+end
+
+class Computer < Player
+  def initialize
+    @name = "The Machine"
+  end
+
+  def choose!
+    self.move = RPSGame::WEAPONS.keys.sample
+  end
+end
+
 
 class Display
   include UserInterface
@@ -271,62 +331,6 @@ class Display
       else "🤖 The Machine won the game! 🤖"
       end
     )
-  end
-end
-
-class Player
-  attr_accessor :move, :score
-  attr_reader :name
-
-  def display_move
-    emoji = move_emoji
-    puts "#{emoji} #{name} chose #{move}! #{emoji}"
-  end
-
-  def display_score
-    puts "#{name} score: #{score}"
-  end
-
-  def reset_score
-    self.score = 0
-  end
-
-  private
-
-  def move_emoji
-    case move
-    when 'rock' then '✊'
-    when 'paper' then '✋'
-    when 'scissors' then '✌'
-    when 'lizard' then '🤏'
-    else '🖖'
-    end
-  end
-end
-
-class Human < Player
-  include UserInterface
-
-  def initialize
-    @name = ask_name
-  end
-
-  def choose
-    self.move = ask_weapon
-  end
-
-  def >(computer)
-    score > computer.score
-  end
-end
-
-class Computer < Player
-  def initialize
-    @name = "The Machine"
-  end
-
-  def choose
-    self.move = RPSGame::WEAPONS.keys.sample
   end
 end
 
