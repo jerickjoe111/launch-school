@@ -1,0 +1,39 @@
+welcome: "Welcome to 'Rock, Paper, Scissors + Bonus Features"
+goodbye: "Thanks for playing 'Rock, Paper, Scissors + Bonus Features'. Good bye!"
+
+weapons_prompt: "Choose weapon:\n
+
+        ✊   [r]ock\n
+
+        ✋   [p]aper\n
+
+        ✌   [s]cissors\n
+
+        🤏  [l]izard\n
+
+        🖖   sp[o]ck\n
+"
+
+rules: "Remember:\n
+    
+    The Rock crushes the Scissors and the Lizard!\n
+
+              ✊  ➡  ✌ + 🤏\n
+
+    The Paper covers the Rock and disproves Spock!\n
+
+              ✋  ➡  ✊ + 🖖\n
+
+    The Scissors cuts the Paper and decapitates the Lizard!\n
+
+              ✌  ➡  ✋ + 🤏\n
+
+    The Lizard eats the Paper and poisons Spock!\n
+
+              🤏  ➡  ✋ + 🖖\n
+
+    Spock smashes the Scissors and vaporizes the Rock!\n
+
+              🖖  ➡  ✌ + ✊\n
+"
+
