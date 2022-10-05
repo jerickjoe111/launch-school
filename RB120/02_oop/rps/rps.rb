@@ -2,7 +2,7 @@
 # Lesson 2
 # OO Rock Paper Scissors
 
-# Rock - Paper - Scissors + Bonus Features!
+# Rock - Paper - Scissors + Bonus Features
 
 # Lucas Sorribes, 2022.
 
@@ -68,11 +68,11 @@ class RPSGame
   WIN_ROUNDS = 3
 
   WEAPONS = {
-    'rock'     => ['r', 'scissors', 'lizard'],
-    'paper'    => ['p', 'spock', 'rock'],
+    'rock' => ['r', 'scissors', 'lizard'],
+    'paper' => ['p', 'spock', 'rock'],
     'scissors' => ['s', 'paper', 'lizard'],
-    'lizard'   => ['l', 'spock', 'paper'],
-    'spock'    => ['o', 'scissors', 'rock']
+    'lizard' => ['l', 'spock', 'paper'],
+    'spock' => ['o', 'scissors', 'rock']
   }
 
   include UserInterface
