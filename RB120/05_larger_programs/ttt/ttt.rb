@@ -94,6 +94,7 @@ module Display
            "Oh no! The evil aliens conquered the Earth. But don't lose hope!"
          else "Oh no! The killer robots took control! Never again!"
          end
+    newline
   end
 end
 
@@ -115,7 +116,7 @@ class TTTEngine
     prompt_continue
     loop do
       main_game
-      determine_game_winner
+      determine_game_winner!
       display_game_winner(game_winner)
       break unless play_again?
     end
@@ -130,7 +131,7 @@ class TTTEngine
                 :game_winner
 
   def main_game
-    reset_rounds
+    reset_rounds!
     clear_screen
 
     loop do
@@ -139,15 +140,15 @@ class TTTEngine
     end
   end
 
-  def reset_rounds
+  def reset_rounds!
     self.won_rounds = { human: 0, computer01: 0, computer02: 0 }
     self.current_round = 1
   end
 
   def round
-    reset_round_winner
+    reset_round_winner!
     clear_screen
-    determine_first_player
+    determine_first_player!
 
     newline
     display_round(current_round)
@@ -161,7 +162,7 @@ class TTTEngine
     self.current_round += 1
   end
 
-  def reset_round_winner
+  def reset_round_winner!
     self.round_winner = nil
   end
 
@@ -171,7 +172,7 @@ class TTTEngine
 
       current_player_move
 
-      alternate_player
+      alternate_player!
 
       break if someone_won_round? || board.full?
     end
@@ -179,7 +180,7 @@ class TTTEngine
     round_end
   end
 
-  def determine_first_player
+  def determine_first_player!
     self.current_player = human_moves_first? ? :human : :computer
   end
 
@@ -187,9 +188,9 @@ class TTTEngine
     board.display
 
     if someone_won_round?
-      determine_round_winner
+      determine_round_winner!
       display_round_winner(round_winner)
-      keep_score
+      keep_score!
     else
       prompt "No one won this time!"
     end
@@ -201,7 +202,7 @@ class TTTEngine
     current_player == :human ? human.move! : computer.move!
   end
 
-  def alternate_player
+  def alternate_player!
     self.current_player = current_player == :human ? :computer : :human
   end
 
@@ -226,10 +227,10 @@ class TTTEngine
   end
 
   def someone_won_round?
-    !!determine_round_winner
+    !!determine_round_winner!
   end
 
-  def determine_round_winner
+  def determine_round_winner!
     board.lines.values.flatten(1).each do |line|
       line_squares = board.squares.values_at(*line)
 
@@ -255,13 +256,13 @@ class TTTEngine
     end
   end
 
-  def determine_game_winner
+  def determine_game_winner!
     self.game_winner = won_rounds.select do |_, score|
       score == WINNING_ROUNDS
     end.keys.first
   end
 
-  def keep_score
+  def keep_score!
     won_rounds[round_winner] += 1
   end
 
