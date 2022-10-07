@@ -364,10 +364,10 @@ class BoardConstructor
     end
   end
 
-  # This method will automatically fill each key with an array of
+  # This method will automatically fill each value with an array of
   # arrays, each one containing all SQUARE NUMBERS for each corresponding
   # line. This is used by the program to build the board and to check all
-  # possible win conditions (see lines !!!! )
+  # possible win conditions (see lines 443-482)
   def lines
     {
       rows: initialize_rows,
