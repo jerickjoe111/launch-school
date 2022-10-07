@@ -20,14 +20,6 @@ module UserInterface
     gets
   end
 
-  def joinor(array)
-    if array.size > 1
-      format('%s %s %s', array[0..-2].join(', '), 'or', array[-1])
-    else
-      array[0]
-    end
-  end
-
   def ask(message)
     answer = ''
     loop do
@@ -50,6 +42,14 @@ module UserInterface
     end
 
     square
+  end
+
+  def joinor(array)
+    if array.size > 1
+      format('%s %s %s', array[0..-2].join(', '), 'or', array[-1])
+    else
+      array[0]
+    end
   end
 end
 
