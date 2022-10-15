@@ -7,7 +7,7 @@
 # Lucas Sorribes, October 2022.
 
 # The program is fully automated: if you wish to change the
-# board size, just reset the `SQUARE_ORDER` constant in line 285.
+# board size, just reset the `SQUARE_ORDER` constant in line 287.
 # But be careful! A bigger size implies more enemies...
 
 module UserInterface
@@ -43,6 +43,8 @@ module UserInterface
 
     square
   end
+
+  private
 
   def joinor(array)
     if array.size > 1
@@ -367,7 +369,7 @@ class BoardConstructor
   # This method will automatically fill each value with an array of
   # arrays, each one containing all SQUARE NUMBERS for each corresponding
   # line. This is used by the program to build the board and to check all
-  # possible win conditions (see lines 445-484)
+  # possible win conditions (see lines 447-486)
   def lines
     {
       rows: initialize_rows,
