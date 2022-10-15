@@ -294,7 +294,7 @@ class Board
   end
 
   def display
-    system("clear")
+    clear_screen
     newline
 
     (1..SQUARE_ORDER).each do |number|
