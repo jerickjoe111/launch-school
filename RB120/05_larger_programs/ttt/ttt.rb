@@ -7,7 +7,7 @@
 # Lucas Sorribes, October 2022.
 
 # The program is fully automated: if you wish to change the
-# board size, just reset the `SQUARE_ORDER` constant in line 288.
+# board size, just reset the `SQUARE_ORDER` constant in line 285.
 # But be careful! A bigger size implies more enemies...
 
 module UserInterface
@@ -156,7 +156,6 @@ class TTTEngine
 
     prompt_continue
     moves_loop
-
     prompt_continue
 
     self.current_round += 1
@@ -368,7 +367,7 @@ class BoardConstructor
   # This method will automatically fill each value with an array of
   # arrays, each one containing all SQUARE NUMBERS for each corresponding
   # line. This is used by the program to build the board and to check all
-  # possible win conditions (see lines 443-482)
+  # possible win conditions (see lines 445-484)
   def lines
     {
       rows: initialize_rows,
@@ -377,6 +376,7 @@ class BoardConstructor
     }
   end
 
+  # For example, in a order 3 square: [1, 2, 3], [4, 5, 6], [7, 8, 9].
   def initialize_rows
     1.step(by: square_order).take(square_order).each_with_object([]) do
       |row, output_array|
@@ -384,12 +384,14 @@ class BoardConstructor
     end
   end
 
+  # For example, in a order 3 square: [1, 4, 7], etc.
   def initialize_columns
     (1..square_order).each_with_object([]) do |column, output_array|
       output_array << column.step(by: square_order).take(square_order)
     end
   end
 
+  # For example, in a order 3 square: [1, 5, 9], etc.
   def initialize_diagonals
     [1, square_order].each_with_object([]) do |diagonal, output_array|
       step = diagonal == 1 ? square_order + 1 : square_order - 1
@@ -442,17 +444,17 @@ class Computer < Player
 
   # AI movement priorities:
   def choose_square(enemy)
-    # Goes for the winning move or defends from player advances:
+    # 01. Goes for the winning move or defends from player advances:
     square = offensive_deffensive_move(enemy)
 
-    # If not able, tries to capture the center of the board:
+    # 02. If not able, tries to capture the center of the board:
     center_square_index = board.empty_squares.index(Board::CENTER_SQUARE)
 
     if square.nil? && !(center_square_index.nil?)
       square = board.empty_squares[center_square_index]
     end
 
-    # If not able, choses a random square:
+    # 03. If not able, choses a random square:
     square = board.empty_squares.sample if square.nil?
 
     square
