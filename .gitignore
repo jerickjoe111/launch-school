@@ -1,6 +1,7 @@
 test.rb
 test*.rb
-.rubocop.yml
 *.txt
+.rubocop.yml
 rps_animations
 file_maker.rb
+*.md.backup
