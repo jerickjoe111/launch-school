@@ -1,5 +1,5 @@
 ## Classes and objects
----
+
 ```ruby
 class Piece
   def initialize(type)
@@ -12,7 +12,7 @@ piece_2 = Piece.new('knight')
 ```
 
 ## Instance variables
----
+
 ```ruby
 class Piece
   def initialize(type, color)
@@ -33,7 +33,7 @@ piece_2.instance_variables
 ```
 
 ## Class variables
----
+
 ```ruby
 class Piece
   @@total_pieces = 0
@@ -57,7 +57,7 @@ piece_2.total_pieces # returns 2
 ```
 
 ## Constants
----
+
 ```ruby
 TURN_MAX_TIME = 10 # In minutes
 
@@ -79,7 +79,7 @@ end
 ```
 
 ## Instance methods (getters/setters)
----
+
 ```ruby
 # Manual accessors writing:
 class Piece
@@ -114,7 +114,7 @@ end
 ```
 
 ## Class methods:
----
+
 ```ruby
 class Board
   BOARD_ORDER = 8
@@ -126,7 +126,7 @@ end
 ```
 
 ## `self`:
----
+
 ```ruby
 self # `main`, the top level object, an instance of `Object`
 
@@ -158,7 +158,7 @@ end
 ```
 
 ## Module
----
+
 ```ruby
 module KingMovement
   def one_step_movement
@@ -177,7 +177,7 @@ end
 ```
 
 ## Namespacing
----
+
 ```ruby
 module Instruments
   class Hammer # A pianos brand
@@ -195,7 +195,7 @@ hammer_2 = Tools::Hammer.new
 ```
 
 ## Method lookup path
----
+
 ```ruby
 module BasicMovement
 end
@@ -223,7 +223,7 @@ King.ancestors == [
 ```
 
 ## `super`
----
+
 ```ruby
 # super by default:
 
@@ -274,7 +274,7 @@ end
 ```
 
 ## Method access control
----
+
 ```ruby
 class King < Piece
   def move!
@@ -300,7 +300,7 @@ end
 ```
 
 ## Inheritance
----
+
 ```ruby
 # class inheritance:
 class Piece
@@ -346,7 +346,7 @@ black_king = King.new('king', :black) # this object will have access to the func
 ```
 
 ## Polymorphism:
-----
+-
 ```ruby
 # with inheritance:
 module BasicMovement
@@ -400,7 +400,7 @@ score = Score.new
 # that would continuously display each game element, each with their own independent implementations of a method `display`
 ```
 ## Encapsulation
----
+
 ```ruby
 class PizzaPlace
 
@@ -418,7 +418,7 @@ class PizzaPlace
   def ask_other_restaurants(other)
   end
 
-  private
+  privateprepare_ingredients
 
   def not_enough_ingredients?
   end
@@ -445,7 +445,7 @@ restaurant.order_pizza # this is the only public method we need; the rest can an
 ```
 
 ## Collaborator objects
----
+
 ```ruby
 class Board
 end
