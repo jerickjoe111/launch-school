@@ -370,5 +370,113 @@ We will see the output:
 "Global"
 ```
 
-The first case corresponds to the return value from the instance method `value1`, which is the value of the constant `VAL` defined on line 4. Constants have lexical scope, which means that when Ruby tries to resolve them, it searches 'lexically': it searches the surrounding structure—lexical scope— of the constant reference. If it fails, Ruby then traverses up the inheritance hierarchy of that surrounding structure. In this case the module that contains the class `Bar` definition, `Foo`.
-The second line corresponds to the return value of the method `value2`; this time, as there is no `VAL` constant definied inside the lexical scope of the constant, nor in the inheritance hierarchy, the look up path reaches the top or `main` scope, where it finds a constant `VAL` defined on line 1.
+The first case corresponds to the return value from the instance method `value1`, which is the value of the constant `VAL` defined on line 4. Constants have lexical scope, which means that when Ruby tries to resolve them, it searches 'lexically': it searches the surrounding structure—lexical scope— of the constant reference. If it fails, Ruby then traverses up the inheritance hierarchy of that surrounding structure: in this case, it find it at the module that contains the class `Bar` definition, `Foo`.
+
+The second line corresponds to the return value of the method `value2`; this time, as there is no `VAL` constant defined inside the lexical scope of the constant, nor in the inheritance hierarchy, the look up path reaches the top or `main` scope, where it finds a constant `VAL` defined on line 1, whose value we see returned from the method `value2`.
+
+# 15
+## What would be the output when the last 2 lines of code get executed?
+
+```ruby
+class Foo
+  @@var = 1
+
+  def self.var
+    @@var
+  end
+end
+
+class Bar < Foo
+  @@var = 2
+end
+
+puts Foo.var 
+puts Bar.var
+```
+
+
+The output is:
+```
+2
+2
+```
+
+This happens because the nature of the class variables in Ruby: they are  shared throughout the hierarchy, that is, by its descendant classes and their instances. There is just one copy of the class variable shared among all its holders, and they don’t need to be initialized if they are initialized in the class definition, as the class variables are loaded when the class are evaluated by Ruby. 
+
+So, by the time the evaluation has finished, the only copy of `@@var` is assigned to the value of `2`, as this reassignment was the last expression evaluated by Ruby concerning this class variable. When the program calls the class method `var` on both class objects, we see two times the value of the only copy of `@@var`: `2`. We can prove this is correct removing the second call to `var` on `Bar`: we still get `2`.
+
+# 16
+## Update the `Human` class to have lines 11 as 14 return the desired output.
+
+```ruby
+class Human 
+    attr_reader :name
+
+  def initialize(name="Dylan")
+    @name = name
+  end
+end
+
+puts Human.new("Jo").hair_color("blonde")  
+# Should output "Hi, my name is Jo and I have blonde hair."
+
+puts Human.hair_color("")              
+# Should "Hi, my name is Dylan and I have blonde hair."
+```
+
+```ruby
+class Human 
+  attr_reader :name
+
+  def initialize(name="Dylan")
+    @name = name
+  end
+
+  def hair_color(color)
+    "Hi, my name is #{name} and I have #{color} hair."
+  end
+  
+  def self.hair_color(color)
+    color = 'blonde' if color.empty?
+    "Hi, my name is #{self.new.name} and I have #{color} hair."
+  end
+end
+
+puts Human.new("Jo").hair_color("blonde")  
+# Should output "Hi, my name is Jo and I have blonde hair."
+
+puts Human.hair_color("")              
+# Should "Hi, my name is Dylan and I have blonde hair."
+```
+
+# 17
+## What does each `self` refer to in the code snippet below?
+
+```ruby
+class MeMyselfAndI
+  self
+
+  def self.me
+    self
+  end
+
+  def myself
+    self
+  end
+end
+
+i = MeMyselfAndI.new
+```
+
+- The first `self`, line 2, refers to the class object `MeMyselfAndI`
+- The second and third `self`, line 5 and 6, refer to the class object `MeMyselfAndI`
+- The fourth `self`, line 9, will refer to the instance of the class `MeMyselfAndI` on which we will call the `myself` instance method.
+
+# 18
+## What are some of the characteristics of instance variables?
+
+The instance variables are defined with an `@` at the beginning of their name; they keep track of the particular object state, and are scoped at the object level. This means that, although other instances of the same class can’t access them, these variables are available to any method of their instance owner, even if they were initialized in other instance method or weren’t passed in as arguments. 
+
+The instance variables can be assigned to any value or object, even other instances of custom classes we have created—in this case, the objects assigned to them are called collaborators. Contrary to local variables, if we try to retrieve the value of an uninitialized instance variable, an exception won’t be raised, but they will act as referencing a value of `nil`.
+
+This means that, first, in order to initialize them, we have to call the method in which this happens —usually the `initialize` instance method, called on instantiation—; and second, that instance variables and their values are not inherited, we have to initialize them first at the instance level. So, in order to initialize instance variables, the object needs access to the methods that do so, thanks to class inheritance or interface inheritance. If the object can't access the method, or if the method is overridden in the subclass, the instance variable will never be initialized, and will act as referring to the `nil` value.
