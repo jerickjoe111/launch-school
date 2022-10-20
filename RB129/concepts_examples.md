@@ -214,7 +214,7 @@ end
 King.ancestors == [
   King, # class            |
   KingMovement, # module   |
-  BasicMovement # module   |
+  BasicMovement, # module  |
   Piece, # class           |
   Object, # class          |
   Kernel, # module         |
