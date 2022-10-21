@@ -309,7 +309,7 @@ end
 ## Method access control
 
 ```ruby
-class King < Piece
+class King
   def initialize(score)
     @score = score
   end
