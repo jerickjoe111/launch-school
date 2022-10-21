@@ -507,11 +507,12 @@ class Piece
     @score = score
   end
 
-  protected
-
-  attr_reader :score
-
   def <=>(other_piece)
     score <=> other_piece.score
   end
+
+  protected
+
+  attr_reader :score
+end
 ```
