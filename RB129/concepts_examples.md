@@ -206,7 +206,7 @@ class King < Piece
   include KingMovement
 end
 
-king = King.new # this instance will have access to the three method defined in the module.
+king = King.new # this instance will have access to the three methods defined in the module.
 ```
 
 ## Namespacing
