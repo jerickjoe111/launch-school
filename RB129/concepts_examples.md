@@ -9,12 +9,16 @@ end
 
 piece_1 = Piece.new('pawn')
 piece_2 = Piece.new('knight')
+
+p piece_1 # == #<Piece:0x000055fb0f759f08 @type="pawn">, the intance's class name, a location in memory, its instance variables.
 ```
 
 ## Instance variables
 
 ```ruby
 class Piece
+  attr_reader :type, :color, :removed
+
   def initialize(type, color)
     @type = type
     @color = color
@@ -25,11 +29,13 @@ class Piece
   end
 end
 
-piece_1 = Piece.new('pawn', :black)
-piece_2 = Piece.new('knight', :white)
+piece = Piece.new('pawn', :black)
 
-piece_1.instance_variables
-piece_2.instance_variables
+
+p piece.instance_variables # == [:@type, :@color]
+p piece.removed # == nil
+piece.remove_from_board 
+p piece.instance_variables # == [:@type, :@color, @removed]
 ```
 
 ## Class variables
@@ -49,11 +55,16 @@ class Piece
   end
 end
 
+class King < Piece
+end
+
 piece_1 = Piece.new('pawn', :black)
 piece_2 = Piece.new('knight', :white)
+piece_3 = King.new('king', :white)
 
-piece_1.total_pieces # returns 2
-piece_2.total_pieces # returns 2
+puts piece_1.total_pieces # == 3
+puts piece_2.total_pieces # == 3
+puts piece_3.total_pieces # == 3
 ```
 
 ## Constants
@@ -73,7 +84,25 @@ class Board
   def initialize
     @total_squares = BOARD_ORDER ** 2
   end
+
+  def order
+    BOARD_ORDER
+  end
+
+  def max_king_steps
+    MAX_KING_STEPS
+  end
+
+  def max_time
+    TURN_MAX_TIME
+  end
 end
+
+b = Board.new
+
+puts b.order # == 8
+puts b.max_king_steps # == 1
+puts b.max_time # == 10
 
 # All this constants are accessible if we reference them inside the `Board` class
 ```
@@ -123,6 +152,8 @@ class Board
     BOARD_ORDER ** 2
   end
 end
+
+Board.total_squares # we call class method on the class object
 ```
 
 ## `self`:
@@ -138,7 +169,7 @@ module KingMovement
   end
 
   def move!
-    self # An instance of the class that includes `KingMovement` on which we will call this method
+    self # An instance of the class that includes `KingMovement`, on which we will call this method
   end
 end
 
@@ -174,6 +205,8 @@ end
 class King < Piece
   include KingMovement
 end
+
+king = King.new # this instance will have access to the three method defined in the module.
 ```
 
 ## Namespacing
@@ -277,24 +310,30 @@ end
 
 ```ruby
 class King < Piece
+  def initialize(score)
+    @score = score
+  end
+
   def move!
     # normal king movement
   end
 
-  def display_danger_sign
-    puts '!' if in_check?
+  def status
+    puts 'DANGER!' if in_check?
+  end
+
+  protected
+
+  attr_reader :score
+
+  def compare_to_enemy(enemy)
+    # compares own score with the enemy's
   end
 
   private
 
   def in_check?
     # is the king in check?
-  end
-
-  protected
-
-  def compare_to_enemy(enemy)
-    # compares own score with the enemy's
   end
 end
 ```
@@ -304,11 +343,13 @@ end
 ```ruby
 # class inheritance:
 class Piece
+  attr_reader :type, :color
+
   def initialize(type, color)
     @type = type
     @color = color
   end
-
+  
   def basic_move!
     # some generic movement
   end
@@ -320,7 +361,7 @@ class King < Piece
   end
 end
 
-black_king = King.new('king', :black) # this object will have access to the `basic_move!` and `king_move!` methods
+black_king = King.new('king', :black) # this object will have access to the `basic_move!` and `king_move!` methods, and access to the instance variables `@type` and `@color` via the inherited attribute getters from `Piece`.
 
 # interface inheritance:
 module BasicMovement
@@ -331,32 +372,25 @@ end
 
 class Piece
   include BasicMovement
-
-  def initialize(type, color)
-    @type = type
-    @color = color
-  end
 end
 
 class King < Piece
   include KingMovement
 end
 
-black_king = King.new('king', :black) # this object will have access to the functionality provided by the `BasicMovement`, mixed-in in superclass `Piece`
+black_king = King.new('king', :black) # this object will have access to the functionality provided by the `BasicMovement`, mixed-in in superclass `Piece`, and that from `KingMovement`, included in its own class.
 ```
 
 ## Polymorphism:
--
+
 ```ruby
 # with inheritance:
-module BasicMovement
-end
-
 module SlideMovement
 end
 
 class Piece
-  include BasicMovement
+  def basic_movement
+  end
 end
 
 class Rook < Piece
@@ -369,9 +403,8 @@ end
 
 rook = Rook.new
 bishop = Bishop.new
-# the rokk and the bishop will have access to the same funcionality provided by: the `BasicMovement` included in the common superclass `Piece`,
-# and the inclusion of the same module `SlideMovement` in the two different classes `Rook` and `Piece`, thus making them to respond to the 
-# same functionality added by the module.
+# the rook and the bishop will have access to the `basic_movement` method defined in the common superclass `Piece`,
+# and the functionality provided by the inclusion of the same module `SlideMovement` in the two different classes `Rook` and `Piece`.
 
 # without inheritance (duck-typing):
 class Board
@@ -397,7 +430,7 @@ board = Board.new
 piece_01 = Piece.new
 score = Score.new
 [board, piece_01, score].each(&:display)
-# that would continuously display each game element, each with their own independent implementations of a method `display`
+# that would continuously display each game element, each with their own independent implementation of a method `display`
 ```
 ## Encapsulation
 
@@ -405,22 +438,21 @@ score = Score.new
 class PizzaPlace
 
   def order_pizza
+    ask_other_restaurants if !enough_ingredients?
     make_dough
-    ask_other_restaurants(restaurant) if not_enough_ingredients?
     prepare_ingredients
     check_oven_temperature
-    wait_minutes
-    output_made_pizza
+    output_cooked_pizza
   end
 
   protected
 
-  def ask_other_restaurants(other)
+  def ask_other_restaurants
   end
 
-  privateprepare_ingredients
-
-  def not_enough_ingredients?
+  private
+  
+  def enough_ingredients?
   end
 
   def make_dough
@@ -432,16 +464,13 @@ class PizzaPlace
   def check_oven_temperature
   end
 
-  def wait_minutes
-  end
-
-  def output_made_pizza
+  def output_cooked_pizza
   end
 end
 
 restaurant = PizzaPlace.new
 
-restaurant.order_pizza # this is the only public method we need; the rest can and should be private.
+restaurant.order_pizza # this is the only public method we need; the rest can and should be private, with only one protected method.
 ```
 
 ## Collaborator objects
@@ -455,9 +484,28 @@ end
 
 class ChessEngine
   def initialize
-    @board = Board.new
-    @player_1 = Player.new
-    @player_2 = Player.new
+    @board = Board.new # Collaborator
+    @player_1 = Player.new # Collaborator
+    @player_2 = Player.new # Collaborator
   end
 end
+```
+
+## Fake operators
+
+```ruby
+class Piece
+  include Comparable
+
+  def initialize(score)
+    @score = score
+  end
+
+  protected
+
+  attr_reader :score
+
+  def <=>(other_piece)
+    score <=> other_piece.score
+  end
 ```
