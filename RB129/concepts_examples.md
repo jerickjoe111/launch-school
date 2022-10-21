@@ -156,7 +156,7 @@ end
 Board.total_squares # we call class method on the class object
 ```
 
-## `self`:
+## `self`
 
 ```ruby
 self # `main`, the top level object, an instance of `Object`
