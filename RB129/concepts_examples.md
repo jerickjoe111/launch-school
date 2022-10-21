@@ -142,7 +142,7 @@ class Piece
 end
 ```
 
-## Class methods:
+## Class methods
 
 ```ruby
 class Board
@@ -381,7 +381,7 @@ end
 black_king = King.new('king', :black) # this object will have access to the functionality provided by the `BasicMovement`, mixed-in in superclass `Piece`, and that from `KingMovement`, included in its own class.
 ```
 
-## Polymorphism:
+## Polymorphism
 
 ```ruby
 # with inheritance:
@@ -432,6 +432,7 @@ score = Score.new
 [board, piece_01, score].each(&:display)
 # that would continuously display each game element, each with their own independent implementation of a method `display`
 ```
+
 ## Encapsulation
 
 ```ruby
