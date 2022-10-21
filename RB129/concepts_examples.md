@@ -363,7 +363,7 @@ end
 
 black_king = King.new('king', :black) 
 # this object will have access to the `basic_move!` and `king_move!` methods, 
-# and access to the instance variables `@type` and `@color` via the inherited attribute getters from `Piece`.
+# and access to the instance variables `@type` and `@color` via the inherited attribute getters from superclass `Piece`.
 
 # interface inheritance:
 module BasicMovement
@@ -407,7 +407,7 @@ end
 
 rook = Rook.new
 bishop = Bishop.new
-# the rook and the bishop will have access to the `basic_movement` method defined in the common superclass `Piece`,
+# `rook` and  `bishop` will have access to the `basic_movement` method defined in the common superclass `Piece`,
 # and the functionality provided by the inclusion of the same module `SlideMovement` in the two different classes 
 # `Rook` and `Piece`.
 
