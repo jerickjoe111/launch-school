@@ -407,9 +407,9 @@ end
 
 rook = Rook.new
 bishop = Bishop.new
-# `rook` and  `bishop` will have access to the `basic_movement` method defined in the common superclass `Piece`,
-# and the functionality provided by the inclusion of the same module `SlideMovement` in the two different classes 
-# `Rook` and `Piece`.
+# `rook` and  `bishop` will have access to the `basic_movement` method defined in the common superclass `Piece` (class inheritance),
+# and the functionality provided by the inclusion of the same module `SlideMovement` in the two different classes
+# `Rook` and `Piece` (interface inheritance)
 
 # without inheritance (duck-typing):
 class Board
