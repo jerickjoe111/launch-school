@@ -110,7 +110,7 @@ puts b.max_time # == 10
 ## Instance methods (getters/setters)
 
 ```ruby
-# Manual accessors writing:
+# Manual getter/setter definition:
 class Piece
   def initialize(type, color)
     @type = type
@@ -121,7 +121,7 @@ class Piece
     @type
   end
 
-  def type=(new_type)
+  def type=(new_type) # For example, when a pawn turns into a queen
     @type = new_type
   end
 
@@ -130,7 +130,7 @@ class Piece
   end
 end
 
-# Automatic accessors writing:
+# Automatic accessors definition:
 class Piece
   attr_accessor :type
   attr_reader :color
@@ -141,6 +141,63 @@ class Piece
   end
 end
 ```
+
+## It is better to call getters/setter instead of the variables directly
+
+```ruby
+# Calling getters is safer:
+class CreditCard
+  def initialize
+    @number = format(
+      '%04i-%04i-%04i-%04i', 
+      rand(0000..9999),
+      rand(0000..9999),
+      rand(0000..9999),
+      rand(0000..9999)
+    )
+  end
+
+  def number
+    "####-####-####-#{@number[-4..-1]}"
+  end
+end
+
+p CreditCard.new.number # => we see the hidden version of the number.
+
+# Calling setters is safer:
+class CreditCard
+  def initialize
+    @number = format(
+      '%04i-%04i-%04i-%04i', 
+      rand(0000..9999),
+      rand(0000..9999),
+      rand(0000..9999),
+      rand(0000..9999)
+    )
+  end
+
+  def number
+    "####-####-####-#{@number[-4..-1]}"
+  end
+
+  def number=(new_number) # We can provide security and validation with setters
+    if new_number.split('-').size == 4
+      @number = new_number
+    else
+      puts "Invalid number!"
+    end
+  end
+end
+
+c = CreditCard.new
+
+c.number
+c.number = "1234-1234-1234" # => "Invalid number!"
+c.number = "1234-1234-1234-1234"
+c.number # => "####-####-####-1234"
+```
+
+
 
 ## Class methods
 
