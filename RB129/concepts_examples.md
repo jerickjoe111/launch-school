@@ -70,10 +70,10 @@ puts piece_3.total_pieces # == 3
 ## Constants
 
 ```ruby
-TURN_MAX_TIME = 10 # In minutes
+TURN_MAX_TIME = 10 # `main` or top level
 
 module KingMovement
-  MAX_KING_STEPS = 1
+  MAX_KING_STEPS = 1 
 end
 
 class Board
@@ -104,7 +104,8 @@ puts b.order # == 8
 puts b.max_king_steps # == 1
 puts b.max_time # == 10
 
-# All this constants are accessible if we reference them inside the `Board` class
+# All this constants are accessible if we reference them inside the `Board` class, all of them 
+# defined in different scopes.
 ```
 
 ## Instance methods (getters/setters)
@@ -226,7 +227,7 @@ module KingMovement
   end
 
   def move!
-    self # An instance of the class that includes `KingMovement`, on which we will call this method
+    self # An instance of the class, or descendant that includes `KingMovement`, on which we will call this method
   end
 end
 
