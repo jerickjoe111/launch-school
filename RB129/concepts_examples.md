@@ -131,7 +131,7 @@ class Piece
   end
 end
 
-# Automatic accessors definition:
+# Automatic getter/setter definition:
 class Piece
   attr_accessor :type
   attr_reader :color
@@ -163,7 +163,9 @@ class CreditCard
   end
 end
 
-p CreditCard.new.number # => we see the hidden version of the number.
+p CreditCard.new.number # => we see the hidden format of the number.
+# It makes easier, for any change will have to be done in just one place. It's safer and more easily
+# maintanable
 
 # Calling setters is safer:
 class CreditCard
@@ -181,7 +183,7 @@ class CreditCard
     "####-####-####-#{@number[-4..-1]}"
   end
 
-  def number=(new_number) # We can provide security and validation with setters
+  def number=(new_number) # We can provide security and validation with setters.
     if new_number.split('-').size == 4
       @number = new_number
     else
@@ -192,13 +194,11 @@ end
 
 c = CreditCard.new
 
-c.number
+p c.number
 c.number = "1234-1234-1234" # => "Invalid number!"
 c.number = "1234-1234-1234-1234"
-c.number # => "####-####-####-1234"
+p c.number # => "####-####-####-1234"
 ```
-
-
 
 ## Class methods
 
@@ -211,7 +211,7 @@ class Board
   end
 end
 
-Board.total_squares # we call class method on the class object
+p Board.total_squares # we call class method on the class object
 ```
 
 ## `self`
@@ -227,7 +227,7 @@ module KingMovement
   end
 
   def move!
-    self # An instance of the class, or descendant that includes `KingMovement`, on which we will call this method
+    self # An instance of the class, or subclass, that includes `KingMovement`, on which we will call this method.
   end
 end
 
@@ -280,7 +280,6 @@ module Tools
   end
 end
 
-
 hammer_1 = Instruments::Hammer.new
 hammer_2 = Tools::Hammer.new
 ```
@@ -309,7 +308,7 @@ King.ancestors == [
   Piece, # class           |
   Object, # class          |
   Kernel, # module         |
-  BasicObject # class     \_/
+  BasicObject # class     \v/
 ]
 ```
 
@@ -502,7 +501,7 @@ score = Score.new
 class PizzaPlace
 
   def order_pizza
-    ask_other_restaurants if !enough_ingredients?
+    ask_other_restaurants unless enough_ingredients?
     make_dough
     prepare_ingredients
     check_oven_temperature
@@ -511,30 +510,24 @@ class PizzaPlace
 
   protected
 
-  def ask_other_restaurants
-  end
+  def ask_other_restaurants; end
 
   private
   
-  def enough_ingredients?
-  end
+  def enough_ingredients?; end
 
-  def make_dough
-  end
+  def make_dough; end
 
-  def prepare_ingredients
-  end
+  def prepare_ingredients; end
 
-  def check_oven_temperature
-  end
+  def check_oven_temperature; end
 
-  def output_cooked_pizza
-  end
+  def output_cooked_pizza; end
 end
 
 restaurant = PizzaPlace.new
 
-restaurant.order_pizza # this is the only public method we need; the rest can and should be private, with only one protected method.
+restaurant.order_pizza # this is the only public method we need (the `restaurant` interface); the rest can and should be private, with only one protected method when 'asking' other restaurants is needed.
 ```
 
 ## Collaborator objects
@@ -566,7 +559,7 @@ class Piece
   end
 
   def <=>(other_piece)
-    score <=> other_piece.score
+    score <=> other_piece.score # Written on top of the `<=>` defined for numbers.
   end
 
   protected
