@@ -499,7 +499,6 @@ score = Score.new
 
 ```ruby
 class PizzaPlace
-
   def order_pizza
     ask_other_restaurants unless enough_ingredients?
     make_dough
