@@ -2,16 +2,16 @@
 ___
 Closures in Ruby:
 
-  - proc objects: Instances of the `Proc` class
+  - `proc` objects, instances of the `Proc` class
   - lambdas
   - blocks
 
-A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save code snippets for a later use and execute them when needed. Closures bind their enviroment: they capture values from the surrounding artifacts (like variables or methods) that are in scope when the closures are defined, creating an envelopment or _enclosure_ around everything so they can be referenced when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of capturing the state of their environment.
+A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save chunks of code for a later use and execute them when needed. Closures bind their enviroment: they capture references to the surrounding artifacts (like variables or methods) that are in scope when the closures are created, defining an encapsulation or _enclosure_ around everything so they still can be referenced when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of remembering the entire context in which they were created.
 
 The set of references to the closure's environment (the surrounding artifacts in scope at the time of the closure's definition) that a closure retains is called its **binding**
 ___
 
-### a. Anatomy of a method
+### a. How methods interact with blocks
 
 Every method call in Ruby has the following syntax:
 
@@ -38,7 +38,12 @@ end
 
 (According Launch School resources, the block is an argument we pass in to the method, but this is not technically correct. The block is part of the method invocation syntax, not an argument. Here we are providing an empty list of arguments to `Array#each`. Arguments and blocks are different constructs, refer to different things, and exist independently of each other, although methods make use of both.)
 
-In Ruby, every method accepts an optional block provided to its invocation. How the block affects to the method's return value depends on the method's implementation.
+In Ruby, every method accepts an optional block provided to its invocation (in other words, every method takes an implicit block regardless of its definition). How the block affects to the method's return value depends on the method's implementation.
+
+We have to differentiate between a method implementation and a method invocation.
+
+Defining methods with an explicit block parameter:
+
 
 ### b. Yield
 
@@ -50,12 +55,32 @@ If a method's implementation contains a `yield`, a developer using the method ca
 
 The `LocalJumpError` exception:
 
-It is raised when the method includes a `yield` and expects a block that was not provided in the method invocation. This error can be avoided wrapping the `yield` call in a conditional, taking leverage of the `Kernel#block_given?` method. 
+It is raised when the method includes a `yield` and expects a block that was not provided in the method invocation. This error can be avoided wrapping the `yield` call in a conditional, making use of the `Kernel#block_given?` method. This provides the flexibility for a method to work with and without a block.
 
+We can define block parameters in the block we provide to the method (between `|` after `{` or `do`). Within the block, the parameter will be a **block local variable**, a special type of local variable whose scope is limited to the block. If we name a block parameter like a variable in scope when the block is defined, that outer variable will be _shadowed_ by the parameter of the same name, and we won't be able to access that outer variable from within the block.
+
+`yield` accepts an argument list that will be passed to the block, in which the block parameters will be assigned to the arguments passed in from the method, so they can work as block local variables within the block. These arguments can be mutated permanently by a _destructive_ method inside the block like another method.
+
+`yield` returns the return value of the block it yields to, which which will be its last evaluated expression. 
 
 ### c. Arity
 
+**Arity** refers to the rule regarding the number of arguments that you must pass a block, `proc` or `lambda`.
+
+In Ruby, blocks and `procs` have **lenient arity**, so that Ruby doesn't raise an exception when less or more arguments are passed to the block than the number of block parameters.
+
+Methods and `lambdas` have **strict arity**, which means that the same number of arguments have to be passed to them as the number of parameters the method or `lambda` defines.
+
+If the method or block allows any kind of optional arguments, the arity rules do not apply to those arguments.
+
 ### d. When and why use blocks in your own methods
+
+Two main use cases for using blocks in your own methods are:
+
+1. To defer some implementation code to method invocation decision.
+
+
+2. Methods that need to perform some 'before' and 'after' operations (_sandwich code_)
 
 ### e. Using closures
 
