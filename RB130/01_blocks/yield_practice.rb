@@ -16,10 +16,10 @@ end
 # 02. Define your own version of `times`
 class Integer
   def my_times
-    c = 0
-    while c < self
-      yield c
-      c += 1
+    counter = 0
+    while counter < self
+      yield counter
+      counter += 1
     end
     self
   end
@@ -35,11 +35,11 @@ end
 
 class Array
   def my_each
-    c = 0
+    counter = 0
     array_size = size
-    while c < array_size
-      yield self[c]
-      c += 1
+    while counter < array_size
+      yield self[counter]
+      counter += 1
     end
     self
   end
@@ -52,12 +52,12 @@ end
 
 class Array
   def my_map
-    c = 0
+    ccounter = 0
     array_size = size
     accumulator = []
-    while c < array_size
-      accumulator << yield(self[c])
-      c += 1
+    while ccounter < array_size
+      accumulator << yield(self[counter])
+      counter += 1
     end
     accumulator
   end
@@ -70,11 +70,11 @@ end
 
 class Array
   def my_each
-    c = 0
+    counter = 0
     array_size = size
-    while c < array_size
-      yield self[c]
-      c += 1
+    while counter < array_size
+      yield self[counter]
+      counter += 1
     end
     self
   end
