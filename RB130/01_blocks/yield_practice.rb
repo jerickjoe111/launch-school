@@ -14,13 +14,16 @@ end
 
 
 # 02. Define your own version of `times`
+
 class Integer
   def my_times
     counter = 0
     while counter < self
       yield counter
+
       counter += 1
     end
+
     self
   end
 end
@@ -39,8 +42,10 @@ class Array
     array_size = size
     while counter < array_size
       yield self[counter]
+
       counter += 1
     end
+
     self
   end
 end
@@ -57,8 +62,10 @@ class Array
     accumulator = []
     while ccounter < array_size
       accumulator << yield(self[counter])
+
       counter += 1
     end
+
     accumulator
   end
 end
@@ -82,6 +89,7 @@ class Array
   def my_map
     accumulator = []
     my_each { |element| accumulator << yield(element) }
+    
     accumulator
   end
 end
