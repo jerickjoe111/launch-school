@@ -40,9 +40,14 @@ end
 
 In Ruby, every method accepts an optional block provided to its invocation (in other words, every method takes an implicit block regardless of its definition). How the block affects to the method's return value depends on the method's implementation.
 
-We have to differentiate between a method implementation and a method invocation.
+We have to differentiate between a method's implementation and the method invocation.
 
 Defining methods with an explicit block parameter:
+
+We can define a block as a method parameter, the block will be assigned to it so it can be referenced, reassigned, passed around and invoked like any other object stored in a variable.
+To define a explicit block as a parameter, we have to add an `&` symbol before the parameter's name in the method definition.
+Adding the `&` symbol makes Ruby to convert the block we provided to a `Proc` object (an instance of the `Proc` class, the encapsulation of a code block). As it has been already converted, we won't need the `&` symbol to refer to the `Proc` object within the method. This variable is a _handle_ that allows us to pass the `Proc` to another method, and to call methods on it.
+To invoke the `Proc` object within the method's definition, we call the `Proc#call` method on it instead of using `yield`. We can even pass arguments to the explicit block by passing them as arguments to `Proc#call`.
 
 
 ### b. Yield
@@ -79,12 +84,37 @@ Two main use cases for using blocks in your own methods are:
 
 1. To defer some implementation code to method invocation decision.
 
+   Blocks allow the method user to fine tune the behavior of a method at invocation time, _extending_ its capabilities without altering the method implementation. This gives the method great flexibility, as we can adapt its generic behavior with a code block appropiate to each situation.
+
+   Example:
 
 2. Methods that need to perform some 'before' and 'after' operations (_sandwich code_)
 
+   We can implement methods designed to perform a task between two other operations. We can implement the 'before' and 'after' operations, and let the method user to decide what task should be performed between them via a block: that task will be the execution of the code block we provided at invocation time.
+
+   Example:
+
 ### e. Using closures
+
+Closures retain, _bind_, their surrounding context, they retain reference to the artifacts in its environment at the time of its creation, like variables, constants or methods. This is called its **binding**. A closure keeps track of its binding in order to be executed later. However, local variables must be defined before the closure's creation so it can access them; if not, we will need to explicitly pass the local variables  to the closure at the time of its invocation.
+
+This can be very useful when methods or blocks return a closure via, for instance, a `Proc` object: the `Proc` object will form a closure with its environment at the time of its creation. Each new `Proc` object created in the same environment will have its own closure.
 
 ### f. Blocks and variable scope
 
 ### g. Symbol to proc
+
+If we want to invoke a method on each element in a collection, we can use the shortcut:
+```ruby
+collection_object.iterator_method(&:symbol_name_for_method_to_be_invoked_on_each_element)
+```
+Unfortunately, we can't use this shortcut for methods that take arguments.
+
+The mechanism at work is: 
+1. We apply the `&` operator to an object(usually referenced by a variable)
+2. Ruby converts the object to a `Proc` if not already one. (calling `Symbol#to_proc` in the example)
+3. Ruby then converts the `Proc` into a block
+
+
+
 
