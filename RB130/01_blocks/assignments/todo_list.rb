@@ -76,6 +76,19 @@ class TodoList
   def to_s
     "---- #{title} ----\n" + todos.map(&:to_s).join("\n")
   end
+
+  def each
+    todos.each { |todo_item| yield todo_item }
+    self
+  end
+
+  def select
+    output_todo_list = TodoList.new("Selected from #{title}")
+
+    each { |todo_item| output_todo_list << todo_item if yield todo_item }
+
+    output_todo_list
+  end
 end
 
 # This class represents a todo item and its associated
@@ -117,91 +130,17 @@ class Todo
   end
 end
 
-
-# given
 todo1 = Todo.new("Buy milk")
 todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
+
 list = TodoList.new("Today's Todos")
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
 
-# ---- Adding to the list -----
+todo1.done!
 
-# add
-list.<<(todo1)                 # adds todo1 to end of list, returns list
-list.<<(todo2)                 # adds todo2 to end of list, returns list
-list.<<(todo3)                 # adds todo3 to end of list, returns list
-# list.<<(1)                     # raises TypeError with message "Can only add Todo objects"
+results = list.select { |todo| todo.done? }    # you need to implement this method
 
-# <<
-# same behavior as add
-
-# ---- Interrogating the list -----
-
-# size
-# p list.size                       # returns 3
-
-# first
-# p list.first.to_s                      # returns todo1, which is the first item in the p list
-
-# last
-# p list.last.to_s                       # returns todo3, which is the last item in the p list
-
-#to_a
-# p list.to_a                      # returns an array of all items in the p list
-
-#done?
-# p list.done?                     # returns true if all todos in the list are done, otherwise false
-
-# ---- Retrieving an item in the list ----
-
-# item_at
-# list.item_at                    # raises ArgumentError
-# p list.item_at(1)                 # returns 2nd item in list (zero based index)
-# list.item_at(100)               # raises IndexError
-
-# ---- Marking items in the list -----
-
-# mark_done_at
-# list.mark_done_at               # raises ArgumentError
-# list.mark_done_at(1)            # marks the 2nd item as done
-# list.mark_done_at(100)          # raises IndexError
-
-# mark_undone_at
-# list.mark_undone_at             # raises ArgumentError
-# list.mark_undone_at(1)          # marks the 2nd item as not done,
-# list.mark_undone_at(100)        # raises IndexError
-
-# done!
-# list.done!                      # marks all items as done
-
-# ---- Deleting from the list -----
-
-# shift
-# list.shift                      # removes and returns the first item in list
-
-# pop
-# list.pop                        # removes and returns the last item in list
-
-# remove_at
-# list.remove_at                  # raises ArgumentError
-# list.remove_at(1)               # removes and returns the 2nd item
-# list.remove_at(100)             # raises IndexError
-
-# ---- Outputting the list -----
-
-# to_s
-# list.to_s                      # returns string representation of the list
-
-# ---- Today's Todos ----
-# [ ] Buy milk
-# [ ] Clean room
-# [ ] Go to gym
-
-# or, if any todos are done
-
-# ---- Today's Todos ----
-# [ ] Buy milk
-# [X] Clean room
-# [ ] Go to gym
-
-binding.irb
+puts results.inspect
