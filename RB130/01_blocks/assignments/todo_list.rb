@@ -89,6 +89,30 @@ class TodoList
 
     output_todo_list
   end
+
+  def find_by_title(input_string)
+    select { |todo_item| todo_item.title == input_string }
+  end
+
+  def all_done
+    select { |todo_item| todo_item.done? }
+  end
+
+  def all_not_done
+    select { |todo_item| !todo_item.done? }
+  end
+
+  def mark_done(input_string)
+    find_by_title(input_string).done!    
+  end
+
+  def mark_all_done
+    each(&:done!)
+  end
+
+  def mark_all_undone
+    each(&:undone!)
+  end
 end
 
 # This class represents a todo item and its associated
@@ -141,6 +165,4 @@ list.add(todo3)
 
 todo1.done!
 
-results = list.select { |todo| todo.done? }    # you need to implement this method
-
-puts results.inspect
+binding.irb
