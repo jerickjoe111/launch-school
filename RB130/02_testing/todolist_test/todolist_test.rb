@@ -1,5 +1,8 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
-require "minitest/reporters"
+require 'minitest/reporters'
 Minitest::Reporters.use!
 
 require_relative 'todolist'
@@ -152,5 +155,36 @@ class TodoListTest < MiniTest::Test
 
     assert_equal(1, @list.select { |todo| todo.done? }.size)
     assert_equal(1, testing_list.select { |todo| todo.done? }.size)
+  end
+
+  def test_find_by_title
+    assert_equal(@todos.first, @list.find_by_title('Buy milk').first)
+  end
+
+  def test_all_done
+    assert_equal(0, @list.all_done.size)
+    @list.mark_done_at(0)
+    assert_equal(@todo1, @list.all_done.first)
+  end
+
+  def test_all_not_done
+    assert_equal(3, @list.all_not_done.size)
+    @list.mark_undone_at(0)
+    assert_equal(@todo1, @list.all_not_done.first)
+  end
+
+  def test_mark_done
+    @list.mark_done('Buy milk')
+    assert_equal(@todo1, @list.all_done.first)
+  end
+
+  def test_mark_all_done
+    @list.mark_all_done
+    assert_equal(3, @list.all_done.size)
+  end
+
+  def test_mark_all_undone
+    @list.mark_all_undone
+    assert_equal(0, @list.all_done.size)
   end
 end
