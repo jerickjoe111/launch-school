@@ -126,7 +126,11 @@ def foo(&block)
   block.call
 end
 ```
-While `&` applied to an argument object causes the object to be converted to a block, `&` applied to a method parameter causes the associated object to be converted to a proc. In essence, the two uses of `&` are opposites.
+- While `&` applied to **an argument object** causes the object to be converted to a block, 
+
+- `&` applied to **a method parameter** causes the associated object to be converted to a `proc`. 
+
+In essence, the two uses of `&` are opposites.
 ___
 
 
