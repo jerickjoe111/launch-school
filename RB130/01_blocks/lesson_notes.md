@@ -104,6 +104,8 @@ This can be very useful when methods or blocks return a closure via, for instanc
 
 ### g. Symbol to proc
 
+__When applied to an argument object for a method, a lone & causes ruby to try to convert that object to a block. If that object is a proc, the conversion happens automatically, just as shown above. If the object is not a proc, then & attempts to call the #to_proc method on the object first. Used with symbols, e.g., &:to_s, Ruby creates a proc that calls the #to_s method on a passed object, and then converts that proc to a block. This is the "symbol to proc" operation (though perhaps it should be called "symbol to block").__
+
 If we want to invoke a method on each element in a collection, we can use the shortcut:
 ```ruby
 collection_object.iterator_method(&:symbol_name_for_method_to_be_invoked_on_each_element)
