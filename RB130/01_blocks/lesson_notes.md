@@ -118,6 +118,16 @@ The mechanism at work is:
 2. Ruby converts the object to a `Proc` if not already one. (calling `Symbol#to_proc` in the example)
 3. Ruby then converts the `Proc` into a block
 
+___
+Note that `&`, when applied to an argument object is not the same as an & applied to a method parameter, as in this code:
+
+```ruby
+def foo(&block)
+  block.call
+end
+```
+While `&` applied to an argument object causes the object to be converted to a block, `&` applied to a method parameter causes the associated object to be converted to a proc. In essence, the two uses of `&` are opposites.
+___
 
 
 
