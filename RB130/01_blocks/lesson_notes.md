@@ -1,4 +1,6 @@
 ## Lesson 01: Blocks
+
+(_remember to also study the exercises_)
 ___
 Closures in Ruby:
 
