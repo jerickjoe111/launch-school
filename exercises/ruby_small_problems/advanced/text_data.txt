@@ -1,0 +1,4 @@
+The %<adjective>s brown %<noun>s %<adverb>s
+%<verb>s the %<adjective>s yellow
+%<noun>s, who %<adverb>s %<verb>s his
+%<noun>s and looks around.
