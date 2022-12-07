@@ -82,7 +82,7 @@ Important topics about `Proc` objects (or _procs_):
         block.call
       end
 
-      captue_block { puts 'Inside the block' }
+      capture_block { puts 'Inside the block' }
     ``` 
     What happens is a kind of implicit call to `Proc.new`, using the same block. The proc thus created is assigned to the parameter `block` to be used inside the method definition.
     There are three events of importance here:
