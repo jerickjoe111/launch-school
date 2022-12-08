@@ -22,9 +22,9 @@ Code blocks always return a value: its last evaluated expression. The return val
 
 ## Blocks and scope
 
-Blocks have direct access to variables that already exist. However, block parameters behave differently from non-parameter variables. If you have a variable of a given name in scope and also use that name as one of your block parameters, then the two variables, the one that exists and the one in the parameter list, are not the same as each other (_shadowing_, as the parameter _shadows_ the outer variable).
+Blocks have direct access to variables that already exist. However, block parameters behave differently from non-parameter variables. If you have a variable of a given name in scope and also use that name for one of the block parameters, then the two variables, the one that exists and the one in the parameter list, are not the same as each other (_shadowing_, as the parameter _shadows_ the outer variable).
 
-Blocks share local scope with the code that preceds them. Blocks can serve as the bodies of anonymous function objects, and those objects preserve the local variables that are in the scope at the time of their creation, even if the function objects get handed around other local scopes.
+Blocks share local scope with the code that preceds them. Blocks can serve as the bodies of anonymous function objects, and those objects preserve the local variables and other artifacts that are in scope at the time of their creation, even if the function objects get handed around other local scopes.
 
 ## Closures
 
@@ -61,10 +61,10 @@ Important topics about `Proc` objects (or _procs_):
 - the relationship between procs and code blocks.
 
   - every proc requires a block to be created, but not every block serves as a proc objec
-      ( `[1, 2, 3].each { |i| puts i }` ) Here the block does not create a proc.
+      (like `[1, 2, 3].each { |i| puts i }` Here the block does not create a proc.)
 
   - A method can capture a block, objectify it into a proc, 
-      using the special operator `&` at the left of its parameter at the method definition level.
+      using the special operator `&` at the left of the parameter at the method definition level.
 
   - But a proc object can serve as a block at the method invocation level, using a similar syntax
       `&` on the argument passed in to the method.

@@ -8,7 +8,7 @@ Closures in Ruby:
   - lambdas
   - blocks
 
-A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save chunks of code for a later use and execute them when needed. Closures bind their enviroment: they capture references to the surrounding artifacts (like variables or methods) that are in scope when the closures are created, defining an encapsulation or _enclosure_ around everything so they still can be referenced and even reassigned when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of _remembering_ the entire context in which they were created.
+A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save chunks of code for a later use and execute them when needed. Closures bind their enviroment: they capture references to the surrounding artifacts (like variables or methods) that are in scope when the closures are created, defining an encapsulation or _enclosure_ around everything, so they still can be referenced and even reassigned when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of _remembering_ the entire context in which they were created.
 
 The set of references to the closure's environment (the surrounding artifacts in scope at the time of the closure's definition) that a closure retains is called its **binding**
 ___
@@ -78,7 +78,7 @@ In Ruby, blocks and `procs` have **lenient arity**, so that Ruby doesn't raise a
 
 Methods and `lambdas` have **strict arity**, which means that the same number of arguments have to be passed to them as the number of parameters the method or `lambda` defines.
 
-If the method or block allows any kind of optional arguments, the arity rules do not apply to those arguments.
+If the method or block allows any kind of optional arguments (like `*sponge` arguments), the arity rules do not apply to those arguments.
 
 ### d. When and why use blocks in your own methods
 
