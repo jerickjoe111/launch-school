@@ -21,7 +21,6 @@
 # The n*th* digit gets multiplied by 8^n-1.
 # All of these values are then summed.
 
-
 class Octal
   attr_reader :octal_string
 
@@ -44,5 +43,3 @@ class Octal
     !octal_string.match?(/[\D89]/)
   end
 end
-
-p Octal.new('233').to_decimal
