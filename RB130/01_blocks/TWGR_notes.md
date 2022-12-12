@@ -4,9 +4,15 @@ When you call a method on an object, control is passed to the body of the method
 
 ## Iterator:
 
-An iterator is a Ruby method that has an extra ingredient in tis calling syntax: it expects you to provide it with a _code block_. Curly braces or `do`..`end` key words delimit the block.
+An iterator is a Ruby method that has an extra ingredient in tis calling syntax: it expects you to provide it with a _code block_. The inner implementation of the method includes a way to access the code in the code block (to execute or call the block): `yield`, invoked from within the method. The block provided to the method invocation and the `yield` in the method definition are the main ingredients of iteration.
+
+Curly braces or `do`..`end` key words delimit the block.
 
 The code block is part of the method call, that is, part of its syntax. A code block is not an argument. 
+
+By providing a code block, you're giving the methoda chunk of code to which it can yield control. When the methods yields to the block, the code in the block runs, and then control returns to the method. 
+
+Yielding is not returning: yielding takes place while the method is still running, after the code block executes, control returns to the method at the statement immediately following the call to `yield`.
 
 ## Curly braces and do/end syntax:
 
@@ -16,7 +22,7 @@ The difference between the two ways of delimiting a code block is a difference i
 
 Yielding to a block and returning from a method are two different things. A method may yield to its block any number of times, but every method returns exactly one, assuming no fatal errors. It's like a jump in figure skating. You take off, execute some rotations in the air, and land. No matter how many rotations you execute, you only take off once and land once. A method call causes the method to run once and execute once.
 
-Code blocks, loke methods, can take arguments. When a method yields, it can yield one or more values. The block pick ups the argument through its parameters, and the parameters get bound to whatever value gets yielded from the method to the block.
+Code block, like methods, can take arguments. When a method yields, it can yield one or more values. The block pick ups the argument through its parameters, and the parameters get bound to whatever value gets yielded from the method to the block.
 
 Code blocks always return a value: its last evaluated expression. The return value comes back from the block to the method as the return value from `yield`.
 

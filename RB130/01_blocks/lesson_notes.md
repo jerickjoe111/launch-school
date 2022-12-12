@@ -1,3 +1,17 @@
+Assessment study guide:
+
+- Closures, binding, and scope
+- How blocks work, and when we want to use them.
+- Blocks and variable scope
+- Write methods that use blocks and procs
+- Understand that methods and blocks can return chunks of code (closures)
+- Methods with an explicit block parameter
+- Arguments and return values with blocks
+- When can you pass a block to a method
+- &:symbol
+- Arity of blocks and methods
+
+
 ## Lesson 01: Blocks
 
 (_remember to also study the exercises_)
@@ -98,11 +112,12 @@ Two main use cases for using blocks in your own methods are:
 
 ### e. Using closures
 
-Closures retain, _bind_, their surrounding context, they retain reference to the artifacts in its environment at the time of its creation, like variables, constants or methods. This is called its **binding**. A closure keeps track of its binding in order to be executed later. However, local variables must be defined before the closure's creation so it can access them; if not, we will need to explicitly pass the local variables  to the closure at the time of its invocation.
+Closures retain, _bind_, their surrounding context, they retain reference to the artifacts in its environment at the time of its creation, like variables, constants or even methods. This is called its **binding**. A closure keeps track of its binding in order to be executed later. However, local variables must be defined before the closure's creation so it can access them; if not, we will need to explicitly pass the local variables  to the closure at the time of its invocation.
 
 This can be very useful when methods or blocks return a closure via, for instance, a `Proc` object: the `Proc` object will form a closure with its environment at the time of its creation. Each new `Proc` object created in the same environment will have its own closure.
 
 ### f. Blocks and variable scope
+
 
 ### g. Symbol to proc
 ___
