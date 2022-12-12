@@ -24,7 +24,7 @@ Closures in Ruby:
 
 A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save chunks of code for a later use and execute them when needed. Closures bind their enviroment: they capture references to the surrounding artifacts (like variables or methods) that are in scope when the closures are created, defining an encapsulation or _enclosure_ around everything, so they still can be referenced and even reassigned when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of _remembering_ the entire context in which they were created.
 
-The set of references to the closure's environment (the surrounding artifacts in scope at the time of the closure's definition) that a closure retains is called its **binding**
+The surrounding artifacts in scope at the time of the closure's creation it's called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure. The closure will keep track of all of them, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object, the closure will keep track of that change, 
 ___
 
 ### a. How methods interact with blocks
@@ -118,6 +118,12 @@ This can be very useful when methods or blocks return a closure via, for instanc
 
 ### f. Blocks and variable scope
 
+The surrounding artifacts in scope at the time of the closure's creation is called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the closure is created. If not, the variable will have to be explicitly passed to the closure if it has to use it in any way. The closure will keep track of all of them; so, if, for example, a variable in scope it's reassigned to another object after the closure's creation, the closure will keep track of that change, and will be able to reference the variable's newly assigned object.
+
+- Blocks create a closure when they are passed to a method
+- `Proc` objects and lambdas create a closure when they are created (whent the `Proc` class is instantiated)
+
+Bindings and closure determine the variable scope rules in Ruby. 'Inner scopes' can access 'outer scopes' because, at the time of the code execution in the 'inner scope', variables from the 'outer scope' are variables that are already in scope: they form part of the environment, are part of the binding, so they are retained by the 'inner scope' closures, but not viceversa, because they were not variables that were in scope at the moment of the execution of the code in the 'outer scope'.
 
 ### g. Symbol to proc
 ___
