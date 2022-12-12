@@ -47,11 +47,11 @@ On line 1 is require 'minitest/autorun', which loads all the necessary files fro
 
 Finally, line 5 is where we create our test class. Note that this class must subclass MiniTest::Test. This will allow our test class to inherit all the necessary methods for writing tests.
 
-Within our test class, CarTest, we can write tests by creating an instance method that starts with test_. Through this naming convention, Minitest will know that these methods are individual tests that need to be run. Within each test (or instance method that starts with "test_"), we will need to make some assertions. These assertions are what we are trying to verify. Before we make any assertions, however, we have to first set up the appropriate data or objects to make assertions against. For example, on line 7, we first instantiate a Car object. We then use this car object in our assertion to verify that newly created Car objects indeed have 4 wheels.
+Within our test class, CarTest, we can write tests by creating an instance method that starts with test_. Through this naming convention, Minitest will know that these methods are individual tests that need to be run. Within each test (or instance method that starts with "test_"), we will need to make some assertions. These assertions are what we are trying to verify. Before we make any assertions, however, we have to first set up the appropriate data or objects to make assertions against. 
 
 There are many types of assertions, but for now, just focus on assert_equal. Since we are inside an instance method, you can guess that assert_equal is an inherited instance method from somewhere up the hierarchy. assert_equal takes two parameters: the first is the expected value, and the second is the test or actual value. If there's a discrepancy, assert_equal will save the error and Minitest will report that error to you at the end of the test run.
 
-It's sometimes useful to have multiple assertions within one test (ie, instance method that starts with "test_"), but in the beginning, we'll only show one assertion within one test.
+It's sometimes useful to have multiple assertions within one test (ie, instance method that starts with "test_")
 
 Reading test output
 
@@ -75,7 +75,7 @@ Expectation syntax
 
 Thus far, we've been using the assertion or assert-style syntax. Minitest also has a completely different syntax called expectation or spec-style syntax.
 
-In expectation style, tests are grouped into describe blocks, and individual tests are written with the it method. We no longer use assertions, and instead use expectation matchers. That sounds crazy, but when written out, it reads very nice. Let's see an example of expectation syntax test below. First create a new file called car_spec.rb with the below code.
+In expectation style, tests are grouped into describe blocks, and individual tests are written with the it method. We no longer use assertions, and instead use expectation matchers. That sounds crazy, but when written out, it reads very nice. 
 
 ```ruby
 require 'minitest/autorun'
