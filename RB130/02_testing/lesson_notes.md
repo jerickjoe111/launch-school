@@ -119,3 +119,82 @@ But there are times when we need to make different types of assertions. For exam
 |`assert_raises(*exp) { ... }`|	Fails unless block raises one of *exp.|
 |`assert_instance_of(cls, obj)`|	Fails unless obj is an instance of cls.|
 |`assert_includes(collection, obj)`|	Fails unless collection includes obj.|
+
+Refutations
+
+We won't spend too much talking about refutations, except to say that they are the opposite of assertions. That is, they refute rather than assert. Every assertion has a corresponding refutation. For example, assert's opposite is refute. refute passes if the object you pass to it is falsy. Refutations all take the same arguments, except it's doing a refutation. And yes, there is a refute_equal, refute_nil, refute_includes, etc.
+
+Again, we won't get into refutations because they're rarely used, except for rare circumstances (or if you're on a project where the team lead has chosen this style).
+
+## SEAT Approach
+
+As you read the tests from previous lessons, you might have noticed that we have to set up the car object within each test in order to perform some assertion on it. This seems a little redundant; it would be more optimal to do some set up once outside of each test, then just run the assertions you need. This may seem like a minor and unnecessary savings in lines of code (it may even increase the lines of code), but the savings add up if you have a lot of tests or if the set up process requires a lot of code.
+
+In the previous assignments, we've been quickly diving down into the tests and assertions, but in larger projects, there are usually 4 steps to writing a test:
+
+- Set up the necessary objects.
+- Execute the code against the object we're testing.
+- Assert that the executed code did the right thing.
+- Tear down and clean up any lingering artifacts.
+
+This is the SEAT approach. In our simple tests, we've been doing steps 2 and 3, and we haven't had the need to set up anything or perform any clean up or tear down.
+
+```ruby
+require 'minitest/autorun'
+
+require_relative 'car'
+
+class CarTest < MiniTest::Test
+  def setup
+    @car = Car.new
+  end
+
+  def test_car_exists
+    assert(@car)
+  end
+
+  def test_wheels
+    assert_equal(4, @car.wheels)
+  end
+
+  def teardown
+    # Some code
+  end
+end
+```
+
+The setup method will be called before running each test, and the teardown method (which we don't have) will be called after running each test. In our case, we don't have any tear down activity, so it's not necessary. In some cases, we will need a tear down for cleaning up files or logging some information, or closing database connections.
+
+In the simplest cases, we won't need either set up or tear down, but just keep in mind that there are 4 steps to running any test, and it is SEAT. At the minimum, you'll need EA, even if the E is just a simple object instantiation.
+
+## Testing Equality
+
+We already said that assert_equal is one of the most useful assertions, but how is it testing for equality? Recall from before that equality in Ruby (or any programming language) is not a straight-forward affair. Are we talking object equality? Or value equality? Or both?
+
+When we use assert_equal, we are testing for value equality. Specifically, we're invoking the == method on the object. If we're looking for more strict object equality, then we need to use the assert_same assertion.
+
+Let's take a look at an example. We'll just create a temporary test file to experiment with.
+
+Equality with a custom class
+
+Because the Ruby core library classes all implement sensible == to test for value equality, we can get away with using assert_equal on strings, arrays, hashes, etc. But what happens if we try to use assert_equal on our own custom classes?
+
+The answer is we have to tell Minitest how to compare those objects by implementing our own == method. Let's use our familiar Car class, except we'll add a == method.
+
+## Code Coverage
+
+When writing tests, we want to get an idea of code coverage, or how much of our actual program code is tested by a test suite. You can see from our TodoList tests that all of our public methods are covered. If we are measuring code coverage based on testing the public methods, we could say that we have achieved 100% code coverage. Note that even though we are only testing public code, code coverage is based on all of your code, both public and private. Also, this doesn't mean every edge case is considered, or that even our program is working correctly. It only means that we have some tests in place for every method. There are other ways to measure code coverage too besides looking at public methods. For example, more sophisticated tools can help with ensuring that all branching logic is tested. While not foolproof, code coverage is one metric that you can use to gauge code quality.
+
+There are many code coverage tools, but we'll use a very simple to use one called simplecov.
+
+The code coverage should get closer to 100%. It's not always necessary to get to 100% coverage, but the percentage should depend on the type of project you work on. The more fault tolerant it has to be, the higher the test coverage.
+
+Summary
+
+-Minitest is Ruby's default testing library. It comes installed with Ruby.
+-Minitest tests come in 2 flavors: assert-style and spec-style. Unless you really like RSpec, use assert-style.
+-A test suite contains many tests. A test can contain many assertions.
+-Use assert_equal liberally, but don't be afraid to look up other assertions when necessary. Remember that assert_equal is for asserting value equality as determined by the == method.
+-Use the SEAT approach to writing tests.
+-Use code coverage as a metric to gauge test quality. (But not the only metric.)
+-Practice writing tests -- it's easy!
