@@ -119,7 +119,7 @@ Important topics about `Proc` objects (or _procs_):
     This is a nice shortcut to situations like this:
 
     ```ruby
-      %w( lucas sorribes ).map (&:capitalize)
+      %w( lucas sorribes ).map(&:capitalize)
       # => ['Lucas', 'Sorribes']
     ```
     The symbol `:capitalize` is interpreted as a 'message' to be sent to (or method to be called on) each of the elements in the array.
@@ -128,6 +128,8 @@ Important topics about `Proc` objects (or _procs_):
       %( lucas sorribes ).map { |name| name.capitalize }
       # => ['Lucas', 'Sorribes']
     ```
+
+    However, this shourtcut doesn't work with methods that require arguments.
 
 - the role of procs as closures
 
