@@ -24,7 +24,7 @@ Closures in Ruby:
 
 A **closure** is a concept in general programming that many languages implement in different ways. Closures allow to save chunks of code for a later use and execute them when needed. Closures bind their enviroment: they capture references to the surrounding artifacts (like variables or methods) that are in scope when the closures are created, defining an encapsulation or _enclosure_ around everything, so they still can be referenced and even reassigned when the closure is executed. They can be understood as a special kind of anonymous methods or functions that can be passed around and executed, but with the extra convenience of _remembering_ the entire context in which they were created.
 
-The surrounding artifacts in scope at the time of the closure's creation it's called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure. The closure will keep track of all of them, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object, the closure will keep track of that change, 
+The surrounding artifacts in scope at the time of the closure's creation it's called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure if we want to use it. The closure will keep track of all the artifacts, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object after the closure is created, the closure will keep track of that change, and the variable will refer to the newly assigned value.
 ___
 
 ### a. How methods interact with blocks
@@ -63,7 +63,7 @@ Defining methods with an explicit block parameter:
 We can define a block as a method parameter, the block will be assigned to it so it can be referenced, reassigned, passed around and invoked like any other object stored in a variable.
 To define a explicit block as a parameter, we have to add an `&` symbol before the parameter's name in the method definition.
 Adding the `&` symbol makes Ruby to convert the block we provided to a `Proc` object (an instance of the `Proc` class, the encapsulation of a code block). As it has been already converted, we won't need the `&` symbol to refer to the `Proc` object within the method. This variable is a _handle_ that allows us to pass the `Proc` to another method, and to call methods on it.
-To invoke the `Proc` object within the method's definition, we call the `Proc#call` method on it instead of using `yield`. We can even pass arguments to the explicit block by passing them as arguments to `Proc#call`.
+To invoke the `Proc` object within the method's definition, we call the `Proc#call` method on it instead of using `yield`. We can even pass arguments to the explicit block by passing them as arguments to `Proc#call`. This method, like `yield`, will return the last evaluated expression's return value in the code executed.
 
 
 ### b. Yield
