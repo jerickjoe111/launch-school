@@ -1,11 +1,12 @@
 class Diamond
   ALPHABET_LETTERS = 26
   INNERSPACES = [*(0..ALPHABET_LETTERS * 2)].select { |i| i.zero? || i.odd? }
-  ASCI_LETTER_OFFSET = 64
+  ASCI_LETTER_OFFSET = 'A'.ord - 1
 
   def self.make_diamond(letter)
     system 'clear'
     raise ArgumentError, 'Must be a letter.' unless letter.match?(/[A-Za-z]{1}/)
+
     number = letter_to_number(letter)
     top_diamond(0, number)
     bottom_diamond(1, number - 1)
@@ -53,3 +54,5 @@ class Diamond
     end
   end
 end
+
+Diamond.make_diamond('e')
