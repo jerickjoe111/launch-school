@@ -5,7 +5,7 @@ class Diamond
 
   def self.make_diamond(letter)
     system 'clear'
-    raise ArgumentError, 'Must be a letter.' unless letter.match?(/[A-Za-z]{1}/)
+    raise ArgumentError, 'Must be a letter.' unless letter.match?(/\A[A-Za-z]\z/)
 
     number = letter_to_number(letter)
     top_diamond(0, number)
@@ -55,4 +55,4 @@ class Diamond
   end
 end
 
-Diamond.make_diamond('e')
+Diamond.make_diamond('ee')
