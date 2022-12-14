@@ -1,5 +1,33 @@
 ## Blocks
 
+# 0. Use cases for blocks in your own methods:
+
+
+# a. Add some extra flexibility to generic methods designed to be used with a block:
+  # (select, map, each...) the classic iterators.
+
+  def compare(string)
+    before = string
+    after = yield string
+  
+    puts "Comparing the argument before and after being process by the block: "
+    puts "Before: #{before}"
+    puts "After: #{after}"
+  end
+  
+  compare('aloha', &:capitalize)
+
+# b. To write a kind of 'sandwich' method in which a before and after actions take place,
+  # but allowing the method user to choose via a block what to perform in between those actions:
+  # the classic example is the `File::open` method:
+
+  File.open('some_file.txt') do |file|
+    # This method will open the file, pass it to the block as argument,
+    # execute the code inside the block, and then
+    # close the file for us, instead of having to close it explicitly.
+  end
+
+
 # 1. Closures, binding, and scope
 
 # 2. How blocks work, and when we want to use them
@@ -8,7 +36,7 @@
 
 # 4. Write methods that use blocks and procs
 
-# Method that uses a block:
+# Method that use a block:
 
 
 def my_each(array)
@@ -37,7 +65,6 @@ proc_object = Proc.new do
 end
 
 will_use_proc(proc_object)
-
 
 
 # 5. Understand that methods and blocks can return chunks of code (closures)

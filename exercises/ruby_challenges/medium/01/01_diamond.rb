@@ -1,7 +1,7 @@
 class Diamond
   ALPHABET_LETTERS = 26
   INNERSPACES = [*(0..ALPHABET_LETTERS * 2)].select { |i| i.zero? || i.odd? }
-  ASCI_LETTER_OFFSET = 'A'.ord - 1
+  ASCII_LETTER_OFFSET = 'A'.ord - 1
 
   def self.make_diamond(letter)
     system 'clear'
@@ -55,4 +55,4 @@ class Diamond
   end
 end
 
-Diamond.make_diamond('ee')
+Diamond.make_diamond('z')
