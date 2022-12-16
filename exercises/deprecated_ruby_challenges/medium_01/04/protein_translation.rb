@@ -20,25 +20,19 @@ class Translation
     sequence = []
     rna_string.scan(CODON_FORMAT).each do |codon|
       break if stop?(codon)
+
       sequence << of_codon(codon)
     end
-    
+
     sequence.size == 1 ? sequence.first : sequence
   end
-  
+
   def self.of_codon(codon)
-    translated_codon = ''
-    
     CODONS.each do |aminoacid, sequences|
-      if sequences.include? codon
-        translated_codon = aminoacid 
-        break
-      end
+      return aminoacid if sequences.include? codon
     end
-    
-    translated_codon
   end
-  
+
   class << self
     private
 
@@ -49,7 +43,7 @@ class Translation
     def valid?(rna_string)
       (rna_string.size % 3).zero? && !rna_string.match?(/[^AUGC]/)
     end
-  end  
+  end
 end
 
 class InvalidCodonError < StandardError; end
