@@ -2,30 +2,29 @@
 
 # 0. Use cases for blocks in your own methods:
 
+    # a. Add some extra flexibility to generic methods designed to be used with a block:
+      # (select, map, each...) the classic iterators.
 
-# a. Add some extra flexibility to generic methods designed to be used with a block:
-  # (select, map, each...) the classic iterators.
+      def compare(string)
+        before = string
+        after = yield string
+      
+        puts "Comparing the argument before and after being process by the block: "
+        puts "Before: #{before}"
+        puts "After: #{after}"
+      end
+      
+      compare('aloha', &:capitalize)
 
-  def compare(string)
-    before = string
-    after = yield string
-  
-    puts "Comparing the argument before and after being process by the block: "
-    puts "Before: #{before}"
-    puts "After: #{after}"
-  end
-  
-  compare('aloha', &:capitalize)
+    # b. To write a kind of 'sandwich' method in which a before and after actions take place,
+      # but allowing the method user to choose via a block what to perform in between those actions:
+      # the classic example is the `File::open` method:
 
-# b. To write a kind of 'sandwich' method in which a before and after actions take place,
-  # but allowing the method user to choose via a block what to perform in between those actions:
-  # the classic example is the `File::open` method:
-
-  File.open('some_file.txt') do |file|
-    # This method will open the file, pass it to the block as argument,
-    # execute the code inside the block, and then
-    # close the file for us, instead of having to close it explicitly.
-  end
+      File.open('some_file.txt') do |file|
+        # This method will open the file, pass it to the block as argument,
+        # execute the code inside the block, and then
+        # close the file for us, instead of having to close it explicitly.
+      end
 
 
 # 1. Closures, binding, and scope
@@ -33,6 +32,9 @@
 # 2. How blocks work, and when we want to use them
 
 # 3. Blocks and variable scope
+
+# Blocks have access to local variables that precede them because they are part of the binding when the
+# closure is created; the closure drags the artifacts in scope at the time of its creation
 
 # 4. Write methods that use blocks and procs
 
@@ -56,8 +58,8 @@ def will_use_proc(proc_object)
   proc_object.call
 end
 
-# var_a = 'A'
-# var_b = 'B'
+var_a = 'A'
+var_b = 'B'
 
 proc_object = Proc.new do
   puts var_a
@@ -85,7 +87,8 @@ def will_return_proc
 end
 
 a_proc = will_return_proc 
-# Each proc will have its own closure, its own set of independent copies from the binding at the 
+# Each proc creates its own closure, its own set of independent copies from the binding at the
+# moment of its creation, then the `Proc` class is instantiated.
  
 a = a_proc.call
 # `call`, like `yield`, returns the last evaluated expression's return value from the executed code
@@ -111,7 +114,7 @@ var_a = 'A'
 
 a_method { puts var_a }
 
-# This method will pass around a block
+# This method will pass around a block in the form of a Proc that can be called
 
 def another_method(&a_block)
   a_block # Now a Proc object

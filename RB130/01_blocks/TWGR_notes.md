@@ -1,6 +1,6 @@
 ## Ingredients of iteration:
 
-When you call a method on an object, control is passed to the body of the method (a different scope): and when the methiod has finished executing, control returns to the point right after the point where the method call took place.
+When you call a method on an object, control is passed to the body of the method (a different scope): and when the method has finished executing, control returns to the point right after the point where the method call took place.
 
 ## Iterator:
 
