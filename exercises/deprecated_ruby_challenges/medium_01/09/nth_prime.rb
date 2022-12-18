@@ -7,11 +7,12 @@ class Prime
 
   def self.nth(nth_prime)
     raise ArgumentError if nth_prime.zero?
-    
+
     prime = FIRST_PRIME
     counter = 1
     loop do
       return prime if counter == nth_prime
+
       prime += 1
       prime += 1 until prime?(prime)
       counter += 1
@@ -26,6 +27,3 @@ class Prime
     end
   end
 end
-
-
-p Prime.nth(6)
