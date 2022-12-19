@@ -1,4 +1,3 @@
-## Blocks
 
 # 0. Use cases for blocks in your own methods:
 

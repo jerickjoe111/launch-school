@@ -100,7 +100,7 @@ Two main use cases for using blocks in your own methods are:
 
 1. To defer some implementation code to method invocation decision.
 
-   Blocks allow the method user to fine tune the behavior of a method at invocation time, _extending_ its capabilities without altering the method implementation. This gives the method great flexibility, as we can adapt its generic behavior with a code block appropiate to each situation.
+   Blocks allow the method user to fine tune the behavior of a method at invocation time, extending its capabilities without altering the method implementation. This gives the method great flexibility, as we can adapt its generic behavior with a code block appropiate to each situation.
 
    Example:
 
