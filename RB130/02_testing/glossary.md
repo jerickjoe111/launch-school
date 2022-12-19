@@ -78,7 +78,7 @@ This refers to a strategy commonly used for writing tests.
 
 2. E - Execute the code against the object to test
 
-    The code that you need to execute in order to test it gets runs. Sometimes, code that needs to be executed is simple enough to run within the assertion itself, such as the above example. Other times, it may require multiple steps, and it is better to run it outside of the assertion and save the result in a local variable for comparison.
+    The code that you need to execute in order to test it gets runs. Sometimes, code that needs to be executed is simple enough to run within the assertion itself, but others it may require multiple steps, and it is better to run it outside of the assertion and save the result in a local variable for comparison.
 
 3. A - Assert the results of the execution
 
@@ -94,12 +94,12 @@ The `skip` keyword is a keyword we can use at the beginning of a Minitest test. 
 
 ## Test Suite
 
-A test suite is the entire set of tests that comes with a program. This can include any number of tests: _unit tests_, _integration tests_, _regression tests_, etc.: it is comprised of all the tests involved with a project.
+A test suite is the entire set of tests that comes with a program. This can include any number of tests: unit tests, integration tests, regression tests, etc. A test suit is comprised of all the tests involved with a project.
 
 ## Unit Testing
 
 **Unit Testing** = automated tests that are designed and run in order to ensure that the smallest possible "unit" of a program is functioning as intended. In OOP, this "unit" usually consists of a singe interface, as in that of a class.
 
-The goal of unit testing is to ensure that each isolated piece of a program is functioning correctly.By using individual **assertions**, it provides a written contract that the interface in question must satisfy. We can build "units" based on this contract. Once all the tests pass, we consider the interface in question to be complete.
+The goal of unit testing is to ensure that each isolated piece of a program is functioning correctly.By using individual assertions, it provides a written contract that the interface in question must satisfy. We can build "units" based on this contract. Once all the tests pass, we consider the interface in question to be complete.
 
 Further, we can run these tests each time a change is made, to ensure that the unit in question continually fulfills its obligations and no regression occurs.
