@@ -8,12 +8,12 @@ Common Assertions:
 
 |Assertion|Description|
 |---------|-----------|
-|`assert(test)	`|Fails unless test is truthy.|
-|`assert_equal(exp, act)`|	Fails unless exp == act.|
-|`assert_nil(obj)`|	Fails unless obj is nil.|
-|`assert_raises(*exp) { ... }`|	Fails unless block raises one of *exp.|
-|`assert_instance_of(cls, obj)`|	Fails unless obj is an instance of cls.|
-|`assert_includes(collection, obj)`|	Fails unless collection includes obj.|
+|`assert(test)	`|Fails unless `test` is truthy.|
+|`assert_equal(exp, act)`|	Fails unless `exp == act`.|
+|`assert_nil(obj)`|	Fails unless `obj` is `nil`.|
+|`assert_raises(*exp) { ... }`|	Fails unless `block` raises an exception of `*exp`.|
+|`assert_instance_of(cls, obj)`|	Fails unless `obj` is an instance of `cls`.|
+|`assert_includes(collection, obj)`|	Fails unless `collection` includes `obj`.|
 
 There are also _refutations_, not very widely used, with the opposite effect: they refute rather than assert. Every assertion has a corresponding refutation. They confirm that these two results are _not_ in line with each other. Where as assertions _assert_ (prove an expression to be true), refutations _refute_. They prove an expression to be _false_. Every assertion has a corresponding refutation. The corresponding refutation takes the exact same arguments as the assertion, except looks for a false of falsey result.
 
@@ -35,7 +35,7 @@ This will generate a file within a coverage directory that measures your code co
 
 ## DSL
 
-_DSL_ or _Domain Specific Language_ is a higher level language built within another language that helps solve a problem within a specific domain, an specialized application within another language. Examples of this are the expectation-style syntax in Minitest, the Ruby testing tool RSpec, or even the framework Rails.
+_DSL_ or _Domain Specific Language_ is a high level language built within another language that helps solve a problem within a specific domain, an specialized application within another language. Examples of this are the expectation-style syntax in Minitest, the Ruby testing tool RSpec, or even the framework Rails.
 
 ## Equivalence and equality
 
