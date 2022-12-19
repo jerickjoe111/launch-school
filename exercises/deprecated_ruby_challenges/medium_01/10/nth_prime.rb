@@ -1,7 +1,3 @@
-# prime:
-
-# only divisible between 1 and itself
-
 class Prime
   FIRST_PRIME = 2
 
