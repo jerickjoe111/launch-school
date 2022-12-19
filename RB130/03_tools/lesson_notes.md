@@ -32,12 +32,13 @@ Rake
 
 ## What gets installed with Ruby?
 
+- the `ruby` command to run Ruby programs
 - The core library
 - The standard Library
-- The irb REPL (Read Evaluate Print Loop)
-- The rake utility: a tool to automate Ruby development tasks
-- The gem command: a tool to manage RubyGems
-- Documentation tools (rdoc and ri)
+- The `irb` REPL (Read Evaluate Print Loop)
+- The `rake` utility: a tool to automate Ruby development tasks
+- The `gem` command: a tool to manage RubyGems
+- Documentation tools (`rdoc` and `ri`)
 
 ## Gems
 
