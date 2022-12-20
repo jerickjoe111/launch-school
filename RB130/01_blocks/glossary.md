@@ -31,7 +31,7 @@ Bindings and closures determine the variable scope rules in Ruby. 'Inner scopes'
 
 ## Block
 
-A block is a body of code delimited by curly braces or `do`..`end` keywords. (The difference between the two ways of delimiting a code block is a difference in precedence) Every Ruby method can take an implicit block, however, how the method makes use of the block depends on the method's implementation.
+A block is not an object, but a body of code delimited by curly braces or `do`..`end` keywords. (The difference between the two ways of delimiting a code block is a difference in precedence) Every Ruby method can take an implicit block; however, how the method makes use of the block depends on the method's implementation.
 
 In Ruby, code blocks work as closures (the closure is created when the block is passed to the method)
 
@@ -45,19 +45,19 @@ We can use the `Kernel#block_given?` method, that will return `true` if a block 
 
 ## Yield
 
-With the `yield` keyword we can execute the code inside the block (a.k.a. calling the block) provided to the method from within the method's definition.
+With the `yield` keyword we can execute the code inside the block (a.k.a. _calling_ the block), from within the method's definition.
 
 When the method yields to the block, the code in the block runs, and then control returns to the method. Yielding isn’t the same as returning from a method. Yielding takes place while the method is still running. After the code block is executed, control returns to the method at the expression immediately following the call to yield.
 
-If a method's implementation contains a yield, the method user can inject aditional code in the middle of the method execution without altering the method's definition. This provides a very handy extra flexibility to the method, hence one of the great advantages of using code blocks in Ruby.
+If a method's implementation contains a `yield`, the method user can inject aditional code in the middle of the method execution without altering the method's definition. This provides a very handy extra flexibility to the method, hence one of the great advantages of using code blocks in Ruby.
 
-The `LocalJumpError` exception is raised when the method includes a `yield` and expects a block that was not provided in the method invocation. This error can be avoided wrapping the `yield` call in a conditional, making use of the `Kernel#block_given?` method. This provides the flexibility for a method to work with and without a block.
+The `LocalJumpError` exception is raised when the method includes a `yield` and expects a block that was not provided in the method invocation. This error can be avoided by wrapping the `yield` call in a conditional, making use of the `Kernel#block_given?` method. This provides the flexibility for a method to work with and without a block.
 
 We can define block parameters in the block we provide to the method (between `|` after `{ `or `do`). Within the block, the parameter will be a _block local variable_, a special type of local variable whose scope is limited to the block. If we name a block parameter like a variable in scope when the block is defined, that outer variable will be _shadowed_ by the parameter of the same name, and we won't be able to access that outer variable from within the block.
 
-`yield` accepts an argument list that will be passed to the block, in which the block parameters will be assigned to the arguments passed in from the method, so they can work as block local variables within the block. These arguments can be mutated permanently by a destructive method inside the block like any other method.
+`yield` accepts an argument list that will be passed to the block, in which the block parameters will be assigned to the arguments passed in from the method, so they can work as block local variables within the block. These arguments can be mutated permanently by a destructive method inside the block like any other method. And it's important to remember as well that blocks (like `Proc` objects), contrary to _lambdas_ and methods, have _lenient arity_.
 
-`yield` returns the return value of the block it yields to, which which will be its last evaluated expression.
+`yield` returns the return value of the block it yields to, which will be its last evaluated expression. This way, we can store the block's return value via `yield` in a variable, and then handle this value inside the method or return it like any other object.
 
 ...
 
@@ -67,9 +67,9 @@ The code block, like methods, can take arguments. When a method yields, it can y
 
 ## Explicit block parameters
 
-Being anonymous, the only way we can handle or execute a block within the method is with a call to `yield`, passing  any arguments it may require. We can save its return value into a local variable but not the block itself. However, we can define explicit block parameters so we can capture a block, execute it, and pass it around as any other object, by converting it into a `Proc` object, that embodies the idea of a _callable object_. This way, we it can be manipulated in a way that a block cannot.
+Being anonymous, the only way we can handle or execute a block within the method is with a call to `yield`, passing  any arguments it may require. We can save its return value into a local variable but not the block itself. However, we can define explicit block parameters so we can capture a block, execute it, and pass it around as any other object, by converting it into a `Proc` object, that embodies the idea of a _callable object_. This way, it can be manipulated in a way that a block cannot.
 
-As with `yield`, the `call` method returns the value returned from the code executed, and can take arguments.
+As with `yield`, the `call` method returns the value returned from the body of code executed, and can take arguments.
 
 ## Proc
 
@@ -77,7 +77,7 @@ The idea of a callable object is embodied as an object on which you can call the
 
 The main callable objects in Ruby are: `Proc` objects, _lambdas_ and method objects.
 
-`Proc` objects are self-contained code sequences that you can create, store, pass around as arguments and be called via the `call` method.
+`Proc` objects are self-contained code sequences that you can create, store, pass around as arguments and be called via the `call` method, and a way Ruby has to implement closures.
 
 Important topics about `Proc` objects (or procs):
 
@@ -95,17 +95,17 @@ But also a `Proc` object can serve as a block stand-in at the method invocation 
 
 ## Lambda
 
-_Lambdas_ are similar to `Proc` objects (are also instances of `Proc`), with some specific syntax and behavior (like strict arity and the effect of the keyword `return`).
+_Lambdas_ are similar to `Proc` objects (are also instances of `Proc`), with some specific syntax and behavior (like strict arity and the effect of the keyword `return`). a `lambda` is another way Ruby implements closures.
 
 ## Arity
 
-Arity refers to the rule regarding the number of arguments that you must pass a block, proc or `lambda`.
+Arity refers to the rule regarding the number of arguments that we must pass to a method, block, `Proc` object or `lambda`.
 
-In Ruby, blocks and procs have _lenient arity_, meaning that Ruby doesn't raise an exception when less or more arguments are passed to the block than the number of defined parameters.
+In Ruby, blocks and _procs_ have _lenient arity_, meaning that Ruby doesn't raise an exception when less or more arguments are passed to the block than the number of defined parameters.
 
 Methods and _lambdas_ have _strict arity_, which means that the same number of arguments have to be passed to them as the number of parameters the method or `lambda` defines.
 
-If the method or block allows any kind of optional arguments (like *sponge arguments), the arity rules do not apply to those arguments.
+However, if a method, block, `Proc` object or `lambda` accepts optional arguments (like sponge `*arguments`), these rules are not applied.
 
 ## leading &
 
@@ -124,20 +124,7 @@ Now the block has been converted into an object that can be referenced and passe
 
 ## &:symbol
 
-When applied to an argument for a method, a lone `&` causes ruby to try to convert that object to a block. If that object is already proc, the conversion happens automatically. If the object is not a proc, then `&` attempts to call the `#to_proc` method on the object first. Used with symbols, e.g., `&:to_s`, Ruby creates a proc that calls the `#to_s` method on a passed object, and then converts that proc to a block. This is the "symbol to proc" operation (though perhaps it should be called "symbol to block").
-
-If we want to invoke a method on each element in a collection, we can use the shortcut:
-
-`collection_object.method(&:symbol_name_for_method_to_be_invoked_on_each_element)`
-Unfortunately, we can't use this shortcut for methods that take arguments.
-
-The mechanism at work is:
-
-- We apply the `&` operator to an object (usually referenced by a variable)
-- Ruby converts the object to a `Proc` if not already one. (calling `Symbol#to_proc` in the example)
-- Ruby then converts the Proc into a block
-
-...
+When applied to an argument being passed to a method, a leading `&` causes ruby to try to convert that object to a block. If that object is already a _proc_, the conversion happens automatically. If the object is not a _proc_, then `&` attempts to call the `#to_proc` method on the object first. Used with symbols, e.g., `&:to_s`, Ruby creates a _proc_ that calls the `#to_s` method on a passed object, and then converts that _proc_ to a block. 
 
 This is a nice shortcut to situations like this:
 ```ruby

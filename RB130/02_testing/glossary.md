@@ -41,11 +41,11 @@ _DSL_ or _Domain Specific Language_ is a high level language built within anothe
 
 Different types of assertion use different methods to test for equality:
 
-`assert_equal` tests equivalence or _value equality_: it uses the `==` method defined for the object's class to check if two objects have the same value.
+`assert_equal` tests equivalence or _value equality_: it uses the `#==` method defined for the object's class to check if two objects have the same value.
 
 `assert_same` tests equality or  _object equality_: it checks if two objects are indeed the same object in memory. Two different objects with equivalent values will not be considered equal in this case.
 
-Because `assert_equal` uses the `==` method to determine value equivalence, if the objects being tested are custom defined objects, we need to ensure that a custom `==` has been implemented for the objects in their class; remember that the inherited `BasicObject#==` method checks for _object equality_, having the same effect that `assert_same`, and not equivalence, which is what we want.
+Because `assert_equal` uses the `#==` method to determine value equivalence, if the objects being tested are custom defined objects, we need to ensure that a custom `#==` has been implemented for the objects in their class; remember that the inherited `BasicObject#==` method checks for _object equality_, having the same effect that `assert_same`, and not equivalence, which is what we want.
 
 ## Minitest
 

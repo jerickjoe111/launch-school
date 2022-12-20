@@ -1,7 +1,7 @@
 ## Concept examples
 
 
-### Closures
+### Closures, scope and binding
 
 ```ruby
 def will_return_proc
@@ -58,13 +58,14 @@ Here we see that `my_proc` and `my_proc2` can have different outputs: each one r
 
 Here we see that that the closure formed by the `Proc` keeps track of the variables's new value, even if we reassigned it after the closure's creation.
 
+
 ## Blocks in our own methods:
 
 Two main use cases for using blocks in your own methods are:
 
 1. To defer some implementation code to method invocation decision.
 
-   Blocks allow the method user to fine tune the behavior of a method at invocation time, extending its capabilities without altering the method implementation. This gives the method great flexibility, as we can adapt its generic behavior with a code block appropiate to each situation.
+   Blocks allow the method user to fine tune the behavior of a method at invocation time, extending its capabilities without altering the method implementation. This gives the method great flexibility, as we can adapt its generic behavior with a code block appropiate to each situation. (Here lies the power of methods like `each`, `map`, etc.)
 
 ```ruby
 def compare(string)
@@ -92,5 +93,39 @@ end
 ```
 
 ## Explicit block parameters
+
+```ruby
+def a_method(&block)
+  block.call
+end
+
+var_a = "Hello I am var_a"
+
+a_method { puts var_a }
+```
+
+In this case, the execution starts on line 104, after we've initialized the local variable `var_a` to a string object on line 102. We invoke the `a_method`, passing a block implicitly; however, thanks to the leading `&` on the `block` method parameter, we are indicating ruby to convert the passed in block to a `Proc` object, and assigning the local variable `block` to this object. This way, we can handle, use, pass around and return this `proc` as any other object.
+When the block was passed to `a_method_` a closure was created, dragging around with it a copy of the variable `var_a`, part of the binding at that point of the program. When, inside the method definition, we invoke `call` on the `proc` `block` (we don't need the leading `&` anymore as it is already converted to a `proc`), the code associated with this `Proc` is executed, proving that, from another different scope we still can execute the code properly, as the `var_a` variable was retained by the closure, and we still can access it from within the method definition.
+
+As `nil` is the return value from `call` inside the method (the call to `puts` being the last evaluated expression in the code block that was executed),  `nil`  becomes the `a_method` return value.
+
+## Blocks and methods can return closures too
+
+```ruby
+def a_method
+  puts "This will return a proc object from the block"
+  proc_from_block = yield('passed to yield')
+  proc_from_block
+end
+
+a_proc = a_method { |string| Proc.new { puts string } }
+
+# a_proc.call
+```
+
+The execution starts on line 108: `a_method` is called implicitly on `self` (`main`), passing a block implicitly to it, and then execution jumps into the method definition (lines 102-106); first, the method `puts` is called passing a string as argument that gets printed on the screen; then the line 104 is executed: `yield`, invoked with a string argument, yields control to the block on line 108, in which the parameter `string` will be assigned to the string passed from `yield` (`'passed to yield'`). 
+
+Inside the block, a `Proc` object is instantiated, creating a closure that retains a copy of the block local variable `string`, part of the binding at that point, and saving the block passed as argument to `Proc#new` as the code associated to that `Proc` object. Aftter the code inside the block on line 108 is executed, control returns to the method definition, where the `Proc` object is returned from `yield` (as the block's return value), and stored in the local variable `proc_from_block`. On the next line 105, this variable, as the last expression in the definition, will become the method's return value: back on the line 108, the `Proc` object returned from `a_method` is stored in the `a_proc` local variable. To execute the `Proc` object code, we will have to invoke `call` on this variable. If we do, we will see that its closure retained the block local variable `string`, and that we can access the value of that variable 'outside' the method definition, apparently violating the local variables scope rules. This is one of the main advantages of using closures.
+
 
 

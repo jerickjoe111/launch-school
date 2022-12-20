@@ -1,16 +1,16 @@
 
 ## Overview
 
-- [RubyGems](https://rubygems.org/) provides a library of code packages called gems. These can be downloaded and either run from the command line or within Ruby programs, with the `require` keyword. Use the `gem` command from the command line interface to manage, install, and otherwise manipulate these code packages.
-  - RubyGems also provides us with a standardized template, format, and structure for releasing our own gems. In face, all Ruby projects are packaged using the RubyGems format.
+- [RubyGems](https://rubyGems.org/) provides a library of code packages called Gems. These can be downloaded and either run from the command line or within Ruby programs, with the `require` keyword. Use the `gem` command from the command line interface to manage, install, and otherwise manipulate these code packages.
+  - RubyGems also provides us with a standardized template, format, and structure for releasing our own Gems. In face, all Ruby projects are packaged using the RubyGems format.
 
 - [Ruby Version Managers](#ruby-version-managers) are pieces of software that help us deal with the fact that we may have multiple versions of Ruby installed on our local system. We want to make sure that our project Ruby (often standardized when multiple developers are working on the same project) is the right version, as well as matching the Ruby that we may be running in our environnement. Ruby Version managers such as RVM and Rbenv can help us deal with the complications that can arise from this.
 
-- **Bundler** is a gem that manages dependencies in a Ruby project. In the project's main folder the developer includes a `Gemfile` that contains all the information regarding the Ruby version, the gems the project relies on, and what version of those gems the project will need to work properly. Then, when distributing the program to other systems, Bundler will know what gems and version to install, as well as making sure to utilize the correct version of Ruby and the gems.
+- **Bundler** is a gem that manages dependencies in a Ruby project. In the project's main folder the developer includes a `Gemfile` that contains all the information regarding the Ruby version, the Gems the project relies on, and what version of those Gems the project will need to work properly. Then, when distributing the program to other systems, Bundler will know what Gems and version to install, as well as making sure to utilize the correct version of Ruby and the Gems.
 
 - **Rake** is a gem that allows us to automate tasks, mostly about the having to do with the building, testing, packaging, and installation of a program. We define these tasks in a `Rakefile` which uses a simple DSL (Domain Specific Language) to define _tasks_, small Ruby programs, that can be executed from the command line with `rake`.
 
-- `.gemspec` is a file included in all Gem projects. It provides information such as name, summary, authors, contact info, etc about a released Gem. If we want to release a program or library as Gem we must include a `.gemspec` file.
+- `.Gemspec` is a file included in all Gem projects. It provides information such as name, authors, contact info, etc about a released Gem. If we want to release a program or library as Gem we must include a `.Gemspec` file.
 
 ## Installing Ruby
 
@@ -31,6 +31,18 @@ These are the tools that come with the Ruby installation
 - The `rake` utility: a tool to automate Ruby development tasks
 - The `gem` command: a tool to manage RubyGems
 - Documentation tools (`rdoc` and `ri`)
+
+## Relationships
+
+The Ruby Version Manager its at the top of the hierarchy: it controls multiple installations of Ruby and all the other tools.
+
+Within each installation of Ruby (each Ruby version), there can be many different Gems, and each Gem becomes accessible to the Ruby version in which it was installed. To use the same Gem in different versions of Ruby, we will have to install the Gem in each version we'd like to use it with. There can be many versions of the same Gem under the same Ruby installation: sometimes some projects need specific versions of Gems, different from the ones we usually use or the most recent.
+
+Each Ruby project (a program or library that uses Ruby as its main language) is designed to be used under a specific version of Ruby, often with specific Gems and Gems versios.
+
+Bundler is a Gem used to manage the Gem dependencies of our projects. It is very useful because it determines and controls the Ruby version and Gems our projects use, and makes sure that all the necessary components and dependencies are present for the correct working of our programs.
+
+Fake is a Gem for general use, not tied to specific projects. With this tool, we can write repetitive development tasks, such as running tests, building databases, packaging and releasing the software, etc. Rake uses a `Rakefile` file to determine what tasks should be performed for a particular project.
 
 ## Ruby Version Managers
 
@@ -67,7 +79,7 @@ Precisely where `gem` creates the local library depends on several factors, incl
 - `RUBY VERSION`: shows the version number of the Ruby associated with the `gem` command (recall that each Ruby has it's own version of `gem`)
 - `RUBY EXECUTABLE`: location of the `ruby` command you should use with this particular `gem` command.
 - `INSTALLATION DIRECTORY`: where `gem` installs Gems
-- `USER INSTALLATION DIRECTORY`: if `gem` installs gems in your home directory instead of on a system level
+- `USER INSTALLATION DIRECTORY`: if `gem` installs Gems in your home directory instead of on a system level
 - `EXECUTABLE INSTALLATION DIRECTORY`: Where `gem` stores commands that can be used directly from the command line interface. Should be included in the shell `PATH` variable (this is usually handled by RVM)
 - `REMOTE SOURCES`: Remove lib used by the `gem` installation
 - `SHELL PATH`: value of the shell `PATH` variable
@@ -80,9 +92,9 @@ Bundler is a gem that helps us manage programs that rely on features from differ
 
 ## Bundler
 
-Many times our programs will use determined gems and specefic versions that the program user won't have installed in the system. The needed gems and versions for a program to run are called its dependencies (and those gems can have their own dependencies too) We can use our version manager to manage Gem dependencies, but the simplest and most common approach is to use a dependency manager: Bundler
+Many times our programs will use determined Gems and specefic versions that the program user won't have installed in the system. The needed Gems and versions for a program to run are called its dependencies (and those Gems can have their own dependencies too) We can use our version manager to manage Gem dependencies, but the simplest and most common approach is to use a dependency manager: Bundler
 
-Bundler is itself a gem: it makes much easier to set the installation and environment use of different multiple versions of Ruby and gems for a specific project. It can:
+Bundler is itself a gem: it makes much easier to set the installation and environment use of different multiple versions of Ruby and Gems for a specific project. It can:
 
 - Specify which Ruby and which Gems we want to use with a Ruby program
 - Install that specific versions of each gem under a the appropiate version of Ruby
@@ -91,19 +103,19 @@ Bundler does not come with Ruby, and it needs to be installed with the command `
 
 ### Gemfile and Gemfile.lock
 
-To use Bundler, we must include a `Gemfile` in our project's main directory, a configuration file for Bundler. This utilizes a specific DSL to Bundler indicate what Ruby version and gems will. It can inlude the folowing data:
+To use Bundler, we must include a `Gemfile` in our project's main folder, a configuration file for Bundler. This utilizes a specific DSL to Bundler indicate what Ruby version and Gems will. It can inlude the folowing data:
 
-- `source`: the remote library where any gems to be installed can be found (most usually, `https://rubygems.org`).
+- `source`: the remote library where any Gems to be installed can be found (most usually, `https://rubyGems.org`).
 - `ruby`: tells what Ruby version we want the program to use.
 - `gem`: tells the gem name and the version we want the project to use (Note that each individual gem the project utilizes needs it's own `gem` statement.
 - plus an optional `~>` argument after the name of the game: for example `gem 'minitest', '~> 5.10'` means that we want a version of at least 5.10 of minitest, but prior to version 6.0.
 
-- `gemspec`: statement that tells the `Gemfile` if there is a `gemspec` file
+- `Gemspec`: statement that tells the `Gemfile` if there is a `Gemspec` file
 
 For example:
 
 ```ruby
-source 'https://rubygems.org'
+source 'https://rubyGems.org'
 
 ruby '2.7.5'
 gem 'rack'
@@ -116,15 +128,15 @@ If there are any changes made to the `Gemfile`, the `bundle install` command mus
 
 ### Using Bundler
 
-We have to add `require 'bundler/setup'` to the beginning of our source files in order to use Bundler, before any other required gems, otherwise these gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the gems.
+We have to add `require 'bundler/setup'` to the beginning of our source files in order to use Bundler, before any other required Gems, otherwise these Gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the Gems.
 
 Bundler is really simple: it does not modify how Ruby versions and Gems are stored. This is determined by the Ruby Version Manager.
 
 ### bundle exec
 
-Use the `bundle exec` command from the command line when we can't add the `require 'bundler/setup'` statement directly to the source files (such as with the `Rakefile`), or when there are dependency conflicts within the project itself, or between the gems usded in the environment by default and those used in the project.
+Use the `bundle exec` command from the command line when we can't add the `require 'bundler/setup'` statement directly to the source files (such as with the `Rakefile`), or when there are dependency conflicts within the project itself, or conflicts between the Gems used in the environment by default and those used in the project.
 
-The `bundle exec` command makes sure that the command we are executing will execute in an environment that includes the versions outlined in the `Gemfile.lock`. This is normally used for gems that run directly from the command line, like `pry`, `rake`, etc., which may have different versions of Ruby and gems than the ones in the `Gemfile.lock`. Because the shell can't access the `Gemfile.lock` file, we use `bundle exec` to ensure the environment uses the correct version, and not the system default.
+The `bundle exec` command makes sure that the command we are executing will execute in an environment that includes the versions outlined in the `Gemfile.lock`. This is normally used for Gems that run directly from the command line, like `pry`, `rake`, etc., which may have different versions of Ruby and Gems than the ones in the `Gemfile.lock`. Because the shell can't access the `Gemfile.lock` file, we use `bundle exec` to ensure the environment uses the correct version, and not the system default.
 
 If we see an error message like:
 

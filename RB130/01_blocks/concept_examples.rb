@@ -113,7 +113,7 @@ var_a = 'A'
 
 a_method { puts var_a }
 
-# This method will pass around a block in the form of a Proc that can be called
+# This method will pass around a block in the form of a `Proc` that can be called
 
 def another_method(&a_block)
   a_block # Now a Proc object
@@ -131,6 +131,8 @@ a_method(&a_proc) # At the method invocation level the & operator converts a pro
 # returns may have something interesting to say later on. 
 # And with a closure, you can preserve that variable so it can 
 # continue to provide information of calculation results.
+
+
 
 # 7. Arguments and return values with blocks
 
@@ -172,6 +174,13 @@ end
 
 another_method { puts "a block" }
 # The block ignores the arguments passed from `yield`
+
+def a_method(arg1, arg2)
+end
+
+a_method(1)
+# This code will raise an exception, as we can't provide less
+# arguments that parameters defined for a method.
 
 # This demonstrates that blocks (and `Proc` objects have LENIENT ARITY)
 
