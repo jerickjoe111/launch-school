@@ -155,7 +155,7 @@ Rake comes with recent versions of Ruby and it's not necessary to install it to 
 
 We can define the tasks to be executed in for a particular project by adding a `Rakefile` to the project's main folder. This file will include the name, description, and actual code behind any of the tasks we want to automate. It is written in Ruby with some specific DSL methods that belong to Rake:
 
-- `desc`: With a strign that gives a short description of the task
+- `desc`: With a string that gives a short description of the task
 - `task`: which defines the task with a code block (or list of task dependencies)
 
 ```ruby
