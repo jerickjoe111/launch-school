@@ -52,9 +52,9 @@ Also, when when working on multiple applications, usually there is the tendendy 
 
 There are two major common Ruby version managers : RVM and rbenv.
 
-- RVM includes more features, and works by _dynamically_ managing our development environment (command line).
+- RVM includes more features, and works by dynamically managing the command line environment 
 
-- rbenv does not initially include as many features, but allows us to install 'plugins' that give more functionality. Works mostly by modifying the environment variables (`$PATH`).
+- rbenv does not include as many features, but allows us to install 'plugins' that give more functionality. Works mostly by modifying the environment variables (`$PATH`).
 
 ## Gems
 
