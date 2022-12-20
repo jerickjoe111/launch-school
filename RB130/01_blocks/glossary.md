@@ -31,13 +31,11 @@ Bindings and closures determine the variable scope rules in Ruby. 'Inner scopes'
 
 ## Block
 
-Every Ruby method can take an implicit block, however, how the method makes use of the block depends on the method's implementation.
-
-By providing a code block, you're giving a method a chunk of code to which it can _yield_ or pass control. When the method yields to the block, the code in the block is executed, and then control returns to the method, to the immediate expression after the `yield` invocation.
+A block is a body of code delimited by curly braces or `do`..`end` keywords. (The difference between the two ways of delimiting a code block is a difference in precedence) Every Ruby method can take an implicit block, however, how the method makes use of the block depends on the method's implementation.
 
 In Ruby, code blocks work as closures (the closure is created when the block is passed to the method)
 
-Curly braces or `do`..`end` key words delimit the block. The difference between the two ways of delimiting a code block is a difference in precedence.
+By providing a code block, you're giving a method a chunk of code to which it can _yield_ or pass control. When the method yields to the block, the code in the block is executed, and then control returns to the method, to the immediate expression after the `yield` invocation.
 
 Blocks have direct access to variables that already exist. However, block parameters behave differently from non-parameter variables. They work as _block local variables_, a special type of local variable in which the scope is constrained to the block.  If you have a variable of a given name in scope and also use that name for one of the block parameters, then the two variables, the one that exists and the one in the parameter list, are not the same as each other (this is called _shadowing_, as the parameter shadows the outer variable).
 
