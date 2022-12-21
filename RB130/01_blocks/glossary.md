@@ -17,17 +17,17 @@ Closures are important because they preserve the partial running state of a prog
 ## Binding
 
 The set of surrounding artifacts in scope at the time of the closure's creation is called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure if we want to use it inside it. 
-When the closure is created, it 'binds' and drags around its envinonment with it: The closure will keep track of all the artifacts, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object after the closure is created, the closure will keep track of that change, and the variable will refer to the newly assigned value. Each closure has its own set of variable copies.
+When the closure is created, it 'binds' and drags around its environment with it: The closure will keep track of all the artifacts, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object after the closure is created, the closure will keep track of that change, and the variable will refer to the newly assigned value. Each closure has its own set of variable copies.
 
 ## Scope
 
 The scope refers to the 'visibility' or 'accessibility' of an artifact (local variable, constant, method...) at a determined point of the program. If an artifact is accessible, we say it is 'in scope'.
 
-Blocks share local scope with the code that preceds them. 
+Blocks have access to local variables that precede them because they are part of the binding when the closure is created; the closure drags the artifacts in scope at the time of its creation.
 
 In Ruby, blocks serve as closures: they can serve as the bodies of anonymous function objects, and those objects preserve the local variables and other artifacts that are in scope at the time of their creation, even if the function objects get handed around other local scopes.
 
-Bindings and closures determine the variable scope rules in Ruby. 'Inner scopes' can access 'outer scopes' because, at the time of the code execution in the 'inner scope', variables from the 'outer scope' are in effect, they are part of the binding, so they are retained by the 'inner scope' closures, but not viceversa, because they are not in scope (not part of the binding when the closure is formed) at the moment of the 'outer scope' code execution.
+Bindings and closures determine the variable scope rules in Ruby, and they are behind what we call 'inner' and 'outer' scopes: 'Inner scopes' can access variables from the 'outer scopes' because, at the time of the code execution in the 'inner scope', variables from the 'outer scope' are in effect, they are part of the binding, so they are retained by the 'inner scope' closures, but not viceversa, because those variables are not in scope (not part of the binding when the closure is formed) at the moment of the 'outer scope' code execution.
 
 ## Block
 
@@ -43,6 +43,8 @@ Code blocks always return a value: its last evaluated expression. The return val
 
 We can use the `Kernel#block_given?` method, that will return `true` if a block is provided, thus making methods that include the `yield` keyword more flexible and safe, allowing us to wrap it in a conditional, for example.
 
+We can define block parameters in the block we provide to the method (between `|` after `{ `or `do`, to which the arguments passed in to `yield` will be assigned. Within the block, the parameter will be a _block local variable_, a special type of local variable whose scope is limited to the block. If we name a block parameter like a variable in scope when the block is defined, that outer variable will be _shadowed_ by the parameter of the same name, and we won't be able to access that outer variable from within the block.
+
 ## Yield
 
 With the `yield` keyword we can execute the code inside the block (a.k.a. _calling_ the block), from within the method's definition.
@@ -52,8 +54,6 @@ When the method yields to the block, the code in the block runs, and then contro
 If a method's implementation contains a `yield`, the method user can inject aditional code in the middle of the method execution without altering the method's definition. This provides a very handy extra flexibility to the method, hence one of the great advantages of using code blocks in Ruby.
 
 The `LocalJumpError` exception is raised when the method includes a `yield` and expects a block that was not provided in the method invocation. This error can be avoided by wrapping the `yield` call in a conditional, making use of the `Kernel#block_given?` method. This provides the flexibility for a method to work with and without a block.
-
-We can define block parameters in the block we provide to the method (between `|` after `{ `or `do`). Within the block, the parameter will be a _block local variable_, a special type of local variable whose scope is limited to the block. If we name a block parameter like a variable in scope when the block is defined, that outer variable will be _shadowed_ by the parameter of the same name, and we won't be able to access that outer variable from within the block.
 
 `yield` accepts an argument list that will be passed to the block, in which the block parameters will be assigned to the arguments passed in from the method, so they can work as block local variables within the block. These arguments can be mutated permanently by a destructive method inside the block like any other method. And it's important to remember as well that blocks (like `Proc` objects), contrary to _lambdas_ and methods, have _lenient arity_.
 

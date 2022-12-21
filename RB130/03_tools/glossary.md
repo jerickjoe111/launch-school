@@ -10,7 +10,7 @@
 
 - **Rake** is a gem that allows us to automate tasks, mostly about the having to do with the building, testing, packaging, and installation of a program. We define these tasks in a `Rakefile` which uses a simple DSL (Domain Specific Language) to define _tasks_, small Ruby programs, that can be executed from the command line with `rake`.
 
-- `.Gemspec` is a file included in all Gem projects. It provides information such as name, authors, contact info, etc about a released Gem. If we want to release a program or library as Gem we must include a `.Gemspec` file.
+- `.gemspec` is a file included in all Gem projects. It provides information such as name, authors, contact info, etc about a released Gem. If we want to release a program or library as Gem we must include a `.gemspec` file.
 
 ## Installing Ruby
 
@@ -20,7 +20,7 @@ Use a [Ruby Version Manager](#ruby-version-managers) (such as _RVM_ or _rbenv_) 
 
 We can use the command `which ruby` to see where our system finds the `ruby` command. If `/usr/bin/ruby` is output, we are using the system version of Ruby.
 
-W can use the command `ruby -v` to find out what version of Ruby is currently running.
+We can use the command `ruby -v` to find out what version of Ruby is currently running.
 
 These are the tools that come with the Ruby installation
 
@@ -97,7 +97,7 @@ Many times our programs will use determined Gems and specefic versions that the 
 Bundler is itself a gem: it makes much easier to set the installation and environment use of different multiple versions of Ruby and Gems for a specific project. It can:
 
 - Specify which Ruby and which Gems we want to use with a Ruby program
-- Install that specific versions of each gem under a the appropiate version of Ruby
+- Install that specific versions of each Gem under a the appropiate version of Ruby
 
 Bundler does not come with Ruby, and it needs to be installed with the command `gem install bundler`. Note that it needs to be installed for each version of Ruby that we want to use with the project.
 
@@ -110,7 +110,7 @@ To use Bundler, we must include a `Gemfile` in our project's main folder, a conf
 - `gem`: tells the gem name and the version we want the project to use (Note that each individual gem the project utilizes needs it's own `gem` statement.
 - plus an optional `~>` argument after the name of the game: for example `gem 'minitest', '~> 5.10'` means that we want a version of at least 5.10 of minitest, but prior to version 6.0.
 
-- `Gemspec`: statement that tells the `Gemfile` if there is a `Gemspec` file
+- `Gemspec`: statement that tells the `Gemfile` if a `Gemspec` file is available
 
 For example:
 
@@ -128,11 +128,13 @@ If there are any changes made to the `Gemfile`, the `bundle install` command mus
 
 ### Using Bundler
 
-We have to add `require 'bundler/setup'` to the beginning of our source files in order to use Bundler, before any other required Gems, otherwise these Gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the Gems.
+We have to add `require 'bundler/setup'` to the beginning of all our source files (even tests) in order to use Bundler, before any other required Gems, otherwise these Gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the Gems.
 
 Bundler is really simple: it does not modify how Ruby versions and Gems are stored. This is determined by the Ruby Version Manager.
 
 ### bundle exec
+
+We used `bundle exec` rake instead of just rake; you should use `bundle exec rake` whenever you use Rake with a project that uses Bundler. Although you use `bundle exec rake` to run the `rake` command, Rake itself is not a component of Bundler. We use `bundle exec` just to make sure we're using the Bundler environment with any code we run from the `Rakefile`.
 
 Use the `bundle exec` command from the command line when we can't add the `require 'bundler/setup'` statement directly to the source files (such as with the `Rakefile`), or when there are dependency conflicts within the project itself, or conflicts between the Gems used in the environment by default and those used in the project.
 

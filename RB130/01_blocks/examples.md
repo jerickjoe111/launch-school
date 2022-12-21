@@ -20,7 +20,7 @@ my_proc = will_return_proc()
 my_proc.call
 ```
 
-The `Proc` returned from the method has created a closure around `var_a` and `var_b`; when we call it outside the method definition, from a different scope, we see that the `Proc` still has access to them, apparently breaking the rules for local variables: this is one of the most important things about closures.
+The `Proc` returned from the method has created a closure around `var_a` and `var_b`, the binding at the time of the closure's creation; when we call it outside the method definition, from a different scope, we see that the `Proc` still has access to them, apparently breaking the rules for local variables: this is one of the most important things about closures.
 
 ```ruby
 def count_letters
@@ -49,11 +49,12 @@ Here we see that `my_proc` and `my_proc2` can have different outputs: each one r
   end
 
   name = 'Luke'
-  a_proc = Proc.new { puts "My name is #{}" }
+  a_proc = Proc.new { puts "My name is #{name}" }
 
   name = 'Lucas'
 
   say_name(a_proc)
+  # => My name is Lucas
 ```
 
 Here we see that that the closure formed by the `Proc` keeps track of the variables's new value, even if we reassigned it after the closure's creation.

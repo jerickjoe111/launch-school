@@ -35,7 +35,7 @@ This will generate a file within a coverage directory that measures your code co
 
 ## DSL
 
-_DSL_ or _Domain Specific Language_ is a high level language built within another language that helps solve a problem within a specific domain, an specialized application within another language. Examples of this are the expectation-style syntax in Minitest, the Ruby testing tool RSpec, or even the framework Rails.
+_DSL_ or _Domain Specific Language_ is a high level language built within another language used to solve problems within a specific domain: an specialized application within another language. Examples of this are the expectation-style syntax in Minitest, the Ruby testing tool RSpec, or even the framework Rails.
 
 ## Equivalence and equality
 

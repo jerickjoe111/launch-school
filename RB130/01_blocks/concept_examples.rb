@@ -33,7 +33,15 @@
 # 3. Blocks and variable scope
 
 # Blocks have access to local variables that precede them because they are part of the binding when the
-# closure is created; the closure drags the artifacts in scope at the time of its creation
+# closure is created; the closure drags the artifacts in scope at the time of its creation:
+
+def a_method
+  yield(3)
+end
+
+var_a = 1
+
+a_method { |i| puts i * var_a}
 
 # 4. Write methods that use blocks and procs
 
@@ -89,8 +97,9 @@ a_proc = will_return_proc
 # Each proc creates its own closure, its own set of independent copies from the binding at the
 # moment of its creation, then the `Proc` class is instantiated.
  
-a = a_proc.call
-# `call`, like `yield`, returns the last evaluated expression's return value from the executed code
+a_proc.call
+# `call`, like `yield`, returns the return value from the executed code inside the `Proc`'s block
+# of code
 
 begin
   puts var_a
@@ -139,6 +148,7 @@ a_method(&a_proc) # At the method invocation level the & operator converts a pro
 def a_method(argument)
   yield argument
 end
+
 # Cases:
 
 # Passing exactly the number of arguments that the block expects as block parameters:
