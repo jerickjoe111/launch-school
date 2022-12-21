@@ -16,8 +16,9 @@ Closures are important because they preserve the partial running state of a prog
 
 ## Binding
 
-The set of surrounding artifacts in scope at the time of the closure's creation is called its **binding**. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure if we want to use it inside it. 
-When the closure is created, it 'binds' and drags around its environment with it: The closure will keep track of all the artifacts, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object after the closure is created, the closure will keep track of that change, and the variable will refer to the newly assigned value. Each closure has its own set of variable copies.
+The set of surrounding artifacts in scope at the time of a closure's creation is called its _binding_. The binding is comprised by local variables, method references, constants and other artifacts, defined BEFORE the the closure is created. If not, the variable will have to be explicitly passed to the closure if we want to use it inside it. 
+
+When the closure is created, it 'binds' and drags around its environment with it: The closure will keep track of all the artifacts, retaining references to them. So, if, for example, a variable in a closure's binding it's reassigned to another object after the closure is created, the closure will keep track of that change, and the variable will refer to the newly assigned value. Each closure has its own set of variable copies, though.
 
 ## Scope
 

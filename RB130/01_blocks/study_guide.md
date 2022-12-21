@@ -19,5 +19,3 @@
 9. &:symbol
 
 10. Arity of blocks and methods
-
-Examples of everything
