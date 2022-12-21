@@ -107,10 +107,9 @@ To use Bundler, we must include a `Gemfile` in our project's main folder, a conf
 
 - `source`: the remote library where any Gems to be installed can be found (most usually, `https://rubyGems.org`).
 - `ruby`: tells what Ruby version we want the program to use.
-- `gem`: tells the gem name and the version we want the project to use (Note that each individual gem the project utilizes needs it's own `gem` statement.
-- plus an optional `~>` argument after the name of the game: for example `gem 'minitest', '~> 5.10'` means that we want a version of at least 5.10 of minitest, but prior to version 6.0.
+- `gem`: tells the gem name and the version we want the project to use (Note that each individual gem the project utilizes needs it's own `gem` statement (plus an optional `~>` argument after the name of the game: for example `gem 'minitest', '~> 5.10'` means that we want a version of at least 5.10 of minitest, but prior to version 6.0.)
 
-- `Gemspec`: statement that tells the `Gemfile` if a `Gemspec` file is available
+- `Gemspec`: a statement that tells the `Gemfile` if a `Gemspec` file is available
 
 For example:
 
@@ -177,3 +176,7 @@ task :default => [ :task_1, :task_2 ]
 Run the command `rake -T` from the command line interface to list all the commands Rake can run along with their associated descriptions.
 
 If our program uses Bundler, we should run the command `bundle exec` with `rake` to ensure that the command line interface environment corresponds to the dependencies of our project.
+
+## Rubygem format or layout
+
+Main source code in the `lib` directory, tests in the `test` directory, and set up a `Gemfile` and a `Rakefile`, plus the `*.gemspec` file.
