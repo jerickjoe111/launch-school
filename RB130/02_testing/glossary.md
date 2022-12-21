@@ -8,12 +8,12 @@ Common Assertions:
 
 |Assertion|Description|
 |---------|-----------|
-|`assert(test)	`|Fails unless `test` is truthy.|
-|`assert_equal(exp, act)`|	Fails unless `exp == act`.|
-|`assert_nil(obj)`|	Fails unless `obj` is `nil`.|
-|`assert_raises(*exp) { ... }`|	Fails unless `block` raises an exception of `*exp`.|
-|`assert_instance_of(cls, obj)`|	Fails unless `obj` is an instance of `cls`.|
-|`assert_includes(collection, obj)`|	Fails unless `collection` includes `obj`.|
+|`assert(test)	`|Passes if `test` is truthy.|
+|`assert_equal(exp, act)`|	Passes if `exp == act` is `true`.|
+|`assert_nil(obj)`|	Passes if `obj` is `nil`.|
+|`assert_raises(*exp) { ... }`|	Passes if the code in the block raises an exception of the `*exp` type.|
+|`assert_instance_of(cls, obj)`|	Passes if `obj` is an instance of `cls`.|
+|`assert_includes(collection, obj)`|	Passes if `collection` includes `obj`.|
 
 There are also _refutations_, not very widely used, with the opposite effect: they refute rather than assert. Every assertion has a corresponding refutation. They confirm that these two results are _not_ in line with each other. Where as assertions _assert_ (prove an expression to be true), refutations _refute_. They prove an expression to be _false_. Every assertion has a corresponding refutation. The corresponding refutation takes the exact same arguments as the assertion, except looks for a false of falsey result.
 
@@ -45,7 +45,7 @@ Different types of assertion use different methods to test for equality:
 
 `assert_same` tests equality or  _object equality_: it checks if two objects are indeed the same object in memory. Two different objects with equivalent values will not be considered equal in this case.
 
-Because `assert_equal` uses the `#==` method to determine value equivalence, if the objects being tested are custom defined objects, we need to ensure that a custom `#==` has been implemented for the objects in their class; remember that the inherited `BasicObject#==` method checks for _object equality_, having the same effect that `assert_same`, and not equivalence, which is what we want.
+Because `assert_equal` uses the `#==` method to determine value equivalence, if the objects being tested are custom defined objects, we need to ensure that a custom `#==` has been implemented for the objects in their class; remember that the inherited `BasicObject#==` method checks for _object equality_, having the same effect that `assert_same`, and not equivalence, _value equality_, which is what we want.
 
 ## Minitest
 
@@ -53,9 +53,9 @@ Minitest is a Ruby gem that serves as a tool to test our programs: it is the def
 
 There are two styles in Minitest:
 
-- _assertion-style_ uses regular Ruby code, more familiar for beginner developers. It is used by writing a series of methods beginning with `test_` that will include specific assertions to test certain part of our code.
+- _assertion-style_ uses regular Ruby code, more familiar for beginner developers. It is used by writing a series of methods beginning with `test_` that will include specific assertions to test certain parts of our code.
 
-- _expectation-style_ relys on a DSL in line with RSpec testing style. It groups tests by `describe` block, writing individual tests with an `it` method, using expectation matchers instead of assertions.
+- _expectation-style_ relies on a DSL similar to the RSpec testing style. It groups tests by `describe` blocks, writing individual tests with an `it` method, using expectation matchers instead of assertions.
 
 A Minitest suit can have four possible outputs for each test:
 
@@ -90,7 +90,7 @@ This refers to a strategy commonly used for writing tests.
 
 ## Skip
 
-The `skip` keyword is a keyword we can use at the beginning of a Minitest test. It tells the testing program to skip this test when it is encountered. This will be reported in the output of minitest with an `S`. We can pass a string into `skip` should we want to display a custom message.
+The `skip` keyword is a keyword we can use at the beginning of a Minitest test. It tells the testing program to skip this test when it is encountered. This will be reported in the output of minitest with an `S`. We can pass a string into `skip` if we want to display a custom message.
 
 ## Test Suite
 
