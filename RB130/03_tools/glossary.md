@@ -127,7 +127,7 @@ If there are any changes made to the `Gemfile`, the `bundle install` command mus
 
 ### Using Bundler
 
-We have to add `require 'bundler/setup'` to the beginning of all our source files (even tests) in order to use Bundler, before any other required Gems, otherwise these Gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the Gems.
+We have to add `require 'bundler/setup'` to the beginning of all our source files (even tests) in order to use Bundler, before any other required Gems, otherwise these Gems will not be added with Bundler. This statement makes sure that the program uses what is listed in the `Gemfile.lock`, instead of defaulting to the most recent version when the Gems are loaded.
 
 Bundler is really simple: it does not modify how Ruby versions and Gems are stored. This is determined by the Ruby Version Manager.
 

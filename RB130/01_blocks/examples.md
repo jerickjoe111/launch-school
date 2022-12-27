@@ -89,7 +89,7 @@ This is an example that uses the return value from the block via `yield` to popu
 
 ## Why use blocks in our own methods:
 
-Two main use cases for using blocks in your own methods are:
+The wo main use cases for using blocks in your own methods are:
 
 1. To defer some implementation code to method invocation decision.
 
@@ -191,7 +191,7 @@ end
 ## Method that uses a proc
 
 ```ruby
-def will_use_proc(proc_object)
+def will_call_proc(proc_object)
   puts "I am calling the proc #{proc_object} from within the method!"
   proc_object.call
 end
@@ -204,7 +204,7 @@ proc_object = Proc.new do
   puts var_b
 end
 
-will_use_proc(proc_object)
+will_call_proc(proc_object)
 ```
 The `Proc` object still has access to `var_a` and `var_b` within the method definition scope because it dragged them around with it when the closure was created: they were part of the binding at the time of its creation.
 

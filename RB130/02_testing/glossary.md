@@ -21,7 +21,7 @@ There are also _refutations_, not very widely used, with the opposite effect: th
 
 _Code coverage_ it's a way to express how much of the code in the program is actually tested in the test suite. Bases it's percentage on _all_ code, including both public and private interfaces.
 
-A comple code coverage of 100%  is achieved when every single method, including private methods, are tested in the testing suite Further, while you _can_ always get up to 100% code coverage it's not always necessary. The more _fault tolerant_ your code should be, the higher the necessary coverage.
+A comple code coverage of 100%  is achieved when every method, including private methods, are tested in the testing suite Further, while you _can_ always get up to 100% code coverage it's not always necessary. The more _fault tolerant_ your code should be, the higher the necessary coverage.
 
 Code coverage should be understood as a tool within other tools to gauge code quality.
 
@@ -31,7 +31,7 @@ The `simplecov` Ruby gem is a code coverage testing tool. It has to be included 
 require 'simplecov'
 SimpleCov.start
 ```
-This will generate a file within a coverage directory that measures your code coverage.
+This will generate a file within a `coverage` folder with our code coverage data.
 
 ## DSL
 

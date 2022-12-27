@@ -70,7 +70,7 @@ The code block, like methods, can take arguments. When a method yields, it can y
 
 Being anonymous, the only way we can handle or execute a block within the method is with a call to `yield`, passing  any arguments it may require. We can save its return value into a local variable but not the block itself. However, we can define explicit block parameters so we can capture a block, execute it, and pass it around as any other object, by converting it into a `Proc` object, that embodies the idea of a _callable object_. This way, it can be manipulated in a way that a block cannot.
 
-As with `yield`, the `call` method returns the value returned from the body of code executed, and can take arguments.
+As with `yield`, the `call` method returns the value returned from the block associated to the `Proc` object, and can take arguments.
 
 ## Proc
 
@@ -78,7 +78,7 @@ The idea of a callable object is embodied as an object on which you can call the
 
 The main callable objects in Ruby are: `Proc` objects, _lambdas_ and method objects.
 
-`Proc` objects are self-contained code sequences that you can create, store, pass around as arguments and be called via the `call` method, and a way Ruby has to implement closures.
+`Proc` objects are self-contained code sequences that you can create, store, pass around as arguments and be called via the `call` method, and another way Ruby has to implement closures.
 
 Important topics about `Proc` objects (or procs):
 
@@ -125,14 +125,18 @@ Now the block has been converted into an object that can be referenced and passe
 
 ## &:symbol
 
-When applied to an argument being passed to a method, a leading `&` causes ruby to try to convert that object to a block. If that object is already a _proc_, the conversion happens automatically. If the object is not a _proc_, then `&` attempts to call the `#to_proc` method on the object first. Used with symbols, e.g., `&:to_s`, Ruby creates a _proc_ that calls the `#to_s` method on a passed object, and then converts that _proc_ to a block. 
+When applied to an argument being passed to a method, a leading `&` causes ruby to try to convert that object to a block. If that object is already a `Proc`, the conversion happens automatically. If the object is not a `Proc`, then `&` attempts to call the `#to_proc` method on the object first. 
+
+Used with symbols, e.g., `&:to_s`, Ruby creates a `Proc` that calls the `#to_s` method on a passed object, and then converts that `Proc` to a block. 
 
 This is a nice shortcut to situations like this:
 ```ruby
   %w( lucas sorribes ).map(&:capitalize)
   # => ['Lucas', 'Sorribes']
 ```
-The symbol `:capitalize` is interpreted as a 'message' to be sent to (or method to be called on) each of the elements in the array. What is happening here is that, first, Ruby tries to convert the object to a block. In this case, the object is a symbol, so, in order to convert it to a block, first it converts it to a `Proc` object by calling on it the `Symbol#to_proc` method. Then, converts the `Proc` object to a block, a thing that Ruby can do naturally. The `&` operator is a flag that indicates the method to use this as the stand-in code block that would've been passed in: this operation is equivalent to this:
+The symbol `:capitalize` is interpreted as a 'message' to be sent to (or method to be called on) each of the elements in the array. What is happening here is that, first, Ruby tries to convert the object to a block. In this case, the object is a symbol, so, in order to convert it to a block, first it converts it to a `Proc` object by calling on it the `Symbol#to_proc` method. Then, converts the `Proc` object to a block, a thing that Ruby can do naturally. The `&` operator is a flag that indicates the method to use this as the stand-in code block that would've been passed in: 
+
+this operation is equivalent to this:
 ```ruby
   %( lucas sorribes ).map { |name| name.capitalize }
   # => ['Lucas', 'Sorribes']
