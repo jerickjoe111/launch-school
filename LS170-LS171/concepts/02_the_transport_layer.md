@@ -120,10 +120,3 @@ The datagram is very simple, with a payload and a header with only four fields, 
 * Source Port and Destination Port: As in TCP, this is what makes the multiplexing possible in UDP; the port, joined to the IP address in a packet, provides end-to-end connections between processes.
 * Length: The length in bits of the whole PDU, including the payload
 * Checksum: Provides a value to be checked for error detection.
-
-
-
-
-
-
-
