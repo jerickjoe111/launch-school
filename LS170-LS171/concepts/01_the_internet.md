@@ -162,3 +162,11 @@ There two variants for IP addresses, according each IP version, 4 and 6:
 ## Routing and Routing Tables
 
 All routers on the network keep a record of a local *routing table*. When an IP packet is received by a router, it reads the IP address of the destination and matches it agains a list of network addresses in that routing table. The matching network address will determine where in the network hierarchy that subnet is, and it will select the best possible route for the packet to reach its destination according various factors.
+
+## Host
+
+A network host is a computer or other device connected to a computer network. A host may work as a server offering information resources, services, and applications to users or other hosts on the network. Hosts are assigned at least one network address.
+
+A computer participating in networks that use the Internet protocol suite may also be called an IP host. Specifically, computers participating in the Internet are called Internet hosts. Internet hosts and other IP hosts have one or more IP addresses assigned to their network interfaces.
+
+Network hosts that participate in applications that use the client–server model of computing, are classified as server or client systems. Network hosts may also function as nodes in peer-to-peer applications, in which all nodes share and consume resources in an equipotent manner.
