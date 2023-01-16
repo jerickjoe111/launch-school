@@ -21,7 +21,7 @@ A protocol is a system of rules to manage the exchange or communication of data.
 
 ## The Layered Model
 
-The overall system of network communication is highly complex, in which numerous levels or *layers* of protocols are functioning together. In order to better understand this complexity, different models of network communication have been developed, models that modularize and structure those protocols into layers, each one with different criteria on how to group the protocols into the layers. The most important models are the TCP/IP model, that divides de layers according the *scope of communications* between each other; and the OSI model, that does it according to the *function* each layer provides.
+The overall system of network communication is highly complex, in which numerous levels or *layers* of protocols are functioning together. In order to better understand this complexity, different models of network communication have been developed, models that modularize and structure those protocols into layers, each one with different criteria on how to group the protocols into the layers. The most important models are: the TCP/IP model, that divides de layers according the *scope of communications* between each other; and the OSI model, that does it according to the *function* each layer provides.
 
 TABLE MODELS
 
@@ -30,10 +30,10 @@ TABLE MODELS
 A PDU or Protocol Data Unit is a block of data transmitted over a network; each protocol or protocol layers name this unit differently (*segment* for TCP in the Transport layer, *packet* for IP in the Internet/Network layer, etc.) but all are composed by the same elements:
 
 * A Header, that contains protocol-specific metadata about the PDU, like the source and destination IP addresses in a *packet*, or boolean flags.
-* The Data Payload, that contains the actual data we want to transport over the network according a specific protocol at a specific layer. One very important thing is that the entire PDU from a layer above composes the data payload for the PDU of the layer below (this is a form of data encapsulation, as we are hiding data from one layer, encapsulating it inside the PDU of the layer below)
+* The Data Payload, that contains the actual data we want to transport over the network according a specific protocol at a specific layer. One very important thing is that the entire PDU from a layer above composes the data payload for the PDU of the layer below (this is a form of data encapsulation, as we are hiding data from one layer, *encapsulating* it inside the PDU of the layer below)
 * An optional Footer or Trailer, that, like the Header, contains more metadata about the PDU.
 
-The use of PDUs in our model allows us to create a separation between the protocols at different layers, a system in which a layer below provides a service to the layers above. This way, this separation of layers provides a form of abstraction that also allows us to the use of protocols at some layer without having to worry about the layers working underneath.
+The use of PDUs in our model allows us to create a separation between the protocols at different layers, a system in which a layer below provides a service to the layers above, by *encapsulating* the data from superior layers into the PDU from the layer below. This way, this separation of layers provides a form of abstraction that also allows us to the use of protocols at some layer without having to worry about other layers' protocols.
 
 ## The Physical Network
 
