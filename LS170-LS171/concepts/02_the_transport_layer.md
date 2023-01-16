@@ -50,7 +50,6 @@ Instead of sending one message at a time, which wouldn't be very efficient (too 
 
 Although there are different ways to implement this approach, the basis is the same: a sender set a *window* value representing the maximum number of messages that can be in the pipeline at the same time; once the sender has received the acknowledgements or confirmations for the messages in the window, it moves the window on, so it can send more messages.
 
-
 ## TCP
 
 The Transmission Control Protocol or TCP is the first of the host layers (before the Session, Presentation and Application layers in the OSI model; it is included in the Application layer of the TCP/IP model) and provides, as its most fundamental characteristic, a reliable channel for network communication on top of an unreliable channel (the media layers), implementing the four fundamental principles of reliability: in-order delivery, Error detection, Data loss handling, and Deduplication.
@@ -68,8 +67,6 @@ The most important fields in the segment's header; as we will see, most of them 
 * Sequence Number and Acknowledgement Number: These fields make possible the other three principles of TCP reliability: in-order delivery, Data loss handling, and Deduplication.
 * Window Size: Related the TCP flow control mechanisms, it is used for pipelining.
 * Boolean flags: They are related to the importance or urgency of the payload (URG, PSH), and the establishment, management and end of a TCP connection state (SYN, ACK, FIN, RST).
-
-
 
 ## Three-way Handshake
 
@@ -91,7 +88,7 @@ A process similar to the Three-way Handshake, used for terminating TCP connectio
 
 ## Flow Control
 
-A sender is only able to process some amount of data at a time; when data is waiting to be processed is stored in a buffer, whose size will depend on the memory allocated on each situation. Flow control is a technique to prevent the sender from overwhelming the receiver with too much data at once. This is achieved thanks to the dynamic use of the WINDOW field in the segments sent: if the receiver's buffer is getting full, the receiver can let the sender know by adjusting and setting a lower WINDOW field value in the segment sent back to it.
+A sender is only able to process some amount of data at a time; when data is waiting to be processed by the receiver, it is stored in a buffer, whose size will depend on the memory allocated on each situation. Flow control is a technique to prevent the sender from overwhelming the receiver with too much data at once. This is achieved thanks to the dynamic use of the WINDOW field in the segments sent: if the receiver's buffer is getting full, the receiver can let the sender know by adjusting and setting a lower WINDOW field value in the segment sent back to it.
 
 However, in order to prevent both parts to overwhelm the underlying network, an extra congestion avoidance system is needed.
 
