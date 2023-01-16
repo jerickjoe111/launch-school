@@ -232,7 +232,7 @@ When almost any cross-origin resource request from APIs is restricted by this po
 
 ## Session hijacking
 
-This hacking attack implies usurping the identity of some user or client by getting hold of its unique session identifier (like a cookie). With the stolen session ID, the hacker can access resources from the victim's session by including it in the requests, thus tricking the server, that believes it's processing the normal client's session.
+This hacking attack implies usurping the identity of some user or client by getting hold of its unique session identifier (like a cookie). With the intercepted session ID, the hacker can access resources from the victim's session by including it in the requests, thus tricking the server, that believes it's processing the normal client's session.
 
 There are various ways to deal with this security risk, but the most common are: the implementation of some kind of session resetting, that makes the user to re-authenticate him/herself in order to access sensitive data; and setting short session expiration times. Of course, the use of HTTPS across the entire application has to be considered and implemented as well.
 
