@@ -79,7 +79,7 @@ Query String Reserved Characters:
 | `=` | Separates parameter name from its parameter value in a name-value pair |  
 | `&` | Used between parameters when adding multiple parameters |
 
-But the use of query strings imply some limitations: they have *limited length*, so they only can be used to pass a limited amount of data; the parameters are *visible* in the URL, which is concerning in the context of sensitive information; and some special characters have to be *encoded*, because they are syntactically meaningful in query strings.
+But the use of query strings implies some limitations: they have *limited length*, so they only can be used to pass a limited amount of data; the parameters are *visible* in the URL, which is concerning in the context of sensitive information; and some special characters have to be *encoded*, because they are syntactically meaningful in query strings.
 
 ## URL Encoding
 
