@@ -1,4 +1,4 @@
-# Welcome to my Launch School core curriculum remote repository.
+# Welcome to my Launch School Core Curriculum remote repository.
 
 Here you will find:
 
@@ -7,7 +7,7 @@ Here you will find:
 3. One main folder for the exercises ("exercises/")
 4. One folder for each set inside the "exercises" folder (i.e.: "exercises/easy_01")
 
-Feel free also to visit my personal projects repos.
+Feel free to visit also my personal projects repos.
 
 Thank you.
 
