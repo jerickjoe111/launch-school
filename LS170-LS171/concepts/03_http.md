@@ -1,12 +1,12 @@
 ## The Application Layer and its protocols
 
-The application layer does not represent the application itself, but the protocols that bring communication services to the applications. These protocols (HTTP, FTP, SMTP...) are the ones which the applications most directly interacts, as it is much less common to build applications that interact directly with protocols below the Transport layer. 
+The application layer does not represent the application itself, but the protocols that bring communication services to the applications. These protocols (HTTP, FTP, SMTP...) are the ones which the applications most directly interacts with, as it is much less common to build applications that interact directly with protocols below the Transport layer. 
 
-Application layer protocols focus on the structure of the message and the data sent, trusting on the protocols below them to ensure the message is transported reliably. These protocols can be understood as systems of rules for how applications interact witch each other at a syntactical level.
+Application layer protocols focus on the structure of the message and the data sent, trusting on the protocols below them to ensure the messages are transported reliably. These protocols can be understood as systems of rules for how applications interact witch each other.
 
 ## The World Wide Web or Web
 
-If the internet is a network of network, the infrastructure that allows inter-network communications, both in physical terms and the lower protocols that control its use, the Web is a service that we can access via that infrastructure. The Web is an immense information system comprised of resources (documents, images, files, etc.) which are accessible via a Uniform Resource Locator or URL.  
+If the internet is a network of network, the infrastructure that allows inter-network communications, both in physical terms and the lower protocols that control its use; the Web is a service that we can access via that infrastructure. The Web is an immense information system comprised of *resources* (documents, images, files, etc.) which are accessible via a Uniform Resource Locator or URL.  
 
 ## HTML
 
@@ -21,7 +21,7 @@ Comparative table:
 | URI |	URL |
 | --- | --- |
 | URI is an acronym for a Uniform Resource Identifier. |	URL is an acronym for a Uniform Resource Locator. |
-| URI is the superset of a URN and a URL. |	URL is the subset of URI. |
+| URI is the superset of a URL. |	URL is the subset of URI. |
 | URI identifies a resource and differentiates it from others by using a name, location, or both. |	URL identifies the web address or location of a unique resource. |
 | URI contains components like a scheme, authority, path, and query. |	URL has similar components to a URI, but its authority consists of a domain name and port. |
 | An example of a URI is ISBN 0-476-35557-4. |	An example of a URL would be `https://hostinger.com`. |
@@ -30,7 +30,7 @@ Comparative table:
 
 ## The URL and its components
 
-A URL or Uniform Resource Locator, a subset of URI, not only identifies a resource, but it specifies how to access via its location. In practice, it is how we can `GET` access to specific resources on the internet, like when, for example, we enter the web address on the browser's bar.
+A URL or Uniform Resource Locator, a subset of URI, not only identifies a resource, but it specifies how to access via its location. In practice, it is how we can access to specific resources on the internet, like when, for example, we enter the web address on the browser's bar.
 
 Components of a URL:
 
@@ -79,11 +79,12 @@ Query String Reserved Characters:
 | `=` | Separates parameter name from its parameter value in a name-value pair |  
 | `&` | Used between parameters when adding multiple parameters |
 
-But the use of query strings imply some limitations: they have limited length, so they only can be used to pass a limited amount of data; the parameters are visible in the URL, which is concerning in the context of sensitive information; and some special characters have to be encoded, because they are syntactically meaningful in query strings.
+But the use of query strings imply some limitations: they have *limited length*, so they only can be used to pass a limited amount of data; the parameters are *visible* in the URL, which is concerning in the context of sensitive information; and some special characters have to be *encoded*, because they are syntactically meaningful in query strings.
 
 ## URL Encoding
 
-A URL only allows the use of certain characters in the ASCII standard table; reserved or unsafe ASCII characters not used for their original semantics in URLs must be encoded. Any character that is not a safe alphabetic character, a number, or a reserved character being used needs to be encoded. Reserved characters are the characters that have a special use and meaning within the URL, for example, `/`, `?`, `&`, or `:`. Unsafe characters are those that can be misinterpreted by some systems, like the escape character `%`, empty spaces ` `, `#`, `~`, etc. All characters without equivalent in the standard ASCII table should be encoded too. 
+A URL only allows the use of certain characters in the ASCII standard table; reserved or unsafe ASCII characters not used for their original semantics in URLs must be encoded: Any character that is not a safe alphabetic character, a number, or a reserved character being used needs to be encoded. 
+Reserved characters are the characters that have a special use and meaning within the URL, for example, `/`, `?`, `&`, or `:`. Unsafe characters are those that can be misinterpreted by some systems, like the escape character `%`, empty spaces ` `, `#`, `~`, etc. All characters without equivalent in the standard ASCII table should be encoded too. 
 
 To convert the reserved, unsafe, and non-ASCII characters to a format acceptable to the URL, we must *encode* the characters. With encoding we mean the replacement of the characters with a `%` symbol as an escape character and two hexadecimal symbols, a sequence that represents the UTF-8 equivalent of that ASCII character. 
 
@@ -97,9 +98,9 @@ Some domain names may contain an optional, third-level domain (called a subdomai
 
 ## Domain Name System or DNS
 
-To identify a host on the internet, we use IP addresses as labels, plus a port number that specifies the dedicated channel for communication. However, as the internet is composed by an innumerable number of hosts, it would be extremely confusing tracking which addresses identify which hosts, and wouldn't be human-friendly. For this reason, the DNS service exist.
+To identify a host on the internet, we use IP addresses as labels, plus a port number that specifies the dedicated channel for communication. However, as the internet is composed by an innumerable number of hosts, it would be extremely confusing tracking which addresses identify which hosts, and wouldn't be very human-friendly. For this reason, the DNS service exist.
 
-DNS is a distributed (not centralized) database across multiple, hierarchically organized DNS servers, that is used for mapping the domain name with human-friendly format like `www.google.com` to the appropriate IP address, like `197.251.230.45`, in an HTTP request.
+DNS is a distributed (not centralized) database across multiple, hierarchically organized servers, that is used for mapping the domain name with human-friendly host format like `www.google.com` to the appropriate IP address, like `197.251.230.45`, in an HTTP request.
 
 In practice, this involves a process before the actual request is sent to the intended server:
 
@@ -110,32 +111,48 @@ In practice, this involves a process before the actual request is sent to the in
 
 ## HyperText Transfer Protocol or HTTP
 
-HTTP is a protocol or system of rules for formatting messages between networked applications and the transmission of hypertext documents. It is an Application protocol in both TCP/IP and OSI models' last layer, that functions according to a request-response cycle in a client-server model. In this model, a *client* (like a web browser) submits a request to a *server*, a process (like a web server's, that provides resources to clients and perform other functions on its behalf) running on another host. When the server receives the request, it returns a *response*. The requests and responses are basically strings (text messages) following a standardized format that both parts are able to understand and process. HTTP is the protocol that governs this format.
+HTTP is a protocol or system of rules for formatting messages between networked applications and the transmission of hypertext documents. It is a stateless Application layer protocol, that functions according to a request-response cycle in a client-server model. In this model, a *client* (like a web browser) submits a request to a *server*, a process (like a web server's, that provides resources to clients and perform other functions on its behalf) running on another host. This message exchange relies on the TCP/IP operating at layers below to be transported successfully. When the server receives the request, it returns a *response*. The requests and responses are basically strings (text-based messages) that follow a standardized format that both parts are able to understand and process. HTTP is the protocol that governs this format.
 
-This protocol has been through several iterations and changes since its inception in 1991, with the 0.9 version. HTTP/1.0, HTTP/1.1, and HTTP/2 have been adding features and improving its functionality; there is an HTTP/3 currently in development.
+HTTP has been through several iterations and changes since its inception in 1991, with the 0.9 version. HTTP/1.0, HTTP/1.1, and HTTP/2 have been adding features and improving its functionality; there is an HTTP/3 currently in development.
+
+Is a robust and efficient protocol, but also insecure just by itself, as the requests and responses are not protected or encrypted.
+
+## The client-server model
+
+The client-server model is a type of network architecture by which the participants in the message exchange have clearly defined roles: *client* and *server*. Clients (in the context of HTTP, usually specialized processes such as web browsers) send requests to the servers expecting to retrieve some data or resource, or to trigger some action within the server on the client's behalf; servers send back a response to that request, with the data or resource requested, and/or some information about the action performed and valuable information about the processing of that request. Upon receipt, the client process that response. There may be many clients connected to a single server, but the dynamic is the same. 
+There are other types of network architecture, like the peer-to-peer (P2P) model, which is a node-based no-hierarchy model.
+
+## Server
+
+The server can be a single device, but also an entity representing multiple devices working together, or even a whole infrastructure comprised of main machines or devices, and *intermediary machines*. There are however, three primary server-side infrastructure pieces or structures:
+
+- The web server, that respond to request for static resources, like files or media, without data processing.
+
+- The application server, that hosts the application code or *business logic*.
+
+- Some form of permanent database from which retrieve or create the data, like a relational database.
 
 ## HTTP Request
 
-An HTTP request is a string (text-based) message sent from the client to the server with the intent to retrieve a resource on the server or make the server to perform some action. This string adheres to a specific format defined by the version of HTTP used. Many actions can trigger HTTP requests, for example, entering a URL into the browser bar, loading a website's image or clicking on a link or submitting a web form, all these actions cause the client (our browser) to send an HTTP request to a server.
+An HTTP request is a string (text-based) message sent from the client to the server with the intent to retrieve a resource on the server or make the server to perform some action on its behalf. This string adheres to a specific format defined by the version of HTTP used. Many actions can trigger HTTP requests, for example, entering a URL into the browser bar, loading a website's image or clicking on a link or submitting a web form, all these actions cause the client (our browser) to send an HTTP request to a server.
 
 An HTTP is composed by two elements: A *request header*, that includes a *request line* and some *headers* or *header fields*, and an (optional) *Body*. Each header is followed by a new line character. A blank line separates the header from the body.
 
 - Header:
-  * Request line: It contains the *request method*, which indicates the kind of action we want the server to perform, the local *path* to the resource requested within the server, and the HTTP *version* being used, all separated by a single space. For example:
+  * Request line: It contains the *request method*, which indicates the kind of action we want the server to perform, the local *path* to the resource requested within the server, and the HTTP *version* being used (also required from HTTP 1.0), all separated by a single space. For example:
   `GET /doc/test.html HTTP/1.1`
 
-  * Headers: The headers are colon separated name-value pairs that provide additional metadata about the client, the resource or the request itself. The `host` header must be included in HTTP/1.1 and subsequent versions. Other headers can be useful to define the preferred client's connection type (like `keep-alive`), the languages it accepts, to provide session data (via the `session id`), or to define the `Content-Length`.
+  * Headers: The headers are colon separated name-value pairs that provide additional metadata about the client, the resource or the request itself. The `host` header must be included in HTTP/1.1 and subsequent versions. Other headers are optional and can be useful to define the preferred client's connection type (like `keep-alive`), the languages it accepts, to provide session data (via the `session id`), or to define the `Content-Length`.
 
 - Body:
   It is usually used for `POST` request, to send the actual data to the server. Its content depends on the particular method. Not used for GET requests.
-
 
 ## HTTP Request Methods
 
 The two main request methods are `GET` and `POST`:
 
 * `GET`: These requests are used to retrieve resources on the server. It is the method used when we click on most weblinks, enter a URL into the browser's bar, or when automatically the browser loads webpage contents. If we want to send data using this request method, we have to use visible query parameters in the URL, which exposes the data sent and implies a length limit.
-* `POST`: These requests are used to send some data to the server and/or to trigger some server side action. We usually employ this method when we submit a form, send large files to a server, or when we authenticate as users. The great advantage of this method is that we can send much larger data via the request body, and that the data sent is not exposed (useful in case of sensitive information).
+* `POST`: These requests are used to send some data to the server and/or to trigger some server-side action. We usually employ this method when we submit a form, send large files to a server, or when we authenticate as users. The great advantage of this method is that we can send much larger data via the request body, and that the data sent is not exposed (useful in case of sensitive information).
 
 There are other methods used for specific situations: `PUT`, `HEAD`, `DELETE`, `CONNECT`, etc.
 
@@ -146,7 +163,7 @@ An HTTP response is a string (text-based) message sent from the server to the cl
 An HTTP response is composed by two elements: the response *header*, that includes the *status* or *response line*, and a series of *headers* or *header fields*, and a message *body*. As in HTTP requests, each header is followed by a new line character, and a black line separates the header from the body.
 
 - Header:
-  * Status line: It contains the HTTP *version* used, a three digit status code, and a status text. All separated by a single space. The status codes indicate the status of the request, and the status text is a short description of the meaning of the code. An example of a status line could be: `HTTP/1.1 200 OK`
+  * Status line: It contains the HTTP *version* used, a three digit status code, and a status text. All separated by a single space. The status codes indicate the status of the request, and the status text is a short description of the code meaning. An example of a status line could be: `HTTP/1.1 200 OK`. The status line with the status code is the only required element in a response.
 
   * Headers: The headers are colon separated name-value pairs that provide additional information about the response data and the server that sent it. They can be useful to help the client displaying the response, caching the response for future use, the type of encoding used in the data, etc. It can also redirect the client to a new `Location` where the resource has been moved.
 
@@ -155,12 +172,12 @@ An HTTP response is composed by two elements: the response *header*, that includ
 
 ## Common status codes
 
-The status codes are classified by number range, with each class of codes having the same basic meaning.
-* The range 100-199 is classed as Informational.
-* 200-299 is Successful.
-* 300-399 is Redirection.
-* 400-499 is Client error.
-* 500-599 is Server error.
+The status codes are classified by number range, with each range of code numbers having the same basic meaning.
+* 100-199: Informational.
+* 200-299: Successful.
+* 300-399: Redirection.
+* 400-499: Client error.
+* 500-599: Server error.
 
 | Status Code | Status Text | Meaning |
 | --- | --- | --- |
@@ -179,14 +196,14 @@ Let's describe this cycle in detail following a basic `GET` request model when t
 1. The user enters the URL in the browser.
 2. An HTTP `GET` request is submitted by the client (the web browser), consisting at least of the method and the path, and usually some headers (like `Host` if using HTTP/1.1 or subsequent versions)
 3. The `GET` request is sent to a port *p* of the user's device, where *p* is the port number set by the client's process.
-4. The DNS lookup maps the destination IP address for the URL host, if the IP for the host is not cached by the client, to direct the HTTP request to the server once the DNS request has been responded.
-5. The processing and successive encapsulations of lower layers is taking place: multiplexing and segmentation in the Transport layer; packaging and network-to-network traveling at the Internet layer; framing, *de-framing* and reframing, and device-to-device transportation at the Data Link layer level, etc., until the packet reaches the server, opens it, reassembles the segments, performs demultiplexing, and finally opens the request on port 80 (the port by default) and processes the HTTP request sent by the client.
+4. The DNS lookup maps the destination IP address for the URL host, if the IP for that host is not cached by the client, to direct the HTTP request to the server once the DNS request has been responded.
+5. The processing and successive encapsulations of lower layers is taking place: multiplexing and segmentation in the Transport layer; packaging and network-to-network traveling at the Internet layer; framing, *de-framing* and reframing, and device-to-device transportation at the Data Link layer level, etc., until the packet reaches the server, opens it, reassembles the segments, performs demultiplexing, and finally opens the request on port 80 (the port by default for HTTP) and processes the HTTP request sent by the client.
 6. Once the server has processed the request, it then sends an HTTP response to the client, including a header with the status line, and usually some headers with information about the response data and useful information for the client, plus the data of the resource requested in the response body, in this case, raw HTML code.
 7. When the client receives the response, it will process the information within it and will render the HTML code contained in the response body in a human user-friendly way, with the help of the response headers. And, if the HTML contains references to other resources (like images), the browser automatically will send the corresponding `GET` requests for those too, and the cycle will be repeated until the client stops sending more requests.
 
 ## State and statelessness
 
-In the context of the HTTP and network communications, *state* refers to persistent information between requests, to which the server would have to hang onto; however, HTPP is a *stateless* protocol: each request/response cycle is independent, and the server does not keep any information between them. For this reason, the system does not have to perform any kind of cleanup when a new request is being sent to it. This makes HTTP a very efficient performance-wise, and resilient protocol, but also difficult to work with when we are building web applications that we want them to simulate a stateful experience.
+In the context of the HTTP and network communications, *state* refers to persistent information between requests, to which the server would have to hang onto; however, HTPP is a *stateless* protocol: each request/response cycle is independent, and the server does not keep any information between them. For this reason, the system does not have to perform any kind of cleanup when a new request is being sent to it. This makes HTTP a very resilient and efficient performance-wise, but also difficult to work with when we are building web applications that we want them to simulate a *stateful experience*.
 
 We talk about a stateful application when the application 'remembers' past interactions, for example, by keeping track of users and maintaining their logged in status and session during multiple request/response cycles, or some kind of user 'state', like a shopping cart. In order to achieve features like these, the application developer can use different tools and techniques to simulate the stateful experience, like session IDs, cookies, and AJAX (Asynchronous JavaScript and XML).
 
@@ -206,15 +223,15 @@ This whole process compels the web developers to implement some kind of session 
 
 ## Cookies
 
-Employing cookies is the most common way to store a session information. Cookies are unique, expiring session identifiers that are sent from the server to the client, to be stored in the client's side in the form of small files. The cookies will be sent to the server in all subsequent requests, so the server can identify the client's session on each request, store and/or retrieve the appropriate data for that session, and generate unique responses to that client with that retrieved data, thus simulating a sense of persistent information or state between request/response cycles (remember that HTTP is a stateless protocol)
+Employing cookies is the most common way to store session information. Cookies are unique, expiring session identifiers that are sent from the server to the client, to be stored in the client's side in the form of small files. The cookies will be sent to the server in all subsequent requests, so the server can identify the client's session on each request, store and/or retrieve the appropriate data for that session, and generate unique responses to that client with that retrieved data, thus simulating a sense of persistent information or state between request/response cycles (as HTTP is a stateless protocol)
 
-In a more practical sense, usually the cookie data is sent to the client in an initial response via `set-cookie` headers, and then that cookie data is included in the client's requests in the `cookie` request header.
+In a more practical terms, usually the cookie data is sent to the client in an initial response via `set-cookie` headers, and then that cookie data is included in the client's following requests in the `cookie` request header.
 
 ## AJAX
 
 Standing for Asynchronous JavaScript and XML, this technique allows the client (the browser) to submit requests and process the server's responses asynchronously, which in practice means that the webpage does not have to refresh and load again for each one of them.
 
-AJAX requests are normal HTTP requests that are processed normally by the server, however, their great advantage is that their responses don't make the browser refresh and load the site again, but are processed by special *callback* functions, usually some client-side JavaScript logic. This callback functions are pieces of code that are passed to other functions, expecting to be triggered by some *event*. 
+AJAX requests are normal HTTP requests that are processed normally by the server, however, their great advantage is that their responses don't make the browser refresh and load the site again, but are processed by special *callback* functions, usually some client-side JavaScript logic. This callback functions are pieces of code that are passed to other functions, expecting to be triggered by some *event*, like an input from the user. 
 
 ## Security and HTTP
 
@@ -234,10 +251,10 @@ When almost any cross-origin resource request from APIs is restricted by this po
 
 This hacking attack implies usurping the identity of some user or client by getting hold of its unique session identifier (like a cookie). With the intercepted session ID, the hacker can access resources from the victim's session by including it in the requests, thus tricking the server, that believes it's processing the normal client's session.
 
-There are various ways to deal with this security risk, but the most common are: the implementation of some kind of session resetting, that makes the user to re-authenticate him/herself in order to access sensitive data; and setting short session expiration times. Of course, the use of HTTPS across the entire application has to be considered and implemented as well.
+There are various ways to deal with this security risk, but the most common are: the implementation of some kind of session resetting, that makes the user to re-authenticate him/herself after some period of time, in order to access sensitive data; and setting short session expiration times. Of course, the use of HTTPS across the entire application has to be considered and implemented as well.
 
 ## Cross-Site Scripting or XSS
 
 In websites that allow some kind of input from the user, like comment forms, the hacker can use the input fields to inject some kind of malicious HTML or JavaScript code into the site, so the browser can execute it, being able to bypass the XSS, as the infection comes from the web code itself.
 
-The best ways to prevent this attack are: the sanitation of any kind of user input, removing any kind of code parts that might imply security risks, like `<script>` tags; *escaping* all user input, or just certain characters, replacing them with a combination of ASCII characters, which renders inoffensive; or only accepting already secure forms of input, like Markdown code.
+The best ways to prevent this attack are: the sanitation of any kind of user input, removing any kind of code parts that might imply security risks, like `<script>` tags; *escaping* all user input, or just certain characters, replacing them with a combination of ASCII characters, which renders inoffensive; or just accepting already secure forms of input, like Markdown code.
