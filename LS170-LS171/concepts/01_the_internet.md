@@ -14,7 +14,7 @@ The internet is essentially an immense web of interconnected networks, with a sy
 
 ## Protocol
 
-A protocol is a system of rules to manage the exchange or communication of data. For example, TCP, UDP, HTTP, IP, Ethernet... In a network context, the reason of the existence of numerous protocols are:
+A protocol is a system of rules to manage the exchange or communication of data. For example, TCP, UDP, HTTP, IP, Ethernet... In a network context, the reasons for the existence of numerous protocols are:
 
 1. The development of rules appropriate to different aspects of network communications. For example, TCP is a protocol that governs the transport of messages between applications, while HTTP governs the structures of those messages.
 2. The development of different rules to address the same aspect of communication, but in different ways for specific cases or needs. For example, TCP provides a *reliable* transmission of messages, and UDP provides a *fast* transmission of messages.
@@ -33,7 +33,7 @@ A PDU or Protocol Data Unit is a block of data transmitted over a network; each 
 * The Data Payload, that contains the actual data we want to transport over the network, according a specific protocol at a specific layer. One very important thing is that the entire PDU from a layer above composes the data payload for the PDU of the layer below (this is a form of data encapsulation, as we are hiding data from one layer, *encapsulating* it inside the PDU of the layer below)
 * An optional Footer or Trailer, that, like the Header, contains more metadata about the PDU.
 
-The use of PDUs in our model allows us to create a separation between the protocols at different layers, a system in which a layer below provides a service to the layers above, by *encapsulating* the data from superior layers into the PDU from the layer below. This way, this separation of layers provides also a form of *abstraction*, allowing the use of protocols at some layer without having to worry about other layers' protocols.
+The use of PDUs in our model allows us to create a separation between the protocols at different layers, a system in which a layer below provides a service to the layers above, by *encapsulating* the data from superior layers into the PDU from the layer below. This way, this separation of layers provides also certain level of *abstraction*, allowing the use of protocols at some layer without having to worry about other layers' protocols.
 
 ## The Physical Network
 
@@ -92,7 +92,7 @@ A router is a networking device that forwards data units between networks; they 
  
 ## Link/Data Link layer
 
-This layer is the second layer in the OSI model, between the Physical and the Network layers, and it is the first layer in the TCP/IP model. The protocols at this layer are concerned with the transmission of data frames between two nodes connected by the physical layer: they identify devices on the physical network, and move the data over the network between the devices that comprise it, like hosts, routers or switches.
+This layer is the second layer in the OSI model, between the Physical and the Network layers, and it is the first layer in the TCP/IP model. The protocols at this layer are concerned with the transmission of frames* between two nodes connected by the physical layer: they identify devices on the physical network, and move the data over the network between the devices that comprise it, like hosts, routers or switches.
 
 ## Ethernet
 The most commonly used protocol at this layer is the Ethernet protocol, with its different standards. The most popular and used of these standards is the IEEE 802.3; different standards have different framing structures. The main difference between standards is the framing structure, as newer Ethernet versions have more fields, for example. In any case, the two main aspects of this protocol remain the same: *framing* and *addressing*.
@@ -123,7 +123,7 @@ In a network with a switch as a bridging device, the switch keeps and updates a 
 
 ## Internet/Network Layer
 
-This layer is the third in the OSI model, the last of the *media layers* (the others are *host layers*), between the Data Link layer and the Transport layer. In the TCP/IP layer, it is the second, between the Link and the Transport layers. The primary function of protocols at this layer is the structuring and managing the communication in a multi-node network: the communication between hosts on different networks, including IP *logical addressing*, *routing*, and *traffic control*.
+This layer is the third in the OSI model, the last of the *media layers* (the other layers above are *host layers*), between the Data Link layer and the Transport layer. In the TCP/IP layer, it is the second, between the Link and the Transport layers. The primary function of protocols at this layer is the structuring and managing the communication in a multi-node network: the communication between hosts on different networks, including IP *logical addressing*, *routing*, and *traffic control*.
 
 Internet Protocol or IP is the most used protocol at this layer, with its two versions, IPv4 and IPv6, the former still being the predominant. But the most important features of these protocols are the same: routing capability via the IP *logical addressing*, and the encapsulation of data from layers above into *packets*.
 

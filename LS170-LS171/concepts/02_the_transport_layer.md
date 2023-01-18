@@ -13,7 +13,9 @@ A port is a unique identifier in the form of an unsigned 16 bits number, assigne
     * 80: Hypertext Transfer Protocol (HTTP) used in World Wide Web
     * 443: HTTP Secure (HTTPS) HTTP over TLS/SSL
 * 1024-49151: Registered ports, assigned as requested by private entities like Microsoft or IBM. Sometimes they are also used for allocation as ephemeral ports on the client side.
-* 49152-65535: Dynamic or private ports, used for customized services or for allocation as ephemeral ports.
+* 49152-65535: Dynamic or private ports, used for customized services or for allocation as *ephemeral* ports.
+
+The servers will usually have one of these ports assigned to services running on them: for example, to connect to a server via HTTPS, the server's process will have the port 443 assigned to it. When this happens, we talk about the server as *listening* to that port. The service on the client, like a browser, trying to connect to that server, can have any ephemeral port assigned to it by the operating system.
 
 The source and destination port numbers are included in the PDUs for the transport layer: so, if the IP addresses in the packet header can be used to direct data from one host to another, the IP address and the port number *together* are what enables end-to-end communication between specific applications on different machines. This combination of IP address plus port define a *communication end-point*, generally known as a *socket*
 
@@ -86,7 +88,7 @@ A process similar to the Three-way Handshake, used for terminating TCP connectio
 
 ## Flow Control
 
-A sender is only able to process some amount of data at a time; when data is waiting to be processed by the receiver, it is stored in a buffer, whose size will depend on the memory allocated on each situation. Flow control is a technique to prevent the sender from overwhelming the receiver with too much data at once. This is achieved thanks to the dynamic use of the WINDOW field in the segments sent: if the receiver's buffer is getting full, the receiver can let the sender know by adjusting and setting a lower WINDOW field value in the segment sent back to it.
+A receiver is only able to process some amount of data at a time; when data is waiting to be processed by the receiver, it is stored in a buffer, whose size will depend on the memory allocated on each situation. Flow control is a technique to prevent the sender from overwhelming the receiver with too much data at once. This is achieved thanks to the dynamic use of the WINDOW field in the segments sent: if the receiver's buffer is getting full, the receiver can let the sender know by adjusting and setting a lower WINDOW field value in the segment sent back to it.
 
 However, in order to prevent both parts to overwhelm the underlying network, an extra congestion avoidance system is needed.
 
