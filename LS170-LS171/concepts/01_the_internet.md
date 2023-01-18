@@ -61,7 +61,7 @@ There are different types of delay; the total latency between two points is the 
 
 * Queuing delay: If a network device receives more data that it can handle at a time, it queues or *buffers* the data; the time that data is waiting in the queue to be processed is the queuing delay.
 
-Other important concepts about latency are the *Last-mile Latency* and the *Round-trip Time*. The Last-mile latency refers to the delays involved in getting the data from, for example, the ISP's network to the destination network, as when the data is approaching its destination the *hops* become more frequent and shorter, being directed down the network hierarchy to the subnetwork.
+Other important concepts about latency are the *Last-mile Latency* and the *Round-trip Time*. The Last-mile latency refers to the delays involved in getting the data from, for example, the ISP's network to the destination network, because when the data is approaching its destination the *hops* become more frequent and shorter, being directed down the network hierarchy to the subnetwork.
 The Round-trip Time refers to the time for a signal to be sent, plus the time for a response to that signal to be received.
 
 ## Hop
@@ -143,7 +143,7 @@ Important fields of a packet header:
 
 ## IP Addresses
 
-IP address are numerical values associated to specific hosts in a computer network that uses the Internet Protocol for communication. They serve two main functions: *network interface identification* and *location addressing*.
+IP addresses are numerical values associated to specific hosts in a computer network that uses the Internet Protocol for communication. They serve two main functions: *network interface identification* and *location addressing*.
 
 Contrary to MAC addresses, they are not physical, but logical: they are not tied to specific devices, but rather assigned to particular devices as they join a network. This IP address assignment follows certain rules, as the local network defines a range of available addresses; this is possible thanks to a hierarchy by which the overall network is divided into logical subnetworks, defined by the range of IP addresses available to it.
 

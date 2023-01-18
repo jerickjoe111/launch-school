@@ -41,7 +41,7 @@ Example: `http://www.launch-school.com:8080/home/example/?item=grade&icon=pass`
 | Scheme | `http` | It indicates the web client the way to access the resource; it can indicate which protocols should be used to access it. |
 | Colon and two forward slashes | `://` | Separates the scheme from the host |
 | Host | `www.launch-school.com` | Where the resource is hosted or located, written in domain name format. DNS will use this to retrieve the IP address equivalent |
-| Port | `:8080 `| Only specified when it must be other than the default (Optional) |
+| Port | `8080 `| Only specified when it must be other than the default (Optional) |
 | Path | `/home/example/` | It specifies what local resource is being requested (Optional) |
 | Query String | `?item=grade&icon=pass` | It sends data to the server via query parameters in HTTP `GET` requests (Optional) |
 
@@ -79,7 +79,7 @@ Query String Reserved Characters:
 | `=` | Separates parameter name from its parameter value in a name-value pair |  
 | `&` | Used between parameters when adding multiple parameters |
 
-But the use of query strings implies some limitations: they have *limited length*, so they only can be used to pass a limited amount of data; the parameters are *visible* in the URL, which is concerning in the context of sensitive information; and some special characters have to be *encoded*, because they are syntactically meaningful in query strings.
+But the use of query strings implies some limitations: they have *limited length*, so they only can be used to pass a limited amount of data; the parameters are *visible* in the URL, which is concerning in the context of sensitive information; and some special characters have to be *encoded*, because they are syntactically meaningful in query strings, or aren't accepted by the URL syntax.
 
 ## URL Encoding
 
@@ -98,7 +98,7 @@ Some domain names may contain an optional, third-level domain (called a subdomai
 
 ## Domain Name System or DNS
 
-To identify a host on the internet, we use IP addresses as labels, plus a port number that specifies the dedicated channel for communication. However, as the internet is composed by an innumerable number of hosts, it would be extremely confusing tracking which addresses identify which hosts, and wouldn't be very human-friendly. For this reason, the DNS service exist.
+To identify a host on the internet, we use IP addresses as labels (plus a port number that specifies the dedicated channel for communication). However, as the internet is composed by an innumerable number of hosts, it would be extremely confusing tracking which addresses identify which hosts, and wouldn't be very human-friendly. For this reason, the DNS service exist.
 
 DNS is a distributed (not centralized) database across multiple, hierarchically organized servers, that is used for mapping the domain name with human-friendly host format like `www.google.com` to the appropriate IP address, like `197.251.230.45`, in an HTTP request.
 
@@ -119,7 +119,8 @@ Is a robust and efficient protocol, but also insecure just by itself, as the req
 
 ## The client-server model
 
-The client-server model is a type of network architecture by which the participants in the message exchange have clearly defined roles: *client* and *server*. Clients (in the context of HTTP, usually specialized processes such as web browsers) send requests to the servers expecting to retrieve some data or resource, or to trigger some action within the server on the client's behalf; servers send back a response to that request, with the data or resource requested, and/or some information about the action performed and valuable information about the processing of that request. Upon receipt, the client process that response. There may be many clients connected to a single server, but the dynamic is the same. 
+The client-server model is a type of network architecture by which the participants in the message exchange have clearly defined roles: *client* and *server*. Clients (in the context of HTTP, usually specialized processes such as web browsers) send requests to the servers expecting to retrieve some data or resource, or to trigger some action within the server on the client's behalf; servers send back a response to that request, with the data or resource requested, and/or some information about the action performed and valuable information about the processing of that request. Upon receipt, the client processes that response. There may be many clients connected to a single server, but the dynamic is the same.
+
 There are other types of network architecture, like the peer-to-peer (P2P) model, which is a node-based no-hierarchy model.
 
 ## Server
@@ -145,7 +146,7 @@ An HTTP is composed by two elements: A *request header*, that includes a *reques
   * Headers: The headers are colon separated name-value pairs that provide additional metadata about the client, the resource or the request itself. The `host` header must be included in HTTP/1.1 and subsequent versions. Other headers are optional and can be useful to define the preferred client's connection type (like `keep-alive`), the languages it accepts, to provide session data (via the `session id`), or to define the `Content-Length`.
 
 - Body:
-  It is usually used for `POST` request, to send the actual data to the server. Its content depends on the particular method. Not used for GET requests.
+  It is usually used for `POST` request, to send the actual data to the server (for example, name=value parameter pairs, instead of doing it via query strings in the URL like we do in `GET` requests). Its content depends on the particular method. Not used for GET requests.
 
 ## HTTP Request Methods
 
@@ -160,10 +161,10 @@ There are other methods used for specific situations: `PUT`, `HEAD`, `DELETE`, `
 
 An HTTP response is a string (text-based) message sent from the server to the client in response to a request sent by the latter. This response provides the client with the requested resource, inform the client that the requested action has been successful, or that it has been an error processing the request.
 
-An HTTP response is composed by two elements: the response *header*, that includes the *status* or *response line*, and a series of *headers* or *header fields*, and a message *body*. As in HTTP requests, each header is followed by a new line character, and a black line separates the header from the body.
+An HTTP response is composed by two elements: the response *Header*, that includes the *status* or *response line* and a series of *headers* or *header fields*, and a message *Body*. As in HTTP requests, each header is followed by a new line character, and a black line separates the header from the body.
 
 - Header:
-  * Status line: It contains the HTTP *version* used, a three digit status code, and a status text. All separated by a single space. The status codes indicate the status of the request, and the status text is a short description of the code meaning. An example of a status line could be: `HTTP/1.1 200 OK`. The status line with the status code is the only required element in a response.
+  * Status line: It contains the HTTP *version* used, a three digit status code, and a status text. All separated by a single space. The status codes indicate the status of the request, and the status text is a short description of the code meaning. An example of a status line could be: `HTTP/1.1 200 OK`. The status line with the status code is the only required element in an HTTP response.
 
   * Headers: The headers are colon separated name-value pairs that provide additional information about the response data and the server that sent it. They can be useful to help the client displaying the response, caching the response for future use, the type of encoding used in the data, etc. It can also redirect the client to a new `Location` where the resource has been moved.
 
@@ -198,7 +199,7 @@ Let's describe this cycle in detail following a basic `GET` request model when t
 3. The `GET` request is sent to a port *p* of the user's device, where *p* is the port number set by the client's process.
 4. The DNS lookup maps the destination IP address for the URL host, if the IP for that host is not cached by the client, to direct the HTTP request to the server once the DNS request has been responded.
 5. The processing and successive encapsulations of lower layers is taking place: multiplexing and segmentation in the Transport layer; packaging and network-to-network traveling at the Internet layer; framing, *de-framing* and reframing, and device-to-device transportation at the Data Link layer level, etc., until the packet reaches the server, opens it, reassembles the segments, performs demultiplexing, and finally opens the request on port 80 (the port by default for HTTP) and processes the HTTP request sent by the client.
-6. Once the server has processed the request, it then sends an HTTP response to the client, including a header with the status line, and usually some headers with information about the response data and useful information for the client, plus the data of the resource requested in the response body, in this case, raw HTML code.
+6. Once the server has processed the request, it then sends an HTTP response to the client, including a header with the status line, and usually some headers with information about the response data and useful information for the client, plus the data of the resource requested in the response body, in this example, raw HTML code.
 7. When the client receives the response, it will process the information within it and will render the HTML code contained in the response body in a human user-friendly way, with the help of the response headers. And, if the HTML contains references to other resources (like images), the browser automatically will send the corresponding `GET` requests for those too, and the cycle will be repeated until the client stops sending more requests.
 
 ## State and statelessness
@@ -214,7 +215,7 @@ In the web applications' context, a session refers to the user's visit to a webs
 Session IDs works as unique tokens that, first, are sent from the server to the client in an HTTP response; from then on, the client will append this session ID to all subsequent request that this client sends to this server, allowing the server to identify that specific client, and generating some kind of appropriate content unique to that user in the response, thus simulating a sense of state persistence between requests. Again, this is a simulation, as HTTP is *per se* a stateless protocol.
 
 This technique implies a process that generates certain overhead:
-1. Each request has to be processed to check if includes a session ID.
+1. Each request has to be processed to check if it includes a session ID.
 2. If it does, the server has to implement some process to check for the validity of that session ID, rules for session ID expiration, and how to store the user's session data.
 3. It has to retrieve that session data from some kind of database.
 4. And then the server has to generate a unique response based on that session's data.
@@ -225,7 +226,7 @@ This whole process compels the web developers to implement some kind of session 
 
 Employing cookies is the most common way to store session information. Cookies are unique, expiring session identifiers that are sent from the server to the client, to be stored in the client's side in the form of small files. The cookies will be sent to the server in all subsequent requests, so the server can identify the client's session on each request, store and/or retrieve the appropriate data for that session, and generate unique responses to that client with that retrieved data, thus simulating a sense of persistent information or state between request/response cycles (as HTTP is a stateless protocol)
 
-In a more practical terms, usually the cookie data is sent to the client in an initial response via `set-cookie` headers, and then that cookie data is included in the client's following requests in the `cookie` request header.
+In more practical terms, usually the cookie data is sent to the client in an initial response via `set-cookie` headers, and then that cookie data is included in the client's following requests in the `cookie` request header.
 
 ## AJAX
 
