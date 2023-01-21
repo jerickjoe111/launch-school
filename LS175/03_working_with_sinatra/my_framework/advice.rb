@@ -10,6 +10,7 @@ class Advice
       "Nothing will work unless you do."
     ]
   end
+  
   def generate
     @advice_list.sample
   end
