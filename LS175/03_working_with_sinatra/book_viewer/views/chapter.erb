@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><%=@title %></title>
+    <title><%= @chapter_title %></title>
 
-    <link rel="stylesheet" href="stylesheets/pure-min.css">
-    <link rel="stylesheet" href="stylesheets/fonts.css">
-    <link rel="stylesheet" href="stylesheets/book_viewer.css">
+    <link rel="stylesheet" href="/stylesheets/pure-min.css">
+    <link rel="stylesheet" href="/stylesheets/fonts.css">
+    <link rel="stylesheet" href="/stylesheets/book_viewer.css">
 </head>
 
 <body>
@@ -39,17 +39,12 @@
         </div>
 
         <div class="content">
-          <h2 class="content-subhead">Table of Contents</h2>
-
-          <div class="pure-menu">
-            <ul class="pure-menu-list">
-              <% @table_of_contents.each_with_index do |chapter, index| %>
-                <li class="pure-menu-item">
-                  <a href="#" class="pure-menu-link"><%= chapter %></a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+          <h2 class="content-subhead"><%= @chapter_title %></h2>
+          <% @chapter_text.split("\n\n").each_with_index do |paragraph, index| %>
+              <p id=<%= "\"paragraph#{index}\"" %>>
+                <%= paragraph %>
+              </p>
+          <% end %>
         </div>
       </div>
   </div>
