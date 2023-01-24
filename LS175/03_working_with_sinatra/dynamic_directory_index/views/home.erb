@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Directory Index</title>
+</head>
+<body>
+  <h1>These are the files inside the <code>public</code> directory: </h1>
+    <ul>
+      <% @files.each do |file| %>
+        <li><a href=<%="#{file}"%>><%= "#{file}" %></a></li>
+      <% end %>
+    </ul>
+    <% sort_mode = @descending ? 'ascending' : 'descending' %>
+  <a href="/?order=<%=sort_mode %>">Sort <%= "#{sort_mode}" %></a>
+</body>
+</html>
