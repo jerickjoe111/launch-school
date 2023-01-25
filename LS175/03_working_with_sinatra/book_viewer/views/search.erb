@@ -1,0 +1,17 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+</form>
+
+
+<% if params.empty? then nil %>
+<% elsif @matching_chapters.empty? %>
+  <p>Sorry, no matches were found.</p>
+<% else %>
+  <h2 class="content-subhead">Results for '<%= @search_string %>': </h2>
+  <ul>
+    <%= search_results(@matching_chapters, @search_string)%>
+  </ul>
+<% end %>
