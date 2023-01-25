@@ -1,0 +1,12 @@
+<h5 class="content-heading"><%= @name.capitalize %> </h5>
+<p class="content-email"><%= @users[@name.downcase.to_sym][:email] %></p>
+<h5 class="content-heading"> Interests: </h5>
+<p class="content-element"><%= interests(@name) %></p>
+<h5 class="content-heading">Other users you may be interested in: </h5>
+<ul>
+  <% list.each do |other_user| %>
+    <% other_user = other_user.downcase %>
+    <% next if other_user == @name %>
+    <li class="content-user"><a href="/user/<%= other_user %>"><%= other_user.capitalize %></a></li>
+  <% end %>
+</ul>

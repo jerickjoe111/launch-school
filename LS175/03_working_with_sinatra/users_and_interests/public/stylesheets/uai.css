@@ -1,0 +1,67 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  color: ivory;
+  background-color: #181a1b;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+header {
+  border: ivory;
+  border-style: dotted;
+  border-width: 2px;
+  margin-left: 500px;
+  margin-right: 500px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 3em;
+  text-decoration: none;
+}
+
+.subtitle {
+  font-style: italic;
+}
+
+.content-heading, .content-other_users {
+  text-indent: 1rem;
+  margin-top: 10px;
+}
+
+footer {
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.content-main {
+  border: ivory;
+  border-style: dotted;
+  border-width: 2px;
+  margin-top: 20px;
+  margin-left: 500px;
+  margin-right: 500px;
+  text-align: left;
+}
+
+.content-element, .content-email {
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: none;
+  list-style: none;
+  color: rgb(155, 204, 238);
+  line-height: 2rem;
+  padding-left: 40px;
+}
+
+.content-user {
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: none;
+  list-style: none;
+  color: rgb(155, 204, 238);
+  line-height: 2rem;
+}
+
+
+
+

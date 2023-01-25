@@ -1,0 +1,10 @@
+<% if @users_name_list.empty? %>
+  <p>There are no users yet!</p>
+<% else%>
+  <h5 class="content-heading">Current users: </h5>
+  <ul>
+  <% @users_name_list.each do |name| %>
+    <li class="content-user"><a href="/user/<%= name.downcase %>"><%= name %></a></li>
+  <% end %>
+  </ul>
+<% end %>
