@@ -1,4 +1,4 @@
-# Welcome to my Launch School Core Curriculum remote repository.
+# 📚 Welcome to my Launch School Core Curriculum remote repository. 📚
 
 Here you will find:
 
