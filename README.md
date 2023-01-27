@@ -1,4 +1,4 @@
-# <p style="text-align: center;">📚 Welcome to my Launch School Core Curriculum remote repository.📚 </p> 
+# <h1 style="text-align: center;">📚 Welcome to my Launch School Core Curriculum remote repository.📚 </h1> 
 
 Here you will find:
 
