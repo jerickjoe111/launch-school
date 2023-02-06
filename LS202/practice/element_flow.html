@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Element Flow</title>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    body {
+      padding: 10px;
+    }
+
+    .flow_800 {
+      border: 1px solid grey;
+      width: 801px;
+      padding: 1px;
+      height: 276px;
+      margin: auto;
+    }
+      
+    .flow_700 {
+      border: 1px solid grey;
+      width: 702px;
+      padding: 2px;
+      height: 361px;
+      margin: auto;
+      margin-top: 30px;
+    }
+
+    .basic {
+      border: 1px solid blue;
+      display: inline-block;
+      vertical-align: top;
+      margin: -2px;
+    }
+
+    .flow_700 .basic {
+      margin-bottom: 2px;
+    }
+
+    .a {
+      width: 300px;
+      height: 125px;
+      background-color: pink;
+    }
+    
+    .b {
+      width: 400px;
+      height: 200px;
+      background-color: lightsalmon;
+    }
+    
+    .c {
+      width: 100px;
+      height: 100px;
+      background-color: lightyellow;
+    }
+    
+    .d {
+      width: 500px;
+      height: 80px;
+      background-color: lightgreen;
+    }
+    
+    .e {
+      width: 250px;
+      height: 60px;
+      background-color: lightcyan;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="flow_800">
+    <div class="basic a"></div>
+    <div class="basic b"></div>
+    <div class="basic c"></div>
+    <div class="basic d"></div>
+    <div class="basic e"></div>
+  </div>
+
+  <div class="flow_700">
+    <div class="basic a"></div>
+    <div class="basic b"></div>
+    <div class="basic c"></div>
+    <div class="basic d"></div>
+    <div class="basic e"></div>
+  </div>
+</body>
+</html>
