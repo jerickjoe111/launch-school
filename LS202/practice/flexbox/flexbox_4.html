@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox 4</title>
+  <style>
+    html {
+      font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    header, main, footer {
+      border: 1px solid pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    article, aside {
+      height: 100px;
+      flex: 1;
+      text-align: center;
+    }
+
+
+    header {
+      background-color: aqua;
+    }
+
+    footer {
+      background-color: coral;
+    }
+
+    article {
+      background-color: lightgreen;
+    }
+
+    aside {
+      background-color: lightskyblue;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Header</h1>
+  </header>
+  <main>
+    <article>
+      <h1>Article</h1>
+    </article>
+    <aside>
+      <h1>Aside</h1>
+    </aside>
+  </main>
+  <footer>
+    <h1>Footer</h1>
+  </footer>
+</body>
+</html>
