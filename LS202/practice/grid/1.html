@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid</title>
+  <style>
+    .container {
+      display: grid;
+      grid-template: repeat(2, 50px) / repeat(2, 50px);
+      grid-auto-rows: 50px;
+      gap: 15px;
+    }
+
+    .container > div {
+      border: 1px solid blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="item1">Item 1</div>
+    <div class="item2">Item 2</div>
+    <div class="item3">Item 3</div>
+    <div class="item4">Item 4</div>
+    <div class="item4">Item 5</div>
+  </div>
+</body>
+</html>

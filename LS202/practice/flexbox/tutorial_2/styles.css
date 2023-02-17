@@ -22,6 +22,8 @@ body {
   gap: 16px;
 }
 
+/* Header */
+
 .header-container, .footer-container {
   border: 4px solid #2000ff;
   background-color: #add8e6;
@@ -53,6 +55,13 @@ body {
   flex: 1;
 }
 
+.header-left, .header-center, .header-right, .footer-center-left, .footer-center-right {
+  border: 4px solid #f78072;
+  height: 60px;
+}
+
+/* Middle */
+
 .middle-container {
   display: flex;
   justify-content: space-between;
@@ -73,10 +82,7 @@ body {
   gap: 8px;
 }
 
-.header-left, .header-center, .header-right, .footer-center-left, .footer-center-right {
-  border: 4px solid #f78072;
-  height: 60px;
-}
+/* Footer */
 
 .footer-container {
   padding: 8px;

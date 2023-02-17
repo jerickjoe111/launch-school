@@ -1,0 +1,19 @@
+.container > div {
+  padding: 10px;
+  text-align: center;
+  font-size: 2em;
+  color: #ffeead;
+}
+
+html, body {
+  background-color: #ffeead;
+  margin: 10px;
+}
+
+.container > div:nth-child(odd) {
+  background-color: #96ceb4;	
+}
+
+.container > div:nth-child(even) {
+  background-color: #ff6f69;
+}
