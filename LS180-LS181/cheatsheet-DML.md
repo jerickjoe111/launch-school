@@ -6,7 +6,7 @@ INSERT INTO table_name
 VALUES
 (data_for_column, data_for_column,...),
 (data_for_column, data_for_column,...)
-...
+-- ...
 ;
 ```
 

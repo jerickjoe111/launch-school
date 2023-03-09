@@ -1,8 +1,4 @@
 ## Cardinality
-## Column
-## Constraint
-## Data
-## Database
 
 
 ## Key
@@ -13,22 +9,33 @@ There are two main types of keys: _natural_ and _surrogate_.
 
 - Natural keys are values already existing in the record that can uniquely identify it within the table; examples of this could be a person's full name, social number or email. To even more specifically identify rows, more than one of these natural keys can be used, becoming a _composite key_: for example, a person could be identified in a table by using his/her full name plus its telephone number. However, this way of identifying entities is suboptimal and prone to errors, as some natural keys may or may not be present in certain rows, or they might not be as unique as they seemed at first. In order to avoid these potential problems, surrogate keys are used.
 
-- Surrogate keys are values specifically created to identify rows in a table; they are values contained in identifier columns, usually called `id`, whose implementation includes a way for the values to remain unique across all the table, for example, with an auto-incrementing integer (via `nextval()` SQL function) or a random hexadecimal generator, and a way to enforce that uniqueness by raising errors in case an existing key value is inserted. 
+- Surrogate keys are values specifically created to identify rows in a table; they are values contained in identifier columns, usually called `id`, whose implementation includes a way for the values to remain unique across all the table, for example, with an auto-incrementing integer (via `nextval()` SQL function) or a random hexadecimal generator, and a way to enforce that uniqueness by raising errors in case an existing key value is introduced. 
 
 There are two kinds of surrogate keys in SQL tables, _primary_ and _foreign_: Primary keys are used to identify a unique record in a table, and foreign keys are values within a table that reference the primary keys of another table. Here lays one of the most powerful feats of the relational database model: the power to establish relationships between rows from different tables. This allows us to arrange the data across multiple tables and define links between those tables in a process called _normalization_, that help us reduce redundancy and data duplication, and improve the data integrity. Also, an _index_ is created (a self-balancing binary tree) for each primary key in the database.
 
 Although it's not strictly necessary, it's a well established good practice to define an `id` primary key column for every table with integer or valid UUI (Universally Unique Identifier) values.
 
 ## Modality
-## Cardinality
-## PostgreSQL
-## Relation
-## Relationship
-## Row
-## Schema
+
 ## Sequence
 
-A sequence is a special kind of relation that generates a series of numbers. A sequence will remember the last number it generated, so it will generate numbers in a predetermined sequence automatically.
+A sequence is a relation (like a functional type of table within a database) that generates numbers according to the rules defined in the sequence creation, usually a part of the database _schema_ providing unique integer values for primary keys. When we create a column with a data type of `serial`, a sequence is implicitly created, and the default value for that column will become the value returned from the `nextval()` function for the sequence: this way, each time a new record is inserted into the table, a new value will be automatically generated, thus acting as a unique identifier for that row within the table. 
+
+```sql
+CREATE SEQUENCE sequence_name
+  [START WITH initial_value]        -- specifies the value you want the sequence to start at
+  [INCREMENT BY increment_value]    -- specifies what to increment each sequence value by to get the next one
+  [MINVALUE minimum_value]          -- specifies a minimum value (if desired)
+  [MAXVALUE maximum_value]          -- specifies a maximum value (if desired)
+  [CYCLE/NOCYCLE];                  -- CYCLE will cause the sequence to restart if it reaches a limit
+                                  -- NOCYCLE will cause an error to be thrown if the limit is reached
+```
+
+We can get the next value of any given sequence with the `nextval()` function:
+
+```sql
+SELECT nextval('sequence_name');
+```
 
 ## SQL
 
