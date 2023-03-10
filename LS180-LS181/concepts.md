@@ -91,4 +91,4 @@ Modality indicates if a relationship is required or optional. If it is required,
 
 Cardinality and Modality can be represented in a diagram thanks to the Crow's Foot Notation:
 
-![Crow's Foot Notation]()
+![Crow's Foot Notation](http://tdan.com/wp-content/uploads/2016/07/stewart06012008_3.gif)
