@@ -1,4 +1,12 @@
-## Cardinality
+## SQL
+
+SQL is a special purpose language used to interact with databases that follow the relational model. Developed at IBM during the 70s, it is a predominantly declarative language that can be thought of as a language comprised by three sub-languages, each one dedicated to particular aspects of database interaction:
+
+-  **DDL** (_Data Definition Language_): it is the sub-language that allows its user to define or alter the _structure_ of a database, its _schema_; this is, to create or modify the rules by which the data will be stored: what columns the table will have, what data type will be stored in each column, how a column will link a table to another, etc. Examples of DDL usage would be the following statements: `CREATE TABLE`, `ALTER TABLE`, `ADD COLUMN`, etc.
+
+- **DML** (_Data Manipulation Language_): it is the sub-language that allows its user to insert, retrieve, modify or delete the actual data that is contained by a database. Unlike with DDL, a DML operation won't alter the database's structure. Examples of DML usage would be: `SELECT`, `INSERT`, `UPDATE`, `DELETE`.
+
+- **DCL** (_Data Control Language_): it is the sub-language used to control the access rules to the database of particular users, the different kinds of interactions a user can have. Examples of DCL keywords would be `GRANT` or `REVOKE`.
 
 ## Key
 
@@ -13,8 +21,6 @@ There are two main types of keys: _natural_ and _surrogate_.
 There are two kinds of surrogate keys in SQL tables, _primary_ and _foreign_: Primary keys are used to identify a unique record in a table, and foreign keys are values within a table that reference the primary keys of another table. Here lays one of the most powerful feats of the relational database model: the power to establish relationships between rows from different tables. This allows us to arrange the data across multiple tables and define links between those tables in a process called _normalization_, that help us reduce redundancy and data duplication, and improve the data integrity. Also, an _index_ is created (a self-balancing binary tree) for each primary key in the database.
 
 Although it's not strictly necessary, it's a well established good practice to define an `id` primary key column for every table with integer or valid UUI (Universally Unique Identifier) values.
-
-## Modality
 
 ## Sequence
 
@@ -35,17 +41,6 @@ We can get the next value of any given sequence with the `nextval()` function:
 ```sql
 SELECT nextval('sequence_name');
 ```
-
-## SQL
-
-SQL is a special purpose language used to interact with databases that follow the relational model. Developed at IBM during the 70s, it is a predominantly declarative language that can be thought of as a language comprised by three sub-languages, each one dedicated to particular aspects of database interaction:
-
--  **DDL** (_Data Definition Language_): it is the sub-language that allows its user to define or alter the _structure_ of a database, its _schema_; this is, to create or modify the rules by which the data will be stored: what columns the table will have, what data type will be stored in each column, how a column will link a table to another, etc. Examples of DDL usage would be the following statements: `CREATE TABLE`, `ALTER TABLE`, `ADD COLUMN`, etc.
-
-- **DML** (_Data Manipulation Language_): it is the sub-language that allows its user to insert, retrieve, modify or delete the actual data that is contained by a database. Unlike with DDL, a DML operation won't alter the database's structure. Examples of DML usage would be: `SELECT`, `INSERT`, `UPDATE`, `DELETE`.
-
-- **DCL** (_Data Control Language_): it is the sub-language used to control the access rules to the database of particular users, the different kinds of interactions a user can have. Examples of DCL keywords would be `GRANT` or `REVOKE`.
-
 
 ## `JOIN`
 
@@ -70,3 +65,30 @@ Besides this information, we have also to provide the type of `JOIN` we want to 
 
 It is possible to join additional tables, by chaining different `JOIN` clauses in the statement, as long as there is a logical relationship between them. For each additional table, SQL will join the next join table to the table produced by the preceding join, a transient table (a kind of provisional, _virtual_ table), until there are no more joins to make, and the appropriate columns are selected.
 
+## Schema
+
+A diagram can represent a database in three broad levels of abstraction:
+
+1. Conceptual (higher level)
+2. Logical (middle level)
+3. Physical (lower level)
+
+A conceptual schema remains at a high level of abstraction, as it focuses on representing the entities within a database and their relationships. It is an _entity-relationship model_ that describes the entities and how they relate. Usually, shapes like squares represent each entity, and lines, following some kind of standardized notation, represent the different types of relationships between those entities. Sometimes it is called ERD. It's important to say that the number of entities at this level does not reflect the number of tables the database will have.
+
+The logical level of the schema has a lower level of abstraction, but still it does not represent specific details about the database implementation
+
+The physical level of schema is focused on representing the specific implementation details of the database; it's concerned with the design specifics of tables, as columns, data types, constraints or how keys will link on table to another. It is a _design specific model_.
+
+## Cardinality
+
+Cardinality refers to the number of entities at each side of the relationship, indicating if it is a one-to-one, one-to-many, or a many-to-many relationship. Sometimes _many_ is represented with an infinite '∞' symbol.
+
+## Modality 
+
+Modality indicates if a relationship is required or optional. If it is required, the relationship's modality is represented with a '1', because there has to be at least one instance of an entity in that relationship; a modality of '0' represents that a relationship is optional, as there is no _need_ to be an instance in that relationship.
+
+## Crow's Foot Notation
+
+Cardinality and Modality can be represented in a diagram thanks to the Crow's Foot Notation:
+
+![Crow's Foot Notation]()

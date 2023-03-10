@@ -69,7 +69,7 @@ ALTER TABLE table_name
 
 ```sql
 ALTER TABLE table_name
-  ADD UNIQUE (column_name);
+  ADD UNIQUE (column_name [, optional additional columns to add uniqueness to the combinations of these columns]);
 ```
 
 ## Adding a `DEFAULT` value constraint to a column:
@@ -109,7 +109,9 @@ ALTER TABLE table_name
   DROP DEFAULT;
 ```
 
-## Add a constraint as a table constraint
+## Add a foreign key constraint as a table constraint
+(to add a `ON DELETE` constraint to an already existing foreign key column, first drop the foreign key constraint,
+add the `ON DELETE`, and then add again the foreign key constraint)
 ```sql
 ALTER TABLE table_name
   ADD [CONSTRAINT table_column_name_fkey]
