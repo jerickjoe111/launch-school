@@ -112,8 +112,8 @@ ALTER TABLE table_name
 ## Add a constraint as a table constraint
 ```sql
 ALTER TABLE table_name
-  ADD CONSTRAINT table_column_name_fkey
-  FOREIGN KEY (column_name) REFERENCES other_column(id) ON DELETE CASCADE;
+  ADD [CONSTRAINT table_column_name_fkey]
+  FOREIGN KEY (column_name) REFERENCES other_table(column_name) ON DELETE CASCADE;
 ```
 
 ## Remove a foreign key constraint with the constraint name
@@ -122,7 +122,6 @@ ALTER TABLE table_name
 ALTER TABLE table_name
   DROP CONSTRAINT table_column_id_fkey;
 ```
-
 
 ## Adding a column:
 

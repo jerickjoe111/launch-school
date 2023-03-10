@@ -1,6 +1,5 @@
 ## Cardinality
 
-
 ## Key
 
 A key is a unique identifier for rows in a database table. As a value it is usually an integer, but it also can be a hexadecimal number, long strings of numbers and letters, etc., as long as it is unique within the database and can correctly identify a particular record.
@@ -61,13 +60,13 @@ Besides this information, we have also to provide the type of `JOIN` we want to 
 
 - _Inner join_: Sometimes 'simple join', this is the default type of join, the kind that SQL will assume we want in case we just use `JOIN`. This join is used to select all matching rows from both tables, as long as the join condition defined in the SQL statement is satisfied.
 
-- _Left join_: Sometimes 'left outer join', a left join will take all the rows from the first or left table and join them with the rows from the second or right table in the cases the join condition is satisfied. However, unlike an inner join, a left join will always include all rows from the left table, even if the rows don't have matching rows in the second or right table: in these cases, the corresponding rows will use `NULL` to represent the absence of a value from the right table.
+- _Left join_: Sometimes `LEFT OUTER JOIN`, a left join will take all the rows from the first or left table and join them with the rows from the second or right table in the cases the join condition is satisfied. However, unlike an inner join, a left join will always include all rows from the left table, even if the rows don't have matching rows in the second or right table: in these cases, the corresponding rows will use `NULL` to represent the absence of a value from the right table.
 
-- _Right join_: Sometimes 'right outer join', it works exactly as the left join but in the other direction: this time, it will be the rows from the right table what will be included in the join, even if there's no matching rows in the left table, and a `NULL` will be used to represent the missing value.
+- _Right join_: Sometimes `RIGHT OUTER JOIN`, it works exactly as the left join but in the other direction: this time, it will be the rows from the right table what will be included in the join, even if there's no matching rows in the left table, and a `NULL` will be used to represent the missing value.
 
-- _Full join_: Sometimes 'full outer join', it is the combination of the left join and the right join: this type of join will always contain all rows from both tables, but, if there's no match in any of the two tables, a `NULL` value will be used to represent the missing value.
+- _Full join_: Sometimes `FULL OUTER JOIN`, it is the combination of the left join and the right join: this type of join will always contain all rows from both tables, but, if there's no match in any of the two tables, a `NULL` value will be used to represent the missing value.
 
 - _Cross join_: Sometimes 'Cartesian join', it will include all the _possible_ combinations of the rows from both tables, resulting in the cross product of the sets that each table represent. For this reason, it is performed without an `ON` condition.
 
-It is possible to join additional tables, by chaining different join clauses in the statement, as long as there is a logical relationship between them. For each additional table, SQL will join the next join table to the table produced by the preceding join, a transient table (a kind of provisional, _virtual_ table), until there are no more joins to make, and the appropriate columns are selected.
+It is possible to join additional tables, by chaining different `JOIN` clauses in the statement, as long as there is a logical relationship between them. For each additional table, SQL will join the next join table to the table produced by the preceding join, a transient table (a kind of provisional, _virtual_ table), until there are no more joins to make, and the appropriate columns are selected.
 
