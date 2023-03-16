@@ -114,7 +114,7 @@ ALTER TABLE table_name
 add the `ON DELETE`, and then add again the foreign key constraint)
 ```sql
 ALTER TABLE table_name
-  ADD [CONSTRAINT table_column_name_fkey]
+  ADD [CONSTRAINT new_constraint_name]
   FOREIGN KEY (column_name) REFERENCES other_table(column_name) ON DELETE CASCADE;
 ```
 
@@ -122,7 +122,7 @@ ALTER TABLE table_name
 
 ```sql
 ALTER TABLE table_name
-  DROP CONSTRAINT table_column_id_fkey;
+  DROP CONSTRAINT constraint_name;
 ```
 
 ## Adding a column:
