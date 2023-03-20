@@ -67,7 +67,7 @@ It is possible to join additional tables, by chaining different `JOIN` clauses i
 
 ## Schema
 
-A diagram can represent a database in three broad levels of abstraction:
+A diagram can represent a database structure or _schema_ in three broad levels of abstraction:
 
 1. Conceptual (higher level)
 2. Logical (middle level)

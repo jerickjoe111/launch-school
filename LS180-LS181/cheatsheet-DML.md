@@ -49,5 +49,5 @@ WHERE expression;
 ## Delete data in all rows:
 
 ```sql
-DELETE FROM table_name
+DELETE FROM table_name;
 ```
