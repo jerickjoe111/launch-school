@@ -243,10 +243,10 @@ li a:hover {
 
 .sponsors-container img {
   margin-right: 30px;
+  margin-bottom: 5px;
 }
 
 .silver img {
-  margin: 0;
   max-width: 250px;
 }
 
@@ -256,29 +256,11 @@ li a:hover {
   padding-right: 30px;
 }
 
-.last img {
-  /* margin-left: 30px; */
+/* Presented by */
+
+.presented {
+  background: url('../images/people.jpg') center no-repeat;
 }
-
-.last img:last-child {
-  /* border: 1px solid blue; */
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 654px) {
   nav {
