@@ -18,6 +18,7 @@ This will return a `Result` object on which we will call different methods in or
 |---------------------------------------------|-------------------------------------------------------------------------------|
 | `PG.connect(dbname: "a_database")`            | Create a new PG::Connection object                                            |
 | `connection.exec("SELECT * FROM table_name")` | execute a SQL query and return a PG::Result object                            |
+| `connection.exec_params("SELECT * FROM $1, $2...", [param1, param2...])` | execute a SQL query and return a PG::Result object; add `params` in array as second argument, in order                            |
 | `result.values`                              | Returns an Array of Arrays containing values for each row in result|
 | `result.fields`                               | Returns the names of columns as an Array of Strings                           |
 | `result.ntuples`                              | Returns the number of rows in result|
