@@ -63,22 +63,22 @@ count *= 1
 count * 3
 
 // Equality and relational operators test wether two values are equal, unequal, less than, greater than...
-let x = 1, y = 3;
+let x_ = 1, y = 3;
 
-x === y // Strict equality
-x !== y
-x < 7
-x > 7
-x <= 7
-x >= 7
+x_ === y // Strict equality
+x_ !== y
+x_ < 7
+x_ > 7
+x_ <= 7
+x_ >= 7
 'two' === 'three' // False
 'two' > 'three' // True (tw comes after th in ASCII)
-false === (x > y) // True
+false === (x_ > y) // True
 
 // Logical operators:
 
-(x === y) && (x > y)
-(x !== y) || (x > y)
+(x_ === y) && (x_ > y)
+(x_ !== y) || (x_ > y)
 
 
 // Functions are parameterized blocks of JS code that we can invoke.
@@ -90,7 +90,7 @@ function plus1(x) {
 plus1(3) // => 4
 
 // Functions are values and can be assignes to variables.
-let square = function(x) {
+let square_ = function(x) {
   return x * x;
 }
 
