@@ -1,10 +1,10 @@
 // This is a comment
 
 // A variable is a symbolic name for a value.
-// Variables are declared with the let keyword:
+// Variables are DECLARED with the let keyword: (statement)
 let x;
 
-// Values are assigned to values with an = sign:
+// Values are ASSIGNED to values with an = sign: (expression, assignment resolves to a value)
 x = 0;
 // A variable evaluates to its value
 
