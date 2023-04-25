@@ -58,10 +58,10 @@ difference = end - start;
 console.log(end)
 console.log(difference)
 
-// Declare a variable named answer and initialize it to the result of 11 plus 31 multiplied 
+// Declare a variable named answer2 and initialize it to the result of 11 plus 31 multiplied 
 // by 3 as one statement, then log the result. Your result should be 126. 
 // If you get a different result, you may need to use some parentheses to 
 // change the order of operations: you want to perform the addition first, then the multiplication.
 
-let answer = (11 + 31) * 3;
+let answer2 = (11 + 31) * 3;
 console.log(answer)
