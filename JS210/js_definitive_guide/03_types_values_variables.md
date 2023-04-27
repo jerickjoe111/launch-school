@@ -339,7 +339,7 @@ They have the same syntax, but important differences:
 
 ### Destructuring Assignment
 
-In a destructuring assignment, the value on the right hand side of the `=` operator is an array of object (a _structured_ value), and the left hand side specifies one or more variable names using a syntax that mimics array and object literal syntax. When a destructuring assignment occurs, one or more values are extracted (_destructured_) from the value on the right and stored into the variables named on the left:
+In a destructuring assignment, the value on the right-hand side of the `=` operator is an array of object (a _structured_ value), and the left-hand side specifies one or more variable names using a syntax that mimics array and object literal syntax. When a destructuring assignment occurs, one or more values are extracted (_destructured_) from the value on the right and stored into the variables named on the left:
 
 ```js
 let [x, y] = [1, 2]; // Same as let x = 1, y = 2
