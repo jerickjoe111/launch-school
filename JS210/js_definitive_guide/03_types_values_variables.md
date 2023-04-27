@@ -226,14 +226,14 @@ They serve as non-string property names.
 The global object is a regular JS object that serves a very important purpose: the properties of this object are the globally defined identifiers that are available to a JavaScript program.
 When the JavaScript interpreter starts (or whenever a web browser loads a new page), it creates a new global object and gives it an initial set of properties that define:
 
-- Global constants like undefined, Infinity, and NaN
-- Global functions like isNaN(), parseInt() (§3.9.2), and eval() (§4.12)
-- Constructor functions like Date(), RegExp(), String(), Object(), and Array() (§3.9.2)
-- Global objects like Math and JSON (§6.8)
+- Global constants like `undefined`, `Infinity`, and `NaN`
+- Global functions like `isNaN()`, `parseInt()`, and `eval() `
+- Constructor functions like `Date()`, `RegExp()`, `String()`, `Object()`, and `Array()`
+- Global objects like `Math` and `JSON` 
 
 In Node, the global object has a property named `global` whose value is the global object itself.
 
-In web browsers, the `Window` object serves as the global obnject fo all JS code contained in the browser window it represents. This global `Window` object has a self-referential `Window` property that can be used to refer to the global object.
+In web browsers, the `Window` object serves as the global object to all JS code contained in the browser window it represents. This global `Window` object has a self-referential `Window` property that can be used to refer to the global object.
 
 ES2020 defined a `globalThis` as the standard way to refer to the global object in any context. 
 
@@ -248,290 +248,115 @@ Objects are compared **by reference**: two distinct objects are not equal even i
 Assigning an object or array to a variable simply assigns the reference: it does not create a new copy of the object.
 
 
-## Chapter 4: Expressions and Operators
+### Variable Declaration, Assignment, and Scope
 
-An expression is a phrase of JavaScript that can be evaluated to produce a value.
+Before we can use variables or constants in a JS program, we must _declare_ them:
+  - Post ES6 (2015): This is done with `let` and `const`
+  - Pre ES6: This is done with `var`
 
-Complex expressions are built from simpler expression **called primary expressions**. For example:
+The value of an assignment expression, is the value of the right-side operand. As a side effect, the `=` operator assigns the value on the right to the variable or property on the left so that future references to the variables or property evaluate to that value.
 
-```javascript
-let array = [1, 2, 3]
-
-array[0]
-```
-The second line is an array access expression consisting of:
-  - one simple expression that evaluates to an array: `array`
-  - one simple expression that evaluates to an integer: `0`
-
-The new complex expresison evaluates to the value stored at the specified index of the specified array.
-
-### Primary Expressions:
-
-Primary expressions are those that stand alone (they do not include any other simpler expression).
-
-Primary expressions in JS are:
-  - constant or literal values: ( like `1`, `'aloha'`, etc.)
-  - certain keywords: `true`, `false`, `null`, `this`
-  - references to variables, constants or properties of the global object: (like `i`, or `undefined`)
-
-### Object and Array Initializers
-
-Object and array initializers are expressions whose value is a newly created object or array, sometimes called object literals or array literals, although they are not truly literals.
-
-They are not primary expressions because they include a number of subexpressions that specify property and element values.
-
-An array initializer is a comma-separated list of expressions contained within square brackets:
-
-```javascript
-[1, 2, 3]
-
-[1 + 1, 2 + 2] // => [2, 4]
-```
-
-Object initializer expressions are like array initializers expressions, but the square are replaced by curly braces, and each subexpression is prefixed with a property name and a colon.
-
-```javascript
-let p = {
-  x: 1, 
-  y: 2, 
-  z: 3
-};
-```
-
-Object literals can be nested;
-
-```javascript
-let p = {
-  top: {x: 1, y: 2},
-  bottom: {x: 3, y: 4},
-};
-```
-
-### Function Definition Expressions
-
-A function definition expression defines a JS function, and the value of such an expression is the newly defined function.
-
-A function definition expression typically consists of the keyword `function` followed by a comma-separated list of zero or more identifiers (the parameter names) in parentheses and a block of JS code, the function body in curly braces:
-
-```javascript
-let square = function(x) { return x ** x; };
-```
-
-A function definition expression can also include a name for the function. Functions can also be defined using a function statement.
-
-There is a compact function expression called arrow function.
-
-### Property Access Expressions
-
-A property access expression evaluates to the value of an object property or an array element. There are two syntaxes:
-
-```javascript
-expression . identifier
-
-expression [ expression ]
-```
-
-In the first style the indentifier specifies the name of the desired property; in the second style the expression within square brackets specifies the name of the desired property of the object or the index of the desired array element. 
-
-With either type of property access expression, the expression before the `.` or `[` is first evaluated. If the value is null or undefined, the
-expression throws a `TypeError`, since these are the two JavaScript values that cannot have properties. 
-
-If the object expression is followed by a dot and an identifier, the value of the property named by that identifier is looked up and becomes the overall value of the expression.
-
-If the object expression is followed by another expression in square brackets, that second expression is evaluated and converted to a string.
-The overall value of the expression is then the value of the property named by that string. 
-
-In either case, if the named property does not exist, then the value of the property access expression is undefined. 
-
-The `.identifier` syntax is the simpler of the two property access options, but notice that it can only be used when the property you want to
-access has a name that is a legal identifier, and when you know the name when you write the program. If the property name includes
-spaces or punctuation characters, or when it is a number (for arrays), you must use the square bracket notation. Square brackets are also used
-when the property name is not static but is itself the result of a computation.
-
-
-### Conditional Property Access and Invocation Expressions
-
-Consider the use of the safe navigation operator (in JS called conditional invocation): `?.`
-
-```javascript
-o.m()     // Regular property access, regular invocation
-o?.m()    // Conditional property access, regular invocation
-o.m?.()   // Regular property access, conditional invocation
-```
-In the first expression, o must be an object with a property m and the value of that property must be a function. In the second expression, if o
-is null or undefined, then the expression evaluates to undefined. But if o has any other value, then it must have a property m whose value is a function. And in the third expression, o must not be null or undefined. If it does not have a property m, or if the value of that property is null, then the entire expression evaluates to undefined.
-
-### Evaluation Expressions
-
-
-## Chapter 5: Statements
-
-If JS expressions are evaluated to produce a value, statements are _executed_ to make something happen.
-
-- Expressions with side effects, like assignments and function invocations, can stand alone as statements, and when used this way are known as - _expression statements_
-
-- Declaration of variables and functions are called _declaration statements_.
- 
-- JS programs are nothing more than a sequence of statements to execute. We can control the order on which the statements are executed thanks to _control structures_. These are also statements:
-
-  - Conditionals
-  - Loops
-  - Jumps
-
-Statements in JS end with a semicolon `;`.
-
-### Expression Statements
-
-The simplest kinds of statements in JS are expressions that have side effects.
-
-Assignments statements are a major category of expression statements:
 ```js
-greeting = 'Hello ' + 'name';
-i *= 3;
-i++
+i = 0; // Set the variable to number 0
+o.p = 1; // Set property p of object o to number 1
 ```
 
-Function calls are another major category of expression statements:
+#### Declarations with `let` and `const`
+
+In modern JS, variables are declared with the `let` keyword:
+
 ```js
-console.log(debugMessage);
-displaySpinner(); // A hypothetical function to display a spinner in a web app
+let i;
+let sum;
 ```
-These functions calls are expressions, but they have side effects that affect the host environment or program state, and they are used here as statements.
 
-### Declarations
+We can also declare multiple variables in a single `let` statement:
 
-Declarations are used to define constants, variables, functions, classes and for importing and exporting values between modules.
-
-Informally called statements, but technically they are not.
-
-Declarations serve to define new values and give them names that we can use to refer to those values.
-
-Declarations define the structure of the program itself; we can think about them as the parts of the program that are processed before the code starts running.
-
-### Compound and Empty Statements
-
-A compound statement allows you to use multiple statements where JS syntax expects a single statement:
 ```js
-{
-  x = Math.PI;
-  cx = Math.cos(x);
-  console.log('cos(π) = ' + cx);
+let i, sum;
+```
+
+It is a good practice to assign an initial value (initialize) to the variables when they are declared:
+
+```js
+let message = 'Hello';
+let i = 0, j = 0, k = 0;
+let x = 2, y = x ** 2; // Initializers can use previously declared variables
+```
+
+If you don't initialize a variable when you declare it with the `let` statement, the variable is declared but its value remains `undefined` until it is initialized.
+
+To declare a constant, use `const`. `const` works exactly like `let` except:
+  - constants must be initialized when they are declared
+  - constants cannot be reassigned (this causes a `TypeError` to be thrown)
+  - It is a universal convention to give them names in all capital letters
+
+`for`, `for/of` and `for/in` loops allow declaring the loop variable as part of the loop syntax itself (this is very common):
+
+```js
+for(let i = 0; i < 3; i++) console.log(i);
+for(let datum of data) console.log(datum);
+for(let property in object) console.log(property);
+```
+
+### Variable and Constant Scope
+
+The scope of a variable is the region of your program source code in which it is defined (and reachable). Variables and constants declared with `let` and `const` are **block scoped**. This means that they are only defined (and reachable) within the block of code in which the `let` or `const` statements appears. 
+
+JavaScript class and function definitions are blocks, and so are the bodies of `if/else` statements, loops, and so on. Roughly speaking, if a variable or constant is declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined (and reachable). Of course, we cannot refer to that variable or constant before they are declared. Variables and constants that are part of `for`, `for/of` and `for/in` loop have the loop body as their scope.
+
+When a declaration appears at the top level, outside any code blocks, we say it is a _global_ variable or constant, and has **global scope**. In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute after the `let` or `const` statement executes).
+
+### Repeated Declarations and Variable Shadowing
+
+It is a syntax error to use the same name with more than one `let` or `const` declaration in the same scope.
+
+It is legal, but not a good practice (_shadowing_) to declare a new variable with the same name in a nested scope:
+
+```js
+let x = 1;
+if (x === 1) {
+  let x = 2;
+  console.log(x); // Prints 2
+}
+console.log(x); // Prints 1
+```
+
+### Variable Declarations with `var`
+
+Pre ES6, the only way to declare variables was `var`, and there was no way to declare constants.
+
+They have the same syntax, but important differences:
+
+- Variables declared with `var` are not block-scoped. Instead, _they are scoped to the body of the containing function, no matter how deeply nested they are inside that function_.
+
+- If we use `var` outside a function body, it declares a global variable. But global variables declared with `var` differ from global variables declared with `let`:
+  - Globals declared with `var` are implemented as properties of the global object (we can refer via `globalThis`) But the properties created with global `var` declaration cannot be deleted with the `delete` operator. Global variables and constants declared with `let` and `const` are not properties of the global object.
+
+- Unlike variables declared with `let`, it is legal to declare the same variable multiple times with `var`.
+
+- **Hoisting**: when a variable is declared with `var`, the declaration is lifted-up or _hoisted_ to the top of the closing function. The initialization remains when it was written, but the definition of the variables moves to the top of the function, so variables declared with `var` can be used, without error, anywhere in the enclosing function. (If the initialization code has not run yet, then the value of the variable may be `undefined`, but we won't get an error if we use the variable before it is initialized. This is a source of bugs)
+
+### Destructuring Assignment
+
+In a destructuring assignment, the value on the right hand side of the `=` operator is an array of object (a _structured_ value), and the left hand side specifies one or more variable names using a syntax that mimics array and object literal syntax. When a destructuring assignment occurs, one or more values are extracted (_destructured_) from the value on the right and stored into the variables named on the left:
+
+```js
+let [x, y] = [1, 2]; // Same as let x = 1, y = 2
+[x, y] = [x + 1, y + 2]
+```
+
+This is also important because allows us to swap values:
+
+```js
+[x, y] = [y, x]; // Swap the value of the two variables
+```
+
+Destructuring assignment makes it easy to work with functions that return arrays of values:
+
+```js
+// Convert [x, y] coordinates to [r, theta] polar coordinates
+function toPolar(x, y) {
+  return [Math.sqrt(x*x+y*y), Math.atan2(y, x)];
 }
 ```
-
-The empty statement is the opposite: it allows you to include no statement where one is expected:
-
-```js
-;
-```
-
-### Control Structures
-
-#### Conditionals
-
-```js
-if (expression) statement;
-```
-
-```js
-if (expression) {
-  // code
-} else {
-  // other code
-}
-```
-
-```js
-if (expression) {
-  // code
-} else if {
-  // other code
-} else {
-  // other code
-}
-```
-
-```js
-switch(expression_1) {
-case (to_compare): // each case will execute expression_1 === to_compare
-  // code here
-  break;
-case (to_compare): 
-  // code here
-  break;
-case (to_compare):
-  // code here
-  break;
-default: // this block will be executed if none of the cases returned a truthy value
-  //code
-  break;
-}
-```
-
-#### Loops
-
-```js
-while (expression) {
-  // code
-}
-```
-
-```js
-do {
-  // code
-} while (expression);
-```
-
-```js
-for(initialization_expression; test_expression; increment_expression) {
-  // code
-}
-```
-
-This loop is best explained with the `while` equivalent:
-
-```js
-initialization_expression;
-while(test_expression) {
-  // code
-  increment_expression;
-}
-```
-1. The initialization expression is evaluated once, before the loop begins; 
-2. the test expression is evaluated before each iteration and controls whether the body of the loop is executed (if it evaluates to a truthy value, the body of the loop is executed)
-3. The body of the loop is executed
-4. The increment expression is evaluated. This has to be an expression with side effects in order to be useful.
-
-Good idea to traverse a linked list and return the last node of the list:
-
-```js
-function tail(list) { // It returs the tail of the linked list 
-  for(; list.next; list = list.next); // empty body; Traverses while list.next is truthy (the node has a pointer to the next node)
-  return list;
-}
-```
-Any of the three expression may be omitted, but the two `;` are required.
-
-```js
-for(let element of iterable_object) {
-  // it passes each element to the block, one at a time
-  // code
-}
-```
-Avoid mutating the object on which we are iterating through.
-
-```js
-for(let property in object) {
-  //
-}
-```
-`for/in` loops through the property names of a specified object, passing each name to the block. This loop only enumerates properties whose names are not symbols, and of the properties whose names are strings, it only loops over the _enumerable_ properties. (Some properties are not enumerable by this loop, like JS built-in methods defined by core JavaScript)
-
-#### Jumps
-
-- `continue`: This statement makes the interpreter skip the rest of the body of a loop and jump back to the top of a loop to begin a new iteration.
-- `break`: This statement makes the interpreter jump to the end of a loop of other statement.
-- `return`: This statement makes the interpreter jump from a function invocation back to the code that invoked it and also supplies the value for that function invocation.
-
-JavaScript allows statements to be named, or _labeled_, and `break` and `continue` can identify the specific loop or other statement label.
-
