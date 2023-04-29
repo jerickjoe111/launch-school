@@ -5,3 +5,4 @@ rps_animations
 file_maker.rb
 *.md.backup
 .vscode
+test*.js
