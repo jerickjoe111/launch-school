@@ -331,7 +331,7 @@ They have the same syntax, but important differences:
 - Variables declared with `var` are not block-scoped. Instead, _they are scoped to the body of the containing function, no matter how deeply nested they are inside that function_.
 
 - If we use `var` outside a function body, it declares a global variable. But global variables declared with `var` differ from global variables declared with `let`:
-  - Globals declared with `var` are implemented as properties of the global object (we can refer via `globalThis`) But the properties created with global `var` declaration cannot be deleted with the `delete` operator. Global variables and constants declared with `let` and `const` are not properties of the global object.
+  Globals declared with `var` are implemented as properties of the global object (we can refer via `globalThis`) But the properties created with global `var` declaration cannot be deleted with the `delete` operator. Global variables and constants declared with `let` and `const` are not properties of the global object.
 
 - Unlike variables declared with `let`, it is legal to declare the same variable multiple times with `var`.
 
