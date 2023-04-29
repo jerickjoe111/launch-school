@@ -1,6 +1,6 @@
 ## Functions
 
-A function is a block of JavaScript code that is defined once but may be executed, or invoked, any number of times.JavaScript functions are parameterized: 
+A function is a block of JavaScript code that is defined once but may be executed, or _invoked_, any number of times. JavaScript functions are parameterized: 
 - a _function definition_ may include a list of identifiers or _parameters_ that work as local variables within the body of the function. 
 - _Function invocations_ provide values or _arguments_ for the function's parameters.
 
@@ -12,7 +12,7 @@ If a function is assigned to a property of an object, it is known as a method of
 
 Functions are objects, and they can be manipulated; JavaScript can assign functions to variables, pass them as arguments to another functions, etc. Since functions are objects, you can set properties on them and even invoke methods on them.
 
-Functions definitions can be nested within other functions, and they have access to any variables that are in scope where they are defined. This means that in JavaScript functions are _closures_, which enables important and powerful programming techniques.
+Functions definitions can be nested within other functions, and they have access to any variables that are in scope _where they are defined_. This means that in JavaScript functions are _closures_, which enables important and powerful programming techniques.
 
 ### Defining Functions
 
@@ -24,7 +24,7 @@ There are three ways to define functions:
 
     - function expressions
 
-  - without the `function keyword:
+  - without the `function` keyword:
 
     - _arrow functions_
 
@@ -33,7 +33,7 @@ There are three ways to define functions:
 Function declarations consist of:
 
 1. The `function` keyword
-2. An identifier that names the function. The name is a required par of function declarations: it is uses the name of a variable, and the newly defined function object is assigned to the variable.
+2. An identifier that names the function. The name is a required par of function declarations: it uses the name of a variable, and the newly defined function object is assigned to the variable.
 3. A pair of parentheses around a comma-separated list of zero or more identifiers. These identifiers are the parameter names for the function, and they behave like local variables within the body of the function.
 4. A pair of curly braces with zero or more statements inside. These statements are the body of the function: they are executed _whenever the function is invoked_.
 
@@ -55,7 +55,11 @@ A function defined within a block only exists within that block, and it is not v
 
 #### Function expressions
 
-Function expression look a lot like function declarations, but they appear within the context of a larger expression or statement, and the name is optional. Some examples:
+Function expression look a lot like function declarations, but:
+- they appear within the context of a larger expression or statement, 
+- and the name is optional. 
+
+Some examples:
 
 ```js
 const square = function(x) { return x*x; };
@@ -72,28 +76,28 @@ const f = function fact(x) {
 // Function expressions can also be used as arguments to other functions:
 [3, 2, 1].sort(function(a, b) { return a-b; });
 
-// Function expressions are sometimes defined and immediately invoked (note the argument list () at the end of the definition, which indicates that we are invoking the function)
+// Function expressions are sometimes defined and immediately invoked (note the argument list (10) at the end of the definition, which indicates that we are invoking the function)
 let tensquared = (function(x) { return x*x;}(10));
 ```
 
 A function declaration actually declares a variable (the name of the function) and assigns a function object to it. 
-A function expression, on the other hand, does not declare a variable: it is up to us to assign the newly defined function object to a constant or variable if you are going to need to refer to it multiple times.
+A function expression, on the other hand, does not declare a variable: it is up to us to assign the newly defined function object to a constant or variable if you are going to need to refer to it multiple times. (It is an expression that evaluates to the function defined)
 
-It is a good practice to use `const` with function expressions so you don't accidentally overwrite your functions by assigning new values.
+It is a good practice to use `const` with function expressions, so you don't accidentally overwrite your functions by assigning new values.
 
-A name is allowed in function declarations if the function needs to refer to itself: if it does include a name, the local function scope for that function will include a binding of that name to the function object (the function name becomes a local variable within the function) Most of them do not need names.
+A name is allowed in function declarations if the function needs to refer to itself: if it does include a name, the local function scope for that function will include a binding of that name to the function object (the function name becomes a local variable within the function) Most of the function expressions do not need names.
 
-When we use the function declaration form, the function objects are created before the code that contains them starts to run, and the definitions are hoisted, so we can call them from code above their definition statement. 
+When we use the function declaration form, the function objects are created before the code that contains them starts to run, and the definitions are hoisted, so we can call them from code above their definition statement. (Functions declaration are hoisted)
 
 In functions defined as expressions, this is not the case. These functions do not exist until the expression that defines them are actually evaluated: functions defined with expressions cannot be invoked before they are defined.
 
 #### Arrow functions
 
-We can define functions using a compact syntax: a `=>` to separate the function parameters from the function body. the `function` keyword is not used, and, since arrow functions are expressions instead of statements, there is no need for a function name.
+We can define functions using a compact syntax: a `=>` to separate the function parameters from the function body. The `function` keyword is not used, and, since arrow functions are expressions instead of statements, there is no need for a function name.
 
 The general form of an arrow function is:
 
-1. a comma separated list of paramethers in parentheses
+1. a comma separated list of parameters in parentheses
 2. the arrow symbol: `=>`
 3. the body of the function in curly braces.
 
@@ -119,11 +123,11 @@ If the arrow function has no parameters, it must be written with an empty pair o
 const constantFunc = () => 42;
 ```
 
-If the body of the arrow function is a single `return` statement but the expression to be return is an object literal, then you have to put the object literal inside parentheses to avoid syntactic ambiguity.
+If the body of the arrow function is a single `return` statement but the expression to be returned is an object literal, then you have to put the object literal inside parentheses to avoid syntactic ambiguity.
 
 Remember not to put a new line between the parameters and the `=>` to avoid ambiguity.
 
-The arrow function syntax makes them ideal when you need to pass one function to antoher function, which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`, for example:
+The arrow function syntax makes them ideal when you need to pass one function to anoher function, which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`, for example:
 
 ```js
 // Make a copy of the array with null elements removed:
@@ -182,9 +186,9 @@ let total = distance(0, 2, 1) + distance(2, 1, 0);
 
 In an invocation, each argument expression is evaluated, and the resulting values become the arguments to the function. These values are assigned to the parameters named in the function definition. In the body of the function, a reference to a parameter evaluates to the corresponding argument value.
 
-For regular function invocation, the return value of the function becomes the value of the function invocation expression.
+For regular function invocations, the return value of the function becomes the value of the function invocation expression.
 
-After ES2020, you can insert `?.` afther the function expression and before the open parenthesis in a function incovation in order to invoke the function only if the function is not `null` or `undefined`. That is, the expression
+After ES2020, you can insert `?.` after the function expression and before the open parenthesis in a function invocation in order to invoke the function, only if the function is not `null` or `undefined`. That is, the expression:
 
 ```js
 f?.(x)
@@ -221,7 +225,7 @@ object.method()
 
 #### Indirect Invocation
 
-JavaScript functions are objects, and like all JavaScript objects, they have methods. Two of these methods, `call()` and `apply()`, invoke the function indirectly. Both methods allow you to explicitly specify the `this` value for the invocation, which means you can invoke any function as a method of any object, even if it is not actually a method of that object. Both methods also allow you to specify the arguments for the invocation. The call() method uses its own argument list as arguments to the function, and the `apply()` method expects an array of values to be used as arguments. 
+JavaScript functions are objects, and like all JavaScript objects, they have methods. Two of these methods, `call()` and `apply()`, invoke the function indirectly. Both methods allow you to explicitly specify the `this` value for the invocation, which means you can invoke any function as a method of any object, even if it is not actually a method of that object. Both methods also allow you to specify the arguments for the invocation. The `call()` method uses its own argument list as arguments to the function, and the `apply()` method expects an array of values to be used as arguments. 
 
 #### Implicit Invocation
 
@@ -301,7 +305,7 @@ In JavaScript, functions can be also values, so they can be assigned to variable
 ```js
 function square(x) { return x**2; }
 ```
-The name of a function is really immaterial; it is simple the name of a variable that refers to the function object. the function can be assigned to another variable and still work the same way:
+The name of a function is really immaterial; it is simply the name of a variable that refers to the function object. The function can be assigned to another variable and still work the same way:
 
 ```js
 let s = square;
@@ -345,7 +349,7 @@ uniqueInteger() // => 2
 
 ### Functions as Namespaces
 
-Variables declared within a function are not visible outside the function. For this reason, it is somethims useful to define a function simply to act as a temporary namespace in which you can define variables without cluttering the global namespace.
+Variables declared within a function are not visible outside the function. For this reason, it is sometimes useful to define a function simply to act as a temporary namespace in which you can define variables without cluttering the global namespace.
 
 Suppose, for example, you have a chunk of JavaScript code that you want to use in a number of different JavaScript programs (or, for client- side JavaScript, on a number of different web pages). Assume that this code, like most code, defines variables to store the intermediate results of its computation. The problem is that since this chunk of code will be used in many programs, you don’t know whether the variables it creates will conflict with variables created by the programs that use it. The solution is to put the chunk of code into a function and then invoke the function. This way, variables that would have been global become local to the function:
 
@@ -363,21 +367,25 @@ You can even define and invoke an anonymous function in a single function expres
 
 ```js
 (function() { // chunkNamespace() function rewritten as an anonymous function expression
+
   // Chunk of code goes here
+
 }()); // End of the function literal and invoke it now.
 ```
 
-This technique of defining and invoking a function in a single expression is used frequently enough that it has become idiomatic and has been given the name _immediately invoked function expression_. Note the enclosing parentheses: with the parenthesis, the interpreter correctly recognizes this as a function definition expression.
+This technique of defining and invoking a function in a single expression is used frequently enough that it has become idiomatic and has been given the name _immediately invoked function expression_. Note the necessary enclosing parentheses: with the parenthesis, the interpreter correctly recognizes this as a function definition expression.
 
 This use of function as namespaces becomes really useful when we define one or more functions inside the namespace function using variables within that namespace, but then pass them back out as the return value of the namespace function. Function like this are known as _closures_.
 
 ### Closures
 
-Like most programming languages, JavaScript uses _lexical scoping_. This means that functions are executed using the variable scope that is in effect _when they were **defined**_, not the variable scope in effect when they are invoked.
+Like most programming languages, JavaScript uses _lexical scoping_. This means that functions are executed using the variable scope that is in effect _when they were **defined**_, not the scope in effect when they are invoked.
 
-In order to implement lexical scoping, the internal state of a JavaScript function object must include, not only the code of the function but also a reference to the scope in which the function definition appears. This combination of a function object and a scope (a set of variable bindings) in which the function's variables are resolved is called a _closure_.
+In order to implement lexical scoping, the internal state of a JavaScript function object must include, not only the code of the function but also a reference to the scope in which the function definition appears. This combination of a function object and a scope (a set of variable bindings, its context) in which the function's variables are resolved is called a _closure_.
 
-Technically, all JavaScript functions are closures, but because most functions are invoked from the same scope that they were defined in, it normally doesn't really matter that there is a closure involved. Closures become interesting when they are invoked from a different scope than the one they were defined in. This happens most commonly _when a nested function object is returned from the function within which it was defined_. There are a number of powerful programming techniques that involve this kind of nested function closures, and their use has become relatively common in JavaScript programming.
+Technically, all JavaScript functions are closures, but because most functions are invoked from the same scope that they were defined in, it normally doesn't really matter that there is a closure involved. 
+
+Closures become interesting when they are invoked from a different scope than the one they were defined in. This happens most commonly _when a nested function object is returned from the function within which it was defined_. There are a number of powerful programming techniques that involve this kind of nested function closures, and their use has become relatively common in JavaScript programming.
 
 The first step to understanding closures is to review the lexical scoping rules for nested functions:
 
@@ -405,7 +413,7 @@ function checkScope() {
 
   return f; // checkScope now returns the function object itself, not the value returning from the function `f()`
 }
-let s = checkScope()(); // we invoke the function object that returns from the `checkScope()` invocation.
+let s = checkScope()(); // we invoke the function object that returns from the `checkScope()` invocation, from the outermost scope.
 console.log(s) // => 'local scope'
 ```
 
@@ -417,7 +425,7 @@ This is the surprising and powerful nature of closures: they capture the local v
 
 Closures capture the local variables of a single function invocation and can use those variables as private state.
 
-This is how we could rewrite the `uniqueInteger()` using an immedately invoked function expression to define a namespace and a closure that uses that namespace to keep its state private:
+This is how we could rewrite the `uniqueInteger()` using an immediately invoked function expression to define a namespace and a closure that uses that namespace to keep its state private:
 
 ```js
 let uniqueInteger = (function() {
@@ -480,7 +488,7 @@ let functions = constantFunctions();
 functions[5] // => 10. Why does not returns 5?
 ```
 
-This code creates 10 closures and stores them in an array. The closures are all defined within the same invocation of the function, so they share access to the variable `i`. When `constantFunctions()` returns, the value of the variable `i` is 10, and all closures share this value. It is important to remember that the scope associated with a closure is _live_. Nested functions do not make private copies of the scope or make static snapshots of the variable bindings. Fundamentally, the problem here is that variables declared with `var` are defined _throughout the function_. Our `for` loop declares the loop variable with `var i`, so the variable `i` is defined, in scope, throughout the `constantFunctions()` function, rather than being more narrowly scoped to the body of the loop. If we just replace the `var` with a `let` or `const`, then the problem goes away: because `let` and `const` are block scoped, each iteration of the loop defines a scope that is independent of the scopes of all other iterations, and each of these scopes has its own independent copy (binding) of `i`.
+This code creates 10 closures and stores them in an array. The closures are all defined within the same invocation of the function, so they share access to the variable `i`. When `constantFunctions()` returns, the value of the variable `i` is 10, and all closures share this value. It is important to remember that the scope associated with a closure is _live_. Nested functions do not make private copies of the scope or make static snapshots of the variable bindings. Fundamentally, the problem here is that variables declared with `var` are defined _throughout the function_. Our `for` loop declares the loop variable with `var i`, so the variable `i` is defined, in scope, throughout the `constantFunctions()` function, rather than being more narrowly scoped to the body of the loop. If we just replace the `var` with a `let` or `const`, then the problem goes away: because `let` and `const` are block scoped, each iteration of the loop defines a new scope that is independent of the scopes of all other iterations, and each of these scopes has its own independent copy (binding) of `i`.
 
 Another thing to remember is that `this` is a JavaScript keyword, not a variable. Arrow functions inherit the `this` value of the function that contains them, but functions defined with the `function` keyword do not. So, if you're writing a closure that need to use the `this` value of its containing function, you should:
 - use an arrow function, or call `bind()`, on the closure before returning it, 
