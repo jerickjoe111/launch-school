@@ -506,7 +506,7 @@ Functions are really a specialized kind of JavaScript object, and, since functio
 
 ##### `length`
 
-The read-only `length` property of a function specifies the arity of the function
+The read-only `length` property of a function specifies the _arity_ of the function
 
 ##### `name`
 
@@ -534,7 +534,7 @@ object.method(); // Invoke it, passing no arguments
 delete object.method; // Remove the temporary methods
 ```
 
-Arrow function inherit the `this` value of the context where they are defined. This cannot be overriden with the `call()` and `apply()` methods. If you call any of those methods on an arrow function, the first argument will be ignored.
+Arrow function inherit the `this` value of the context where they are defined. This cannot be overridden with the `call()` and `apply()` methods. If you call any of those methods on an arrow function, the first argument will be ignored.
 
 Any arguments to `call()` after the first invocation context argument are the values that are passed to the function that is invoked.
 
@@ -544,7 +544,7 @@ The `apply()` method is like the `call` method, except that the arguments to be 
 
 The primary purpose of `bind()` is to _bind_ a function to an object. When you invoke the `bind()` method on a function `f` and pass an object `o`, the method returns a new function. Invoking the new function (as a function) invokes the original function `f` as a method of `o`. Any arguments you pass to the new function are passed to the original function.
 
-Arrow functions inherir their `this` value from the environment in which they are defined, ant that value cannot be overridden with `bind()`.
+Arrow functions inherit their `this` value from the environment in which they are defined, ant that value cannot be overridden with `bind()`.
 
 The most common use case for calling `bind()` is to make non-arrow functions behave like arrow functions.
 
