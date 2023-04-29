@@ -335,7 +335,7 @@ They have the same syntax, but important differences:
 
 - Unlike variables declared with `let`, it is legal to declare the same variable multiple times with `var`.
 
-- **Hoisting**: when a variable is declared with `var`, the declaration is lifted-up or _hoisted_ to the top of the closing function. The initialization remains when it was written, but the definition of the variables moves to the top of the function, so variables declared with `var` can be used, without error, anywhere in the enclosing function. (If the initialization code has not run yet, then the value of the variable may be `undefined`, but we won't get an error if we use the variable before it is initialized. This is a source of bugs)
+- **Hoisting**: when a variable is declared with `var`, the declaration is lifted-up or _hoisted_ to the top of the enclosing function. The _initialization_ remains when it was written, but the _declaration_ of the variables moves to the top of the function, so variables declared with `var` can be used, without error, anywhere in the enclosing function. (If the initialization code has not run yet, then the value of the variable may be `undefined`, but we won't get an error if we use the variable before it is initialized. This is a source of bugs)
 
 ### Destructuring Assignment
 
