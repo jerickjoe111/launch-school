@@ -6,3 +6,7 @@ file_maker.rb
 *.md.backup
 .vscode
 test*.js
+package-lock.json
+package.json
+.eslintrc.js
+node_modules
