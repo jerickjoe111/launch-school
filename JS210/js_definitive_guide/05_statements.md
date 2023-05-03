@@ -1,7 +1,3 @@
-
-
-
-
 ## Chapter 5: Statements
 
 If JS expressions are evaluated to produce a value, statements are _executed_ to make something happen.

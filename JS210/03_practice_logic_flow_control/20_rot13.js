@@ -15,6 +15,7 @@ function rot13(string) {
     charCode += ROT_FACTOR;
     charCode %= ALPHABET_LETTERS;
     charCode += offset;
+    // charCode = (((charCode - offset) + ROT_FACTOR) % ALPHABET_LETTERS) + offset;
     return String.fromCharCode(charCode);
   }
 
@@ -29,6 +30,13 @@ function rot13(string) {
   return output;
 }
 
-let a = rot13(rot13('Teachers open the door, but you must enter by yourself.'));
+// let a = rot13(rot13('Teachers open the door, but you must enter by yourself.'));
 
-console.log(a);
+// console.log(a);
+
+const start = process.hrtime.bigint()
+
+rot13('Teachers open the door, but you must enter by yourself.');
+
+const end = process.hrtime.bigint()
+console.log(`Execution time: ${(end - start) / BigInt(1000)} ms`);
