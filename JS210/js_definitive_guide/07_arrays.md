@@ -389,7 +389,7 @@ These methods are for extracting, deleting, inserting, filling, and copying cont
 This method returns a subarray:
 
 - With two arguments, they specify the start and end of the slice to be returned. The returned subarray contains the element specified by the first argument and all subsequent up to, but not including, the second argument.
-- If only one argument is provided, the returned array contains all elements from the start position to the end. 
+- If only one argument is provided, the returned array contains all elements from the start position to the end. (by default, `0`)
 - If either argument is negative, it specifies an array element relative to the length of the array: `-1` means the last element, `-2` the one before the last, etc.
 
 This method does not modify the original array.
