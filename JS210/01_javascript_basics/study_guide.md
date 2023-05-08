@@ -26,3 +26,10 @@
 
 7. Looping and Iteration
 
+Assessment Topics:
+
+- assignments and comparison
+- primitive values, types and type conversions/coercions
+- understand the differences between loose and strict equality
+- truthiness: false and true vs. falsy and truthy
+

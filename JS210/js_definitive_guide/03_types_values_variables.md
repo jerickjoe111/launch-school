@@ -175,7 +175,7 @@ JavaScript supports the use of Regular Expressions (which are a data type by the
 `RegExp` objects define a number of useful methods:
 ```javascript
 let text = "testing: 1, 2, 3";   // Sample text
-let pattern = /\d+/g;            // Matches all instances of one or more digits
+let pattern = /\d+/g;            // Matches all instances (`g`) of one or more digits
 
 pattern.test(text)               // => true: a match exists
 text.search(pattern)             // => 9: position of first match
