@@ -29,7 +29,7 @@
 Assessment Topics:
 
 - assignments and comparison
-- primitive values, types and type conversions/coercions
+- primitive values, types and type conversions
 - understand the differences between loose and strict equality
-- truthiness: false and true vs. falsy and truthy
+- truthiness: `false` and `true` vs. falsy and truthy
 

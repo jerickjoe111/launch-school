@@ -27,6 +27,8 @@ Objects to string:
  {x: 1, y: 2}.toString() // => '[object Object]'
 ```
 
+***Note that JavaScript operators and statements expect values of different types, and it performs conversions to those types without a warning (implicit conversion)**
+
 ## Explicit Type Conversion
 
 The simplest way to perform an explicit type conversion is to use the `Boolean()`, `Number()` and `String()` functions:
