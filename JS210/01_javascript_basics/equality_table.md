@@ -17,3 +17,5 @@
 | String == Number      | `'1' == 1`          | `true`       | When one operand is a string and the other is a number, it converts the string to a number an strictly compares them |
 | `null` == `undefined` | `null == undefined` | `true`       | `null` is equal to `undefined` in non-strict equality comparison                                                     |
 | Boolean == Other Type | `true == 1`         | `true`       | Booleans are converted to numbers, and the comparison is tried again: `true` becomes `1`, `false` becomes `0`.       |
+
+**Primitives are compared _by value_, Objects are compared _by reference_**
