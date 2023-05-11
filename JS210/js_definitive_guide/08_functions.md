@@ -89,7 +89,7 @@ A name is allowed in function declarations if the function needs to refer to its
 
 When we use the function declaration form, the function objects are created before the code that contains them starts to run, and the definitions are hoisted, so we can call them from code above their definition statement. (Functions declaration are hoisted)
 
-In functions defined as expressions, this is not the case. These functions do not exist until the expression that defines them are actually evaluated: functions defined with expressions cannot be invoked before they are defined.
+In functions defined as expressions, this is not the case. These functions do not exist until the expression that defines them is actually evaluated: functions defined with expressions cannot be invoked before they are defined.
 
 #### Arrow functions
 
