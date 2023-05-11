@@ -284,7 +284,7 @@ let i = 0, j = 0, k = 0;
 let x = 2, y = x ** 2; // Initializers can use previously declared variables
 ```
 
-If you don't initialize a variable when you declare it with the `let` statement, the variable is declared but its value remains `undefined` until it is initialized.
+If you don't initialize a variable when you declare it with the `let` statement, the variable is declared, but its value remains `undefined` until it is initialized.
 
 To declare a constant, use `const`. `const` works exactly like `let` except:
   - constants must be initialized when they are declared
@@ -294,22 +294,22 @@ To declare a constant, use `const`. `const` works exactly like `let` except:
 `for`, `for/of` and `for/in` loops allow declaring the loop variable as part of the loop syntax itself (this is very common):
 
 ```js
-for(let i = 0; i < 3; i++) console.log(i);
-for(let datum of data) console.log(datum);
-for(let property in object) console.log(property);
+for (let i = 0; i < 3; i++) console.log(i);
+for (let datum of data) console.log(datum);
+for (let property in object) console.log(property);
 ```
 
 ### Variable and Constant Scope
 
-The scope of a variable is the region of your program source code in which it is defined (and reachable). Variables and constants declared with `let` and `const` are **block scoped**. This means that they are only defined (and reachable) within the block of code in which the `let` or `const` statements appears. 
+The scope of a variable is the region of your program source code in which it is _defined_ (reachable). Variables and constants declared with `let` and `const` are **block scoped**. This means that they are only defined within the block of code in which the `let` or `const` statements (their declarations) appears (and thus in all subsequent nested blocks within that block). 
 
-JavaScript class and function definitions are blocks, and so are the bodies of `if/else` statements, loops, and so on. Roughly speaking, if a variable or constant is declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined (and reachable). Of course, we cannot refer to that variable or constant before they are declared. Variables and constants that are part of `for`, `for/of` and `for/in` loop have the loop body as their scope.
+JavaScript class and function definitions are blocks, and so are the bodies of `if/else` statements, loops, and so on. Roughly speaking, if a variable or constant is declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined. Of course, we cannot refer to that variable or constant before they are declared. Variables and constants that are part of `for`, `for/of` and `for/in` loop have the loop body as their scope.
 
-When a declaration appears at the top level, outside any code blocks, we say it is a _global_ variable or constant, and has **global scope**. In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute after the `let` or `const` statement executes).
+When a declaration appears at the top level, outside any code blocks, we say it is a _global_ variable or constant, and has **global scope**. In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute, after the `let` or `const` statement executes).
 
 ### Repeated Declarations and Variable Shadowing
 
-It is a syntax error to use the same name with more than one `let` or `const` declaration in the same scope.
+It is a syntax error to use the same name with more than one `let` or `const` declaration in the same scope (_redeclare_ variables with the same name).
 
 It is legal, but not a good practice (_shadowing_) to declare a new variable with the same name in a nested scope:
 
