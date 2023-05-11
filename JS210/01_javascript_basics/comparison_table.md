@@ -1,10 +1,11 @@
 | Data Types      | Expression  | Return Value | Performs operation | Notes                              |
 |-----------------|-------------|--------------|--------------------|------------------------------------|
+| Number + `undefined` | `1 + undefined`     | `NaN`          | None           |                                    |
 | Number + Number | `1 + 2`     | `3`          | Addition           |                                    |
 | Boolean + Number | `true + 2` | `3`          | Addition           | Booleans are converted to numbers: `true` becomes `1`, `false` becomes `0`.  |
 | String + String | `'1' + '2'` | `'12'`       | Concatenation      |                                    |
 | String + Number | `'1' + 2`   | `'12'`       | Concatenation      | `+` favors strings                 |
-| `null`/`undefined` + Number | `null + 2`   | `3`       | Addition      | `null`/`undefined` is converted to `0`                 |
+| `null` + Number | `null + 2`   | `3`       | Addition      | `null`/`undefined` is converted to `0`                 |
 | `null`/`undefined` + String | `null + 'a'`   | `'nulla'`       | Concatenation      | `+` favors strings                 |
 | Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | String < String | `'11'< '2'` | `true`       | String Comparison  |                                    |
