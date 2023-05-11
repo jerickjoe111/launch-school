@@ -127,7 +127,7 @@ If the body of the arrow function is a single `return` statement but the express
 
 Remember not to put a new line between the parameters and the `=>` to avoid ambiguity.
 
-The arrow function syntax makes them ideal when you need to pass one function to anoher function, which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`, for example:
+The arrow function syntax makes them ideal when you need to pass one function to another function, which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`, for example:
 
 ```js
 // Make a copy of the array with null elements removed:
