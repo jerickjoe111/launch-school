@@ -33,7 +33,7 @@ There are three ways to define functions:
 Function declarations consist of:
 
 1. The `function` keyword
-2. An identifier that names the function. The name is a required par of function declarations: it uses the name of a variable, and the newly defined function object is assigned to the variable.
+2. An identifier that names the function. The name is a required part of function declarations: it uses the name of a variable, and the newly defined function object is assigned to the variable. (A new local variable is created and is assigned to the function)
 3. A pair of parentheses around a comma-separated list of zero or more identifiers. These identifiers are the parameter names for the function, and they behave like local variables within the body of the function.
 4. A pair of curly braces with zero or more statements inside. These statements are the body of the function: they are executed _whenever the function is invoked_.
 
