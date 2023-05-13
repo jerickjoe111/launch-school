@@ -20,8 +20,8 @@ There are four main ways to create arrays in JS:
 
 - Array literals
 - The `...` spread 'operator' on an iterable object (arrays, strings, other iterables...)
-- The `Array()` constructor
 - The `Array.of()` and `Array.from()` factory methods
+(- The `Array()` constructor)
 
 ### Array Literals
 
@@ -43,7 +43,7 @@ In ES6 and later, you can use `...` to include the elements of one array within 
 let a = [1, 2];
 let b = [...a, 3, 4]; // b === [1, 2, 3, 4]
 ```
-The `...` spread the array `a` so that its elements become elements within the array literal that is being created.
+The `...` _spreads_ the array `a` so that its elements become elements within the array literal that is being created.
 
 The spread operator `...` is a convenient way to create a _shallow_ copy of an array. 
 > A shallow copy of an object is a copy whose properties share the same references (point to the same underlying values) as those of the source object from which the copy was made.
@@ -102,7 +102,7 @@ This method expects an iterable of array-like object as its first argument and r
 ```js
 let copy = Array.from(original);
 ```
-`Array.from()` is also important because it defines a way to make a true-array copy of an array-like object. Array-like objects are non-array objects that have a numeric length property and have values stored with properties whose names happen to be integers.
+`Array.from()` is also important because it defines a way to make a true-array copy of an array-like object. (Array-like objects are non-array objects that have a numeric length property and have values stored with properties whose names happen to be integers.)
 
 ```js
 let truearray = Array.from(arraylike);
@@ -151,7 +151,7 @@ In practice, most JS arrays you will work with will not be sparse.
 ## Array Length
 
 Every array has a `length` property:
-- for dense arrays, it specifies the numebr of elements in the array (one more the last index in the array);
+- for dense arrays, it specifies the number of elements in the array (one more the last index in the array);
 - for sparse arrays, it is always greater that the number of elements.
 
 If you set the `length` property to a non-negative integer `n` smaller than its current value, any array elements whose index is greater or equal to `n` are deleted from the array
@@ -259,7 +259,7 @@ matrix[x][y];
 
 - None of these methods modify the array on which they are called.
 
-- It is very common to use arrow syntax for function expressions for the iterator's firs argument
+- It is very common to use arrow syntax for function expressions for the iterator's first argument
 
 #### `forEach()`
 
@@ -298,7 +298,7 @@ If no matching element is found:
 #### `every()` and `some()`
 
 - `every()` returns `true` if and only if all the passed-in functions returns `true` on each iteration.
-- `some()` returns `true` if at leas one returns `true`
+- `some()` returns `true` if at least one returns `true`
 
 Both iterators stop the iteration as soon as they know what value they should return.
 
@@ -322,8 +322,7 @@ Arguments of the passed-in function as first argument:
 `reduceRight()` works exactly like `reduce()`, except that it processes the array from highest index to lowest (from right to left). You might want to do this if the reduction operation has right to left associativity, for example, in exponentiation:
 
 ```js
-// Compute 2^(3^4).  Exponentiation has right-to-left 
-precedence
+// Compute 2^(3^4).  Exponentiation has right-to-left precedence
 let a = [2, 3, 4];
 a.reduceRight((acc,val) => Math.pow(val,acc)) // => 2.4178516392292583e+24
 ```
