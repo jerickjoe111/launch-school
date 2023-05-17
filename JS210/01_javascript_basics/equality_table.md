@@ -14,7 +14,7 @@
 
 | Data Types            | Expression          | Return Value | Notes                                                                                                                |
 |-----------------------|---------------------|--------------|----------------------------------------------------------------------------------------------------------------------|
-| String == Number      | `'1' == 1`          | `true`       | When one operand is a string and the other is a number, it converts the string to a number an strictly compares them |
+| String == Number      | `'1' == 1`          | `true`       | When one operand is a string and the other is a number, it converts the string to a number and then strictly compares them |
 | `null` == `undefined` | `null == undefined` | `true`       | `null` is equal to `undefined` in non-strict equality comparison                                                     |
 | Boolean == Other Type | `true == 1`         | `true`       | Booleans are converted to numbers, and the comparison is tried again: `true` becomes `1`, `false` becomes `0`.       |
 

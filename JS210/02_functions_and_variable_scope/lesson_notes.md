@@ -105,13 +105,13 @@ JavaScript engines operate in two main phases: the creation phase and the execut
 `let`, `const` and `var` declarations are hoisted, but:
 
 - When a `var` variable is hoisted, JavaScript gives it an initial provisional value of `undefined`
-- When `let` or `const` variables are hoisted, they are not given an initial value at all, but the program is aware of their presence anyway: they are left in an 'unset' state (Temporal Dead Zone)
+- When `let` or `const` variables are hoisted, they are not given an initial value at all, but the program is aware of their presence anyway: they are left in an 'unset' state (_Temporal Dead Zone_)
 
 ## Hoisting for Function Declarations
 
 JavaScript also hoists function declarations to the top of the scope: it hoists the entire function declaration, including its body. This means that we can invoke a function before its declaration.
 
-Function declaration have function scope: hoisting also occurs with nested functions.
+Function declarations have function scope: hoisting also occurs with nested functions.
 
 The precises hoisting behavior you'll see if you nest a function inside a block is inconsistent.
 

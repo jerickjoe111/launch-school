@@ -12,7 +12,7 @@ If a function is assigned to a property of an object, it is known as a method of
 
 Functions are objects, and they can be manipulated; JavaScript can assign functions to variables, pass them as arguments to another functions, etc. Since functions are objects, you can set properties on them and even invoke methods on them.
 
-Functions definitions can be nested within other functions, and they have access to any variables that are in scope _where they are defined_. This means that in JavaScript functions are _closures_, which enables important and powerful programming techniques.
+Function definitions can be nested within other functions, and they have access to any variables that are in scope _where they are defined_. This means that in JavaScript functions are _closures_, which enables important and powerful programming techniques.
 
 ### Defining Functions
 

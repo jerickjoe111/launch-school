@@ -14,14 +14,14 @@ The second line is an array access expression consisting of:
   - one simple expression that evaluates to an array: `array`
   - one simple expression that evaluates to an integer: `0`
 
-The new complex expresison evaluates to the value stored at the specified index of the specified array.
+The new complex expression evaluates to the value stored at the specified index of the specified array.
 
 ### Primary Expressions:
 
 Primary expressions are those that stand alone (they do not include any other simpler expression).
 
 Primary expressions in JS are:
-  - constant or literal values: ( like `1`, `'aloha'`, etc.)
+  - constant or literal values: (like `1`, `'aloha'`, etc.)
   - certain keywords: `true`, `false`, `null`, `this`
   - references to variables, constants or properties of the global object: (like `i`, or `undefined`)
 
@@ -111,5 +111,3 @@ o.m?.()   // Regular property access, conditional invocation
 ```
 In the first expression, o must be an object with a property m and the value of that property must be a function. In the second expression, if o
 is null or undefined, then the expression evaluates to undefined. But if o has any other value, then it must have a property m whose value is a function. And in the third expression, o must not be null or undefined. If it does not have a property m, or if the value of that property is null, then the entire expression evaluates to undefined.
-
-### Evaluation Expressions

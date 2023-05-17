@@ -247,7 +247,6 @@ matrix[x][y];
 
 ## Array Methods
 
-
 ### Iterators
 
 - All of these methods accept a function as their first argument, and invoke that function once for each element (or some elements) of the array. If the array is sparse, the function will not be invoked for nonexistent elements. In most cases, this function is supplied three arguments:

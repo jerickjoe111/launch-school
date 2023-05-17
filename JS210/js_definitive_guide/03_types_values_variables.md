@@ -10,11 +10,10 @@ JavaScript Types:
     - Numbers
     - Strings
     - Booleans
-    - Symbols
-    - Big Integers
     - `null`
     - `undefined`
-
+    - Symbols
+    - Big Integers
 
   - Object or _Compound_ Types:
     - Object
@@ -246,7 +245,6 @@ Primitives are compared **by value**: two values are the same only if they have 
 Objects are compared **by reference**: two distinct objects are not equal even if they have the same properties and values, even two distinct arrays are not equal even if they have the same elements in the same order. Objects can be also understood as _reference types_: two objects values are the same if they refer to the same underlying object.
 
 Assigning an object or array to a variable simply assigns the reference: it does not create a new copy of the object.
-
 
 ### Variable Declaration, Assignment, and Scope
 
