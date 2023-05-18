@@ -1,6 +1,7 @@
 | Data Types      | Expression  | Return Value | Performs operation | Notes                              |
 |-----------------|-------------|--------------|--------------------|------------------------------------|
 | Number + `undefined` | `1 + undefined`     | `NaN`          | None           |                                    |
+| Object + Number | `[1] + 1`     | `11`          | Objects are converted to strings when using the  `+` operator      |                                    |
 | Number + Number | `1 + 2`     | `3`          | Addition           |                                    |
 | Boolean + Number | `true + 2` | `3`          | Addition           | Booleans are converted to numbers: `true` becomes `1`, `false` becomes `0`.  |
 | String + String | `'1' + '2'` | `'12'`       | Concatenation      |                                    |

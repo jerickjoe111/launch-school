@@ -550,6 +550,7 @@ deepCopiedArray[1].push('baz');
 deepCopiedArr // => [ { b: 'foo' }, [ 'bar', 'baz' ] ]
 array // => [ { b: 'foo' }, [ 'bar' ] ]
 ```
+
 # 05: Extras
 ## Naming conventions (legal vs idiomatic)
 ## Strict mode vs. non-strict mode
