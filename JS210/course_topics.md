@@ -552,6 +552,181 @@ array // => [ { b: 'foo' }, [ 'bar' ] ]
 ```
 
 # 05: Extras
+
+## Error Handling
+
+```js
+try {
+    // Normally, this code runs from the top of the block to the bottom
+    // without problems. But it can sometimes throw an exception,
+    // either directly, with a throw statement, or indirectly, by calling
+    // a method that throws an exception.
+}
+catch(e) {
+    // The statements in this block are executed if, and only if, the try
+    // block throws an exception. These statements can use the local variable
+    // e to refer to the Error object or other value that was thrown.
+    // This block may handle the exception somehow, may ignore the
+    // exception by doing nothing, or may rethrow the exception with throw.
+}
+finally {
+    // This block contains statements that are always executed, regardless of
+    // what happens in the try block. They are executed whether the try
+    // block terminates:
+    //   1) normally, after reaching the bottom of the block
+    //   2) because of a break, continue, or return statement
+    //   3) with an exception that is handled by a catch clause above
+    //   4) with an uncaught exception that is still propagating
+}
+```
+
 ## Naming conventions (legal vs idiomatic)
+
+Identifiers are used to name variables, constants, properties, functions, classes and to provide labels to loops. A JavaScript identifier must begin with a letter, an underscore `_` or a dollar sign `$`. Subsequent characters can be letters, digits, underscores or dollar signs.
+
+There are some 'reserved words' that can't be used as regular identifiers (`let`, `const`, `for`, etc.)
+
+There are some naming conventions, however, and these should be followed:
+
+- `camelCase` formatting for most variable and function names
+- `PascalCase` for constructor functions
+- `SCREAMING_SNAKE_CASE` for constants as magic numbers and unchanging configuration values
+
 ## Strict mode vs. non-strict mode
+
+`"use strict"` is a _directive_ or _pragma_ that indicates the JavaScript interpreter to process the code (in a file, script or function) that follows in _strict mode_. This directive has to be at the topmost of the file or function: the top level code of a file is strict if it has this directive; a function body contains strict code if it is defined within strict code or if it has this directive; every code in a `class` or module is automatically strict without the need of the directive.
+
+This mode was invented to fix important deficiencies in JavaScript, and it differs from non-strict code in that, among others:
+
+- Disables the use of the `within` keyword
+- All variables must be declared (in non-strict mode assignments on undeclared variables implicitly create global variables.) 
+- Trying to define two or more properties by the same name in an object literal is a syntax error. (In non-strict mode, no error occurs.), and also trying to declare a function with two parameters with the same name
+- Octal literals (integer literals that begin with a `0`) are not allowed
+- Functions invoked as functions (rather than as methods) have the value of `this` as `undefined`. (In non-strict mode, `this` has the value of the `global` object)
+- Assignments to non-writable properties and attempts to create new properties on non-extensible objects throw a `TypeError`.
+- The access to some properties of the `Arguments` object is not allowed, and it just holds a static copy of the passed in values.
+- A `SyntaxError` is thrown if the `delete` operator is used with variables, functions, or function parameters.
+- Trying to delete a non-configurable property throws a `TypeError`.
+
 ## JavaScript syntactic sugar
+
+### Concise Property Initializers
+
+We can omit having to repeat the property name and the property value in object literals:
+
+```js
+function xyzzy(foo, bar, qux) {
+  return {
+    foo: foo,
+    bar: bar,
+    qux: qux,
+  };
+}
+
+// Sugar:
+function xyzzy(foo, bar, qux) {
+  return {
+    foo,
+    bar,
+    qux,
+  };
+}
+```
+
+### Concise Methods
+
+We can omit the `function` keywords and the `:` when defining methods in objects:
+
+```js
+let obj = {
+  foo: function() {
+    // do something
+  },
+
+  bar: function(arg1, arg2) {
+    // do something else with arg1 and arg2
+  },
+}
+
+// Sugar:
+let obj = {
+  foo() {
+    // do something
+  },
+
+  bar(arg1, arg2) {
+    // do something else with arg1 and arg2
+  },
+}
+```
+
+### Object Destructuring
+
+```js
+let obj = {
+  foo: "foo",
+  bar: "bar",
+  qux: 42,
+};
+
+let foo = obj.foo;
+let bar = obj.bar;
+let qux = obj.qux;
+// Sugar:
+let { foo, bar, qux } = obj; // the last 3 lines in 1 line
+```
+
+It also works with function parameters:
+
+```js
+function xyzzy({ foo, bar, qux }) {
+  console.log(qux); // 3
+  console.log(bar); // 2
+  console.log(foo); // 1
+}
+
+let obj = {
+  foo: 1,
+  bar: 2,
+  qux: 3,
+};
+
+xyzzy(obj);
+```
+
+### Array Destructuring
+
+Destructuring also works with arrays:
+
+```js
+let foo = [1, 2, 3];
+let [ first, second, third ] = foo;
+```
+
+This code is equivalent to:
+
+```js
+let foo = [1, 2, 3];
+let first = foo[0];
+let second = foo[1];
+let third = foo[2];
+```
+
+You can swap two values without a buffer: 
+
+```js
+let one = 1;
+let two = 2;
+
+[ one, two ] =  [two, one];
+
+console.log(one);   // 2
+console.log(two);   // 1
+```
+### Spread Syntax
+
+The spread syntax uses `...` to "spread" the elements of an array or object into separate items; used in function invocations when passing arrays, or to insert separate elements or properties from array or object in literals.
+
+### Rest Syntax
+
+It uses `...` to collect multiples items into an array or object; used in function parameters.
