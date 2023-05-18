@@ -1,19 +1,26 @@
-| Data Types      | Expression  | Return Value | Performs operation | Notes                              |
+## Binary `+` operator
+
+| Data Types      | Example  | Return Value | Performs operation | Notes                              |
 |-----------------|-------------|--------------|--------------------|------------------------------------|
 | Number + `undefined` | `1 + undefined`     | `NaN`          | None           |                                    |
-| Object + Number | `[1] + 1`     | `11`          | Objects are converted to strings when using the  `+` operator      |                                    |
+| Number + `null` | `2 + null`   | `3`       | Addition      | `null`/`undefined` is converted to `0`                 |
 | Number + Number | `1 + 2`     | `3`          | Addition           |                                    |
 | Boolean + Number | `true + 2` | `3`          | Addition           | Booleans are converted to numbers: `true` becomes `1`, `false` becomes `0`.  |
+| Object + Number | `[1] + 1`     | `11`          | Objects are converted to strings when using the  `+` operator      |                                    |
 | String + String | `'1' + '2'` | `'12'`       | Concatenation      |                                    |
 | String + Number | `'1' + 2`   | `'12'`       | Concatenation      | `+` favors strings                 |
-| `null` + Number | `null + 2`   | `3`       | Addition      | `null`/`undefined` is converted to `0`                 |
-| `null`/`undefined` + String | `null + 'a'`   | `'nulla'`       | Concatenation      | `+` favors strings                 |
-| Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
+| String + `null`/`undefined` | `'a' + null`   | `'nulla'`       | Concatenation      | `+` favors strings                 |
+
+## Comparison
+
+| Data Types      | Example  | Return Value | Performs operation | Notes                              |
+|-----------------|-------------|--------------|--------------------|------------------------------------|
 | String < String | `'11'< '2'` | `true`       | String Comparison  |                                    |
+| Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | String < Number | `'11' < 3`  | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers  |
 | String < Number | `'one' < 2` | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers; `'one'` converted to `NaN`         |
 
-- **The other arithmetic operators `-`, `*`, `**`, `%` are only defined for numbers, so JavaScript converts both operands to numbers.**
+- **The other arithmetic operators `-`, `*`, `**`, `%` are only defined for numbers, so JavaScript converts both operands to numbers and tries to add them.**
 
 - Comparison can be performed only on numbers and strings; operands that are not of those types are converted.
 
