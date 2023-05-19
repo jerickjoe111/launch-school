@@ -4,15 +4,17 @@
 
 There are two types of values: primitives (numbers, strings, booleans, `null`, `undefined`, etc.) and objects.
 
-Primitives are _immutable_ and manipulated by value in JavaScrtipt. When a function/method _modifies_ a primitive, like a string, it just returns a new string with the modifications. Objects are _mutable_ and manipulated by reference: you can modify them without changing their identity. Objects contain data themselves: it's this inner data (the object's state) that you can change. Some operations return a new object, some modify the object in place.
+REVISE
+Primitives are _immutable_ and manipulated _by value_ in JavaScrtipt. When a function/method apparently _modifies_ a primitive, like a string, it just returns a new primitive resulting from the operation. On the other hand, objects are _mutable_ and manipulated _by reference_: you can modify them without changing their identity. Objects contain data themselves: it's this inner data (the object's state) that you can change. Some operations return a new object, some modify the object in place.
 
-JavaScript operators and statements expect values of different types, and it performs conversions to those types without a warning (implicit conversion) 
+
+JavaScript operators and statements expect values of different types, and it performs conversions to those types without a warning (_coercions_); for instance, the `+` binary operator favors strings over numbers, while comparison operators, like `<` or `>=`, favor numbers: if one of the operands is not one of the favored types, the operator will silently convert it (or _coerce_) to the favored type and try the operation again.
 
 (see `./conversions_table.md` and `./arithmetic_comparison_table.md`)
 
 ## Truthiness: `false` and `true` vs. falsy and truthy
 
-`true` and `false` are primitive values that represent truth or falsehood, yes or no; these two keywords evaluate to these two values, usually used in control structures (like `if` statements) or as the result of the comparison of two values' identities. However, in a boolean context (i.e. when an operator or statement expect a boolean value), all other types, including objects and arrays, can be converted and behave like `true` or `false`. When this happens, we say that some values are _truthy_ and others _falsy_. 
+`true` and `false` represent truth or falsehood, yes or no, on or off; these two keywords, `true` and `false` evaluate to these two values, respectively, and they are usually used in control structures (like `if` statements) or as the result of the comparison of two values via equality or comparison operators. However, in a boolean context (i.e.: when an operator or statement expects a boolean value), all other types in JavaScript, including objects and arrays, can be converted and behave like boolean values. When this happens, we say that some values are _truthy_ and others _falsy_. 
 
 In JavaScript, _falsy_ values are: 
 - `undefined`
@@ -26,130 +28,135 @@ All other values are _truthy_.
 
 ## Understand the differences between loose and strict equality
 
-Primitives are compared _by value_ and objects are compared _by reference_, however, JavaScript works with two kinds of equality, strict and loose, represented by the `===` and the `==` operators, respectively. It's important to note that the strict equality operator `===` does not convert its operand automatically: if two values are from different types, they are not equal, and the operator will return `false`; but `==` (sometimes called the _equality operator with type conversion_ ) will convert values of different types, and it may consider them equal after the conversion, which is dangerous and a source of bugs. These are some other important differences between the both operators: 
+Primitives are compared _by value_ and objects are compared _by reference_, however, JavaScript works with two kinds of equality, strict and loose, represented by the `===` and the `==` operators, respectively. It is important to notice that the strict equality operator `===` does not convert its operands automatically: if two values are from different types, they are not _strictly equal_, and the operator will return `false`; but `==` (sometimes called the _equality operator with type conversion_) will implicitly convert values of different types, and it may consider them equal after the conversion, which is dangerous and a source of bugs. 
+
+These are some other important differences between both operators: 
 
 When using the strict equality operator `===`:
 
 - If two values have different types, they are not equal.                      
-- `null` is not strictly equal to `undefined`                             
-- `NaN` is not equal to anything, even itself                             
-- Two numbers are strictly equal if they have the same value              
-- Two strings are strictly equal if they contain the EXACT same characters in the same position
-- Two objects are strictly equal if and only if they are the same object (Objects are compared by reference)
+- `null` is not strictly equal to `undefined`.                          
+- `NaN` is not equal to anything, even to itself.                             
+- Two numbers are strictly equal if they have the same value.              
+- Two strings are strictly equal if they contain the EXACT same characters in the exact same position.
+- Two objects are strictly equal if and only if they are the same object (Objects are compared by reference, not by the data they may contain).
 
 But, when using the `==` operator:
-- If two values are the same type, they are tested with the same criteria as in the strict equality operator.
-- If two values don't have the same type, they are converted according some rules:
-  - When one operand is a string and the other is a number, it converts the string to a number and then strictly compares them
-  - `null` is equal to `undefined` in non-strict equality comparison                                                 
+- If two values don't have the same type, they are converted according to some rules:
+  - When one operand is a string and the other is a number, it converts the string to a number and then strictly compares them.
+  - `null` is equal to `undefined` in non-strict equality comparison.                                
   - Booleans are converted to numbers when the other operand is a number, and the comparison is tried again: `true` becomes `1`, `false` becomes `0`.
-  - All other possible combinations are not equal
+  - All other possible combinations are not equal.
+- If two values are the same type, they are tested with the same criteria as in the strict equality operator.
 - Objects are still compared by reference: if they are not the same object, they are not equal.
 
 ## Assignments and comparison
 
-In JS, primitives are immutable, and objects are mutable. It is obvious for booleans and numbers; all string methods that appear to return a modified string are, in fact, returning a new string value.
+In JS, primitives are immutable, and objects are mutable. This is obvious for booleans and numbers (the idea of 'mutating' them would make no sense), and all string methods that appear to return a modified string are, in fact, returning a new string value.
 
-Primitives are compared **by value**: two values are the same if and only if they have the same value, but objects are compared **by reference**: two distinct objects are not equal even if they have the same properties and values, even two distinct arrays are not equal even if they have the same elements in the same order. Objects can be also understood as _reference types_: two objects values are the same if they refer to the same underlying object.
-
-Assigning an object or array to a variable simply assigns the reference: it does not create a new copy of the object.
+The assignment operator `=` binds a variable identifier, its left operand, to the value at its right (if it is an expression it will be evaluated, and the resulting value will become the value the variable will be bound or assigned to). If the right operand is a primitive type, we can talk about the variable 'containing' (this is an oversimplification) or _behave as containing_ the value; but if it is an object (sometimes called a _reference type_), the variable will store a reference to a specific address on memory in which the object is located, thus making the variables act as _pointers_ in JavaScript. Assigning a variable to an array or an object simply assigns _the reference_: it does not create a new copy of the object.
 
 The value of an assignment expression, is the value of the right-side operand. As a side effect, the `=` operator assigns the value on the right to the variable or property on the left so that future references to the variables or property evaluate to that value.
+
+Primitives are compared **by value**: two values are the same if and only if they have the same value, but objects are compared **by reference**: two distinct objects are not equal even if they have the same properties and values, even two distinct arrays are not equal even if they have the same elements in the same order. Objects can be also understood as _reference types_: two objects values are the same if they refer to the same underlying object. However, JavaScript implements two ways of comparing values, and one of them converts implicitly or _coerces_ one of the operands to the type of the other operand according some arbitrary rules.
 
 ## `console.log` vs `return`
 
 `console.log()` is a function that displays the value passed in as argument on the terminal or in the browser's console, depending on if we are executing the JavaScript code via Node.js or the browser. 
 
-The `return` statement causes the function to stop executing and to return the value of its expression, if any, to the caller. If the `return` statement does not have an associated expression, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes each statement in the function body until it reaches the end, and returns the `undefined` value to the caller.
+The `return` statement causes the function to stop executing and to return the value of its expression, if any, back to the caller. If `return` has no expression associated with it, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes the code in its body until it reaches the end, and then it returns `undefined`.
+
+
+
+                                                                    ...
+
+
 
 # 02: Functions and Variable Scope
 
+## Variable Declaration, Initialization and Assignment
+
+REVISE
+
+Variable declarations define the structure of the program itself and are processed before the code starts running (_hoisting_), allocating memory and resources for its correct execution. Variable declarations are usually referred to as _statements_; we can use `let`, `const`, and `var`, and, although, their syntax is similar, they have important differences.
+
+Variable initialization is the assignment of an initial value to that variable, by associating an assignment expression (i.e.: `= 1`) to a variable declaration; it is a good programming practice to always initialize declared variables when possible. Variables declared with `const` have to be initialized at the time of their declaration.
+
+(see 01::Assignments and Comparison)
+
 ## Types of Variables, variable scope, function scope and block scope.
 
-The scope of a variable is the region of your program source code in which it is _defined_ (reachable). Variables and constants declared with `let` and `const` are **block scoped**. This means that they are only defined within the block of code in which the `let` or `const` statements (their declarations) appears (and thus in all subsequent nested blocks within that block). 
+We have three ways of declaring variables directly in JavaScript: `var`, `let`, and `const`. The `var` syntax is deprecated, and it should be avoided, but its use is still legal. There are some important differences between them.
 
-JavaScript class and function definitions are blocks, and so are the bodies of `if/else` statements, loops, and so on. Roughly speaking, if a variable or constant is declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined. Of course, we cannot refer to that variable or constant before they are declared. Variables and constants that are part of `for`, `for/of` and `for/in` loop have the loop body as their scope.
-
-When a declaration appears at the top level, outside any code blocks, we say it is a _global_ variable or constant, and has **global scope**. In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute, after the `let` or `const` statement executes).
-
-Pre ES6, the only way to declare variables was `var`, and there was no way to declare constants.
-
-They have the same syntax, but important differences:
+- Variables and constants declared with `let` and `const` are _block scoped_. This means that they are only defined within the block of code in which their variable declarations appears (and thus in all subsequent nested blocks within that block). _Variables in the same or surrounding (outer) scopes are visible inside functions and blocks._
 
 - Variables declared with `var` are not block-scoped. Instead, _they are scoped to the body of the containing function, no matter how deeply nested they are inside that function_.
 
-- If we use `var` outside a function body, it declares a global variable. But global variables declared with `var` differ from global variables declared with `let`:
-  Globals declared with `var` are implemented as properties of the global object (we can refer via `globalThis`) But the properties created with global `var` declaration cannot be deleted with the `delete` operator. Global variables and constants declared with `let` and `const` are not properties of the global object.
+- All variables declared outside any function or block, in the topmost level, belong to the _global scope_. But global variables declared with `var` are implemented as _properties of the global object_ (we can refer to it via `globalThis`), while `let` and `const` global variables are not properties of the global object, and can't be deleted this way with the `delete` operator.
 
-- Unlike variables declared with `let`, it is legal to declare the same variable multiple times with `var`.
+- Unlike variables declared with `let` (and `const` by definition), we can declare the same variable multiple times with `var`. 
 
-## Lexical Scope
+### Scope, Lexical Scope and Scope Rules
 
-JavaScript uses lexical scoping to determine where it looks for variables: the program's textual (_lexical_) structure determines the variable's scope. In other words: **the source code defines the scope**. When you write a function in your code, it creates a scope even if the function never gets executed and has no variables of its own. At any point in the program, there is a hierarchy of scopes from the local scopes up to the global scope.
+The scope of a variable refers to the region of the code in which the variable is _defined_, within reach of the program.
 
-When JavaScript tries to find a variable, it searches this hierarchy _from the bottom to the top_. It stops and returns the first variable it finds with a matching name. This means that variables in a lower scope can _shadow_, or hide, variables of the same name in a higher scope: this is legal, but a bad practice. 
+JavaScript uses lexical scoping rules. This means that the program's textual (_lexical_) structure determines the variable's scope. In other words: _the code defines the scope_; the scope is created by a function even if the function never gets executed and has no set of own variables. The lexical scoping rules also have some important implications relative to closures. (see next topic)
 
-## The Global Scope
+Code outside any function or block belongs to the _global scope_, and _local scope_ refers to the code within a function or block, relative to an outer scope. Thus, a _hierarchy_ of scopes is defined at any given point in the program; when JavaScript tries to find a variable, it searches this hierarchy _from the bottom to the top_, which means, first in its local scope, and then up in the surrounding, outer scopes until the topmost level outside any function or block. This process stops the moment it finds the first variable with a matching name, to then return it. A `ReferenceError` exception is thrown if the program can't find the variable anywhere in the scope hierarchy.
 
-Code outside any function or block belongs to the _global scope_.
+This hierarchy also implies that that variables in a lower scope can _shadow_, or hide, variables of the same name in a higher scope: this is legal, but a bad practice. A `ReferenceError` exception is thrown if the program can't find a variable with that name anywhere in the scope hierarchy.
 
-## Local Scopes
+In non-strict mode, if JavaScript finds assignments of previously undeclared variables it converts them into global variables automatically.
 
-Inside a function or a block, the code is in a _local scope_, relative to the containing function or block. (function or block scope)
+JavaScript class and function definitions are blocks, and so are the bodies of `if...else` statements, loops, and so on. Generally, if a variable or constant was declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined. We cannot refer to that variable or constant before its declaration. For variables that are part of `for`, `for...of` and `for...in` loop, their scope is the loop body.
 
-## Adding variables to the current scope
+In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute, after the `let` or `const` statement executes).
+
+> Function definitions can be nested within other functions, and _they have access to any variables that are in scope where they are defined_.
+
+## Lexical Scoping and Closures
+
+Lexical scoping rules imply that functions are executed using the scope in effect when they were defined, not the scope in which they are executed. This is implemented by having the internal state of a function, not only its body, but also a reference to the scope in which the function's definition occurs. This combination of the function object and scope (the set of variable bindings, its _context_) is called a _closure_. In consequence, all functions are technically closures in JavaScript (although, because most functions are called in the same scope in which they are defined, it doesn't matter that closures are involved.)
+
+### Adding variables to the current scope
 
 There are a number of ways to create a variable in the current scope:
 
-1. Declaring it with the `let` or `const` keyword
-2. Declaring it with the `var` keyword
-3. A function declaration creates a variable with the same name as the function
-4. Defining parameters, which work as local variables within the function's body
-5. A class declaration also creates a variable with the same name as the function
+Explicit ways:
+- Declaring it with the `let` or `const` keyword
+- Declaring it with the `var` keyword
+
+Implicit ways:
+- A function declaration creates a variable with the same name as the function
+- Defining parameters, which work as local variables within the function's body
+- A class declaration also creates a variable with the same name as the function
 
 ## Variable Assignment
 
+(see 01::Assignment and Comparison)
+
 Variable scoping rules apply to both assignment and referencing equally.
 
-If JavaScript can't find a matching variable when assigning it a value, **it creates a new global variable instead**. This is dangerous and a source of bugs.
-
-## Variable Shadowing
-
-If a function definition has a parameter with the same name as a variable from an outer scope, the parameter shadows the outer variable.
-
-## Variable referencing
-
-JavaScript throws a `ReferenceError` exception if it can't find a variable anywhere in the scope hierarchy.
-
-Variable Scoping Rules:
-
-1. Every function definition creates a new local scope.
-2. Every block creates a new scope
-3. Lexical uses the textual structure of the program (its source code) to determine the variable's scope. This means that the code does not have to be executed for the scope to exist.
-4. All variables in the same or surrounding (outer) scopes are visible inside functions and blocks.
+In non-strict mode, if JavaScript can't find a matching variable when assigning it a value, **it creates a new global variable instead**. This is dangerous and a source of bugs.
 
 ## Hoisting
 
-JavaScript engines operate in two main phases: the creation phase and the execution phase. Before the execution phase begins, the creation phase does some preliminary work. One of those work items is to find all the variable, function and class _declarations_: this action seems to 'move' the declarations to the top of their respective function or block; function-scoped declarations get moved to the top of the function, and block-scoped declarations get moved to the top of the block. This process is called _hoisting_.
+Before the JavaScript interpreter starts executing the code itself, the JavaScript engines preprocess variable, function and class declarations in order to reserve resources and memory for the correct execution of the program. In practice, we can talk about how these declarations seem to be _hoisted_, or moved up to the top of the enclosing script, block, or function so that functions defined in this way may be invoked from code that appears _before their definition_. Note that this is not the case with functions defined as expressions: they don't _exist_ until their code is executed.
 
-Function declaration statements are _hoisted_ to the top of the enclosing script, block, or function so that functions defined in this way may be invoked from code that appears before the definition; they will be defined before the JavaScript interpreter begins to execute any of the code in that block.
+Something similar also happens with `var`, `let`, and `const` variables, however, there are some differences between the hoisting of functions and the hoisting of variables, and between the types of variable declarations:
 
-When we use the function declaration form, the function objects are created before the code that contains them starts to run, and the definitions are hoisted, so we can call them from code above their definition statement. Note that this is not the case with functions defined as expressions: they don't _exist_ until their code is executed.
+- When a variable is declared with `var`, its _initialization_ remains when it was written, but the _declaration_ of the variables is hoisted to the top of the enclosing function, and we may refer to them before its initialization without raising an exception: the value, nevertheless, will be `undefined`. This is a source of bugs and one of the JavaScript aspects that the `let` and `const` variables sought to correct.
 
-This also happens with `var`, `let`, and `const` variables:
+- When `let` or `const` variables are hoisted, they are not given an initial value at all, and an exception is thrown if we try to refer to them; but their declarations were indeed hoisted, and the program is aware of their presence: they are left in an 'unset' state sometimes referred as the _Temporal Dead Zone_.
 
-- When a variable is declared with `var`, the declaration is lifted-up or _hoisted_ to the top of the enclosing function. The _initialization_ remains when it was written, but the _declaration_ of the variables moves to the top of the function, so variables declared with `var` can be used, without error, anywhere in the enclosing function. (If the initialization code has not run yet, then the value of the variable may be `undefined`, but we won't get an error if we use the variable before it is initialized. This is a source of bugs)
-
-- When `let` or `const` variables are hoisted, they are not given an initial value at all, but the program is aware of their presence anyway: they are left in an 'unset' state (_Temporal Dead Zone_)
-
-Hoisting order:
+The hoisting has certain order, which becomes important when declaring functions and variables with the same name.
 
 1. Functions declarations
 2. Variables
 
 ## How passing an argument into a function may or may not permanently change the value that a variable points to
 
-Upon the function's invocation, when we pass an argument to the function, what actually happens is that the expression that we place between parentheses (usually a variable, sometimes a literal value or object) is evaluated, and the result of that evaluation is assigned to the corresponding parameter in the function's definition. This means that, if we pass a primitive value to a function, the parameter is assigned to the value, and _no operation performed on the variable will alter it_, so, any apparent 'mutation' is actually a _reassignment_ of the local variable, like this:
+Upon the function's invocation, when we pass an argument to the function, what actually happens is that the expression that we place between parentheses (usually a variable, sometimes a literal value or object) is evaluated, and the result of that evaluation is assigned to the corresponding parameter in the function's definition. This means that, if we pass a primitive value to a function, the parameter is assigned to the value, and _no operation performed on the variable within the function will alter it_, as we would be working on a different variable, the parameter. So, any apparent 'mutation' is actually a _reassignment_ of the local variable, without external effect, like this:
 
 ```js
 function addOne(x) { // x is assigned to the number 1 which a is pointing to.
@@ -160,7 +167,7 @@ addOne(a);
 a // => still 1. 
 ```
 
-However, when we pass an object as an argument to the function, the parameter is assigned _to the same object, not a copy of that object_: any modification made to the object through the local variable within the function will have a permanent effect on the object:
+However, when we pass an object as an argument to the function, the parameter is assigned _to the same object, not to a copy of that object_: any modification made to the object through the local variable within the function will have a permanent effect on the object:
 
 ```js
 function addOne(array) { // the parameter is assigned to the same object we passed in
@@ -175,9 +182,11 @@ If a function or method mutates its arguments or caller depends on the particula
 
 ## Variables as pointers
 
-Variables are handlers for values: they are names that contain references (_pointers_) to specific locations in memory. 
+REVISE
 
-If the variable `a` refers to a primitive value `1`, and the code `let b = a;` is executed, the variable `b` holds a reference to the same value as `a`, but the reassignment of anyone of these values will not affect the other:
+Variables are handlers for values: they are names that contain references (_pointers_) to specific locations in memory.
+
+If the variable `a` refers to a primitive value `1`, and the code `let b = a;` is executed, we are making the variable `b` to hold a reference to the same value as `a`, but the reassignment of anyone of these values will not affect the other:
 
 ```js
 let a = 1;
@@ -188,13 +197,20 @@ b // => 1
 ```
 
 If the variable `x` refers to an object and the code `let y = x;` is executed, the variable `y` holds a reference to the same
-object, not a copy of that object. Any modifications made to the object through the variable `y` are also visible through the variable `x`.
+object, not a copy of that object. Any modifications made to the object through the variable `y` are also visible through the variable `x`:
+
+```js
+let array = [1];
+let array2 = array;
+array.push(2);
+array2 // => [1,2]
+```
 
 ## Function definition and function invocation
 
 Function definitions create function objects in order to assign them to variables or pass them as arguments to other functions, and they may include a list of _parameters_ that will work as local variables within the body of the function.
 
-Function invocations provide values or _arguments_ for the function's parameters; every function invocation has to have a function identifier, a variable with the name of the function, and a list of arguments that may be empty. 
+Function invocations provide values or _arguments_ for the function's parameters; every function invocation has to have a function identifier (a variable with the name of the function or a variable assigned to a function object) and a list of arguments between parentheses that may be empty. 
 
 Function definitions can be nested within other functions, and they have access to any variables that are in scope _where they are defined_. This means that in JavaScript functions are _closures_, which enables important and powerful programming techniques.
 
@@ -227,41 +243,34 @@ The `return` statement causes the function to stop executing and to return the v
 
 ## Function expressions
 
-Function expression look a lot like function declarations, but:
-- they appear within the context of a larger expression or statement, 
-- and the name is optional. 
+Function expression look a lot like function declarations, but they appear within the context of a larger expression or statement, and the name is optional. 
 
-A function _declaration_ actually declares a variable (the name of the function) and assigns a function object to it, but a function _expression_, on the other hand, does not declare a variable: it is up to us to assign the newly defined function object to a constant or variable if you are going to need to refer to it multiple times. (It is an expression that evaluates to the function defined)
+Contrary to a function declaration, a function _expression_, does not declare a variable by itself: it depends on the user to assign the newly defined function object to a variable if there is the need. (It is an expression that evaluates to the function defined)
 
-It is a good practice to use `const` with function expressions, so you don't accidentally overwrite your functions by assigning new values.
+It is a good practice to use `const` with function expressions, so you don't accidentally overwrite your functions by assigning them to new values.
 
-A name is allowed in function declarations if the function needs to refer to itself: if it does include a name, the local function scope for that function will include a binding of that name to the function object (the function name becomes a local variable within the function) Most of the function expressions do not need names.
+While most of the function expressions do not need names, If the function expression does include a name, that name will become a local variable within a function assigned to the function itself, necessary for recursive functions that need to refer to themselves or for debugging purposes.
 
-Functions defined as expressions are not hoisted. These functions do not exist until the expression that defines them is actually evaluated: functions defined with expressions cannot be invoked before they are defined.
+Functions defined as expressions are not hoisted. These functions do not exist until the expression that defines them is actually evaluated: functions defined as expressions cannot be invoked before they are defined.
 
 ## Arrow functions
 
-We can define functions using a compact syntax: a `=>` to separate the function parameters from the function body. The `function` keyword is not used, and, since arrow functions are expressions instead of statements, there is no need for a function name.
+We can define functions using a compact syntax without a name, formed by: a comma-separated list of parameters, an arrow `=>`, and the body of the function in curly braces. The arrow function syntax makes them ideal when you need to pass one function to another function (_callbacks_), which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`.
 
-The general form of an arrow function is:
+This type of syntax also provides some syntactic sugar:
 
-1. A comma separated list of parameters in parentheses
-2. the arrow symbol: `=>`
-3. the body of the function in curly braces.
-
-If the body of the function is a single `return` statement, we can omit the `return` keyword, the semicolon that goes with it, and the curly braces, and write the body as the expression whose value is to return:
-
-If the arrow function has exactly one parameter, we can omit the parentheses around the parameter list:
-
-If the arrow function has no parameters, it must be written with an empty pair of parentheses:
+If the arrow function has exactly one parameter, we can omit the parentheses around the parameter list (but with no parameter an empty list `()` must be included). We also can omit the `return` keywords, the semicolon and the curly braces in the function's body if the body of the function is a single `return` statement.
 
 If the body of the arrow function is a single `return` statement but the expression to be returned is an object literal, then you have to put the object literal inside parentheses to avoid syntactic ambiguity.
 
-The arrow function syntax makes them ideal when you need to pass one function to another function (_callbacks_), which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`.
 
 ## Implicit return value of function invocations
 
-The `return` statement causes the function to stop executing and to return the value of its expression, if any, to the caller. If the `return` statement does not have an associated expression, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes each statement in the function body until it reaches the end, and returns the `undefined` value to the caller (this is called the implicit return value)
+The `return` statement causes the function to stop executing and to return the value of its expression, if any, back to the caller. If `return` has no expression associated with it, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes the code in its body until it reaches the end, and then it returns `undefined`.
+
+## Closures
+
+REVISE
 
 ## First-class functions
 
@@ -269,11 +278,28 @@ In JavaScript, functions are objects, and they can be manipulated; JavaScript ca
 
 ## Partial function application
 
-Partial function application refers to the creation of a function that can call a second function with fewer arguments that the second function expects. The created function supplies the remaining arguments (because it took them with it from its definition context, they form part of its closure)
+```js
+function applyTitle(title, name) {
+  return `${title} ${name}` 
+}
 
-Partial function application is most useful when you need to pass a function to another function that won't call the passed function with enough arguments.
+function formalTreatment(title) {
+  return function(name) { 
+    return applyTitle(title, name);
+  };
+}
 
-### Recognizing Partial Function Application
+const addLordTitle = formalTreatment('Lord');
+let name = 'Luke';
+let formalName = addLordTitle(name);
+formalName // => Lord Luke
+```
+
+Partial function application is an interesting technique allowed by the fact that functions are closures in JavaScript. With this technique, we can call a function `a` that, in turn, calls another function `b` that uses the arguments provided to `a`. While `b` expects two or more arguments, we can call `a` with just one argument: this is made possible because, at the moment of the _creation_ of `a` (not its invocation), the remaining, needed arguments for `b` were in scope, so the function `a` took them with it, thus forming a closure. So, although we just provided a single argument to `a`, `b` is able to find the remaining arguments because they are part of the function `a`'s closure.
+
+In the example, `a` would be the anonymous function returned by `formalTreatment()`; when this function object is created and returned, `title` formed part of its context, and, being needed by it (because it calls `applyTitle()` with this argument), this anonymous function takes a copy of this variable, thus _forming a closure_ around it, and saving it in its internal state. `b` would be `applyTitle()`. So, when we call the anonymous function that we assigned to the constant `addLordTitle()` from another, outer scope, we can supply just the `name` argument: this function kept a copy of `title` in its state, so `applyTitle()` is able to find it, and is correctly called from within the anonymous function assigned to `addLordTitle()` with the two arguments: `title` and `name`.
+
+Partial function application is most useful when you need to pass a function to another function that won't call the passed function with enough arguments from a different scope.
 
 Partial function application requires a reduction in the number of arguments you have to provide when you call a function. If the number of arguments isn't reduced, it isn't partial function application.
 
@@ -335,12 +361,17 @@ Most functions should return a useful value, or they should have a side effect, 
 
 ### Pure Functions
 
-Pure functions are functions that:
+A pure function is a function that does not have _side effects_ and it is completely _deterministic_. In other words, a pure function's return value depends only on its arguments; invoked with the same arguments, it will always return the same value.
 
-1. Have no side effects
-2. Given the same set of arguments, the function always returns the same value during the function's lifetime. This implies that the return value of a pure function _depends solely on its arguments_.
+                                                ...
 
 # 03: Arrays
+
+## Arrays and Operators
+
+Arithmetic operators convert the array into a string before performing the operation. (see conversion table)
+
+Relational comparison operators return `true` or `false` in unexpected ways, and shouldn't be used.
 
 ## Working with Strings, Arrays, and Objects. In particular, you should be thoroughly familiar with the basic Array iteration methods (`forEach`, `map`, `filter`, and `find`) and how to use Object methods to access the keys and values in an Object as an Array.
 
@@ -390,13 +421,11 @@ This method looks for elements in the array for which the passed-in function ret
 
 - Getting an array of property names for an object and then looping through that array with a `for/of` or a `for` loop. There are four functions to get an array of property names:
 
-    1. `Object.keys` returns an array of the names of the enumerable own properties; it does not include non-enumerable properties, inherited properties, or properties with a symbol as name.
+    1. `Object.keys` returns an array of the names of the enumerable own properties; it does not include non-enumerable properties, inherited properties, or properties with a symbol as name. It includes indices as strings.
 
-    2. `Object.getOwnPropertyNames()` like `Object.keys()`, but returns an array of the names of non-enumerable own properties as well.
+    2. `Object.getOwnPropertyNames()` is like `Object.keys()`, but returns an array of the names of non-enumerable own properties as well.
 
-    3. `Object.getOwnPropertySymbols()` returns own properties whose names are Symbols, whether or not they are enumerable.
-
-    4. `Reflect.ownKeys()` returns all own property names, both enumerable and non-enumerable, and both string and Symbol.
+    4. `Reflect.ownKeys()` returns all own property names, both enumerable and non-enumerable, and both string and Symbol property names.
 
 ## Understand that arrays are objects, and be able to determine whether you have an Array
 

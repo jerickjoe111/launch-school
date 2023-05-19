@@ -16,6 +16,8 @@
 | Data Types      | Example  | Return Value | Performs operation | Notes                              |
 |-----------------|-------------|--------------|--------------------|------------------------------------|
 | String < String | `'11'< '2'` | `true`       | String Comparison  |                                    |
+| Object < String | `[1, 2] < '2'` | `true`      | String Comparison  |                                    |
+| Object < Number | `[1, 2] < 2` | `false`       | Numerical Comparison  | `[1, 2]` is converted to `NaN`                                    |
 | Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | String < Number | `'11' < 3`  | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers  |
 | String < Number | `'one' < 2` | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers; `'one'` converted to `NaN`         |
