@@ -610,7 +610,7 @@ Instead of using the `in` operator, it is often sufficient to simply query the p
 
 # Mutability of Values and Objects (see variables as pointers)
 
-- Primitive values (strings, numbers, booleans, `null`, `undefined`...) are immutable: operations on these values return a new value of the same type:
+- Primitive values (strings, numbers, booleans, `null`, `undefined`...) are immutable: operations on these values return a new value of the same type. For instance, as characters within a string (a primitive) cannot be changed, in order to change a character within a string, we need to create a new string with the modified character.
 
 ```js
 let a = 10;
