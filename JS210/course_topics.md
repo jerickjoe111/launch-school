@@ -5,7 +5,7 @@
 There are two types of values: primitives (numbers, strings, booleans, `null`, `undefined`, etc.) and objects.
 
 REVISE
-Primitives are _immutable_ and manipulated _by value_ in JavaScrtipt. When a function/method apparently _modifies_ a primitive, like a string, it just returns a new primitive resulting from the operation. On the other hand, objects are _mutable_ and manipulated _by reference_: you can modify them without changing their identity. Objects contain data themselves: it's this inner data (the object's state) that you can change. Some operations return a new object, some modify the object in place.
+Primitives are _immutable_ and manipulated _by value_ in JavaScrtipt. When a function/method apparently _modifies_ a primitive, like a string, it just returns a new primitive resulting from the operation. On the other hand, objects are _mutable_ and manipulated _by reference_: we can modify them without changing their identity. Objects contain data themselves: it's this inner data (the object's state) that we can change. Some operations return a new object, some modify the object in place.
 
 
 JavaScript operators and statements expect values of different types, and it performs conversions to those types without a warning (_coercions_); for instance, the `+` binary operator favors strings over numbers, while comparison operators, like `<` or `>=`, favor numbers: if one of the operands is not one of the favored types, the operator will silently convert it (or _coerce_) to the favored type and try the operation again.
@@ -25,6 +25,27 @@ In JavaScript, _falsy_ values are:
 - `''` (an empty string)
 
 All other values are _truthy_.
+
+EXAMPLES:
+
+```js
+let a = 'Not changed';
+if (undefined) a = 'Changed';
+a // => 'Not changed'
+
+let b = 'Not changed';
+if ([]) b = 'Changed';
+b // => 'Changed'
+```
+
+## Logical Operators
+
+`&&`
+For boolean operands, `&&` returns `true` if both operands are `true`, `false` otherwise. When the operands are not booleans, `&&` returns the first operand if it is falsy (shortcirtuits), and the second operand otherwise.
+
+`||`
+For boolean operands, `||` returns `true` if at least one operand is `true`, `false` otherwise. For operands that are not booleans, `||` returns the first operand if it is truthy, and the second operand otherwise.
+
 
 ## Understand the differences between loose and strict equality
 
@@ -75,8 +96,6 @@ The `return` statement causes the function to stop executing and to return the v
 # 02: Functions and Variable Scope
 
 ## Variable Declaration, Initialization and Assignment
-
-REVISE
 
 Variable declarations define the structure of the program itself and are processed before the code starts running (_hoisting_), allocating memory and resources for its correct execution. Variable declarations are usually referred to as _statements_; we can use `let`, `const`, and `var`, and, although, their syntax is similar, they have important differences.
 
@@ -141,18 +160,41 @@ In non-strict mode, if JavaScript can't find a matching variable when assigning 
 
 ## Hoisting
 
-Before the JavaScript interpreter starts executing the code itself, the JavaScript engines preprocess variable, function and class declarations in order to reserve resources and memory for the correct execution of the program. In practice, we can talk about how these declarations seem to be _hoisted_, or moved up to the top of the enclosing script, block, or function so that functions defined in this way may be invoked from code that appears _before their definition_. Note that this is not the case with functions defined as expressions: they don't _exist_ until their code is executed.
+Before the JavaScript interpreter starts executing the code, the JavaScript engines preprocess variable, function and class declarations in order to reserve resources and memory for the correct execution of the program. In practice, we can talk about how these declarations seem to be _hoisted_, or moved up to the top of the enclosing script, block, or function so that functions defined in this way may be invoked from code that appears _before their definition_. Note that this is not the case with functions defined as expressions: they don't _exist_ until their code is executed.
 
 Something similar also happens with `var`, `let`, and `const` variables, however, there are some differences between the hoisting of functions and the hoisting of variables, and between the types of variable declarations:
 
 - When a variable is declared with `var`, its _initialization_ remains when it was written, but the _declaration_ of the variables is hoisted to the top of the enclosing function, and we may refer to them before its initialization without raising an exception: the value, nevertheless, will be `undefined`. This is a source of bugs and one of the JavaScript aspects that the `let` and `const` variables sought to correct.
 
-- When `let` or `const` variables are hoisted, they are not given an initial value at all, and an exception is thrown if we try to refer to them; but their declarations were indeed hoisted, and the program is aware of their presence: they are left in an 'unset' state sometimes referred as the _Temporal Dead Zone_.
+- `let` and `const` variables' declarations are hoisted too, but they are not given an initial provisional value like `undefined`, and an exception is thrown if we try to refer to them, although the program is aware of their presence: they are left in an 'unset' state sometimes referred as the _Temporal Dead Zone_.
 
 The hoisting has certain order, which becomes important when declaring functions and variables with the same name.
 
 1. Functions declarations
 2. Variables
+
+EXAMPLES:
+
+```js
+calling() // logs 'London Calling!'
+
+function calling() { // this function declaration is hoisted
+  console.log('London Calling!');
+}
+```
+
+```js
+hoistedVariable // => undefined
+
+var hoistedVariable = 'My declaration will be hoisted';
+```
+
+```js
+anotherHoistedVariable // Throws an exception, but JavaScript is aware of this identifier:
+                       // ReferenceError: Cannot access 'myVar' before initialization
+
+let anotherHoistedVariable = 'My declaration will be hoisted too';                       
+```
 
 ## How passing an argument into a function may or may not permanently change the value that a variable points to
 
@@ -182,28 +224,26 @@ If a function or method mutates its arguments or caller depends on the particula
 
 ## Variables as pointers
 
-REVISE
+Variables are handlers for values: they are names that contain references (_pointers_) to specific locations in memory, where the object referred is stored. When talking about primitive values (like numbers), we can say that the variables themselves _contain_ their value (this is an oversimplification, specially with strings), but in JavaScript all variables that are assigned to objects contain references (act as pointers) to them. This implies that two different variables can point to (can contain the same reference) the same location in memory: any mutating operation on the object that these variables refer to will be seen when we refer to anyone of them, as it is the same object what was mutated.
 
-Variables are handlers for values: they are names that contain references (_pointers_) to specific locations in memory.
-
-If the variable `a` refers to a primitive value `1`, and the code `let b = a;` is executed, we are making the variable `b` to hold a reference to the same value as `a`, but the reassignment of anyone of these values will not affect the other:
+If the variable `a` refers to a primitive value `1`, and the code `let b = a;` is executed, we are making the variable `b` to hold the same value as `a`, but the reassignment of anyone of these values will not affect the other, as variables containing primitives are independent of each other:
 
 ```js
 let a = 1;
-let b = 1;
-a += 1; // we are reassigning a to a new value, not modifying the value in any way.
-a // => 2
-b // => 1
+let b = a;
+a += 1; //
+a // => 2 We've modified the value that a contains
+b // => 1 Still points to this value
 ```
 
-If the variable `x` refers to an object and the code `let y = x;` is executed, the variable `y` holds a reference to the same
-object, not a copy of that object. Any modifications made to the object through the variable `y` are also visible through the variable `x`:
+If the variable `x` refers to an object and the code `let y = x;` is executed, the variable `y` holds a reference to the same object, not a copy of that object. Any modifications made to the object through the variable `y` are also visible through the variable `x`:
 
 ```js
 let array = [1];
 let array2 = array;
 array.push(2);
-array2 // => [1,2]
+array1 // => [1, 2]
+array2 // => [1, 2]
 ```
 
 ## Function definition and function invocation
@@ -241,40 +281,55 @@ Function declaration statements are _hoisted_ to the top of the enclosing script
 
 The `return` statement causes the function to stop executing and to return the value of its expression, if any, to the caller. If the `return` statement does not have an associated expression, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes each statement in the function body until it reaches the end, and returns the `undefined` value to the caller.
 
+EXAMPLES:
+```JS
+function myFunction() {
+  console.log('I am defined by a declaration');
+}
+```
+
 ## Function expressions
 
 Function expression look a lot like function declarations, but they appear within the context of a larger expression or statement, and the name is optional. 
 
 Contrary to a function declaration, a function _expression_, does not declare a variable by itself: it depends on the user to assign the newly defined function object to a variable if there is the need. (It is an expression that evaluates to the function defined)
 
-It is a good practice to use `const` with function expressions, so you don't accidentally overwrite your functions by assigning them to new values.
+It is a good practice to use `const` with function expressions, so we don't accidentally overwrite our functions by assigning them to new values.
 
 While most of the function expressions do not need names, If the function expression does include a name, that name will become a local variable within a function assigned to the function itself, necessary for recursive functions that need to refer to themselves or for debugging purposes.
 
 Functions defined as expressions are not hoisted. These functions do not exist until the expression that defines them is actually evaluated: functions defined as expressions cannot be invoked before they are defined.
 
+EXAMPLES:
+```JS
+const myFunction = function() {
+  console.log('I am defined by an expression');
+}
+```
+
 ## Arrow functions
 
-We can define functions using a compact syntax without a name, formed by: a comma-separated list of parameters, an arrow `=>`, and the body of the function in curly braces. The arrow function syntax makes them ideal when you need to pass one function to another function (_callbacks_), which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`.
+We can define functions using a compact syntax without a name, formed by: a comma-separated list of parameters, an arrow `=>`, and the body of the function in curly braces. The arrow function syntax makes them ideal when we need to pass one function to another function (_callbacks_), which is a common thing to do with array methods like `map()`, `filter()`, and `reduce()`.
 
 This type of syntax also provides some syntactic sugar:
 
 If the arrow function has exactly one parameter, we can omit the parentheses around the parameter list (but with no parameter an empty list `()` must be included). We also can omit the `return` keywords, the semicolon and the curly braces in the function's body if the body of the function is a single `return` statement.
 
-If the body of the arrow function is a single `return` statement but the expression to be returned is an object literal, then you have to put the object literal inside parentheses to avoid syntactic ambiguity.
+If the body of the arrow function is a single `return` statement but the expression to be returned is an object literal, then we have to put the object literal inside parentheses to avoid syntactic ambiguity.
+
+EXAMPLES:
+```JS
+[1, 2, 3].reduce((x, y) => x + y) // 6
+```
 
 
 ## Implicit return value of function invocations
 
 The `return` statement causes the function to stop executing and to return the value of its expression, if any, back to the caller. If `return` has no expression associated with it, the return value of the function is `undefined`. If a function does not contain a `return` statement, it simply executes the code in its body until it reaches the end, and then it returns `undefined`.
 
-## Closures
-
-REVISE
-
 ## First-class functions
 
-In JavaScript, functions are objects, and they can be manipulated; JavaScript can assign functions to variables, pass them as arguments to another functions, etc. Since functions are objects, you can set properties on them and even invoke methods on them. This means that we can have first-class functions, which is a powerful feature. And, having this in mind, we can see that this fact implies that we also can enjoy higher order functions: we use this specific term for functions that can accept other functions as arguments, and return other functions: the combination of higher order functions and the fact that functions form closures in JavaScript is one of its more useful tools.
+In JavaScript, functions are objects, and they can be manipulated; JavaScript can assign functions to variables, pass them as arguments to another functions, etc. Since functions are objects, we can set properties on them and even invoke methods on them. This means that we can have first-class functions, which is a powerful feature. And, having this in mind, we can see that this fact implies that we also can enjoy higher order functions: we use this specific term for functions that can accept other functions as arguments, and return other functions: the combination of higher order functions and the fact that functions form closures in JavaScript is one of its more useful tools.
 
 ## Partial function application
 
@@ -299,9 +354,9 @@ Partial function application is an interesting technique allowed by the fact tha
 
 In the example, `a` would be the anonymous function returned by `formalTreatment()`; when this function object is created and returned, `title` formed part of its context, and, being needed by it (because it calls `applyTitle()` with this argument), this anonymous function takes a copy of this variable, thus _forming a closure_ around it, and saving it in its internal state. `b` would be `applyTitle()`. So, when we call the anonymous function that we assigned to the constant `addLordTitle()` from another, outer scope, we can supply just the `name` argument: this function kept a copy of `title` in its state, so `applyTitle()` is able to find it, and is correctly called from within the anonymous function assigned to `addLordTitle()` with the two arguments: `title` and `name`.
 
-Partial function application is most useful when you need to pass a function to another function that won't call the passed function with enough arguments from a different scope.
+Partial function application is most useful when we need to pass a function to another function that won't call the passed function with enough arguments from a different scope.
 
-Partial function application requires a reduction in the number of arguments you have to provide when you call a function. If the number of arguments isn't reduced, it isn't partial function application.
+Partial function application requires a reduction in the number of arguments we have to provide when we call a function. If the number of arguments isn't reduced, it isn't partial function application.
 
 # Pure Functions and Side Effects
 
@@ -309,7 +364,7 @@ A function invocation that performs any of the following action is said to have 
 
 1. It reassigns any non-local variable.
 2. It mutates the value of any object referenced by a non-local variable.
-3. It reads from or writes to any data entity (files, network connections, etc.) that is non-local to your program.
+3. It reads from or writes to any data entity (files, network connections, etc.) that is non-local to our program.
 4. It raises an exception.
 5. It calls another function that has side effects.
 
@@ -363,7 +418,12 @@ Most functions should return a useful value, or they should have a side effect, 
 
 A pure function is a function that does not have _side effects_ and it is completely _deterministic_. In other words, a pure function's return value depends only on its arguments; invoked with the same arguments, it will always return the same value.
 
+
+
                                                 ...
+
+
+
 
 # 03: Arrays
 
@@ -373,7 +433,7 @@ Arithmetic operators convert the array into a string before performing the opera
 
 Relational comparison operators return `true` or `false` in unexpected ways, and shouldn't be used.
 
-## Working with Strings, Arrays, and Objects. In particular, you should be thoroughly familiar with the basic Array iteration methods (`forEach`, `map`, `filter`, and `find`) and how to use Object methods to access the keys and values in an Object as an Array.
+## Working with Strings, Arrays, and Objects. In particular, we should be thoroughly familiar with the basic Array iteration methods (`forEach`, `map`, `filter`, and `find`) and how to use Object methods to access the keys and values in an Object as an Array.
 
 ### Iterators
 
@@ -417,35 +477,62 @@ This method looks for elements in the array for which the passed-in function ret
 
 #### Enumerating Properties
 
-- The `for/in` loop runs the body of the loop once of each enumerable property, own or inherited, of the specified object, assigning the name of the property to the loop variable. Built-in methods that objects inherit are not enumerable.
+- The `for/in` loop runs the body of the loop once of each enumerable property of the specified object, assigning the name of the property to the loop variable. Inherited built-in methods are not enumerable.
 
-- Getting an array of property names for an object and then looping through that array with a `for/of` or a `for` loop. There are four functions to get an array of property names:
+- We can get an array of property names for an object and then looping through that array normally with a `for/of` or a classic `for` loop. There are different functions to get an array of an object's property names:
 
-    1. `Object.keys` returns an array of the names of the enumerable own properties; it does not include non-enumerable properties, inherited properties, or properties with a symbol as name. It includes indices as strings.
+    1. `Object.keys()` returns an array of the names of the enumerable own properties; it does not include non-enumerable properties, inherited properties, or properties with a symbol as name. It includes array indices as strings.
 
     2. `Object.getOwnPropertyNames()` is like `Object.keys()`, but returns an array of the names of non-enumerable own properties as well.
 
-    4. `Reflect.ownKeys()` returns all own property names, both enumerable and non-enumerable, and both string and Symbol property names.
+    3. `Reflect.ownKeys()` returns all own property names, both enumerable and non-enumerable, and both string and Symbol property names.
+
+EXAMPLES:
+```js
+let myObject = { one: 1, two: 2, three: 3 };
+
+for (let property in properties) {
+  console.log(`Name: ${property}, Value: ${myObject[property]}`);
+}
+
+let properties = Object.keys(myObject);
+for (let property of properties) {
+  console.log(`Name: ${property}, Value: ${myObject[property]}`);
+}
+```
 
 ## Understand that arrays are objects, and be able to determine whether you have an Array
 
-JS arrays are a specialized form of JS object, and array indexes are really little more than property names that happen to be integers. Implementations typically optimize arrays so that access to numerically indexed array elements is generally significantly faster than access to regular object properties. 
+JS arrays are a particular kind of JS object (`typeof [] //=> true`), and array indexes are actually just property names with integer values added to them. Access to indexed array elements is frequently much faster than access to ordinary object properties thanks to the optimization of an array's implementation. 
 
-Arrays inherit properties from `Array.prototype`, which defines a rich set of array manipulation methods. Most of these methods are _generic_, which means that they work correctly not only for true arrays, but for any array-like object. JS strings behave like arrays of characters.
+`Array.prototype`, which includes a wide range of array manipulation functions, defines the properties that arrays inherit. The majority of these methods are _generic_, which means they are compatible with any _array-like_ object and true arrays. Strings in JS behave like character arrays too.
 
-Every JS array has a `length` property. For nonsparse arrays (_dense_), this property specifies the number of elements in the array. For sparse arrays, `length` is always larger than the highest index of any element.
+A `length` property is present in each JavaScript array (and objects. In functions it expresses its arity). This attribute describes the number of array elements in nonsparse arrays (_dense_). `length` for sparse arrays is always greater than the highest index of any element. Properties with non-index names are not included in the `length` count.
 
-You access an element of an array using the `[]` operator (it's not a method in JS). A reference to the array should appear to the left of the brackets. An arbitrary expression that has a non-negative integer value should be inside the brackets. You can use this syntax to both read and write the value of an element of an array.
+The `[]` operator is used to access an element of an array. To the left of the brackets must be a reference to the array. The expression should be any arbitrary expression with a non-negative integer value. This syntax can be used to read and write an array element's value.
 
-When you use property names that are non-negative integers less than 2<sup>32</sup> - 1, the array automatically maintains the value of the `length` property. 
+The array always keeps the value of the `length` property when property names are non-negative integers less than 232 - 1. 
 
-The square brackets' operator works like the square brackets used to access object properties; JS converts the numeric array index you specify to a string, and then uses that string as a property name. Numeric and string property names are the same.
+Similar to how square brackets are used to access object properties, the `[]` operator in JavaScript turns the numeric array index we specify into a string, and uses that string as the property name.
 
-_All indexes are property names, but only property names that are integers between 0 and 2<sup>32</sup> - 1 are indexes._ If you use properties that are array indexes, however, arrays have the special behavior of updating their `length` property as needed.
+_All indexes are property names, but only property names that are integers between 0 and 2<sup>32</sup> - 1 are indexes._ If we use properties that are array indexes, however, arrays will automatically update their `length` property as needed.
 
-You can index an array using numbers that are negative or that are not integers. When you do this, the numbers is converted to a string, and that string is used as the property name. Since the name is not a non-negative integer, it is treated as a regular object property, not an array index. Also, if you index an array with a string that happens to be a non-negative integer, it behaves as an array index. The same is true if you use a floating-point number that is the same as an integer.
+It is possible to index an array using negative integers or numbers that are not integers. This results in the conversion of the integer into a string, which is then utilized as the property name. The name is handled as a regular object property name, rather than a proper index. However, a string that just so happens to be a non-negative integer can also be used to index an array and function like an array index. If we use a floating-point number that is equivalent to an integer, the same is true.
 
-JavaScript arrays have no notion of an 'out of bounds' error. When you try to query a nonexistent property of any object, you don't get an error; you simply get `undefined`.
+EXAMPLE
+
+```js
+let a = [1, 2];
+
+a[-1] = 3;
+a // => [1, 2, '-1': 3]
+a.length // => 2
+
+a['0'] //=> 1
+a[1.0] //=> 2
+```
+
+'Out of limits' errors are not recognized by JavaScript arrays. Any try to query nonexistent properties won't throw an exception, but rather return `undefined`.
 
 ### Array Length
 
@@ -453,9 +540,9 @@ Every array has a `length` property:
 - for dense arrays, it specifies the number of elements in the array (one more the last index in the array);
 - for sparse arrays, it is always greater that the number of elements.
 
-If you set the `length` property to a non-negative integer `n` smaller than its current value, any array elements whose index is greater or equal to `n` are deleted from the array
+If we set the `length` property to a non-negative integer `n` smaller than its current value, any array elements whose index is greater or equal to `n` are deleted from the array
 
-If you set the `length` property to a higher value than its current value, it will create a sparse area at the end of the array, without adding new elements.
+If we set the `length` property to a higher value than its current value, it will create a sparse area at the end of the array, without adding new elements.
 
 #### `isArrray()`
 
@@ -465,11 +552,17 @@ Returns `true` if the argument is an array, `false` otherwise.
 
 It is often perfectly reasonable to treat any object with a numeric `length` property and corresponding non-negative integer properties as array-like objects.
 
-You can still iterate through them with the same code you'd use for a true array; many algorithms work just as well with array-like objects as they do with real arrays. This is specially true for algorithms that treat the array as read-only of if they at least leave the array length unchanged.
+we can still iterate through them with the same code we'd use for a true array; many algorithms work just as well with array-like objects as they do with real arrays. This is specially true for algorithms that treat the array as read-only of if they at least leave the array length unchanged.
 
 In client-side JS, a number of methods for working with HTML documents (such as `document.querySelectorAll()`) return array-like objects.
 
-Most of the array methods are purposely defined to be generic so that they work correctly when applied to array-like objects in addition to true arrays. Since array-like objects do not inherit from `Array.prototype`, you cannot invoke array methods on them directly, but you can do it _indirectly_ using the `Function.call` method.
+Most of the array methods are purposely defined to be generic so that they work correctly when applied to array-like objects in addition to true arrays. Since array-like objects do not inherit from `Array.prototype`, you cannot invoke array methods on them directly, but we can do it _indirectly_ using the `Function.call` method.
+
+
+
+                                                  ...
+
+
 
 # 04: Objects
 
@@ -477,11 +570,11 @@ Most of the array methods are purposely defined to be generic so that they work 
 
 ## Querying and Setting Properties
 
-To obtain the value of a property, use the `.` or the square brackets `[]` operators. The left hand side should be an expression whose value is an object. If using the dot operator, the right hand side must be a simple identifier that names the property. If using square brackets, the value must be an expression that evaluates to a string that contains the desired property name.
+We can use the `.` or the square brackets `[]` operators to access object properties. The left hand side should be an expression whose value is an object. If using the dot operator, the right hand side must be a simple identifier that names the property. If using square brackets, the value must be an expression that evaluates to a string that contains the desired property name.
 
 To create or set a property, use a dot or square brackets but them on the left hand of an assignment expression.
 
-Identifiers must be typed literally into your JavaScript program; they are not a datatype, so they cannot be manipulated by the program. On the other hand, when you access a property of an object with the `[]` array notation the name of the property is expressed as a string. Strings are JavaScript datatypes, so they can be manipulated and created while a program is running. This demonstrates the flexibility of using array notation to access properties of an object with string expressions.
+Identifiers cannot be changed by the program since they are not a datatype; they must be entered explicitly into our  program. However, the name of the property is expressed as a string when we access an object's property using the `[]` array notation. And, given that strings are a data type in JavaScript, they can be manipulated on runtime. This exemplifies how flexible array notation is when it comes to using text expressions to access object properties.
 
 ## Property Access Errors
 
@@ -515,17 +608,24 @@ To check whether an object has a property with a given name, we can use the `in`
 
 Instead of using the `in` operator, it is often sufficient to simply query the property and use `!==` to make sure is not undefined: `o.x !== undefined`
 
-# Mutability of Values and Objects
+# Mutability of Values and Objects (see variables as pointers)
 
 - Primitive values (strings, numbers, booleans, `null`, `undefined`...) are immutable: operations on these values return a new value of the same type:
 
 ```js
 let a = 10;
 a += 5; // a is reassigned to the resulting value of adding 5 to the previous value of a, 10.
-a // 15 (a now points to 15)
+a // 15 (a now contains 15)
 ```
 
-- Objects are mutable: you can modify them without changing their identity. Objects contain data themselves: it's this inner data (the object's state) that you can change. Some operations return a new object, some modify the object in place.
+- Objects are mutable: we can modify them without changing their identity. Objects (_compound types_) contain data themselves: it's this data (the object's state) what we can mutate. Some operations permanently mutate the object, while others return a new object.
+
+```js
+let a = [1, 2];
+a[0] = 0;
+
+a // [0, 2]
+```
 
 ## Nested Data Structures (structures within structures)
 
@@ -535,7 +635,7 @@ It's important when we are dealing with shallow copies or deep copies of an obje
 
 A shallow copy constructs a new compound object and then inserts references into it to the objects found in the original. So, when the array contains other objects and we make a shallow copy, the objects in both arrays are shared (both contain references to the same objects), not copied.
 
-When you mutate a shared object in an array or other collection, it's the shared object you are mutating rather than the collection. You will see the change in both.
+When we mutate a shared object in an array or other collection, it's the shared object we are mutating rather than the collection. we will see the change in both.
 
 We can create shallow copies of arrays with:
 
@@ -741,7 +841,7 @@ let second = foo[1];
 let third = foo[2];
 ```
 
-You can swap two values without a buffer: 
+we can swap two values without a buffer: 
 
 ```js
 let one = 1;
