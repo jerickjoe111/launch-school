@@ -510,6 +510,7 @@ To close the gaps and remove `undefined` and `null` elements, to this:
 ```js
 let cleaned = uncleaned.filter(x => x !== undefined && x !== null);
 ```
+
 #### `find`
 
 This method looks for elements in the array for which the passed-in function returns a truthy value. It stops the iteration as soon as it has found such an element. `find()` returns the matching element, and `undefined` if no matching element is found.
