@@ -15,7 +15,7 @@ let b = 'aloha';
 b.toUpperCase(); // a new, uppercase version returns from this method
 b // => 'aloha'. b wasn't affected.
 
-b = b.toUpperCase(); // but we can reassign b to a new string
+b = b.toUpperCase(); // but we can reassign b to the new version of the string value
 b // => 'ALOHA'
 ```
 
@@ -23,10 +23,14 @@ On the other hand, objects are _mutable_ and manipulated _by reference_: we can 
 
 ```js
 let a = [1, 2];
-
 a.push(3); // We add a value to the object itself, permanently modifying it.
+a // => [1, 2, 3]
 
-a // => [1, 2, 3];
+let b = a;
+b.pop(); // We remove the last element of b, permanently modifying it.
+b // => [1, 2]
+a // => [1, 2]  Both variables contain a reference to the same object
+a === b; // => true (they both point to the same location in memory)
 ```
 
 ...
