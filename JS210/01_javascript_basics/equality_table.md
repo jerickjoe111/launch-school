@@ -18,11 +18,6 @@
 | `null` == `undefined` | `null == undefined` | `true`       | `null` is equal to `undefined` in non-strict equality comparison                                                     |
 | Boolean == Other Type | `true == 1`         | `true`       | Booleans are converted to numbers, and the comparison is tried again: `true` becomes `1`, `false` becomes `0`.       |
 
-**Primitives are compared _by value_, Objects are compared _by reference_**
-
-
-...
-
 
 When one operand is a string and the other is a number, the string is converted to a number:
 
@@ -40,10 +35,13 @@ When one operand is a boolean, it is converted to a number:
 42 == true            // false -- becomes 42 == 1
 0 == false            // true -- becomes 0 == 0
 '0' == false          // true -- becomes '0' == 0, then 0 == 0 (two conversions)
+[] == false           // true -- [] becomes ''
 '' == false           // true -- becomes '' == 0, then 0 == 0
 true == '1'           // true
 true == 'true'        // false -- becomes 1 == 'true', then 1 == NaN
 ```
+
+When comparing any kind of object (such as an array) against a primitive value with `==`, the first thing JS does is coerce the object to a primitive value. It first tries the method `valueOf()`; if this also returns an object, it tries `toString()` next.
 
 When one operand is `null` and the other is `undefined`, the non-strict operator always returns `true`. If both operands are `null` or both are `undefined`, the return value is `true`. Comparing `null` or `undefined` to all other values returns `false`:
 
@@ -65,4 +63,27 @@ NaN == 0              // false
 NaN == NaN            // false
 NaN === NaN           // false -- even with the strict operator
 NaN != NaN            // true -- NaN is the only JavaScript value not equal to itself
+```
+
+More Examples with arrays:
+
+```js
+[] == '0';               // false -- becomes '' == '0'
+[] == 0;                 // true -- becomes '' == 0, then 0 == 0
+[] == false;             // true -- becomes '' == false, then 0 == 0
+[] == ![];               // true -- same as above
+[null] == '';            // true -- becomes '' == ''
+[undefined] == false;    // true -- becomes '' == ''
+[false] == false;        // false -- becomes 'false' == 0, then NaN == 0
+```
+
+More examples with generic objects:
+
+```js
+[] + {};                  // "[object Object]" -- becomes "" + "[object Object]"
+[] - {};                  // NaN -- becomes "" - "[object Object]", then 0 - NaN
+'[object Object]' == {};  // true
+'' == {};                 // false
+false == {};              // false
+0 == {};                  // false
 ```

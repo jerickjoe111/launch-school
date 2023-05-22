@@ -549,7 +549,7 @@ JS arrays are a particular kind of JS object (`typeof [] //=> true`), and array 
 
 `Array.prototype`, which includes a wide range of array manipulation functions, defines the properties that arrays inherit. The majority of these methods are _generic_, which means they are compatible with any _array-like_ object and true arrays. Strings in JS behave like character arrays too.
 
-A `length` property is present in each JavaScript array (and objects. In functions it expresses its arity). This attribute describes the number of array elements in nonsparse arrays (_dense_). `length` for sparse arrays is always greater than the highest index of any element. Properties with non-index names are not included in the `length` count.
+A `length` property is present in each JavaScript array (and objects. In functions it expresses its arity). This property describes the number of array elements in nonsparse arrays (_dense_). `length` for sparse arrays is always greater than the highest index of any element. Properties with non-index names are not included in the `length` count, but gaps in sparse arrays are.
 
 The `[]` operator is used to access an element of an array. To the left of the brackets must be a reference to the array. The expression should be any arbitrary expression with a non-negative integer value. This syntax can be used to read and write an array element's value.
 
