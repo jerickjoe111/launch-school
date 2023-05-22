@@ -10,6 +10,13 @@ Primitives are _immutable_ and manipulated _by value_ in JavaScript. In any oper
 let a = 'Alo';
 a += 'ha'; // a is reassigned to the string resulting from adding its previous value 'Alo' and the literal 'ha'
 a // => 'Aloha'
+
+let b = 'aloha';
+b.toUpperCase(); // a new, uppercase version returns from this method
+b // => 'aloha'. b wasn't affected.
+
+b = b.toUpperCase(); // but we can reassign b to a new string
+b // => 'ALOHA'
 ```
 
 On the other hand, objects are _mutable_ and manipulated _by reference_: we can modify them without changing their identity. Objects are called _compound_ values, as they are collections of many values; they contain data themselves, and it is the data within them (part of the object's state) what we reassign, thus permanently changing them without altering their identity:
