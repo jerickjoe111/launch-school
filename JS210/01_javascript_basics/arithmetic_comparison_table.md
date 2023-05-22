@@ -18,8 +18,8 @@
 | String < String | `'11'< '2'` | `true`       | String Comparison  |                                    |
 | Object < String | `[1, 2] < '2'` | `true`      | String Comparison  |  The array is converted to '1,2', and the strings are compared by character encoding, one by one.
 | Object < Number | `[1, 2] < 2` | `false`       | Numerical Comparison  | `[1, 2]` is converted to `NaN`                                    |
-| Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | String < Number | `'11' < 3`  | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers  |
+| Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | String < Number | `'one' < 2` | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers; `'one'` converted to `NaN`         |
 
 - **The other arithmetic operators `-`, `*`, `**`, `%` are only defined for numbers, so JavaScript converts both operands to numbers and tries to add them.**

@@ -16,7 +16,7 @@
 | `Infinity`                       | `'Infinity'`  |           | `true`     |
 | `-Infinity`                      | `'-Infinity'` |           | `true`     |
 | `NaN`                            | `NaN`         |           | `false`    |
-| `{}` (any object)                | See rules     | See rules | `true`     |
+| `{'a': 1}` (plain object)        | `'[object Object]'`    | `NaN` | `true`     |
 | `[]` (empty array)               | `''`          | `0`       | `true`     |
 | `[1]` (one numeric element)      | `'1'`         | `1`       | `true`     |
 | `['a']` (any other array)        | Use `join()`  | `NaN`     | `true`     |
