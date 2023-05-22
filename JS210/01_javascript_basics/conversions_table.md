@@ -20,7 +20,7 @@
 | `[]` (empty array)               | `''`          | `0`       | `true`     |
 | `[1]` (one numeric element)      | `'1'`         | `1`       | `true`     |
 | `['a']` (any other array)        | Use `join()`  | `NaN`     | `true`     |
-| `function() {}` (any function)   | See rules     | `NaN`     | `true`     |
+| `function() {}` (any function)   | `'function name() {}'`    | `NaN`     | `true`     |
 
 Objects to string:
 ```js

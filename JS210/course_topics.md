@@ -35,7 +35,7 @@ a === b; // => true (they both point to the same location in memory)
 
 ...
 
-JavaScript operators and statements expect values of different types, and it can perform conversions to those types without a warning (_coercions_); for instance, the `+` binary operator favors strings over numbers, while comparison operators, like `<` or `>=`, favor numbers: if one of the operands is not one of the favored types, the operator will silently convert it (or _coerce_) to the favored type and try the operation again.
+JavaScript operators and statements expect values of different types, and it can perform conversions to those types without a warning (_coercion_); for instance, the `+` binary operator favors strings over numbers, while comparison operators, like `<` or `>=`, favor numbers: if one of the operands is not one of the favored types, the operator will silently convert it (or _coerce_) to the favored type and try the operation again.
 
 (see `./conversions_table.md` and `./arithmetic_comparison_table.md`)
 
@@ -154,7 +154,7 @@ We have three ways of declaring variables directly in JavaScript: `var`, `let`, 
 
 - All variables declared outside any function or block, in the topmost level, belong to the _global scope_. But global variables declared with `var` are implemented as _properties of the global object_ (we can refer to it via `globalThis`), while `let` and `const` global variables don't become properties of the global object.
 
-- Unlike variables declared with `let` (and `const`, by definition), we can declare the same variable multiple times with `var`. 
+- Unlike variables declared with `let` (and `const`, by definition), we can declare the same variable multiple times with `var` (but if there's no assignment attached to the re-declaration, this statement is superfluous.)
 
 ### Scope, Lexical Scope and Scope Rules
 
@@ -168,7 +168,7 @@ This hierarchy also implies that that variables in an inner scope can _shadow_, 
 
 In non-strict mode, if JavaScript finds assignments of previously undeclared variables it converts them into global variables automatically. In strict mode, it throws an exception.
 
-JavaScript class and function definitions are blocks, and so are the bodies of conditionals, loops, etc. Roughly speaking, if a variable was declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined. We cannot refer to that variable or constant before its declaration (however, their declaration are _hoisted_) For variables that are part of `for`, `for...of` and `for...in` loop, their scope is the loop body.
+JavaScript class and function definitions are blocks, and so are the bodies of conditionals, loops, etc. In a broad sense, if a variable was declared within a set of curly braces, then those curly braces delimit the region of code in which the variable or constant is defined. We cannot refer to that variable or constant before its declaration (however, their declaration are _hoisted_) For variables that are part of `for`, `for...of` and `for...in` loop, their scope is the loop body. Note that a function body is not the same entity (not the same type of scope) as a block; an object literal, also between curly braces, does not define a block.
 
 In Node and client-side JS modules, the scope of a global variable is the file that it is defined in. In traditional client-side JS, the scope of a global variable is the HTML document in which it is defined. That is: if one `<script>` declares a global variable or constant, that variable is defined in all the `<script>` elements in that document (that execute, after the `let` or `const` statement executes).
 
