@@ -28,6 +28,7 @@
 |-----------------|-------------|--------------|--------------------|------------------------------------|
 | String < String | `'11'< '2'` | `true`       | String Comparison  |                                    |
 | String < Number | `'11' < 3`  | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers  |
+| Boolean < Number | `true > 3`  | `false`      | Numerical Comparison | `true` is converted to `1`, and `1` is less than `3`  |
 | String < Number | `'one' < 2` | `false`      | Numerical Comparison | `<`, `>`,`<=`, `>=` favor numbers; `'one'` converted to `NaN`         |
 | Number < Number | `1 < 2`     | `true`       | Numerical Comparison |                                    |
 | Object < String | `[1, 2] < '2'` | `true`      | String Comparison  |  The array is converted to '1,2', and the strings are compared by character encoding, one by one. |
