@@ -545,7 +545,7 @@ for (let property of properties) {
 
 ## Understand that arrays are objects, and be able to determine whether you have an Array
 
-JS arrays are a particular kind of JS object (`typeof [] //=> true`), and array indexes are actually just property names with integer values added to them. Access to indexed array elements is frequently much faster than access to ordinary object properties thanks to the optimization of an array's implementation. 
+JS arrays are a particular kind of JS object (`typeof [] //=> object`), and array indexes are actually just property names with integer values added to them. Access to indexed array elements is frequently much faster than access to ordinary object properties thanks to the optimization of an array's implementation. 
 
 `Array.prototype`, which includes a wide range of array manipulation functions, defines the properties that arrays inherit. The majority of these methods are _generic_, which means they are compatible with any _array-like_ object and true arrays. Strings in JS behave like character arrays too.
 
