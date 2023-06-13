@@ -87,33 +87,28 @@ function join(list) {
     return word.split('').slice(-size).join('');
   }
 
-  let smallerOverlapSize = Infinity;
+  let smallestOverlapSize = Infinity;
   let outputString = list[0];
-
   for (let i = 0; i < list.length - 1; i += 1) {
     let nextWord = list[i + 1];
     let overlap = '';
     let addToOutput = '';
-
     // Find overlap
     for (let overlapSize = nextWord.length; overlapSize > 0 ; overlapSize -= 1) {
       let finalSubstring = endingSubstring(outputString, overlapSize);
       let nextSubstring = beginningSubstring(nextWord, overlapSize);
-
       if (finalSubstring === nextSubstring ) {
         overlap = finalSubstring;
         addToOutput = nextWord.replace(overlap, '')
         break;
       }
     }
-    if (!overlap) addToOutput = nextWord
-
-    if (overlap.length < smallerOverlapSize) smallerOverlapSize = overlap.length;
-
+    if (!overlap) addToOutput = nextWord;
+    if (overlap.length < smallestOverlapSize) smallestOverlapSize = overlap.length;
     outputString += addToOutput;
   }
 
-  return [outputString, smallerOverlapSize];
+  return [outputString, smallestOverlapSize];
 }
 
 
