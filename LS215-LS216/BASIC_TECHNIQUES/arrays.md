@@ -19,7 +19,6 @@ let a = [1,1,2,2];
 [...new Set(a)];
 ```
 
-
 ## Compare if two arrays have the same values (are equal)
 
 ```js
@@ -93,3 +92,35 @@ permutations(a); // =>
 //                   [ 'c', 'b', 'a' ]
 //                 ]
 ```
+
+## Sort list of strings, case insensitively
+
+```js
+let list = ['ZZZ', 'bbb', 'AaA'];
+
+list.sort((a, b) => {
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+
+  if (a < b) return - 1;
+  else if (b < a) return 1;
+  else return 0;
+})
+
+list // => [ 'AaA', 'bbb', 'ZZZ' ]
+```
+
+## Create an empty matrix (square) 
+
+```js
+function createMatrix(order) {
+  let output = [];
+
+  for (let i = 0; i < order; i += 1) {
+    output.push([]);
+  }
+
+  return output;
+}
+```
+

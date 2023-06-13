@@ -1,3 +1,13 @@
+## Convert ANY type of value into a string
+
+```js
+function superToString(value) {
+  if (value !== null && typeof value === 'object') {
+    return String(Object.entries(value))
+  } else return String(value);
+}
+```
+
 ## Get all consecutive substrings from string, size 1 or more
 
 ```js
@@ -58,17 +68,6 @@ let string = 'abcadfadsffAbcasfasfABC';
 string.match(substringRegExp).length // => 3
 ```
 
-## Is this a prime number?
-
-```js
-function isPrime(number) {
-  for (let divisor = 2; divisor < number; divisor += 1) {
-    if (number % divisor === 0) return false;
-  }
-
-  return true;
-}
-```
 
 ## Are these words anagrams (same letters, different order)
 

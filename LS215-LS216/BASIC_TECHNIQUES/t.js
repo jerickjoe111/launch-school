@@ -1,13 +1,15 @@
-function hasDuplicates(array) {
-  let noDuplicates = [...new Set(array)].join('');
+let list = ['ZZZ', 'bbb', 'AaA'];
 
-  return noDuplicates !== array.join('')
-}
+list.sort((a, b) => {
+  a = a.toLowerCase();
+  b = b.toLowerCase();
 
-let a = [1,2];
-
+  if (a < b) return - 1;
+  else if (b < a) return 1;
+  else return 0;
+})
 
 console.log(
-  hasDuplicates(a) // => true
+  list
+)
 
-  )
