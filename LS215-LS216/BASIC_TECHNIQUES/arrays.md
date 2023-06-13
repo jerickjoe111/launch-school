@@ -124,3 +124,21 @@ function createMatrix(order) {
 }
 ```
 
+## Copy an array populated by primitive values
+
+```js
+let a = [1, 2]
+
+let copy = [...a];
+```
+
+## Swap values in an array
+
+## Delete only certain elements from an array
+
+1. find indices of elements to delete
+2. store those indices
+3. for each index to delete:
+    -array.splice(index)
+4. return array
+
