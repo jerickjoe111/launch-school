@@ -125,3 +125,26 @@ list.sort((a, b) => {
 
 list // => [ { c: 1 }, { A: 2 }, { Z: 3, B: 3 } ]
 ```
+
+## Copy an object
+
+```js
+let original = {a: 1, b: 2};
+let copy = {...original};
+```
+
+## Compare if two objects have the same properties and values
+
+```js
+let a = {a: 1, b: 2};
+let b = {a: 1, b: 2};
+
+let c = {a: 1, b: 3};
+
+let entriesA = Object.entries(a).join('');
+let entriesB = Object.entries(b).join('');
+let entriesC = Object.entries(c).join('');
+
+entriesA === entriesB // => true;
+entriesA === entriesC // => false;
+```

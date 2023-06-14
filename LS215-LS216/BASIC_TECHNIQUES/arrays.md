@@ -134,11 +134,14 @@ let copy = [...a];
 
 ## Swap values in an array
 
-## Delete only certain elements from an array
+## Delete only certain elements from an array, in place
 
-1. find indices of elements to delete
-2. store those indices
-3. for each index to delete:
-    -array.splice(index)
-4. return array
+```js
+let a = [0, 1, 2, 3]
 
+let i = 0
+while (i < a.length) {
+  if (a[i] % 2 !== 0) a.splice(i, 1);
+  else i += 1;
+}
+```
