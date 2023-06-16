@@ -1,3 +1,17 @@
+# Basic String Techniques
+
+1. [Convert ANY type of value into a string](#convert-any-type-of-value-into-a-string)
+2. [Get all consecutive substrings from string, size 1 or more](#get-all-consecutive-substrings-from-string-size-1-or-more)
+3. [Get all consecutive substrings from string, size 2 or more](#get-all-consecutive-substrings-from-string-size-2-or-more)
+4. [Array of instances of a substring in a string](#array-of-instances-of-a-substring-in-a-string)
+5. [Number of occurrences of substring in string](#number-of-occurrences-of-substring-in-string)
+6. [Are these words anagrams (same letters, different order)](#are-these-words-anagrams-same-letters-different-order)
+7. [Is this word a palindrome (can be read from both sides)](#is-this-word-a-palindrome-can-be-read-from-both-sides)
+8. [Consonants RegExp](#consonants-regexp)
+9.  [Vowels RegExp](#vowels-regexp)
+10. [Compare if two strings are equal, case insensitively](#compare-if-two-strings-are-equal-case-insensitively)
+
+
 ## Convert ANY type of value into a string
 
 ```js
