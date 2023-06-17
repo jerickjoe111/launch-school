@@ -148,3 +148,12 @@ let entriesC = Object.entries(c).join('');
 entriesA === entriesB // => true;
 entriesA === entriesC // => false;
 ```
+
+## Make a deep copy of an array
+
+```js
+let original = {a: 1}
+let copy = JSON.parse(JSON.stringify(original));
+original.b = 2;
+copy = {a: 1}; 
+```

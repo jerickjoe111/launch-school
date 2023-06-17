@@ -1,26 +1,42 @@
 # Basic Array techniques:
 
-1. [Make a deep copy of an array](#make-a-deep-copy-of-an-array)
-2. [Find out if array has duplicates](#find-out-if-array-has-duplicates)
-3. [Remove duplicates in an array](#remove-duplicates-in-an-array)
-4. [Compare if two arrays have the same values (are equal)](#compare-if-two-arrays-have-the-same-values-are-equal)
-5. [Remove sparse areas from an array](#remove-sparse-areas-from-an-array)
-6. [Filter out NaN values from an array](#filter-out-nan-values-from-an-array)
-7. [Get max/min value from a list of arguments](#get-maxmin-value-from-a-list-of-arguments)
-8. [Get all possible permutations (same elements, different order) from an array:](#get-all-possible-permutations-same-elements-different-order-from-an-array)
-9. [Sort list of strings, case insensitively](#sort-list-of-strings-case-insensitively)
-10. [Copy an array populated by primitive values](#copy-an-array-populated-by-primitive-values)
-11. [Swap values in an array](#swap-values-in-an-array)
-12. [Delete only certain elements from an array, in place](#delete-only-certain-elements-from-an-array-in-place)
-13. [How to get recursively the depth of an array:](#how-to-get-recursively-the-depth-of-an-array)
+1. [Get array of SUBARRAYS with consecutive elements from array](#get-array-of-subarrays-with-consecutive-element-from-array)
+2. [Find out if array has DUPLICATES](#find-out-if-array-has-duplicates)
+3. [REMOVE DUPLICATES in an array](#remove-duplicates-in-an-array)
+4. [COMPARE if two arrays have the same values (are equal)](#compare-if-two-arrays-have-the-same-values-are-equal)
+5. [REMOVE SPARSE areas from an array](#remove-sparse-areas-from-an-array)
+6. [FILTER OUT NaN values from an array](#filter-out-nan-values-from-an-array)
+7. [Get MAX/MIN VALUE from a list of arguments](#get-maxmin-value-from-a-list-of-arguments)
+8. [Get all possible PERMUTATIONS (same elements, different order) from an array:](#get-all-possible-permutations-same-elements-different-order-from-an-array)
+9. [SORT list of STRINGS, case insensitively](#sort-list-of-strings-case-insensitively)
+10. [COPY an ARRAY populated by primitive values](#copy-an-array-populated-by-primitive-values)
+11. [SWAP VALUES in an array](#swap-values-in-an-array)
+12. [DELETE only CERTAIN ELEMENTS from an array, in place](#delete-only-certain-elements-from-an-array-in-place)
+13. [How to get recursively the DEPTH of an array:](#how-to-get-recursively-the-depth-of-an-array)
+14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
 
-## Make a deep copy of an array
+
+## Get array of subarrays with consecutive element from array
 
 ```js
-let original = {a: 1}
-let copy = JSON.parse(JSON.stringify(original));
-original.b = 2;
-copy = {a: 1}; 
+let array = [1, 2, 3, 4];
+let subarrays = [];
+let subarrayMinSize = 2;
+for (let i = 0; i < array.length; i += 1) {
+  for (let j = i + subarrayMinSize; j <= array.length; j += 1) {
+    subarrays.push(array.slice(i, j))
+  }
+}
+
+subarrays // => 
+// [
+//   [ 1, 2 ],
+//   [ 1, 2, 3 ],
+//   [ 1, 2, 3, 4 ],
+//   [ 2, 3 ],
+//   [ 2, 3, 4 ],
+//   [ 3, 4 ]
+// ]
 ```
 
 ## Find out if array has duplicates
@@ -159,6 +175,12 @@ let copy = [...a];
 
 ## Swap values in an array
 
+```js
+let a = [1,2,3];
+[a[0], a[2]] = [a[2], a[0]]
+a // => [3,2,1]
+```
+
 ## Delete only certain elements from an array, in place
 
 ```js
@@ -177,4 +199,13 @@ while (i < a.length) {
 function depth(value) {
   return Array.isArray(value) ? 1 + Math.max(0, ...value.map(depth)) : 0;
 }
+```
+## How to make a deep copy of an Array
+
+```js
+let original = [{a: 1}];
+let copy = JSON.parse(JSON.stringify(original));
+original[0].b = 2;
+copy = [{a: 1}]; 
+original = [{a: 1, b: 2}]; 
 ```
