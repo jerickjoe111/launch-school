@@ -71,15 +71,9 @@ function nCombinations(array, k) {
 	// K-sized array has only one K-sized subarray.
 	// if (k === array.length) return [array]; 
 	
-	// There is N 1-sized subarrays in a N-sized array.
-	if (k === 1) {
-		combinations = [];
-		for (let i = 0; i < array.length; i += 1) {
-			combinations.push([array[i]]);
-		}
-		return combinations;
-	}
-	
+	// Base case: There is N 1-sized subarrays in a N-sized array.
+	if (n === 1) return array.flat();
+
 	combinations = [];
 	for (let i = 0; i < array.length - k + 1; i += 1) {
 		// head is a list that includes only our current element.
