@@ -1,6 +1,8 @@
 # Basic Array techniques:
 
 1. [Get array of SUBARRAYS with consecutive elements from array](#get-array-of-subarrays-with-consecutive-element-from-array)
+- [Get array of subarrays with all possible combinations of size 3 from arrays of numbers](#get-array-of-subarrays-with-all-possible-combinations-of-size-3-from-arrays-of-numbers)
+- [Get array of subarrays with all possible combinations of any size from array of characters or numbers](#get-array-of-subarrays-with-all-possible-combinations-of-any-size-from-array-of-characters-or-numbers)
 2. [Find out if array has DUPLICATES](#find-out-if-array-has-duplicates)
 3. [REMOVE DUPLICATES in an array](#remove-duplicates-in-an-array)
 4. [COMPARE if two arrays have the same values (are equal)](#compare-if-two-arrays-have-the-same-values-are-equal)
@@ -14,7 +16,6 @@
 12. [DELETE only CERTAIN ELEMENTS from an array, in place](#delete-only-certain-elements-from-an-array-in-place)
 13. [How to get recursively the DEPTH of an array:](#how-to-get-recursively-the-depth-of-an-array)
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
-
 
 ## Get array of subarrays with consecutive element from array
 
@@ -37,6 +38,62 @@ subarrays // =>
 //   [ 2, 3, 4 ],
 //   [ 3, 4 ]
 // ]
+```
+
+## Get array of subarrays with all possible combinations of size 3 from arrays of numbers
+
+```js
+let numbers = [1, 2, 3, 4]
+ let combinations = [];
+
+  for(let i = 0; i < numbers.length -2; i += 1){
+    for(let j = i + 1; j < numbers.length -1; j += 1){
+      for(let k = j + 1; k < numbers.length; k += 1){
+         combinations.push([numbers[i], numbers[j], numbers[k]]);
+      }
+    }
+  }
+```
+
+## Get array of subarrays with all possible combinations of any size from array of characters or numbers
+
+```js
+function nCombinations(array, k) {
+  let combinations;
+  let head;
+  let tailCombinations;
+  
+	// Guard clauses:
+	// There is no way to take e.g. arrays of 5 elements from
+	// a array of 4.
+	// if (k > array.length || k <= 0) return [];
+	
+	// K-sized array has only one K-sized subarray.
+	// if (k === array.length) return [array]; 
+	
+	// There is N 1-sized subarrays in a N-sized array.
+	if (k === 1) {
+		combinations = [];
+		for (let i = 0; i < array.length; i += 1) {
+			combinations.push([array[i]]);
+		}
+		return combinations;
+	}
+	
+	combinations = [];
+	for (let i = 0; i < array.length - k + 1; i += 1) {
+		// head is a list that includes only our current element.
+		head = array.slice(i, i + 1);
+		// We take smaller combinations from the subsequent elements
+		tailCombinations = nCombinations(array.slice(i + 1), k - 1);
+		// For each (k-1)-combination we join it with the current one 
+		// and store it to the array of k-combinations.
+		for (let j = 0; j < tailCombinations.length; j += 1) {
+			combinations.push(head.concat(tailCombinations[j]));
+		}
+	}
+	return combinations;
+}
 ```
 
 ## Find out if array has duplicates
