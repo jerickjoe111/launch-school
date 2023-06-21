@@ -55,13 +55,13 @@ let numbers = [1, 2, 3, 4]
   }
 ```
 
-## Get array of subarrays with all possible combinations of any size from array of characters or numbers
+## Get array of subarrays with all possible combinations of any size from array of characters or numbers (order does not matter - not repeated combinations)
 
 ```js
-function nCombinations(array, k) {
+function nCombinations(array, size) {
   let combinations;
-  let head;
-  let tailCombinations;
+  let partA;
+  let partB;
   
 	// Guard clauses:
 	// There is no way to take e.g. arrays of 5 elements from
@@ -72,18 +72,18 @@ function nCombinations(array, k) {
 	// if (k === array.length) return [array]; 
 	
 	// Base case: There is N 1-sized subarrays in a N-sized array.
-	if (n === 1) return array.flat();
+	if (size === 1) return array.flat();
 
 	combinations = [];
-	for (let i = 0; i < array.length - k + 1; i += 1) {
-		// head is a list that includes only our current element.
-		head = array.slice(i, i + 1);
+	for (let i = 0; i < array.length - size + 1; i += 1) {
+		// partA is a list that includes only our current element.
+		partA = array.slice(i, i + 1);
 		// We take smaller combinations from the subsequent elements
-		tailCombinations = nCombinations(array.slice(i + 1), k - 1);
+		partB = nCombinations(array.slice(i + 1), size - 1);
 		// For each (k-1)-combination we join it with the current one 
 		// and store it to the array of k-combinations.
-		for (let j = 0; j < tailCombinations.length; j += 1) {
-			combinations.push(head.concat(tailCombinations[j]));
+		for (let j = 0; j < partB.length; j += 1) {
+			combinations.push(partA.concat(partB[j]));
 		}
 	}
 	return combinations;
