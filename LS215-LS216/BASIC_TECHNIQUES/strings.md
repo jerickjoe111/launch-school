@@ -1,15 +1,17 @@
 # Basic String Techniques
 
 1. [Convert ANY type of value into a string](#convert-any-type-of-value-into-a-string)
-2. [Get all consecutive substrings from string, size 1 or more](#get-all-consecutive-substrings-from-string-size-1-or-more)
-3. [Get all consecutive substrings from string, size 2 or more](#get-all-consecutive-substrings-from-string-size-2-or-more)
-4. [Array of instances of a substring in a string](#array-of-instances-of-a-substring-in-a-string)
-5. [Number of occurrences of substring in string](#number-of-occurrences-of-substring-in-string)
-6. [Are these words anagrams (same letters, different order)](#are-these-words-anagrams-same-letters-different-order)
-7. [Is this word a palindrome (can be read from both sides)](#is-this-word-a-palindrome-can-be-read-from-both-sides)
+2. [Get all CONSECUTIVE SUBSTRINGS from string, SIZE 1 or more](#get-all-consecutive-substrings-from-string-size-1-or-more)
+3. [Get all CONSECUTIVE SUBSTRINGS from string, SIZE 2 or more](#get-all-consecutive-substrings-from-string-size-2-or-more)
+4. [Array of INSTANCES OF A SUBSTRING in a string](#array-of-instances-of-a-substring-in-a-string)
+5. [NUMBER OF OCCURRENCES of substring in string](#number-of-occurrences-of-substring-in-string)
+6. [Are these words ANAGRAMS (same letters, different order)](#are-these-words-anagrams-same-letters-different-order)
+7. [Is this word a PALINDROM (can be read from both sides)](#is-this-word-a-palindrome-can-be-read-from-both-sides)
 8. [Consonants RegExp](#consonants-regexp)
 9.  [Vowels RegExp](#vowels-regexp)
-10. [Compare if two strings are equal, case insensitively](#compare-if-two-strings-are-equal-case-insensitively)
+10. [COMPARE if two strings are equal, case insensitively](#compare-if-two-strings-are-equal-case-insensitively)
+11. [Check if string matches all characters from a set (i.e.: letters) except for a few (i.e.: a, b and c)]()
+12. [Get array of substrings of characters between two distinct delimiters](#get-array-of-substrings-of-characters-between-two-distinct-delimiters)
 
 
 ## Convert ANY type of value into a string
@@ -133,5 +135,25 @@ vowels.test('abc') // => true
 ```js
 function compare(stringA, stringB) {
   return stringA.toLowerCase() === stringB.toLowerCase();
+}
+```
+
+## Check if string matches all characters from a set (i.e.: letters) except for a few (i.e.: a, b and c)
+
+```js
+let text1 = 'abc1234abc';
+
+let letters = /[a-z]gi/;
+let exceptions = /x|y|z/;
+// Matches all letters but a few (xyz)
+letters.test(text1) && !letters.text(text1)
+
+```
+
+## Get array of substrings of characters between two distinct delimiters
+
+```js
+function betweenDelimiters(string, delimiter) {
+  return string.match(new RegExp(`\\${delimiter}[^${delimiter}]+\\${delimiter}`, 'gi'))
 }
 ```

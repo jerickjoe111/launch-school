@@ -66,11 +66,25 @@ function threeSum(numbers) {
     return output;
   }
 
+  let usedTriplets = []
   for (let i = 0; i < numbers.length - 2; i += 1) {
-    for (let j = 0; j < numbers.length - 1; j += 1) {
-      
+    for (let j = i + 1; j < numbers.length - 1; j += 1) {
+      for (let k = j + 1; k < numbers.length; k += 1) {
+        let triplet = [numbers[i], numbers[j], numbers[k]];
+        if (sumsZero(triplet) && !usedTriplets.includes(triplet.join())) {
+          output.push(triplet);
+          usedTriplets.push(triplet.join());
+        }
+      } 
     }
   }
-
-
+  
+  return output;
 }
+
+
+p(threeSum([0, 1, -1, -1, 2])); // ➞ [[0, 1, -1], [-1, -1, 2]]
+p(threeSum([0, 0, 0, 5, -5])); // ➞ [[0, 0, 0], [0, 5, -5]]
+p(threeSum([1, 2, 3])); // ➞ []
+p(threeSum([1])); // ➞ []
+

@@ -32,7 +32,7 @@
 |------------|---------------------------------------------------------------------------------|----------|---------------|------------------|------------------------------------------------------------|
 | `push()`   | Appends argument(s) to the end of the array                                     | Yes      | (...elements) | New length value | Updates length automatically                               |
 | `pop()`    | Removes last element of the array                                               | Yes      | ()            | Removed element  | Updates length automatically                               |
-| `ushift()` | Adds element(s) to the beginning of the array, unshifting elements to make room | Yes      | (...elements) | New length value | Inserts all elements at once; Updates length automatically |
+| `unshift()` | Adds element(s) to the beginning of the array, unshifting elements to make room | Yes      | (...elements) | New length value | Inserts all elements at once; Updates length automatically |
 | `shift()`  | Removes first element of the array, shifting all other elements                 | Yes      | ()            | Removed element  | Updates length automatically                               |
 
 # Subarray Methods
@@ -46,9 +46,6 @@ These methods are for extracting, deleting, inserting, filling and copying conti
 | `fill()`       | Set the elements of an array to the argument value             | Yes !    | ([value to fill the array], Opt[starting index, can be neg.(def. 0)], Opt[ending index, can be neg.(def. -1)])                            | The same array, modified.                                                             |                                                                                                        |
 | `copyWithin()` | Copies a slices of an array to a new position within the array | Yes !    | ([destination index of the first element to be copied], [index of the first element(def. 0)], [end of the slice to be copied(exclusive)]] | The same array, modified.                                                             | High performance method                                                                                |
 
-the comparison function should return a negative number.
-If the SECOND argument should appear BEFORE the first, the comparison function should return a number greater than 0.
-If the two values are equivalent (their order is irrelevant), the comparison function should return 0.
 
 # Searching and Sorting Methods
 
