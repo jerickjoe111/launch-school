@@ -6,12 +6,15 @@
 4. [Array of INSTANCES OF A SUBSTRING in a string](#array-of-instances-of-a-substring-in-a-string)
 5. [NUMBER OF OCCURRENCES of substring in string](#number-of-occurrences-of-substring-in-string)
 6. [Are these words ANAGRAMS (same letters, different order)](#are-these-words-anagrams-same-letters-different-order)
-7. [Is this word a PALINDROM (can be read from both sides)](#is-this-word-a-palindrome-can-be-read-from-both-sides)
+7. [Is this word a PALINDROME (can be read from both sides)](#is-this-word-a-palindrome-can-be-read-from-both-sides)
 8. [Consonants RegExp](#consonants-regexp)
 9.  [Vowels RegExp](#vowels-regexp)
 10. [COMPARE if two strings are equal, case insensitively](#compare-if-two-strings-are-equal-case-insensitively)
-11. [Check if string matches all characters from a set (i.e.: letters) except for a few (i.e.: a, b and c)]()
+11. [Check if string MATCHES ALL CHARACTERS from a set (i.e.: all letters) EXCEPT A FEW (i.e.: a, b and c)](#check-if-string-matches-all-characters-from-a-set-ie-all-letters-except-a-few-ie-a-b-and-c)
 12. [Get array of substrings of characters between two distinct delimiters](#get-array-of-substrings-of-characters-between-two-distinct-delimiters)
+13. [Sort strings by LENGTH](#sort-strings-by-length-in-ascending-order) 
+14. [Get array with DIFFERENCE characters (characters that are not present in one of the two words)](#get-array-with-difference-characters-characters-that-are-not-present-in-one-of-the-two-words)
+15. [Get all string PERMUTATIONS](#get-all-string-permutations)
 
 
 ## Convert ANY type of value into a string
@@ -138,7 +141,7 @@ function compare(stringA, stringB) {
 }
 ```
 
-## Check if string matches all characters from a set (i.e.: letters) except for a few (i.e.: a, b and c)
+## Check if string MATCHES ALL CHARACTERS from a set (i.e.: all letters) EXCEPT A FEW (i.e.: a, b and c)
 
 ```js
 let text1 = 'abc1234abc';
@@ -156,4 +159,59 @@ letters.test(text1) && !letters.text(text1)
 function betweenDelimiters(string, delimiter) {
   return string.match(new RegExp(`\\${delimiter}[^${delimiter}]+\\${delimiter}`, 'gi'))
 }
+```
+
+## Sort strings by length in Ascending Order
+
+```js
+let strings = ['aaaa', 'bb', 'cccccccc'];
+
+strings.sort((a, b) => a.length - b.length);
+
+let shortestString = strings[0];
+let longestString = strings[strings.length - 1];
+```
+
+## Get array with difference characters (characters that are not present in one of the two words)
+
+```js
+let shortestWord = 'abcdef';
+let longestWord = 'aXbYcZdQeKf';
+
+let differenceCharacters = longest.match(new RegExp(`[^${shortest}]`, 'gi'));
+```
+
+## Get all string permutations
+
+```js
+function permutations(array) {
+  function permute(array, memo = []) {
+    if (array.length === 0) {
+      output.push(memo)
+    } else {
+      for (let i = 0; i < array.length; i += 1) {
+        let current = array.slice();
+        let next = current.splice(i, 1);
+        permute(current.slice(), memo.concat(next));
+     }
+   } 
+  }
+
+  let output = [];
+
+  permute(array);
+
+  return output.map(p => p.join(''));
+}
+
+let a = 'abc';
+permutations([...a]); // =>
+//                 [
+//                   'abc',
+//                   'acb',
+//                   'bac',
+//                   'bca',
+//                   'cab',
+//                   'cba'
+//                 ]
 ```
