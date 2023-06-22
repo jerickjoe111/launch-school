@@ -16,7 +16,6 @@
 14. [Get array with DIFFERENCE characters (characters that are not present in one of the two words)](#get-array-with-difference-characters-characters-that-are-not-present-in-one-of-the-two-words)
 15. [Get all string PERMUTATIONS](#get-all-string-permutations)
 
-
 ## Convert ANY type of value into a string
 
 ```js

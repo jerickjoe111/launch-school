@@ -1,5 +1,6 @@
 # Basic Array techniques:
 
+0. [Get number of occurrences of a primitive element in array](#get-number-of-occurrences-of-a-primitive-element-in-array)
 1. [Get array of SUBARRAYS with consecutive elements from array](#get-array-of-subarrays-with-consecutive-element-from-array)
 - [Get array of subarrays with all possible combinations of size 3 from arrays of numbers](#get-array-of-subarrays-with-all-possible-combinations-of-size-3-from-arrays-of-numbers)
 - [Get array of subarrays with all possible combinations of any size from array of characters or numbers](#get-array-of-subarrays-with-all-possible-combinations-of-any-size-from-array-of-characters-or-numbers)
@@ -16,6 +17,19 @@
 12. [DELETE only CERTAIN ELEMENTS from an array, in place](#delete-only-certain-elements-from-an-array-in-place)
 13. [How to get recursively the DEPTH of an array:](#how-to-get-recursively-the-depth-of-an-array)
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
+
+## Get number of occurrences of a primitive element in array
+
+```js
+function count(toFind, array) {
+  let counter = 0;
+  array.forEach(element => {
+    if (element === toFind || (isNaN(toFind) && isNaN(element))) counter += 1;
+  })
+
+  return counter;
+}
+```
 
 ## Get array of subarrays with consecutive element from array
 
