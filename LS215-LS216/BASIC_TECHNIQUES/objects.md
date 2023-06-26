@@ -1,4 +1,20 @@
 
+# Basic Object Techniques
+
+1. [Get reference to object with max/min length (number of properties)](#get-reference-to-object-with-maxmin-length-number-of-properties)
+2. [Get list of property names in object](#get-list-of-property-names-in-object)
+3. [Get number of properties in an object (its 'length')](#get-number-of-properties-in-an-object-its-length)
+4. [Add property to an object](#add-property-to-an-object)
+5. [Check if object has a property](#check-if-object-has-a-property)
+6. [Create an array of subarrays from an object](#create-an-array-of-subarrays-from-an-object)
+7. [Create an object from an array of subarrays (entries)](#create-an-object-from-an-array-of-subarrays-entries)
+8. [Find an object within a list of objects that satisfies some condition](#find-an-object-within-a-list-of-objects-that-satisfies-some-condition)
+9. [Find index of object within a list of objects](#find-index-of-object-within-a-list-of-objects)
+10. [Sort object by first property name in a list of objects ](#sort-object-by-first-property-name-in-a-list-of-objects)
+11. [Copy an object](#copy-an-object)
+12. [Compare if two objects have the same properties and values](#compare-if-two-objects-have-the-same-properties-and-values)
+13. [Make a deep copy of an object](#make-a-deep-copy-of-an-object)
+
 ## Get reference to object with max/min length (number of properties)
 
 ```js
@@ -35,7 +51,8 @@ function objectLength(object) {
 let a = {a: 1};
 a.b = 2;
 a.c = 3
-a // => {a: 1, b: 2, c: 3} 
+a['d'] = 4
+a // => {a: 1, b: 2, c: 3, d: 4} 
 ```
 
 ## Create literal object from another object, plus another properties
@@ -77,7 +94,7 @@ let a = [ [ 'a', 1 ], [ 'b', 2 ] ];
 Object.fromEntries(a); // => {a: 1, b: 2}
 ```
 
-## Know if an object within a list of objects satisfies some condition
+## Find an object within a list of objects that satisfies some condition
 
 ```js
 let list = [{a: 1, b: 2}, {c: 3}];
@@ -109,7 +126,7 @@ list.sort((a, b) => {
 list // => [ { A: 4 }, { c: 3 }, { Z: 1, B: 2 } ]
 ```
 
-## Sort object by value of first property in a list of objects 
+## Sort objects by value of first property in a list of objects 
 
 ```js
 let list = [{Z: 3, B: 3}, {c: 1}, {A: 2}];
@@ -149,7 +166,7 @@ entriesA === entriesB // => true;
 entriesA === entriesC // => false;
 ```
 
-## Make a deep copy of an array
+## Make a deep copy of an object
 
 ```js
 let original = {a: 1}

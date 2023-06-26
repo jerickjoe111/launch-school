@@ -3,10 +3,10 @@
 0. [Get number of occurrences of a primitive element in array](#get-number-of-occurrences-of-a-primitive-element-in-array)
 1. [Get array of SUBARRAYS with consecutive elements from array](#get-array-of-subarrays-with-consecutive-element-from-array)
 - [Get array of subarrays with all possible combinations of size 3 from arrays of numbers](#get-array-of-subarrays-with-all-possible-combinations-of-size-3-from-arrays-of-numbers)
-- [Get array of subarrays with all possible combinations of any size from array of characters or numbers](#get-array-of-subarrays-with-all-possible-combinations-of-any-size-from-array-of-characters-or-numbers)
+- [Get array of subarrays with all possible combinations of any size from array of characters or numbers](#get-array-of-subarrays-with-all-possible-combinations-of-any-size-from-array-of-characters-or-numbers-order-does-not-matter---not-repeated-combinations)
 2. [Find out if array has DUPLICATES](#find-out-if-array-has-duplicates)
 3. [REMOVE DUPLICATES in an array](#remove-duplicates-in-an-array)
-4. [COMPARE if two arrays have the same values (are equal)](#compare-if-two-arrays-have-the-same-values-are-equal)
+4. [COMPARE if two arrays have the same type of values (are equivalent)](#compare-if-two-arrays-have-the-same-type-of-values-are-equivalent)
 5. [REMOVE SPARSE areas from an array](#remove-sparse-areas-from-an-array)
 6. [FILTER OUT NaN values from an array](#filter-out-nan-values-from-an-array)
 7. [Get MAX/MIN VALUE from a list of arguments](#get-maxmin-value-from-a-list-of-arguments)
@@ -17,6 +17,7 @@
 12. [DELETE only CERTAIN ELEMENTS from an array, in place](#delete-only-certain-elements-from-an-array-in-place)
 13. [How to get recursively the DEPTH of an array:](#how-to-get-recursively-the-depth-of-an-array)
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
+15. [Create a copy of an array with values SORTED BY TYPE, discriminating `null` values](#create-a-copy-of-an-array-with-sorted-elements-by-type-discriminating-null-values)
 
 ## Get number of occurrences of a primitive element in array
 
@@ -125,17 +126,32 @@ let a = [1,1,2,2];
 [...new Set(a)];
 ```
 
-## Compare if two arrays have the same values (are equal)
+## Compare if two arrays have the same type of values (are equivalent)
 
 ```js
-function compare(arrayA, arrayB) {
+function arrayComparison(arrayA, arrayB) {
+  function getType(value) {
+    if (Array.isArray(value)) return 'array';
+    else if (isNaN(value)) return 'NaN';
+    else if (value === null) return 'null';
+    else return typeof value;
+  }
+
+  function count(typeToCount, array) {
+    let counter = 0;
+    array.forEach(element => {
+      if (getType(element) === typeToCount) counter += 1;
+    })
+
+    return counter;
+  }
+
+  const TYPES = ['NaN', 'null', 'undefined', 'boolean', 'array', 'object', 'number', 'string'];
   if (arrayA.length !== arrayB.length) return false;
 
-  let sortedA = [...ArrayA].sort();
-  let sortedB = [...ArrayB].sort();
-
-  for (let i = 0; i < arrayA.length; i += 1) {
-    if (arrayA[i] !== arrayB[i]) return false;
+  for (let i = 0; i < TYPES.length; i += 1) {
+    let type = TYPES[i];
+    if (count(type, arrayA) !== count(type, arrayB)) return false;
   }
 
   return true;
@@ -204,14 +220,7 @@ permutations(a); // =>
 ```js
 let list = ['ZZZ', 'bbb', 'AaA'];
 
-list.sort((a, b) => {
-  a = a.toLowerCase();
-  b = b.toLowerCase();
-
-  if (a < b) return - 1;
-  else if (b < a) return 1;
-  else return 0;
-})
+list.sort((a, b) => a.toLowerCase() < b.toLowerCase() ? -1 : 1);
 
 list // => [ 'AaA', 'bbb', 'ZZZ' ]
 ```
@@ -265,6 +274,7 @@ function depth(value) {
   return Array.isArray(value) ? 1 + Math.max(0, ...value.map(depth)) : 0;
 }
 ```
+
 ## How to make a deep copy of an Array
 
 ```js
@@ -273,4 +283,18 @@ let copy = JSON.parse(JSON.stringify(original));
 original[0].b = 2;
 copy = [{a: 1}]; 
 original = [{a: 1, b: 2}]; 
+```
+
+## Create a copy of an array with sorted elements by type, discriminating `null` values
+
+```js
+function sortUniversal(array = []) {
+  return [...array].sort((a, b) =>  {
+    let [typeA, typeB] = [typeof a, typeof b];
+    if (a === null) return 1;
+    else if (b === null) return -1;
+    else if (typeA < typeB) return -1;
+    else if (typeA > typeB) return 1;
+  })
+}
 ```
