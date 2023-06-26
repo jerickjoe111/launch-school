@@ -24,10 +24,10 @@ function objectLength(object) {
 
 let a = {a: 1};
 let b = {a: 1, b: 2};
-let biggestObject = [a, b].sort((a, b) => objectLength(b) - objectLength(a))[0];
 let smallestObject = [a, b].sort((a, b) => objectLength(a) - objectLength(b))[0];
-biggestObject // => {a: 1, b: 2}
+let biggestObject = [a, b].sort((a, b) => objectLength(b) - objectLength(a))[0];
 smallestObject // => {a: 1}
+biggestObject // => {a: 1, b: 2}
 ```
 
 ## Get list of property names in object 
