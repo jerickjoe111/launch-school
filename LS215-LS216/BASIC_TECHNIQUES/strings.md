@@ -183,7 +183,8 @@ let differenceCharacters = longest.match(new RegExp(`[^${shortest}]`, 'gi'));
 ## Get all string permutations
 
 ```js
-function permutations(array) {
+function permutations(string) {
+  let array = [...string];
   function permute(array, memo = []) {
     if (array.length === 0) {
       output.push(memo)

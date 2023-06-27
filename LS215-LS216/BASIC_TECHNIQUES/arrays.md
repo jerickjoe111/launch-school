@@ -22,13 +22,8 @@
 ## Get number of occurrences of a primitive element in array
 
 ```js
-function count(toFind, array) {
-  let counter = 0;
-  array.forEach(element => {
-    if (element === toFind || (isNaN(toFind) && isNaN(element))) counter += 1;
-  })
-
-  return counter;
+function count(element, array) {
+  return array.filter(e => e === element || (isNaN(e) && isNaN(element))).length;
 }
 ```
 
