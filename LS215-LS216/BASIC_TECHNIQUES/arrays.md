@@ -20,6 +20,7 @@
 15. [Create a copy of an array with values SORTED BY TYPE, discriminating `null` values](#create-a-copy-of-an-array-with-sorted-elements-by-type-discriminating-null-values)
 16. [Check if an array is a list of CONSECUTIVE numbers, ASCENDING or DESCENDING](#check-if-an-array-is-a-list-of-consecutive-numbers-ascending-or-descending)
 17. [Check if two arrays have the SAME PRIMITIVE VALUES](#check-if-two-arrays-have-the-same-primitive-values)
+18. [Check if an array has sparse areas](#check-if-an-array-has-sparse-areas)
 
 ## Get number of occurrences of a primitive element in array
 
@@ -344,5 +345,13 @@ function compareArrays(arrayA, arrayB) {
   }
 
   return true;
+}
+```
+
+## Check if an array has sparse areas
+
+```js
+function isSparse(array) {
+  return /\,\,/.test(array.join());
 }
 ```

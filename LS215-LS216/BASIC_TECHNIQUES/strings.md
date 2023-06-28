@@ -148,7 +148,7 @@ let text1 = 'abc1234abc';
 let letters = /[a-z]gi/;
 let exceptions = /x|y|z/;
 // Matches all letters but a few (xyz)
-letters.test(text1) && !letters.text(text1)
+letters.test(text1) && !exceptions.text(text1)
 
 ```
 
