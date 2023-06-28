@@ -18,6 +18,7 @@
 13. [How to get recursively the DEPTH of an array:](#how-to-get-recursively-the-depth-of-an-array)
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
 15. [Create a copy of an array with values SORTED BY TYPE, discriminating `null` values](#create-a-copy-of-an-array-with-sorted-elements-by-type-discriminating-null-values)
+16. [Check if an array is a list of CONSECUTIVE numbers, ASCENDING or DESCENDING]()
 
 ## Get number of occurrences of a primitive element in array
 
@@ -292,4 +293,16 @@ function sortUniversal(array = []) {
     else if (typeA > typeB) return 1;
   })
 }
+```
+
+## Check if an array is a list of CONSECUTIVE numbers, ASCENDING or DESCENDING
+
+```js
+  function areConsecutives(array) {
+    if (array.length === 1) return true;
+  
+    let ascending = array.slice(1).every((number, index) => number === array[index] + 1)
+    let descending = array.slice(1).every((number, index) =>number === array[index] - 1)
+    return ascending || descending;
+  }
 ```
