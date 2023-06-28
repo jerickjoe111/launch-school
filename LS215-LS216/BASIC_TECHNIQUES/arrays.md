@@ -302,7 +302,7 @@ function sortUniversal(array = []) {
     if (array.length === 1) return true;
   
     let ascending = array.slice(1).every((number, index) => number === array[index] + 1)
-    let descending = array.slice(1).every((number, index) =>number === array[index] - 1)
+    let descending = array.slice(1).every((number, index) => number === array[index] - 1)
     return ascending || descending;
   }
 ```
