@@ -10,7 +10,7 @@
 5. [REMOVE SPARSE areas from an array](#remove-sparse-areas-from-an-array)
 6. [FILTER OUT NaN values from an array](#filter-out-nan-values-from-an-array)
 7. [Get MAX/MIN VALUE from a list of arguments](#get-maxmin-value-from-a-list-of-arguments)
-8. [Get all possible PERMUTATIONS (same elements, different order) from an array:](#get-all-possible-permutations-same-elements-different-order-from-an-array)
+8. [Get all possible COMBINATIONS and PERMUTATIONS (same elements, different order) from an array:](#get-all-possible-permutations-same-elements-different-order-from-an-array)
 9. [SORT list of STRINGS, case insensitively](#sort-list-of-strings-case-insensitively)
 10. [COPY an ARRAY populated by primitive values](#copy-an-array-populated-by-primitive-values)
 11. [SWAP VALUES in an array](#swap-values-in-an-array)
@@ -19,6 +19,7 @@
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
 15. [Create a copy of an array with values SORTED BY TYPE, discriminating `null` values](#create-a-copy-of-an-array-with-sorted-elements-by-type-discriminating-null-values)
 16. [Check if an array is a list of CONSECUTIVE numbers, ASCENDING or DESCENDING](#check-if-an-array-is-a-list-of-consecutive-numbers-ascending-or-descending)
+17. 
 
 ## Get number of occurrences of a primitive element in array
 
@@ -178,16 +179,28 @@ Math.min(...a); // => 1
 
 ## Get all possible permutations (same elements, different order) from an array:
 
+Combinations all sizes, in the same order as the input array
+```js
+function combinations(array) {
+  return array.reduce((accumulator, element) => {
+    let newCombination = accumulator.map(combination => combination.concat(element));
+    accumulator.push([element], ...newCombination);
+    return accumulator
+  }, []);
+}
+```
+
+
 ```js
 function permutations(array) {
-  function permute(array, memo = []) {
+  function permute(array, accumulator = []) {
     if (array.length === 0) {
-      output.push(memo)
+      output.push(accumulator)
     } else {
       for (let i = 0; i < array.length; i++) {
         let current = array.slice();
         let next = current.splice(i, 1);
-        permute(current.slice(), memo.concat(next));
+        permute(current.slice(), accumulator.concat(next));
      }
    } 
   }
@@ -305,4 +318,31 @@ function sortUniversal(array = []) {
     let descending = array.slice(1).every((number, index) => number === array[index] - 1)
     return ascending || descending;
   }
+```
+
+## Compare if two arrays have the same primitive values
+
+```js
+function compareArrays(arrayA, arrayB) {
+  if (arrayA.length !== arrayB.length || 
+      Object.keys(arrayA).join() !== Object.keys(arrayB).join()) {
+    return false;
+  }
+
+  let sortedA = [...arrayA].sort();
+  let sortedB = [...arrayB].sort();
+  
+  // alternative using strings
+  if (sortedA.join('') !== sortedB.join('')) return false;
+
+  for (let i = 0; i < sortedA.length; i += 1) {
+    let elementA = sortedA[i];
+    let elementB = sortedB[i];
+    if (isNaN(elementA) && !isNaN(elementB)) return false;
+    else if (isNaN(elementA) && isNaN(elementB)) continue;
+    else if (elementA !== elementB) return false;
+  }
+
+  return true;
+}
 ```
