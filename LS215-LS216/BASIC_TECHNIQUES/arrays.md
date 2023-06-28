@@ -19,7 +19,7 @@
 14. [How to make a DEEP COPY of an array](#how-to-make-a-deep-copy-of-an-array)
 15. [Create a copy of an array with values SORTED BY TYPE, discriminating `null` values](#create-a-copy-of-an-array-with-sorted-elements-by-type-discriminating-null-values)
 16. [Check if an array is a list of CONSECUTIVE numbers, ASCENDING or DESCENDING](#check-if-an-array-is-a-list-of-consecutive-numbers-ascending-or-descending)
-17. 
+
 
 ## Get number of occurrences of a primitive element in array
 
