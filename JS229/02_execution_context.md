@@ -59,16 +59,16 @@ One proof that `this` and the execution context don't work by regular variable r
 
 There are three main ways to invoke a function with an explicit context, by binding it to a specific object:
 
-- Calling the function with the `call` method.
-- Calling the function with the `apply` method.
+- Calling the function with the `Function.prototype.call` method.
+- Calling the function with the `Function.prototype.apply` method.
 - Creating a new function from other function, permanently bound to an explicit context.
 
 
-#### `call()` and `apply()`
+#### `Function.prototype.call()` and `Function.prototype.apply()`
 
 These methods invoke the caller function as it was a method of the first argument provided (an object), thus making this object argument the explicit context of the function invocation, and, consequently, the value of `this` within the caller function. This is set on invocation time, and does not change the function in any way.
 
-We can pass extra arguments after the first one as if we were passing them to the function in a regular invocation; the only difference between `call()` and `apply()` is that `call()` accepts the extra arguments as a list of values, and `apply()` accepts them as a single array of values.
+We can pass extra arguments after the first one as if we were passing them to the function in a regular invocation; the only difference between `Function.prototype.call()` and `Function.prototype.apply()` is that `Function.prototype.call()` accepts the extra arguments as a list of values, and `Function.prototype.apply()` accepts them as a single array of values.
 
 #### `bind()`
 
@@ -78,7 +78,7 @@ The `bind()` method permanently binds a function to an object, thus making this 
 
 Arrow function _inherit_ the value of `this` from the environment in which they were defined, and this value can't be altered by `bind()`. 
 
-It's important to note that if we try to use `call()` or `apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
+It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
 
 ## Dealing With Context Loss
 
@@ -86,7 +86,7 @@ It's important to note that if we try to use `call()` or `apply()` on the new fu
 
 If for example we copy a method into a new variable, and we call it outside the original containing object, as a function, we say that the method has _lost its context_, and any `this` within that method no longer will refer to the parent object. These are three ways we can use to preserve the original intended context:
 
-- If the object is still in scope, we can call that method outside the object via `call()` or `apply()`.
+- If the object is still in scope, we can call that method outside the object via `Function.prototype.call()` or `Function.prototype.apply()`.
 - If the object is not in scope, we could alter the code in some way that we call the method from outside the parent object from within an intermediary or receiving function that defines an extra parameter, passing the intended object as the context.
 - If we can alter the function or supply an extra context object, we can use `bind()` to create a new function bound to the context we want.
 
@@ -102,7 +102,7 @@ Within methods, the context does not propagate into nested functions: when we re
 
 2. Pass the Context to the Nested Function:
   
-    We can pass the value of `this` to the nested function's invocation, via `call()` or `apply()`. Also, all the classic iterators (`forEach()`, `map()`, `find()`, etc.) accept an optional context argument.
+    We can pass the value of `this` to the nested function's invocation, via `Function.prototype.call()` or `Function.prototype.apply()`. Also, all the classic iterators (`forEach()`, `map()`, `find()`, etc.) accept an optional context argument.
 
 3. Hard bind the nested function to the method's context:
 
@@ -114,4 +114,4 @@ Within methods, the context does not propagate into nested functions: when we re
 
 ### Function as Argument Losing Surrounding Context
 
-We can use the same solutions as the previous problem
+We can use the same solutions as the previous problem.
