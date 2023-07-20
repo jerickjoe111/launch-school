@@ -1,8 +1,8 @@
-## Object creation patterns
+# Object creation patterns
 
 There are four main design patterns:
 
-### Factory Functions
+## Factory Functions
 
 In this pattern, we use a function to return an object based on a pre-defined template set within the function. For example:
 
@@ -46,7 +46,7 @@ function Pair(numberA, numberB) {
 
 Note that, if we call the function without the `new` keyword, the properties will be added to the relative context: if we are in non-strict mode, `this` will refer to the global object.
 
-### The Prototype Pattern
+## The Prototype Pattern
 
 In this pattern, we also define a constructor function, but we add the shared behaviors for the _class_ (objects that will inherit from the same function prototype), directly on the `prototype` value of the constructor:
 
@@ -65,7 +65,7 @@ let p = new Pair;
 p.logNumbers() // => logs 1, 2
 ```
 
-### Pseudo-classical pattern
+## Pseudo-classical pattern
 
 This was a standard way of object creation prior to ES6. In this pattern, we define a constructor to initialize the new objects' state, and then we add the instance (shared) methods of the _class_ (objects inheriting from the same object prototype) directly onto the function prototype (the value of the `prototype` property of the constructor function).
 
@@ -86,7 +86,47 @@ pair1 === pair2 // => false : they are different Pair objects
 pair1.logNumbers === pair2.logNumbers // => true : they share the methods
 ```
 
-### OLOO 
+### How to implement subclasses when using the pseudo-classical pattern
+
+```js
+// Ensure that the SubClass instance inherits properties from SuperClass by 
+// calling the SuperClass constructor as it were a method of the new SubClass instance;
+// this way, properties are initialized via the SuperClass constructor
+function SubClass(properties) {
+  SuperClass.call(this, properties);
+}
+
+// Ensure that the SubClass prototype inherits methods from the SuperClass prototype
+SubClass.prototype = Object.create(SuperClass.prototype);
+
+// We don't want the prototype to inherit the SuperClass.prototype.constructor property, so we
+// define our own constructor property to point to the right constructor.
+SubClass.prototype.constructor = SubClass;
+```
+
+> A robust subclassing mechanism needs to allow classes to invoke the methods and
+constructor of their superclass, but prior to ES6, JavaScript did not
+have a simple way to do these things.
+
+### How to create a private state when using the pseudo-classical approach
+
+We can add the private state as variables declared within the constructor, and then initialize the getters/setters methods for those private variables, besides the public properties, if any:
+
+```js
+function Constructor() {
+  let privateVariable = 1;
+  this.accessPrivate = function() {
+    return privateVariable;
+  }
+  this.property = 1;
+}
+
+let a = new Constructor;
+a.privateVariable; // => undefined
+a.accessPrivat(); // => 1
+```
+
+## OLOO 
 
 The OLOO pattern (from 'Object Linking from Other Object') forgets about constructor-based pseudo-classes. Instead, it's based on the creation of a prototype literal object, an initializer method `init`, and in the _instantiation_ through the `Object.create()` method:
 
@@ -112,7 +152,54 @@ Pair.isPrototypeOf(pair); // => true
 
 Note that the `init` methods is necessary only as a way to initialize the newly created object's state with specific values. We can leave it uninitialized, or we could add default values.
 
-### `Class` syntax
+## How to create private state on each instance using the OLOO pattern
+
+We can assign the constructor to an IIFE that returns an object with access to the private scope formed by the closure created by the anonymous function:
+
+```js
+const Constructor = (function() {
+  let privateData = 1;
+  return {
+    privateAccess() {
+      return privateData;
+    }
+  } 
+})()
+
+let a = Object.create(Constructor);
+a.privateAccess() // => 1
+a.privateData // => undefined;  it's unreachable from the outside without the method interface
+```
+
+However, because we only define the IFEE once, there only exists one closure, invoked multiple times, one for each time we create an object via `Object.create(Constructor)`. That's why all the "instances" of `Constructor` share the same private data. To fix this, we can just create an `updateConstructor()` function in the global scope, making `Constructor` a let variable, instead of a constant, and... just create a new closure each time we invoke `updateConstructor()`, by reassigning `Constructor` again and again as needed!:
+
+```js
+let Account;
+function updateAccount() {
+  Account = (function() {
+    let privateData = 1;
+    return {
+      privateAccess() {
+        return privateData;
+      },
+      changePrivateData() {
+        privateData = 'CHANGED!';
+      }
+    } 
+  })()
+};
+
+updateAccount();
+let a = Object.create(Account);
+a.privateAccess() // => 1
+updateAccount();
+let b = Object.create(Account);
+a.changePrivateData()//
+b.privateAccess() // => 1
+a.privateAccess() // 'CHANGED!' 
+```
+
+## The `class` syntax
 
 ES6 introduced a new syntax to create objects and establish inheritance hierarchies. However, this does not mean that classes in the classic OOP sense were added to JavaScript. On the contrary: the new syntax is simply syntactic sugar for the more fundamental form of constructor-and-prototype-based inheritance; in other words, it is a convenient wrapper for the traditional JavaScript mechanisms seen in the Pseudo-classical Pattern:
 
@@ -139,9 +226,54 @@ There are some important points about the `class` syntax that have to be remarke
 
 Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate class before we declare them.
 
-### Instance and Static properties and methods
+### How to implement subclasses with the `class` syntax.
 
-Instances of the same type or _class_ are objects that inherit from the same object prototype. Instance properties are the properties shared by all the instances, and instance methods are the shared methods (properties with a function as a value) by all instances of the same _class_. We also mean by methods the methods defined on the prototype, and not individual instances (sometimes called _singleton methods_); now, despite the fact they are defined on the object prototype, they still operate on the particular instances, and their context (the value of `this` within them) is the particular instance on which we call them, not the prototype.
+> In ES6 and later, you can create a superclass simply by adding an `extends` clause to a class declaration, and you can do this even for built-in classes.
+
+```js
+class MyArray extends Array {
+  // new methods for arrays here
+}
+```
+
+Use the `super` keyword to invoke the constructor and methods of the superclass. We can invoke the methods of the superclass within methods of the subclass:
+
+```js
+  // we can call the method of the same name within a method
+  constructor(property1, property2) {
+    super(property1); // the constructor in the superclass initializes this property
+    this.property2 = property2;
+  }
+
+  // we can call specific methods
+  super.superClassMethod(...args)
+```
+
+### Private class features
+
+All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. In the classic prototypal inheritance, this was achieved with closures, but it was excessively complex.
+
+Now, private properties, and private static properties and methods, are made available by prepending a `#` to the identifier. This helps us achieve a form of encapsulation.
+
+```js
+class ClassWithPrivate {
+  #privateField;
+  #privateFieldWithInitializer = 1;
+
+  #privateMethod() {
+  }
+
+  static #privateStaticField;
+  static #privateStaticFieldWithInitializer = 1;
+
+  static #privateStaticMethod() {
+  }
+}
+```
+
+## Instance and Static properties and methods
+
+Instances of the _class_ are objects that inherit from the same object prototype. Instance properties are the properties shared by all the instances, and instance methods are the shared methods (properties with a function as a value) by all instances of the same _class_. We also mean by methods the methods defined on the prototype, and not individual instances (sometimes called _singleton methods_); now, despite the fact they are defined on the object prototype, they still operate on the particular instances, and their context (the value of `this` within them) is the particular instance on which we call them, not the prototype.
 
 Static (or _class_) properties and methods are those defined as properties of the constructor function itself, not any of its instances. In other words, static properties and methods belong to the _class_, not to any of the instances.
 

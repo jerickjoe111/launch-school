@@ -1,5 +1,11 @@
 # Objects
 
+## Why OOP?
+
+Object Oriented Programming is a paradigm that organizes a program in classes and instances of that classes. Each instance inherits behaviors and encapsulates a state, and the programmer orchestrates the ensemble of actors in the program, objects, to interact with each other in order to achieve the desired results. The classic four core principles of OOP are: abstraction, encapsulation, polymorphism, and inheritance.
+
+OOP allows us to modularize parts of the program, encapsulating behaviors, to avoid the ripple effect of pure functional approaches. OOP means different blocks acting in orchestration, instead of a sea of interdependent functions, so it provides a higher level of abstraction and a new way of thinking about design, and helps to create more complex and sophisticated programs. Besides that, this paradigm makes for a more easily maintainable code, and a chance to apply different philosophies, values and priorities, for example, when implementing models of hierarchies and dependencies more faithful to the real world.
+
 ## What are objects?
 
 In JavaScript, any value that is not a number, a string, a boolean, a symbol, `null` or `undefined` is an object. 
@@ -20,9 +26,9 @@ Besides these characteristics, a property has three attributes:
 
 (Almost) every JavaScript object has a second object linked to it, known as its _prototype_; an object inherits properties from its respective prototype.
 
-Every object has a hidden special property called `[[Prototype]]` that refers to the object prototype, and we can access and set this property through the `Object.getProtoypeOf` and `Object.setPrototypeOf` methods. There is a non-hidden, now deprecated property to access an object's prototype: `__proto__`.
+Every object has a hidden special property called `[[Prototype]]` that refers to the object prototype, and we can access and set this property through the `Object.getProtoypeOf()` and `Object.setPrototypeOf()` methods. There is a non-hidden, now deprecated property to access an object's prototype: `__proto__`.
 
-`Object.prototype` is a rare case of object that has no prototype: it does not inherit any properties:
+`Object.prototype` is a rare case of an object that has no prototype: it does not inherit any properties:
 
 ```js
 Object.prototype.__proto__ === `null` // => true
@@ -30,15 +36,24 @@ Object.prototype.__proto__ === `null` // => true
 
 ## JavaScript model of inheritance
 
-[I will use the word _class_ to represent the prototype-based model of relationships among object despite the fact JavaScript has no "true" classes. I prefer to use this word, and not _type_, as the Launch School material does, to avoid the confusion with the concept that defined the _type_ of values in JavaScript (type as in strings, booleans, objects, etc.)]
+[I will use the word _class_ to represent the prototype-based model of relationships among object despite the fact JavaScript has no "true" classes. I prefer to use this word, and not _type_, as the Launch School material does, to avoid the confusion with the concept that defines the _types_ of values in JavaScript (type as in strings, booleans, objects, etc.)]
 
-JavaScript does not have _classes_ in the classic sense: it uses a prototype-based model of inheritance to represent relationships between objects akin to true classes in other languages, like Ruby. This model is sometimes called _Prototypal Inheritance_. For example, if two objects have the same object prototype (in other words, inherit properties from the same prototype object), we could say that those objects are of the same type, or that they are _instances_ of the same _class_. 
+JavaScript does not have _classes_ in the classic sense: it uses a prototype-based model of inheritance to represent relationships between objects akin to true classes in other languages, like Ruby. This model is sometimes called _Prototypal Inheritance_. For example, if two objects have the same object prototype (in other words, inherit properties from the same prototype object), we could say that those objects are _instances_ of the same _class_. 
 
-In turn, a prototype object can have its own prototype too. Most objects inherit ultimately from the basic `Object` prototype; for example, if we create a `Date` object, that newly created object will inherit from both the `Date` prototype and the `Object` prototype. This creates a linked series of prototype objects that we call _the prototype chain_. This way, we can share behaviors among all instances of a _class_ (not in the classical sense: here it means the set of objects that inherit from the same object prototype), delegating to the prototype, instead of having to define a method in each object separately.
+In turn, a prototype object can have its own prototype too. Most objects inherit ultimately from the basic `Object.prototype` object; for example, if we create a `Date` object, that newly created `Date` object will inherit from both the `Date.prototype` and the `Object.prototype` prototype objects. This creates a linked series of prototype objects called _the prototype chain_. This way, we can share behaviors among all instances of a _class_, delegating data and behaviors to the prototype, instead of having to define methods and properties in each object separately.
+
+```js
+function NewObject() {};
+NewObject.prototype.newMethod = function() { console.log(`Inherited method!`)};
+
+let a = new NewObject;
+a.newMethod(); // => logs 'Inherited method'!
+a.hasOwnProperty('newMethod') // => false. The method is inherited from NewObject.prototype.
+```
 
 ## Property access and assignment in the prototype chain
 
-There are two aspects by which we can interact with an object's properties: _querying_ or accessing a property, and assigning (or reassigning) a property's value.
+There are two ways by which we can interact with an object's properties: _querying_ or accessing a property, and assigning (or reassigning) a property's value.
 
 ### Accessing a property:
 
@@ -58,9 +73,9 @@ In the case of property assignment, JavaScript examines the prototype chain only
 1. If `object` already has an _own property_ `y`, its value is simply reassigned to the new value.
 2. If `object` does not have a `y` _own property_, a new _own property_ on `object` is created.
 
-There are some important caveats: if `object` had a `y` _inherited property_, this inherited `y` property is _hidden_ by the newly created own property of the same name. When this happens, we say that the property _overrides_ an inherited property. It's important to note that the assignment will always create own properties on `object`, _never modifying the prototype objects up in the prototype chain_.
+There are some important caveats: if `object` has a `y` _inherited property_, this inherited `y` property will be _hidden_ by the newly created own property of the same name. When this happens, we say that the property _overrides_ an inherited property. It's important to note that the assignment will always create own properties on `object`, _never modifying the prototype objects up in the prototype chain_.
 
-This prototypal inheritance model is sometimes called _behavior delegation_: if from the top down/design perspective the objects down the prototype chain _inherit_ the properties from the objects above, from the bottom up, we can talk about the objects on the bottom _delegating_ property queries to the prototype objects above them.
+This prototypal inheritance model is sometimes called _behavior delegation_: from a top down/design perspective, the objects down the prototype chain _inherit_ the properties from the objects above; from the bottom up, we can talk about the objects on the bottom _delegating_ property queries to the prototype objects above them.
 
 From this fact we conclude that, in JavaScript, inheritance occurs when querying properties, but not when we set them: this is a powerful JavaScript feature that allows us to achieve polymorphism, a key characteristic of object-oriented design.
 
@@ -78,7 +93,7 @@ By convention, we capitalize the constructor's name in order to distinguish them
 
 These functions handle their arguments, execution context and return values differently from regular function and method invocations. For example, they don't usually return values explicitly with the `return` keyword.
 
-Let's remember that in JavaScript, functions are objects too. And, as objects, functions can have properties (`name`, `length`, etc.), but the most important in constructor functions is the `prototype` property. All functions, except arrow functions have this property; it refers to an object know as the _function prototype_, and, initially, every function has a different function prototype (but two functions can be set to have their `prototype` properties refer to the same object). The value of this property is different from the _object prototype_ of the function itself (referred to by `[[Prototype]]`); in this case, the object prototype of a constructor function, like any other function, is the `Function.prototype` object, a function object from which all functions inherit from:
+Let's remember that, in JavaScript, functions are objects too, and, as objects, functions can have properties (`name`, `length`, etc.). The key property in constructor functions is the `prototype` property. All functions, except arrow functions and functions returned by `bind()`, have this property; it refers to an object know as the _function prototype_, and, initially, every function has a different function prototype (but two functions can be set to have their `prototype` properties refer to the same object). The value of this property is different from the _object prototype_ of the function itself (referred to by `[[Prototype]]`). The object prototype of a constructor function, like any other function, is the `Function.prototype` object, a function object from which all functions inherit from:
 
 ```js
 Function.__proto__ === Function.prototype // => true
@@ -105,7 +120,7 @@ etc.
 
 ### Constructors and _class_ identity.
 
-In JavaScript, the object prototypes serve as the _fundamental identity of a class_, and the constructor, as the _public face of the class_. (Remember that this language does not have true classes)
+In JavaScript, the object prototypes serve as the _fundamental identity of a class_, and the constructor, as the _public identity, or face, of the class_. (Remember that this language does not have true classes)
 
 Object prototypes are fundamental to the identity of a _class_ in JavaScript: two objects are instances of the same _class_ if they inherit from the same prototype. However, the constructor function that initializes the new object is not fundamental: two different constructors could have `prototype` properties assigned to the same object, and both could be used to create instances of the same class:
 
@@ -121,6 +136,7 @@ let objectA = new A;
 let objectB = new B;
 
 objectA.__proto__ === objectB.__proto__; // => true. They share the same object prototype
+// They belong to the same class, but were created by different constructors.
 ```
 
 Nevertheless, we adopt the constructor function's name as the name of the _class_: the constructor `Object` creates Object objects, the `Array` constructor creates Array objects, and so on. 
@@ -139,7 +155,19 @@ The reason for this is that, because the constructor works as the public identit
 (new Object).constructor === Object; // => true
 ```
 
-However, if we reassign the value of the `prototype` property in a constructor, we will lose the `constructor` property in subsequent objects created by that constructor, and we will have to explicitly add to the function prototype a `constructor` property.
+However, if we explicitly reassign the value of the `prototype` property, we will lose the `constructor` property link to the constructor in all subsequent objects created by that constructor, and we will have to explicitly add to the function prototype a `constructor` property to refer to it. 
+
+```js
+function MyClass() {
+
+}
+
+MyClass.prototype = Object.create(null);
+let a = new MyClass;
+a.constructor // => undefined
+MyClass.prototype.constructor = MyClass;
+a.constructor // => [Function: MyClass]
+```
 
 ### What happens under the hood
 
@@ -150,6 +178,30 @@ When we perform a constructor invocation to get a new object, these are the step
 3. The execution context of the constructor (the value of `this` within it) is set to the newly created object.
 4. The function's code body is executed (this usually initializes the new object's internal state).
 5. Finally, the constructor returns the newly created object, unless we explicitly return a different object. If we try to return a primitive (like, for example, a string to indicate an error), the constructor will still return the newly created object.
+
+If we try to call a constructor function without the `new` keyword, the function's body will be executed normally, but it will return `undefined`, and, if the keyword `this` was used within it to initialize properties, it will refer to the global object, and the properties will be added to the global object:
+
+```js
+function Test() {
+  this.property = 1;
+}
+
+let a = Test();
+a // => undefined;
+this.property // => 1;
+```
+  
+In strict mode, however, when `this` would refer to the global object in non-strict mode, it has a value of `undefined` instead.
+
+```js
+"use strict"
+
+function Test() {
+  this.property = 1;
+}
+
+let a = Test(); // TypeError: Cannot set properties of undefined (setting 'property')
+```
 
 ## Object creation
 
