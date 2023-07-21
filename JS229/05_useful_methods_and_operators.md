@@ -48,7 +48,6 @@ These are static methods of `Object`.
 
 This method returns the immediate prototype of the passed in object, that is, the value of the `[[Prototype]]` property.
 
-
 ### `Object.setPrototypeOf()`
 
 This method manually sets the prototype object of the first object argument to the second argument (which must be an object or `null`); it is a slow operation and it is not recommended.
@@ -101,10 +100,4 @@ This method sets all the `writable` attribute of all the object argument's prope
 
 ## Others
 
-
 ## `__proto__`
-
-
-
-
-

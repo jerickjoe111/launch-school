@@ -330,6 +330,7 @@ p Bugs::STR
 ```
 
 The output we get is:
+
 ```
 [Bugs, Bunny, Run, Walk, Jump, Object, Kernel, BasicObject]
 "Running"

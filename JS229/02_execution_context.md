@@ -46,6 +46,7 @@ delete x; // => false
 x = 1;
 this.x // => 1
 delete x; // => true
+this.x // => undefined
 ```
 
 - `let` and `const` variables are not added as properties of any object.
@@ -59,7 +60,7 @@ this.x // => undefined
 
 In addition to its arguments, each function (and method) invocation implies another value: the _execution_ or _invocation context_. This value is the execution context. We can access to this execution context object by `this`. 
 
-There are two types of execution contexts:
+There are two ways we can describe the execution context:
 
 - _Implicit_: the execution context set automatically by JavaScript
 - _Explicit_: the execution context set manually by the programmer.
@@ -72,7 +73,7 @@ Arrow functions are special in the sense that they _inherit_ their `this` value 
 
 #### Functions
 
-The implicit function execution context is the context of functions called without an explicit context - not as methods. The binding of a function to its context occurs _when it is called, not when it is defined_; if we, for instance, copy a method reference to then invoke it _as a function_, without the original owner object as a receiver, its context won't be that object anymore, but the global object.
+The implicit function execution context is the context of functions called without an explicit caller (or receiver) - not as methods. The binding of a function to its context occurs _when it is called, not when it is defined_; if we, for instance, copy a method reference to then invoke it _as a function_, without the original owner object as a receiver, its context won't be that object anymore, but the global object.
 
 ```js
 function thisValue() {
@@ -96,7 +97,24 @@ thisValue();  // => 'implicit context on the top level scope: undefined'
 
 #### Methods
 
-Methods are functions that happen to be the value of an object's property, called with the object as a receiver (or caller object), and without an explicit context set manually. In this case, the execution context is the calling object. But the context is assigned upon invocation, not definition; if we call the original method as a function, _from outside_ the parent object, its context won't be the parent object, but the global object.
+Methods are functions that happen to be the value of an object's property, called with the object as a receiver (or caller object), and without an explicit context set manually. In this case, the execution context is the calling object. But the context is assigned upon invocation, not definition; if we call the original method as a function, _from outside_ the parent object, its context won't be the parent object, but the global object. Or, if we assign the method to another object's property, and invoke it, the context for the invocation will be the other object, not the original owner.
+
+```js
+let originalOwner = {
+  me: 'original owner',
+  who() {
+    console.log(`I'm the ${this.me}`);
+  },
+}
+
+let newOwner = {
+  me: 'new owner',
+};
+
+newOwner.who = originalOwner.who
+
+newOwner.who();
+```
 
 One proof that `this` and the execution context don't work by regular variable rules is that, for example, when we refer to `this` within a nested function inside a method, and we call that nested function _as a function_ inside the method, `this` does not refer to the parent object, as it would be expected. When this happens it's called a _context loss_, and there are a few ways around it.
 
@@ -117,7 +135,7 @@ There are two ways to invoke a function with an explicit context
 - Calling the function with the `Function.prototype.call` method.
 - Calling the function with the `Function.prototype.apply` method.
 
-We can also create a new function from other function using `Function.prototype.bind`, permanently bound to an explicit context (an object).
+We can also create a new function from other function using `Function.prototype.bind`, permanently bound to manually-set context (an object).
 
 #### `Function.prototype.call()` and `Function.prototype.apply()`
 
@@ -146,7 +164,9 @@ let biggestNumber = Math.max.apply(Math, arrayOfNumbers);
 
 #### `bind()`
 
-The `bind()` method permanently binds a function to an object, thus making this object the explicit execution context of that function. When we invoke this method on a function and pass an object as argument, it returns a new function, without performing any modifications to the original, caller function; in every future invocation of the new function, it will be invoked as if it was a method of the object we passed as the first argument to `bind()`. Any other arguments we pass to the new function will work as if we passed them to the original function. In addition, calling `bind()` does not invoke the original function.
+The `bind()` method permanently binds a function to an object, thus making that object the persisting execution context of that function. When we invoke this method on a function and pass an object as argument, it returns a new function, without performing any modifications to the original, caller function; in every future invocation of the new function, it will be invoked as if it was a method of the object we passed as the first argument to `bind()`. Any other arguments we pass to the new function will work as if we passed them to the original function. In addition, calling `bind()` does not invoke the original function.
+
+`bind` also has a special characteristic: it can also perform partial application; any extra arguments passed to `bind()` after the first one (the explicit context) will be permanently bound to the new function as well.
 
 ```js
 function func(y,z) { 
@@ -166,8 +186,6 @@ let permanentlyBound = sayName.bind(new Object);
 permanentlyBound(); // => Hi, I'm [object Object]
 permanentlyBound.call(new String); // => Hi, I'm [object Object] !
 ```
-
-`bind` also has a special characteristic: it can also perform partial application; any extra arguments passed to `bind()` after the first one (the explicit context) will be permanently bound to the new function as well.
 
 It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
 
@@ -214,7 +232,7 @@ function whoAmI(func) {
   func(); // by this time, this is not the original containing object
 }
 
-(() {
+(function() {
   let customObject = {
     class_: 'customObject', 
     sayWho() {
