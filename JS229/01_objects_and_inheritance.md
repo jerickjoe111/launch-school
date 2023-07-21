@@ -66,6 +66,19 @@ When we try to access a property `x` in an object `object` via the `.` or the `[
 
 This algorithm forms a chain that works as a linked list from which properties are _inherited_ in JavaScript.
 
+```js
+function CustomObject() {
+
+}
+
+let c = new CustomObject;
+c.hasOwnProperty('hasOwnProperty'); // => false
+CustomObject.prototype.hasOwnProperty('hasOwnProperty') // => false
+Object.prototype.hasOwnProperty('hasOwnProperty') // => true
+// our CustomObject instance inherits this property not from his parent, 
+// CustomObject.prototype, but the prototype of the protype, Object.prototype
+```
+
 ### Property assignment
 
 In the case of property assignment, JavaScript examines the prototype chain only to determine whether the assigned is allowed or not. When, for instance, we assign the property `y` on the object `object`:
@@ -79,6 +92,20 @@ This prototypal inheritance model is sometimes called _behavior delegation_: fro
 
 From this fact we conclude that, in JavaScript, inheritance occurs when querying properties, but not when we set them: this is a powerful JavaScript feature that allows us to achieve polymorphism, a key characteristic of object-oriented design.
 
+```js
+function CustomObject() {
+
+}
+
+CustomObject.prototype.hasOwnProperty = function() {
+  console.log('property overridden!');
+}
+
+let c = new CustomObject;
+c.hasOwnProperty(); // => property overridden!
+// this new property overrides the original property inherited from 
+// Object.prototype.hasOwnProperty
+```
 
 ## Constructor functions
 
@@ -216,11 +243,3 @@ We can create objects in three basic ways:
 
 3. With the `Object.create()` method:
     This method will create and return a new object, setting the first argument as its prototype. We can pass `null` as the first argument if we want the object to be completely empty of properties.
-
-
-
-
-
-
-
-

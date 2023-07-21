@@ -87,6 +87,14 @@ Object.defineProperties(person, {
 
 This method works like `Object.keys()`, but it includes the non-enumerable properties as well.
 
+### `Object.assign()`
+
+The `Object.assign()` static method copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
+
+```js
+const returnedTarget = Object.assign(target, ...sources);
+```
+
 ### `Object.freeze()`
 
 This method sets all the `writable` attribute of all the object argument's properties to `false`, rendering them immutable. However, it does not _deeply_ freeze inner values if the property value is an object or an array. This action cannot be unmade.

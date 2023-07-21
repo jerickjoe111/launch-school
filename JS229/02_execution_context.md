@@ -26,7 +26,7 @@ We can access this object by different ways:
 - In Node, the global object has also a self-referential `global` property we can use to access it.
 - ES2020 defined the standard way to refer to this global object in any context: `globalThis`.
 
-It is important to note that, in strict mode, the global object does not work as the implicit evaluation/execution context, and the keyword `this` is set to `undefined`. As a consequence, we can't access undeclared variables (this is a security measure against possible misspellings), and `this`, when referring to the global object, has a value of `undefined`.
+It is important to note that, in strict mode, the global object does not work as the implicit context, and the keyword `this` is set to `undefined`. As a consequence, we can't access undeclared variables (this is a security measure against possible misspellings).
 
 ### Global Variables and the Global Object
 
@@ -112,11 +112,12 @@ object.thisValue(); // "implicit context on the top level scope: [object Object]
 
 ### Explicit Execution Context
 
-There are three main ways to invoke a function with an explicit context, by binding it to a specific object:
+There are two ways to invoke a function with an explicit context
 
 - Calling the function with the `Function.prototype.call` method.
 - Calling the function with the `Function.prototype.apply` method.
-- Creating a new function from other function using `Function.prototype.bind`, permanently bound to an explicit context (an object).
+
+We can also create a new function from other function using `Function.prototype.bind`, permanently bound to an explicit context (an object).
 
 #### `Function.prototype.call()` and `Function.prototype.apply()`
 
@@ -343,7 +344,7 @@ object.method()
 
 ### Function as Argument Losing Surrounding Context
 
-We can use the same solutions as the previous problem.
+Nested functions lose their contexts within methods. We can use the same solutions as the previous problem.
 
 ## Lexical Scope
 

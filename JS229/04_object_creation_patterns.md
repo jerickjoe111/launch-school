@@ -27,7 +27,7 @@ p.constructor // => [Function: Object] : It was created by a literal object
 p.__proto__ // => [Object: null prototype] {} : The basic Object
 ```
 
-And second, that every object created this way will contain full copies of the methods defined in the factory functions, which is redundant and memory heavy.
+The second problem about this approach is that every object created this way will contain full copies of the methods defined in the factory functions, which is redundant and memory heavy.
 
 ## Constructor Pattern
 
@@ -92,21 +92,20 @@ pair1.logNumbers === pair2.logNumbers // => true : they share the methods
 // Ensure that the SubClass instance inherits properties from SuperClass by 
 // calling the SuperClass constructor as it were a method of the new SubClass instance;
 // this way, properties are initialized via the SuperClass constructor
-function SubClass(properties) {
+function SubClass(properties, otherProperties) {
   SuperClass.call(this, properties);
+  this.otherProperties = otherProperties;
 }
 
 // Ensure that the SubClass prototype inherits methods from the SuperClass prototype
 SubClass.prototype = Object.create(SuperClass.prototype);
 
 // We don't want the prototype to inherit the SuperClass.prototype.constructor property, so we
-// define our own constructor property to point to the right constructor.
+// define our own constructor property to point to the right constructor, SubClass.
 SubClass.prototype.constructor = SubClass;
 ```
 
-> A robust subclassing mechanism needs to allow classes to invoke the methods and
-constructor of their superclass, but prior to ES6, JavaScript did not
-have a simple way to do these things.
+> A robust subclassing mechanism needs to allow classes to invoke the methods and constructor of their superclass, but prior to ES6, JavaScript did not have a simple way to do these things.
 
 ### How to create a private state when using the pseudo-classical approach
 
@@ -123,7 +122,7 @@ function Constructor() {
 
 let a = new Constructor;
 a.privateVariable; // => undefined
-a.accessPrivat(); // => 1
+a.accessPrivate(); // => 1
 ```
 
 ## OLOO 
@@ -146,13 +145,17 @@ const Pair = {
   },
 }
 
-let pair = Object.create(Pair).init(1, 2);
-Pair.isPrototypeOf(pair); // => true
+let p = Object.create(Pair).init(1, 2);
+Pair.isPrototypeOf(p); // => true
 ```
 
 Note that the `init` methods is necessary only as a way to initialize the newly created object's state with specific values. We can leave it uninitialized, or we could add default values.
 
-## How to create private state on each instance using the OLOO pattern
+### OLOO and inheritance
+
+The point of OLOO is not wiring up a traditional "inheritance" hierarchy without using constructors, but setting up two linked objects where one can delegate to the other (and vice versa, if you like) so they can virtually compose during the method invocation - in other words, behavior delegation. 
+
+### How to create private state on each instance using the OLOO pattern
 
 We can assign the constructor to an IIFE that returns an object with access to the private scope formed by the closure created by the anonymous function:
 
@@ -168,10 +171,32 @@ const Constructor = (function() {
 
 let a = Object.create(Constructor);
 a.privateAccess() // => 1
-a.privateData // => undefined;  it's unreachable from the outside without the method interface
+a.privateData // => undefined;  it's unreachable from the outside without the appropriate method interface
 ```
 
-However, because we only define the IFEE once, there only exists one closure, invoked multiple times, one for each time we create an object via `Object.create(Constructor)`. That's why all the "instances" of `Constructor` share the same private data. To fix this, we can just create an `updateConstructor()` function in the global scope, making `Constructor` a let variable, instead of a constant, and... just create a new closure each time we invoke `updateConstructor()`, by reassigning `Constructor` again and again as needed!:
+However, because we only define the IFEE once, there only exists one closure, used multiple times, one for each time we create an object via `Object.create(Constructor)`. That's why all the "instances" of `Constructor` share the same private data:
+
+```js
+const Account= (function() {
+  let privateData = 1;
+  return {
+    privateAccess() {
+      return privateData;
+    },
+    changePrivateData() {
+      privateData = 'CHANGED!';
+    }
+  } 
+})()
+
+let a = Object.create(Account);
+a.privateAccess(); // => 1
+let b = Object.create(Account);
+a.changePrivateData();
+b.privateAccess(); // => 'CHANGED!'  !!!!
+```
+
+To fix this, we can just create an `updateConstructor()` function in the global scope, declaring `Constructor` as a `let` variable, instead of a constant, and... just create a new closure each time we invoke `updateConstructor()`, by reassigning `Constructor` again and again as needed!:
 
 ```js
 let Account;
@@ -232,9 +257,18 @@ Another difference is that the whole body within the class declaration is in str
 
 ```js
 class MyArray extends Array {
-  // new methods for arrays here
+  // constructor
+  
+  // new methods for MyArray instances here
 }
 ```
+
+`extends` sets the prototype for both the `MyArray` constructor function and `MyArray.prototype.`
+
+|  | Prototype of `MyArray` | Prototype of `MyArray.prototype` |
+| --- | --- | --- | 
+| with no `extends` | `Function.prototype` | `Object.prototype` | 
+| with `extends` | `Array` | `Array.prototyp`e | 
 
 Use the `super` keyword to invoke the constructor and methods of the superclass. We can invoke the methods of the superclass within methods of the subclass:
 
