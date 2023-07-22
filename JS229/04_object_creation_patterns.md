@@ -1,6 +1,6 @@
 # Object creation patterns
 
-There are four main design patterns:
+There are four main design patterns: factory functions, pseudo-classical pattern, OLOO, and the `class` syntax.
 
 ## Factory Functions
 
@@ -28,6 +28,8 @@ p.__proto__ // => [Object: null prototype] {} : The basic Object
 ```
 
 The second problem about this approach is that every object created this way will contain full copies of the methods defined in the factory functions, which is redundant and memory heavy.
+
+|---|
 
 ## Constructor Pattern
 
@@ -132,7 +134,7 @@ The OLOO pattern (from 'Object Linking from Other Object') forgets about constru
 ```js
 // a Pair is an object that will represent a pair of natural numbers:
 
-// the prototype is capitalized as in other patterns
+// the prototype is capitalized as in the other patterns
 const Pair = {
   logNumbers() {
     console.log(this.a, this.b);
@@ -247,7 +249,7 @@ pair.constructor // => [class Pair]
 Pair.prototype.isPrototypeOf(pair); // => true
 ```
 
-There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable.
+There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable. All the methods will be assigned to the constructor's `prototype` property, so every instance can inherit them.
 
 Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate class before we declare them.
 
@@ -285,7 +287,7 @@ Use the `super` keyword to invoke the constructor and methods of the superclass.
 
 ### Private class features
 
-All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. In the classic prototypal inheritance, this was achieved with closures, but it was excessively complex.
+All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. How can we implement private fields? In other patterns, this was achieved with closures, but this could be excessively complex.
 
 Now, private properties, and private static properties and methods, are made available by prepending a `#` to the identifier. This helps us achieve a form of encapsulation.
 
