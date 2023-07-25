@@ -291,19 +291,19 @@ Within methods, the context does not propagate into nested functions: when we re
     We can store the value of `this` within the method in a variable (usually called `self`), and use that variable instead of `this` within the nested functions.
 
 ```js
-let object = { 
+let ownerObject = { 
   method() {        
     function nestedFunction() {    // A nested function f
-      this === object;    // => false: "this" is now global or undefined
-      self === object;    // => true: self is the outer "this" value.
+      this === ownerObject;    // => false: "this" is now global or undefined
+      self === ownerObject;    // => true: self is the outer "this" value, the containing ownerObject
     }
 
-    this === object;        // => true: "this" is the object.
+    this === ownerObject;        // => true: "this" is the ownerObject.
     let self = this;   // Save the "this" value in a variable.
     nestedFunction();   
   }
 };
-object.method()
+ownerObject.method()
 ```
 
 2. Pass the Context to the Nested Function:
@@ -311,18 +311,19 @@ object.method()
     We can pass the value of `this` to the nested function's invocation, via `Function.prototype.call()` or `Function.prototype.apply()`. Also, all the classic iterators (`forEach()`, `map()`, `find()`, etc.) accept an optional context argument `thisArg`.
 
 ```js
-let object = { 
+let ownerObject = { 
   method() {        
     function nestedFunction(context) {    
-      this === object;   // => false
-      context === object;  // => true
+      this === ownerObject;   // => false
+      context === ownerObject;  // => true
     }
+
     nestedFunction(this);   
 
-    this === object;   // => true
+    this === ownerObject;   // => true
   }
 };
-object.method()
+ownerObject.method()
 ```
 
 3. Hard bind the nested function to the method's context:
@@ -330,19 +331,19 @@ object.method()
     We can create a new function bound to method's context, and call that nested function whenever we want within that method.
 
 ```js
-let object = { 
+let ownerObject = { 
   method() {        
     function nestedFunction() {    
-      return this === object; // !
+      return this === ownerObject; // !
     }
 
-    this === object   // => true
+    this === ownerObject   // => true
     let boundNestedFunction = nestedFunction.bind(this);  
     nestedFunction(); // => false
     boundNestedFunction(); // => true
   }
 };
-object.method()
+ownerObject.method()
 ```
 
 4. Use an arrow function:
@@ -350,19 +351,86 @@ object.method()
     Finally, we can use arrow functions, which _inherit_ the value of `this` from the environment in which they are defined, solving our problem.
 
 ```js
-let object = { 
+let ownerObject = { 
   method() {        
-    this === object   // => true
+    this === ownerObject   // => true
     
-    (() => this === object)(); // => true
+    (() => this === ownerObject)(); // => true
   }
 };
-object.method()
+ownerObject.method()
 ```
 
 ### Function as Argument Losing Surrounding Context
 
-Nested functions lose their contexts within methods. We can use the same solutions as the previous problem.
+Functions passed as arguments within methods lose their context as well. There are a few ways around this problem:
+
+```js
+let ownerObject = {
+  method() {
+    return [1].map(function(element) { return this});
+  }
+}
+ownerObject.method()[0]; // => returns the global object
+```
+
+1. Preserve Context with a Local Variable:
+
+    We can store the value of `this` within the method in a variable (usually called `self`), and use that variable instead of `this` within the nested functions.
+
+```js
+let ownerObject = {
+  method() {
+    let self = this;
+    return [1].map(function(element) { return self});
+  }
+}
+ownerObject.method()[0] === ownerObject; // => true
+```
+
+2. Pass the Context to the Nested Function:
+  
+    We can pass the value of `this` to the nested function's invocation, via `Function.prototype.call()` or `Function.prototype.apply()`. Also, all the classic iterators (`forEach()`, `map()`, `find()`, etc.) accept an optional context argument `thisArg`.
+
+```js
+let ownerObject = {
+  method() {
+    return [1].map(function(element) { return this}, this);
+  }
+}
+ownerObject.method()[0] === ownerObject; // => true
+```
+
+3. Hard bind the nested function to the method's context:
+
+    We can create a new function bound to method's context, and call that nested function whenever we want within that method.
+
+```js
+let ownerObject = {
+  method() {
+    function returnThis() {
+      return this;
+    }
+    let boundReturnThis = returnThis.bind(this);
+
+    return [1].map(boundReturnThis);
+  }
+}
+ownerObject.method()[0] === ownerObject // => true
+```
+
+4. Use an arrow function:
+
+    Finally, we can use arrow functions, which _inherit_ the value of `this` from the environment in which they are defined, solving our problem.
+
+```js
+let ownerObject = {
+  method() {
+    return [1].map(element => this);
+  }
+}
+ownerObject.method()[0] === ownerObject; // => true
+```
 
 ## Lexical Scope
 

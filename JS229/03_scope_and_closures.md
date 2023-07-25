@@ -112,6 +112,14 @@ There are two main ways to perform partial application:
 
 - Without `Function.prototype.bind()`: This form of partial application employs three functions: a _generator_ function, an _applicator_ function, and a _primary_ function. The generator creates and returns a new function, the applicator, and the applicator, when invoked, calls the primary function within its body. The main advantage is that the generator receives some arguments A upon invocation, then the applicator receives another set of arguments B upon invocation as well. In consequence, the applicator is able to invoke the primary passing it the arguments A and B because the applicator took A as part of its closure when it was created, so A is still in scope when it invokes the primary within its code body.
 
+```js
+function myBind(f, context, ...someArguments) {
+  return function(...extraArguments) {
+    return f.apply(context, [...someArguments, ...extraArguments]);
+  }
+}
+```
+
 A practical case:
 
 ```js

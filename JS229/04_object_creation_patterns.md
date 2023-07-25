@@ -249,13 +249,13 @@ pair.constructor // => [class Pair]
 Pair.prototype.isPrototypeOf(pair); // => true
 ```
 
-There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable. All the methods will be assigned to the constructor's `prototype` property, so every instance can inherit them.
+There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable. Finally, all the methods will be assigned to the constructor's `prototype` property, so every instance can inherit them.
 
 Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate class before we declare them.
 
 ### How to implement subclasses with the `class` syntax.
 
-> In ES6 and later, you can create a superclass simply by adding an `extends` clause to a class declaration, and you can do this even for built-in classes.
+> In ES6 and later, you can create a subclass simply by adding a `extends` clause to a class declaration, and you can do this even for built-in classes.
 
 ```js
 class MyArray extends Array {
@@ -289,22 +289,31 @@ Use the `super` keyword to invoke the constructor and methods of the superclass.
 
 All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. How can we implement private fields? In other patterns, this was achieved with closures, but this could be excessively complex.
 
-Now, private properties, and private static properties and methods, are made available by prepending a `#` to the identifier. This helps us achieve a form of encapsulation.
+Now, private properties, and private static properties and methods, are made available by prepending a `#` to the identifier. This helps us achieve a form of encapsulation, securing our data and forcing the employment of the appropriate interface.
 
 ```js
-class ClassWithPrivate {
+class SuperPrivate {
   #privateField;
-  #privateFieldWithInitializer = 1;
+  #privateInitializedField = 1;
 
   #privateMethod() {
+    return 1
   }
 
   static #privateStaticField;
-  static #privateStaticFieldWithInitializer = 1;
+  static #privateStaticInitializedField = 1;
 
   static #privateStaticMethod() {
+    return 1
   }
 }
+
+(new SuperPrivate).privateField; // => undefined 
+(new SuperPrivate).privateInitializedField; // => undefined 
+(new SuperPrivate).privateMethod; // => undefined 
+SuperPrivate.privateStaticField; // => undefined 
+SuperPrivate.privateStaticInitializedField; // => undefined 
+SuperPrivate.privateStaticMethod; // => undefined 
 ```
 
 ## Instance and Static properties and methods
