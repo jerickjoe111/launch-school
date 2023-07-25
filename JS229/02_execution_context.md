@@ -9,15 +9,7 @@ Before the program's code is executed, the JavaScript interpreter creates a regu
 - built-in _constructor functions_ (like `Date()`, `RegExp()` or `Set()`)
 - global _objects_ (like `Math` or `JSON`)
 
-In the web browser, the Window object serves as the global object, that, besides the code JavaScript properties, includes some browser and client-side specific properties.
-
-In Node, the code is wrapped inside a function, which means that, all our variables and functions are function-scoped, but the implicit execution context in the top level is not the global object, but an empty object `{}`. Contrary to the browser, `var` variables declared in the top level (the 'module' scope), are not added to the global object; but undeclared variables are.
-
-```js
-function (exports, require, module, __filename, __dirname) {
-   // all our program's code is enclosed in this function
-};
-```
+In the web browser, the Window object serves as the global object, that, besides the code JavaScript properties, includes some browser and client-side specific properties. In Node and other non-browser JavaScript contexts, the global object is `global`
 
 We can access this object by different ways:
 
@@ -55,6 +47,24 @@ this.x // => undefined
 let x = 1;
 this.x // => undefined
 ```
+
+## Variables in Node and other non-browser JavaScript
+
+Node sets an extra scope above: what we call the _module_ scope. This has important and unexpected consequences for variables declared at the top level of a `.js` file:
+
+- Variables and constants, including functions, declared with `var`, `let`, or `const` are _module-scoped_, and they are not added to the global object as properties.
+- Undeclared variables, however, are added to the global object as properties, and have global scope. Note this is only available in non-strict mode.
+
+However, `this` at the top level of a `.js` Node file does not refer to `global`, but to an object `{}`! This is the case because all the program's code is wrapped by a function
+
+```js
+function (exports, require, module, __filename, __dirname) {
+   // all our program's code is enclosed in this function
+};
+```
+
+which also means that, ultimately, all variables and functions in Node are function-scoped: the execution context for the top-level code is an object `{}`.
+
 
 ## `this` and the Execution Context
 
@@ -97,13 +107,25 @@ thisValue();  // => 'implicit context on the top level scope: undefined'
 
 #### Methods
 
-Methods are functions that happen to be the value of an object's property, called with the object as a receiver (or caller object), and without an explicit context set manually. In this case, the execution context is the calling object. But the context is assigned upon invocation, not definition; if we call the original method as a function, _from outside_ the parent object, its context won't be the parent object, but the global object. Or, if we assign the method to another object's property, and invoke it, the context for the invocation will be the other object, not the original owner.
+Methods are functions that happen to be the value of an object's property, called with the object as a receiver (or caller object), and without an explicit context set manually. In this case, the execution context is the calling object. 
+
+```js
+let object = {
+  thisValue() {
+    return this;
+  },
+};
+
+object.thisValue() === object; // => true
+```
+
+But the context is assigned upon invocation, not definition; if we call the original method as a function, _from outside_ the parent object, its context won't be the parent object, but the global object. Or, if we assign the method to another object's property, and invoke it, the context for the invocation will be the other object, not the original owner.
 
 ```js
 let originalOwner = {
   me: 'original owner',
   who() {
-    console.log(`I'm the ${this.me}`);
+    return `I'm the ${this.me}`;
   },
 }
 
@@ -113,29 +135,29 @@ let newOwner = {
 
 newOwner.who = originalOwner.who
 
-newOwner.who();
+newOwner.who(); // => I'm the new owner
 ```
 
-One proof that `this` and the execution context don't work by regular variable rules is that, for example, when we refer to `this` within a nested function inside a method, and we call that nested function _as a function_ inside the method, `this` does not refer to the parent object, as it would be expected. When this happens it's called a _context loss_, and there are a few ways around it.
+One proof that `this` does not work by regular variable rules is that, for example, when we refer to `this` within a nested function inside a method, and we call that nested function _as a function_ inside the method, `this` does not refer to the parent object, as it would be expected. When this happens it's called a _context loss_, and there are a few ways around it.
 
 ```js
 let object = {
-  thisValue() {
-    return `implicit context within methods: ${this}`;
+  nestedThisValue() {
+    return (function() { return this })();
   },
 };
 
-object.thisValue(); // "implicit context on the top level scope: [object Object]"
+object.nestedThisValue() === global; // => true
 ```
 
 ### Explicit Execution Context
 
 There are two ways to invoke a function with an explicit context
 
-- Calling the function with the `Function.prototype.call` method.
-- Calling the function with the `Function.prototype.apply` method.
+- Calling the function via the `Function.prototype.call` method.
+- Calling the function via the `Function.prototype.apply` method.
 
-We can also create a new function from other function using `Function.prototype.bind`, permanently bound to manually-set context (an object).
+We can also create a new function from other function using `Function.prototype.bind`, permanently binding it to a manually-set context (an object).
 
 #### `Function.prototype.call()` and `Function.prototype.apply()`
 
@@ -159,12 +181,12 @@ sayName.call(new Object, 1, 2, 3); // => Hi, I'm [object Object]
 We can use the `apply` method to pass an arbitrary number of arguments to a function without the use of the spread `...` operator, for any reason:
 
 ```js
-let biggestNumber = Math.max.apply(Math, arrayOfNumbers);
+let biggestNumber = Math.max.apply(Math, [1, 2, 3]);
 ```
 
 #### `bind()`
 
-The `bind()` method permanently binds a function to an object, thus making that object the persisting execution context of that function. When we invoke this method on a function and pass an object as argument, it returns a new function, without performing any modifications to the original, caller function; in every future invocation of the new function, it will be invoked as if it was a method of the object we passed as the first argument to `bind()`. Any other arguments we pass to the new function will work as if we passed them to the original function. In addition, calling `bind()` does not invoke the original function.
+The `bind()` method permanently binds a function to an object, thus making that object the persisting execution context of that function. When we invoke this method on a function and pass an object as argument, it returns a new function, without performing any modifications to the original, caller function; in every future invocation of the new function, it will be invoked as if it was a method of the object we passed as the first argument to `bind()`. Any other arguments we pass to the new function will work as if we passed them to the original function. Calling `bind()` does not invoke the original function.
 
 `bind` also has a special characteristic: it can also perform partial application; any extra arguments passed to `bind()` after the first one (the explicit context) will be permanently bound to the new function as well.
 
@@ -172,9 +194,11 @@ The `bind()` method permanently binds a function to an object, thus making that 
 function func(y,z) { 
   return this.x + y + z; 
 }
-let boundFunc = func.bind({x: 1}, 2);     // Bind this and y
-boundFunc(3);     // => 6: this.x is bound to 1, y is bound to 2 and z is 3
+let boundFunc = func.bind({x: 1}, 2); // Bind the literal object and y to a new function
+boundFunc(3);     // => 6: this.x is set to 1, y is to 2 and z is 3
 ```
+  
+It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
 
 ```js
 function sayName(...args) {
@@ -186,8 +210,6 @@ let permanentlyBound = sayName.bind(new Object);
 permanentlyBound(); // => Hi, I'm [object Object]
 permanentlyBound.call(new String); // => Hi, I'm [object Object] !
 ```
-
-It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
 
 ```js
 function sayName(...args) {
@@ -206,7 +228,7 @@ Arrow functions _inherit_ the value of `this` from the environment in which they
 
 ### Method Losing Context when Taken Out of Object
 
-If, for example, we copy a method into a new variable, and we call it outside the original containing object, as a function, we say that the method has _lost its context_, and any `this` within that method no longer will refer to the parent object. 
+If, for example, we copy a method into a new variable, and we call it outside the original containing object, as a function, we say that the method has _lost its context_, and any `this` within that method no longer will refer to the original owner object. 
 
 These are three ways we can employ to preserve the original intended context:
 
@@ -228,44 +250,44 @@ outsideWho.call(myObject); // => Hi, I'm a CustomObject
 - If the object is not in scope, we could alter the code in some way that we call the method from outside the parent object from within an intermediary or receiving function that defines an extra parameter, passing the intended object as the context.
 
 ```js
-function whoAmI(func) {
-  func(); // by this time, this is not the original containing object
+function whoAmIIntermediary(func) {
+  func(); // by this time, `this` does not refer to the original containing object
 }
 
 (function() {
   let customObject = {
-    class_: 'customObject', 
+    type: 'customObject', 
     sayWho() {
-      console.log(`Hi, I'm a ${this.class_}`)
+      console.log(`Hi, I'm a ${this.type}`)
     },
   };
 
-  whoAmI(customObject.sayWho);
-})()
+  whoAmIIntermediary(customObject.sayWho);
+})() // => Hi, I'm a undefined
 ```
 
 ```js
-function whoAmI(func, context) { //!
-  func.call(context);  // !
+function whoAmIIntermediary(func, context) {
+  func.call(context);  // we can alter the code in some way
 }
 
 (() => {
   let customObject = {
-    class_: 'customObject', 
+    type: 'customObject', 
     sayWho() {
-      console.log(`Hi, I'm a ${this.class_}`)
+      console.log(`Hi, I'm a ${this.type}`)
     },
   };
 
-  whoAmI(customObject.sayWho, customObject); // !
-})()
+  whoAmIIntermediary(customObject.sayWho, customObject); // !
+})() // => Hi, I'm a customObject
 ```
 
 - If we can't alter the function or supply an extra context object, we can use `bind()` to create a new function bound to the context we want:
 
 ```js
 function whoAmI(func) {
-  func();
+  func(); // we didn't alter this code
 }
 
 (() => {
@@ -295,12 +317,13 @@ let ownerObject = {
   method() {        
     function nestedFunction() {    // A nested function f
       this === ownerObject;    // => false: "this" is now global or undefined
-      self === ownerObject;    // => true: self is the outer "this" value, the containing ownerObject
+      return self === ownerObject; // => true
     }
 
     this === ownerObject;        // => true: "this" is the ownerObject.
+
     let self = this;   // Save the "this" value in a variable.
-    nestedFunction();   
+    nestedFunction();  // => true;
   }
 };
 ownerObject.method()
@@ -313,17 +336,34 @@ ownerObject.method()
 ```js
 let ownerObject = { 
   method() {        
-    function nestedFunction(context) {    
-      this === ownerObject;   // => false
-      context === ownerObject;  // => true
+    function nestedFunction() {    
+      return this === ownerObject;   // => true
     }
 
-    nestedFunction(this);   
-
     this === ownerObject;   // => true
+
+    nestedFunction.call(this); // => true  
   }
 };
 ownerObject.method()
+```
+
+```js
+let ownerObject = {
+  method() {
+    return ['a'].map(function() { return this })[0];
+  }
+}
+ownerObject.method() === global; // => true;
+```
+
+```js
+let ownerObject = {
+  method() {
+    return ['a'].map(function() { return this }, this)[0];
+  }
+}
+ownerObject.method() === ownerObject; // => true
 ```
 
 3. Hard bind the nested function to the method's context:
@@ -338,6 +378,7 @@ let ownerObject = {
     }
 
     this === ownerObject   // => true
+
     let boundNestedFunction = nestedFunction.bind(this);  
     nestedFunction(); // => false
     boundNestedFunction(); // => true

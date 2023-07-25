@@ -159,7 +159,7 @@ The point of OLOO is not wiring up a traditional "inheritance" hierarchy without
 
 ### How to create private state on each instance using the OLOO pattern
 
-We can assign the constructor to an IIFE that returns an object with access to the private scope formed by the closure created by the anonymous function:
+We can assign the constructor to an IIFE that returns an object with access to the private scope formed by the closure created by the object's methods:
 
 ```js
 const Constructor = (function() {
@@ -249,9 +249,11 @@ pair.constructor // => [class Pair]
 Pair.prototype.isPrototypeOf(pair); // => true
 ```
 
-There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable. Finally, all the methods will be assigned to the constructor's `prototype` property, so every instance can inherit them.
+There are some important points about the `class` syntax that have to be remarked: first, that the class is defined within a block delimited in curly braces, but without commas separating the methods; second, that the keyword `constructor` is used to define the constructor function for the class. 
 
-Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate class before we declare them.
+What happens under the hood is that the `class` declaration creates a new variable with the name of the class, and then assigns that variable to the `constructor` function. If the class does not need the objects to be initialized upon instantiation, we can omit the `constructor` function definition within the class, and an empty constructor will be implicitly created and assigned to the class name variable. Finally, all the methods will be assigned to the constructor's `prototype` property, so every instance can inherit them.
+
+Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate classes before we declare them.
 
 ### How to implement subclasses with the `class` syntax.
 
@@ -272,39 +274,43 @@ class MyArray extends Array {
 | with no `extends` | `Function.prototype` | `Object.prototype` | 
 | with `extends` | `Array` | `Array.prototyp`e | 
 
-Use the `super` keyword to invoke the constructor and methods of the superclass. We can invoke the methods of the superclass within methods of the subclass:
+We use the `super` keyword to invoke the constructor and methods of the superclass. We can even invoke the methods of the superclass within methods of the subclass:
 
 ```js
   // we can call the method of the same name within a method
+class SubClass {
   constructor(property1, property2) {
     super(property1); // the constructor in the superclass initializes this property
     this.property2 = property2;
   }
 
-  // we can call specific methods
-  super.superClassMethod(...args)
+  // we can call specific methods in the superclass
+  aMethod() {
+    super.superClassMethod(...args)
+  }
+}
 ```
 
 ### Private class features
 
-All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. How can we implement private fields? In other patterns, this was achieved with closures, but this could be excessively complex.
+All class properties (methods too), called _fields_ in this context, are public by default. This means that they are accessible from the outside of the class. How can we implement private fields? In other patterns, this was achieved with closures, but this could become excessively complex.
 
 Now, private properties, and private static properties and methods, are made available by prepending a `#` to the identifier. This helps us achieve a form of encapsulation, securing our data and forcing the employment of the appropriate interface.
 
 ```js
 class SuperPrivate {
   #privateField;
-  #privateInitializedField = 1;
+  #privateInitializedField = 'private!';
 
   #privateMethod() {
-    return 1
+    return 'private!'
   }
 
   static #privateStaticField;
-  static #privateStaticInitializedField = 1;
+  static #privateStaticInitializedField = 'private!';
 
   static #privateStaticMethod() {
-    return 1
+    return 'private!'
   }
 }
 

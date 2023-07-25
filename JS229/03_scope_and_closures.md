@@ -19,7 +19,7 @@ Lexical scoping rules imply that functions are executed using the scope _in effe
 
 When we say that JavaScript has _first-class functions_ we mean that, as objects, functions can  work as any other value: they can be assigned to variables, stored in the properties of objects or the elements of arrays, passed by as arguments to other functions, etc. 
 
-We talk about _higher-order functions_ to refer to particular functions that operate on another functions, for example, accepting other functions as arguments, returning a new function, or both. Higher-order functions become a powerful tool when we understand that, in JavaScript, functions are closures, and, through them, we can gain access to variables that would be otherwise out of scope when we call those functions from a context different from where they were defined.
+We talk about _higher-order functions_ in particular to refer to functions that operate on other functions, for example, accepting other functions as arguments, returning a new function, or both. Higher-order functions become a powerful tool when we understand that, in JavaScript, functions are closures, and, through them, we can gain access to variables that would be otherwise out of scope when we call those functions from a context different from where they were defined.
 
 ```js
 let a = ['a', 'b', 'c'];
@@ -101,7 +101,7 @@ The stack contains most primitive values and references, since these values have
 
 On the heap is stored everything that is not on the stack, for example, objects and bigger primitive values like `BigInt` or strings, which don't fit in the fixed sized stack values. Because each heap value can have a different size, new values have to be allocated as they are created, and, since the program keeps references to heap values on the stack, it needs a way to deallocate them when they are no longer needed: the garbage collector's task is to find these values and claim them again for the system to use.
 
-A possible rudimentary approach to implement this system would be to use a reference counting system, deallocating values with 0 references; JavaScript engines use a _Mark and Sweep algorithm_ that avoids reference cycle problems (when values reference each other, thus not having 0 references), but can introduce other problems such as memory fragmentation.
+A possible rudimentary approach to implement this system would be to use a reference counting system, to then deallocate values with 0 references; JavaScript engines use a _Mark and Sweep algorithm_ that avoids reference cycle problems (when values reference each other, thus not having 0 references), but can introduce other problems such as memory fragmentation.
 
 
 ## Partial Function Application
@@ -113,11 +113,20 @@ There are two main ways to perform partial application:
 - Without `Function.prototype.bind()`: This form of partial application employs three functions: a _generator_ function, an _applicator_ function, and a _primary_ function. The generator creates and returns a new function, the applicator, and the applicator, when invoked, calls the primary function within its body. The main advantage is that the generator receives some arguments A upon invocation, then the applicator receives another set of arguments B upon invocation as well. In consequence, the applicator is able to invoke the primary passing it the arguments A and B because the applicator took A as part of its closure when it was created, so A is still in scope when it invokes the primary within its code body.
 
 ```js
-function myBind(f, context, ...someArguments) {
-  return function(...extraArguments) {
-    return f.apply(context, [...someArguments, ...extraArguments]);
-  }
+function shout(sentence, sign) { // primary
+  console.log(`${sentence}${sign}`.toUpperCase());
 }
+
+function shoutMaker(sign) { // generator
+  return function(sentence) { // applicator
+    return shout(sentence, sign); // the primary is called
+  };
+}
+
+let superShouter = shoutMaker('!!!!!'); // superShouter is the anonymous applicator now
+
+superShouter('it works'); // logs IT WORKS!!!!!
+superShouter('the power of closures') // logs THE POWER OF CLOSURES!!!!!
 ```
 
 A practical case:
@@ -151,7 +160,7 @@ square(3) // => 9
 
 Immediately Invoked Function Expressions (IIFE) are function expressions invoked at the same time that they are defined. This is not possible with function declarations (a `SyntaxError` will be thrown). As with any function expression, IIFEs are not hoisted, and their name is optional (name is useful only for self-reference within the function- i.e.: recursion).  If the function expression occurs at the beginning of a line, it must be enclosed in parentheses; and an IIFE has always the argument list, empty or with arguments, at the end, to indicate that we are actually invoking it.
 
-We can use IFFEs to implement two main powerful features in JavaScript:
+We can use IFFEs to implement two main powerful JavaScript features:
 
 - IFFEs as namespaces: Because of JavaScript lexical rules, variables declared within a function are not visible outside the function, so we can use an IIFE to define a temporary namespace to work with variables that won't pollute the global namespace, or in the case we are not sure the variables are going to conflict with other possible variables in the program, including the function's name:
 

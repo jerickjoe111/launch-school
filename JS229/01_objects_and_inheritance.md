@@ -38,7 +38,7 @@ Object.prototype.__proto__ === `null` // => true
 
 [I will use the word _class_ to represent the prototype-based model of relationships among object despite the fact JavaScript has no "true" classes. I prefer to use this word, and not _type_, as the Launch School material does, to avoid the confusion with the concept that defines the _types_ of values in JavaScript (type as in strings, booleans, objects, etc.)]
 
-JavaScript does not have _classes_ in the classic sense: it uses a prototype-based model of inheritance to represent relationships between objects akin to true classes in other languages, like Ruby. This model is sometimes called _Prototypal Inheritance_. For example, if two objects have the same object prototype (in other words, inherit properties from the same prototype object), we could say that those objects are _instances_ of the same _class_.
+JavaScript does not have _classes_ in the classic sense: it uses a prototype-based model of inheritance to represent relationships between objects akin to true classes in other languages, like Ruby. This model is sometimes called _Prototypal Inheritance_. For example, if two objects have the same object prototype (in other words, they inherit properties from the same prototype object), we could say that those objects are _instances_ of the same _class_.
 
 In turn, a prototype object can have its own prototype too. Most objects inherit ultimately from the basic `Object.prototype` object; for example, if we create a `Date` object, that newly created `Date` object will inherit from both the `Date.prototype` and the `Object.prototype` prototype objects. This creates a linked series of prototype objects called _the prototype chain_. This way, we can share behaviors among all instances of a _class_, delegating data and behaviors to the prototype, instead of having to define methods and properties in each object separately, and implement a system of object specialization and sub-specialization.
 
@@ -68,7 +68,6 @@ This algorithm forms a chain that works as a linked list from which properties a
 
 ```js
 function CustomObject() {
-
 }
 
 let c = new CustomObject;
@@ -76,7 +75,7 @@ c.hasOwnProperty('hasOwnProperty'); // => false
 CustomObject.prototype.hasOwnProperty('hasOwnProperty') // => false
 Object.prototype.hasOwnProperty('hasOwnProperty') // => true
 // our CustomObject instance inherits this property not from his parent, 
-// CustomObject.prototype, but the prototype of the protype, Object.prototype
+// CustomObject.prototype, but from the prototype of the protype, Object.prototype
 ```
 
 ### Property assignment
@@ -103,8 +102,7 @@ CustomObject.prototype.hasOwnProperty = function() {
 
 let c = new CustomObject;
 c.hasOwnProperty(); // => property overridden!
-// this new property overrides the original property inherited from 
-// Object.prototype.hasOwnProperty
+// this new property overrides the original property inherited from Object.prototype
 ```
 
 ## Constructor functions
@@ -166,7 +164,7 @@ objectA.__proto__ === objectB.__proto__; // => true. They share the same object 
 // They belong to the same class, but were created by different constructors.
 ```
 
-Nevertheless, we adopt the constructor function's name as the name of the _class_: the constructor `Object` creates Object objects, the `Array` constructor creates Array objects, and so on.
+Nevertheless, we adopt the constructor function's name as the name of the _class_: the constructor `Object` creates `Object` objects, the `Array` constructor creates `Array` objects, and so on.
 
 ### The `constructor` property of objects
 
@@ -176,7 +174,7 @@ By default, the value of the `prototype` property in a constructor function is a
 Object === Object.prototype.constructor; // => true
 ```
 
-The reason for this is that, because the constructor works as the public identity of a _class_, it is useful for any objects to inherit a property referring to their own constructors. We can use this property to get the _class_ of an object:
+The reason for this is that, because the constructor works as the public identity of a _class_, it is useful for any object to inherit a property that refers to their own constructors. We can use this property to get the _class_ of an object:
 
 ```js
 (new Object).constructor === Object; // => true
