@@ -1,5 +1,12 @@
 # Scope and Closures
 
+1. [Scope Review](#scope-review)
+2. [Higher-order Functions](#higher-order-functions)
+3. [Closures and Private Data](#closures-and-private-data)
+4. [Garbage Collection](#garbage-collection)
+5. [Partial Function Application](#partial-function-application)
+6. [Immediately Invoked Function Expressions](#immediately-invoked-function-expressions)
+
 ## Scope Review
 
 The scope of a variable is the region of your program source code in which it is defined (reachable). Variables and constants declared with `let` and `const` are block scoped. This means that they are only defined within the block of code in which the `let` or `const` statements (their declarations) appears (and thus in all subsequent nested blocks within that block).

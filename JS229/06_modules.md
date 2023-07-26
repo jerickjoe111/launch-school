@@ -1,5 +1,9 @@
 # Modules
 
+1. [Why modules?](#why-modules)
+2. [Modules in Node](#modules-in-node)
+3. [ES6 Modules](#es6-modules-the-official-javascript-modules)
+
 ## Why modules ?
 
 Although this is not a problem for small, self-contained programs, actual, real-world programs tend to increase in size and complexity, which makes them harder to understand and to work with. In consequence, large single-file programs become problematic: besides the inconvenience of the file navigation itself, the risk of breaking the code with just a little change in it grows almost exponentially, and more even so when different team members are working on the same program. It becomes natural to split a program into as many files as needed: This is when program modularization comes into play.
@@ -18,13 +22,13 @@ This system involves a closure-based modularity: Node modules export their publi
 
 With ES6 (2016), however, JavaScript finally supported real modularization as a core feature of this language, adding the `import` and the `export` keywords. As a result, Node was put in the position of having to support two module systems, not entirely compatible: its own system ( `require()`-based Node Modules) and the official JavaScript system, what we call now _ES6 modules_. Node 13 (2019) added full support for ES6 modules, but, to this date, the vast majority of Node applications still use Node modules.
 
-## CommonJS modules
+### CommonJS modules
 
 Node calls the `require()`-based modules _CommonJS modules_. 
 
 We can access the module via the `module` variable.
 
-### Exporting data
+#### Exporting data
 
 We have to first create a `.js` file with the modular code, and then we can either add the values we want to export as properties of the `module.exports` object, or replace this object entirely:
 
@@ -41,7 +45,7 @@ module.exports.variable = someVariableToExport; // add a property
 module.exports = someObjectToExport; // replace the object with another value
 ```
 
-### Importing the data
+#### Importing the data
 
 We can import local files by providing the path to it, or just the package name if we installed it with the NPM manager.
 

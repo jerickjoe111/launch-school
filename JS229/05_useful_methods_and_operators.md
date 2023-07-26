@@ -1,5 +1,17 @@
 # Useful Operators and Methods
 
+1. [`typeof`](#typeof)
+2. [`instanceof`](#instanceof)
+3. [`Object.prototype.isPrototypeOf()`](#objectprototypeisprototypeof)
+4. [`Object.prototype.hasOwnProperty()`](#objectprototypehasownproperty)
+5. [`Object.getPrototypeOf()`](#objectgetprototypeof)
+6. [`Object.setPrototypeOf()`](#objectsetprototypeof)
+7. [`Object.create()`](#objectcreate)
+8. [`Object.defineProperties()`](#objectdefineproperties)
+9. [`Object.getOwnPropertyNames()`](#objectgetownpropertynames)
+10. [`Object.assign()`](#objectassign)
+11. [`Object.freeze()`](#objectassign)
+
 ## Operators
 
 ### `typeof`

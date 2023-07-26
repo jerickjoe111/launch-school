@@ -1,5 +1,12 @@
 # Object creation patterns
 
+1. [Factory Functions](#factory-functions)
+2. [Constructor Pattern](#constructor-pattern)
+3. [Prototype Pattern](#the-prototype-pattern)
+4. [Pseudo-classical Pattern](#pseudo-classical-pattern)
+5. [OLOO](#oloo)
+6. [`class` syntax](#the-class-syntax)
+
 There are four main design patterns: factory functions, pseudo-classical pattern, OLOO, and the `class` syntax.
 
 ## Factory Functions

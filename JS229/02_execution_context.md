@@ -1,5 +1,12 @@
 # Determining and Setting Function Execution Context
 
+1. [The Global Object](#the-global-object)
+2. [Global Variables and the Global Object](#global-variables-and-the-global-object)
+3. [Variables in Node and other non-browser JavaScript](#variables-in-node-and-other-non-browser-javascript)
+4. [`this` and the execution context](#this-and-the-execution-context)
+5. [Dealing with context loss](#dealing-with-context-loss)
+6. [Lexical Scope](#lexical-scope)
+
 ## The Global Object
 
 Before the program's code is executed, the JavaScript interpreter creates a regular object - the _global object_ - available throughout the program. This object will be given a series of properties that will define the globally available identifiers, including:
