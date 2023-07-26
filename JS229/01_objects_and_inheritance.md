@@ -1,5 +1,13 @@
 # Objects
 
+1. [Why OOP?](#why-oop)
+2. [What are objects?](#what-are-objects)
+3. [Object prototypes](#object-prototypes)
+4. [JavaScript inheritance model](#javascript-inheritance-model)
+5. [Property access and assignment in the prototype chain](#property-access-and-assignment-in-the-prototype-chain)
+6. [Constructor functions](#constructor-functions)
+7. [Object creation](#object-creation)
+
 ## Why OOP?
 
 Object-Oriented Programming is a paradigm that organizes a program in classes and instances of that classes. Each instance inherits behaviors and encapsulates a state, and the programmer orchestrates the ensemble of actors in the program, objects, to interact with each other in order to achieve the desired results. The classic four core principles of OOP are: abstraction, encapsulation, polymorphism, and inheritance.
@@ -34,7 +42,7 @@ Every object has a hidden special property called `[[Prototype]]` that refers to
 Object.prototype.__proto__ === `null` // => true
 ```
 
-## JavaScript model of inheritance
+## JavaScript inheritance model
 
 [I will use the word _class_ to represent the prototype-based model of relationships among object despite the fact JavaScript has no "true" classes. I prefer to use this word, and not _type_, as the Launch School material does, to avoid the confusion with the concept that defines the _types_ of values in JavaScript (type as in strings, booleans, objects, etc.)]
 

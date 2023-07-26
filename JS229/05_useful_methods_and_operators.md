@@ -71,7 +71,7 @@ With this method we can add properties to objects specifying its attributes. The
 ```js
 let person = {
   age: 36,
-}
+};
 
 Object.defineProperties(person, {
   name: {
@@ -79,7 +79,7 @@ Object.defineProperties(person, {
     writable: false,
     enumerable: false,
   }
-})
+});
 ```
 
 ### `Object.getOwnPropertyNames()`
