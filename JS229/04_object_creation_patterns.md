@@ -118,21 +118,30 @@ SubClass.prototype.constructor = SubClass;
 
 ### How to create a private state when using the pseudo-classical approach
 
-We can add the private state as variables declared within the constructor, and then initialize the getters/setters methods for those private variables, besides the public properties, if any:
+We can establish a private state for instances as variables declared within the constructor, to then define the getters/setters methods for those private variables within the constructor as well:
 
 ```js
-function Constructor() {
-  let privateVariable = 1;
+function myClass() {
+  let privateVariable = 'private';
+  this.publicVariable = 'public';
+  this.changePrivate = function() {
+    privateVariable = 'CHANGED!!!';
+  };
   this.accessPrivate = function() {
     return privateVariable;
-  }
-  this.property = 1;
+  };
 }
 
-let a = new Constructor;
+let a = new Pair;
 a.privateVariable; // => undefined
-a.accessPrivate(); // => 1
+a.accessPrivate(); // => 'private'
+let b = new Pair;
+a.changePrivate(); 
+a.accessPrivate(); // => 'CHANGED!!!'
+b.accessPrivate(); // => 'private'
 ```
+
+The main disadvantage of this approach is that every instance will hold an independent copy of each method defined this way: we are not defining methods to be inherited from their prototypes, but assigning new own methods each time we create an instance. This can be problematic with great amounts of instances, each one holding their own copies of the getters/setters for private variables. 
 
 ## OLOO 
 
@@ -156,6 +165,7 @@ const Pair = {
 
 let p = Object.create(Pair).init(1, 2);
 Pair.isPrototypeOf(p); // => true
+p.logNumbers(); // => logs 1 2
 ```
 
 Note that the `init` methods is necessary only as a way to initialize the newly created object's state with specific values. We can leave it uninitialized, or we could add default values.

@@ -48,7 +48,15 @@ Object.prototype.__proto__ === `null` // => true
 
 JavaScript does not have _classes_ in the classic sense: it uses a prototype-based model of inheritance to represent relationships between objects akin to true classes in other languages, like Ruby. This model is sometimes called _Prototypal Inheritance_. For example, if two objects have the same object prototype (in other words, they inherit properties from the same prototype object), we could say that those objects are _instances_ of the same _class_.
 
-In turn, a prototype object can have its own prototype too. Most objects inherit ultimately from the basic `Object.prototype` object; for example, if we create a `Date` object, that newly created `Date` object will inherit from both the `Date.prototype` and the `Object.prototype` prototype objects. This creates a linked series of prototype objects called _the prototype chain_. This way, we can share behaviors among all instances of a _class_, delegating data and behaviors to the prototype, instead of having to define methods and properties in each object separately, and implement a system of object specialization and sub-specialization.
+In turn, a prototype object can have its own prototype too. Most objects inherit ultimately from the basic `Object.prototype` object; for example, if we create a `Date` object, that newly created `Date` object will inherit from both the `Date.prototype` and the `Object.prototype` prototype objects. This creates a linked series of prototype objects called _the prototype chain_: we can share behaviors among all instances of a _class_ by _delegating_ behavior to the prototype, instead of having to define methods and properties in each object separately.
+
+CARE !!!!
+
+> This prototypal inheritance model is sometimes called _behavior delegation_: from a top down/design perspective, the objects down the prototype chain _inherit_ the properties from the objects above; from the bottom up, we can talk about the objects on the bottom _delegating_ property queries to the prototype objects above them.
+
+So, in JavaScript context, we can talk about _objects delegating behavior to their respective prototypes_ or _object 'inheriting' behavior from their respective prototypes_: both are referring to the same phenomena from different perspectives.
+
+This model also allows us to implement a system of object specialization and sub-specialization.
 
 ```js
 function NewObject() {};
@@ -95,7 +103,9 @@ In the case of property assignment, JavaScript examines the prototype chain only
 
 There are some important caveats: if `object` has a `y` _inherited property_, this inherited `y` property will be _hidden_ by the newly created own property of the same name. When this happens, we say that the property _overrides_ an inherited property. It's important to note that the assignment will always create own properties on `object`, _never modifying the prototype objects up in the prototype chain_.
 
-This prototypal inheritance model is sometimes called _behavior delegation_: from a top down/design perspective, the objects down the prototype chain _inherit_ the properties from the objects above; from the bottom up, we can talk about the objects on the bottom _delegating_ property queries to the prototype objects above them.
+CARE !!!!
+
+> This prototypal inheritance model is sometimes called _behavior delegation_: from a top down/design perspective, the objects down the prototype chain _inherit_ the properties from the objects above; from the bottom up, we can talk about the objects on the bottom _delegating_ property queries to the prototype objects above them.
 
 From this fact we conclude that, in JavaScript, inheritance occurs when querying properties, but not when we set them: this is a powerful JavaScript feature that allows us to achieve polymorphism, a key characteristic of object-oriented design.
 
