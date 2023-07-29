@@ -185,10 +185,18 @@ sayName.call(new Object, 1, 2, 3); // => Hi, I'm [object Object]
                                    // => And these are my arguments: 1,2,3
 ```
 
-We can use the `apply` method to pass an arbitrary number of arguments to a function without the use of the spread `...` operator, for any reason:
+We can use the `call` method to pass an arbitrary number of arguments:
+
+```js
+let biggestNumber = Math.max.call(Math, 1, 2, 3);
+biggestNumber // => 3
+```
+
+Or we can just pass a single array:
 
 ```js
 let biggestNumber = Math.max.apply(Math, [1, 2, 3]);
+biggestNumber // => 3
 ```
 
 #### `bind()`
@@ -205,7 +213,7 @@ let boundFunc = func.bind({x: 1}, 2); // Bind the literal object and y to a new 
 boundFunc(3);     // => 6: this.x is set to 1, y is to 2 and z is 3
 ```
   
-It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still have the context set by `bind()`, and these methods will not work.
+It's important to note that if we try to use `Function.prototype.call()` or `Function.prototype.apply()` on the new function returned by `bind()`, it will still manifest the context set by `bind()`, and these methods will not work as intended.
 
 ```js
 function sayName(...args) {
@@ -254,10 +262,10 @@ outsideWho(); // => Hi, I'm a undefined
 outsideWho.call(myObject); // => Hi, I'm a CustomObject
 ```
 
-- If the object is not in scope, we could alter the code in some way that we call the method from outside the parent object from within an intermediary or receiving function that defines an extra parameter, passing the intended object as the context.
+- If the object is not in scope at the time of invocation, we could alter the code in some way so that the intermediary function accepts a `context` parameter, passing the intended object as the context.
 
 ```js
-function whoAmIIntermediary(func) {
+function whoAmICaller(func) {
   func(); // by this time, `this` does not refer to the original containing object
 }
 
@@ -269,16 +277,16 @@ function whoAmIIntermediary(func) {
     },
   };
 
-  whoAmIIntermediary(customObject.sayWho);
+  whoAmICaller(customObject.sayWho);
 })() // => Hi, I'm a undefined
 ```
 
 ```js
-function whoAmIIntermediary(func, context) {
-  func.call(context);  // we can alter the code in some way
+function whoAmICaller(func, context) {
+  func.call(context);  // !
 }
 
-(() => {
+(function() {
   let customObject = {
     type: 'customObject', 
     sayWho() {
@@ -286,7 +294,7 @@ function whoAmIIntermediary(func, context) {
     },
   };
 
-  whoAmIIntermediary(customObject.sayWho, customObject); // !
+  whoAmICaller(customObject.sayWho, customObject); // !
 })() // => Hi, I'm a customObject
 ```
 
@@ -297,7 +305,7 @@ function whoAmI(func) {
   func(); // we didn't alter this code
 }
 
-(() => {
+(function() {
   let customObject = {
     class_: 'customObject', 
     sayWho() {
@@ -306,14 +314,14 @@ function whoAmI(func) {
   };
 
   whoAmI(customObject.sayWho.bind(customObject)); // !
-})()
+})() // => Hi, I'm a customObject
 ```
 
 ### Internal Function Losing Method Context
 
 Within methods, the context does not propagate into nested functions: when we refer to `this` within a nested function inside a method, and we call that nested function inside the method, `this` does not refer to the parent object, as it would be expected. Instead, `this` refers to the global object in non-strict mode, and to `undefined` in strict mode.
 
- There are four basic solutions to this problem:
+There are four basic solutions to this problem:
 
 1. Preserve Context with a Local Variable:
 
@@ -344,7 +352,7 @@ ownerObject.method()
 let ownerObject = { 
   method() {        
     function nestedFunction() {    
-      return this === ownerObject;   // => true
+      return this === ownerObject;
     }
 
     this === ownerObject;   // => true
@@ -358,7 +366,9 @@ ownerObject.method()
 ```js
 let ownerObject = {
   method() {
-    return ['a'].map(function() { return this })[0];
+    return ['a'].map(function() { 
+      return this 
+    })[0];
   }
 }
 ownerObject.method() === global; // => true;
@@ -367,7 +377,9 @@ ownerObject.method() === global; // => true;
 ```js
 let ownerObject = {
   method() {
-    return ['a'].map(function() { return this }, this)[0];
+    return ['a'].map(function() { 
+      return this 
+    }, this)[0]; // note that we are passing a second argument, this
   }
 }
 ownerObject.method() === ownerObject; // => true
@@ -403,7 +415,7 @@ let ownerObject = {
   method() {        
     this === ownerObject   // => true
     
-    (() => this === ownerObject)(); // => true
+    return (() => this === ownerObject)(); // => true
   }
 };
 ownerObject.method()
@@ -416,10 +428,10 @@ Functions passed as arguments within methods lose their context as well. There a
 ```js
 let ownerObject = {
   method() {
-    return [1].map(function(element) { return this});
+    return [1].map(function(element) { return this });
   }
 }
-ownerObject.method()[0]; // => returns the global object
+ownerObject.method()[0] === globalThis; // => true
 ```
 
 1. Preserve Context with a Local Variable:
@@ -430,7 +442,7 @@ ownerObject.method()[0]; // => returns the global object
 let ownerObject = {
   method() {
     let self = this;
-    return [1].map(function(element) { return self});
+    return [1].map(function(element) { return self });
   }
 }
 ownerObject.method()[0] === ownerObject; // => true
@@ -485,3 +497,46 @@ ownerObject.method()[0] === ownerObject; // => true
 This means that the program's textual (lexical) structure determines the variable's scope. In other words: the code itself defines the scope; a scope is created by a function even if the function never gets executed and has no set of own variables. The lexical scoping rules also have some important implications relative to closures.
 
 Lexical scoping rules imply that functions are executed using the scope _in effect when they were defined, not the scope in which they are executed_. This is implemented by making the internal state of a function to contain, not only its code body, but also a reference to the scope in which the function's definition appears. This combination of the function object plus scope (the set of variable bindings, its context) is called a closure. In consequence, all functions are technically closures in JavaScript (although, because most functions are called in the same scope in which they are defined, it doesn't matter that they are, in fact, closures)
+
+```js
+let x = 1;
+
+function someFunction() {
+  function otherFunction() {
+    return x;
+  }
+
+  return otherFunction();
+}
+
+someFunction(); // => 1;
+```
+
+```js
+function someFunction() {
+  function otherFunction() {
+    let x = 1 ;
+  }
+
+  return x;
+}
+
+someFunction(); // => throws a RefernceError: x is not in scope
+```
+
+Closures in action:
+
+```js
+function someFunction() {
+  let y = 1
+  function otherFunction() {
+    return [y, 2, 3];
+  }
+
+  return otherFunction;
+}
+
+someFunction()(); // => [1, 2, 3]
+// We still have access to y because the returning `otherFunction`
+// took it with it in its closure.
+```

@@ -110,6 +110,19 @@ On the heap is stored everything that is not on the stack, for example, objects 
 
 A possible rudimentary approach to implement this system would be to use a reference counting system, to then deallocate values with 0 references; JavaScript engines use a _Mark and Sweep algorithm_ that avoids reference cycle problems (when values reference each other, thus not having 0 references), but can introduce other problems such as memory fragmentation.
 
+```js
+function someFunction() {
+  let y = { property: 'x' };
+  return function() {
+    return [y];
+  }
+}
+
+let returnedFunction = someFunction();
+// Even if y is not in scope, the value won't get garbage-collected
+// until the program finishes or returnedFunction is dereferenced:
+// it still contains a reference to the object y in its closure.
+```
 
 ## Partial Function Application
 
@@ -167,6 +180,8 @@ square(3) // => 9
 
 Immediately Invoked Function Expressions (IIFE) are function expressions invoked at the same time that they are defined. This is not possible with function declarations (a `SyntaxError` will be thrown). As with any function expression, IIFEs are not hoisted, and their name is optional (name is useful only for self-reference within the function- i.e.: recursion).  If the function expression occurs at the beginning of a line, it must be enclosed in parentheses; and an IIFE has always the argument list, empty or with arguments, at the end, to indicate that we are actually invoking it.
 
+One important advantage of IFFEs is that by using them we still can enjoy the functionality of a function, but without polluting the global namespace with variables.
+
 We can use IFFEs to implement two main powerful JavaScript features:
 
 - IFFEs as namespaces: Because of JavaScript lexical rules, variables declared within a function are not visible outside the function, so we can use an IIFE to define a temporary namespace to work with variables that won't pollute the global namespace, or in the case we are not sure the variables are going to conflict with other possible variables in the program, including the function's name:
@@ -175,7 +190,7 @@ We can use IFFEs to implement two main powerful JavaScript features:
 // some code here
 
 (function() {
-  // the code here won't conflict with any other code outside this function
+  // identifiers' names here won't conflict with any other code outside this function
 })()
 ```
 
@@ -220,7 +235,3 @@ list.logVariable() // => logs 1
 list.privateVariable // => undefined
 // the privateVariable remains private and innaccessible
 ```
-
-
-
-

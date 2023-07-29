@@ -272,6 +272,10 @@ What happens under the hood is that the `class` declaration creates a new variab
 
 Another difference is that the whole body within the class declaration is in strict mode, even without the `"use strict"` _pragma_; also, class declarations are not hoisted: we can't instantiate classes before we declare them.
 
+Also, the prototype object on a class can't be reassigned. In non-strict mode, the reassignment fails without notice (we can't use `Object.setPrototype` either to do this).  In strict mode, attempting to reassign the prototype object throws an exception.
+
+For `class` instantiation, we always have to use `new`.
+
 ### How to implement subclasses with the `class` syntax.
 
 > In ES6 and later, you can create a subclass simply by adding a `extends` clause to a class declaration, and you can do this even for built-in classes.
@@ -306,6 +310,33 @@ class SubClass {
     super.superClassMethod(...args)
   }
 }
+```
+
+The first use case of `super` is the equivalent of the pseudo-classical workaround:
+
+```js
+function SubClass(property1, property2) {
+  SuperClass.call(this, property1);
+  this.property2 = property2;
+}
+```
+
+We can use `class` expressions and assign them to variables, as in:
+
+```js
+let Pair = class {
+  constructor(numberA, numberB) {
+    this.a = numberA;
+    this.b = numberB;
+  }
+
+  logNumbers() {
+    console.log(this.a, this.b);
+  }
+}
+
+let a = new Pair(1, 2);
+a.logNumbers(); // logs 1, 2
 ```
 
 ### Private class features
