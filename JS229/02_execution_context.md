@@ -9,14 +9,15 @@
 
 ## The Global Object
 
-Before the program's code is executed, the JavaScript interpreter creates a regular object - the _global object_ - available throughout the program. This object will be given a series of properties that will define the globally available identifiers, including:
+Before the program's code is executed, the JavaScript engine creates a regular object - the _global object_ - available throughout the program. This object will be given a series of properties that will define the globally available identifiers, including:
 
 - global _constants_ (like `undefined`, `Infinity` or `NaN`),
 - global _functions_ (like `isNaN()` or `parseInt()`),
 - built-in _constructor functions_ (like `Date()`, `RegExp()` or `Set()`)
 - global _objects_ (like `Math` or `JSON`)
 
-In the web browser, the Window object serves as the global object, that, besides the code JavaScript properties, includes some browser and client-side specific properties. In Node and other non-browser JavaScript contexts, the global object is `global`
+
+In the web browser, a Window object serves as the global object. This object, besides the core JavaScript properties, includes some browser and client-side specific properties. In Node and other non-browser JavaScript contexts, the global object is `global`
 
 We can access this object by different ways:
 
@@ -25,7 +26,7 @@ We can access this object by different ways:
 - In Node, the global object has also a self-referential `global` property we can use to access it.
 - ES2020 defined the standard way to refer to this global object in any context: `globalThis`.
 
-It is important to note that, in strict mode, the global object does not work as the implicit context, and the keyword `this` is set to `undefined`. As a consequence, we can't access undeclared variables (this is a security measure against possible misspellings).
+Additionally, in non-strict mode, this global object works as the implicit execution context. In strict mode, the global object is still in play, but it is not used as an implicit context for top-level expressions, and the keyword `this` is set to `undefined`. As a consequence, we can't initialize undeclared variables (this is a security measure against possible misspellings), and JavaScript throws an exception.
 
 ### Global Variables and the Global Object
 
