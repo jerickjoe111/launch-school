@@ -17,7 +17,7 @@
 - [Partial Function Application]()
 - [Protoype Objects]()
 - [Constructor Functions]()
-- [Behavior Delegation]()
+- [Behavior Delegation](#behavior-delegation)
 - [The Pseudo-Classical Pattern](#the-pseudo-classical-pattern)
 - [The OLOO Pattern](#the-oloo-pattern)
 - [The `class` syntax](#the-class-syntax)
@@ -37,7 +37,19 @@ this === globalThis; // => false
 this === undefined; /// => true
 ```
 
+## Behavior delegation
 
+```js
+function NewObject() {
+
+};
+NewObject.prototype.newMethod = function() { console.log(`Inherited method!`)};
+
+let a = new NewObject;
+a.newMethod(); // => logs 'Inherited method'!
+a.hasOwnProperty('newMethod') // => false. The method is inherited from NewObject.prototype.
+NewObject.prototype.hasOwnProperty('newMethod'); // => true
+```
 
 
 

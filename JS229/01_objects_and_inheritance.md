@@ -59,12 +59,15 @@ So, in JavaScript context, we can talk about _objects delegating behavior to the
 This model also allows us to implement a system of object specialization and sub-specialization.
 
 ```js
-function NewObject() {};
+function NewObject() {
+
+};
 NewObject.prototype.newMethod = function() { console.log(`Inherited method!`)};
 
 let a = new NewObject;
 a.newMethod(); // => logs 'Inherited method'!
 a.hasOwnProperty('newMethod') // => false. The method is inherited from NewObject.prototype.
+NewObject.prototype.hasOwnProperty('newMethod'); // => true
 ```
 
 ## Property access and assignment in the prototype chain
