@@ -131,19 +131,3 @@
   })
   globalThis._ = _;
 })()
-
-// _ is a function that returns an collection with methods 
-
-// we can add properties to the _ function as any other collection
-
-// two modes to use this library:
-
-/*
- - invoking the _ function, passing a collection as an argument:
-
-      _(collection).method();
-
- - invoking a method of the function itself:
-
-      _.method(arguments);
-*/
