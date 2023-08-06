@@ -11,4 +11,4 @@ package.json
 .eslintrc.js
 node_modules
 ASSESSMENT.md
-JS229/project_assessment/
+JS229/project_assessment/*
