@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>DOM Exercise</title>
+    <meta charset="UTF-8" />
+    <style>
+      .heading { text-align: center; }
+      ul { list-style: none; }
+      .bulleted { list-style: disc; }
+      .hidden { display: none; }
+      #notice {
+        padding: 15px;
+        color: #a2a299;
+        background: #f0f0aa;
+      }
+      body#styled {
+        padding: 25px 0;
+        margin: 0;
+        font: normal 16px Helvetica, Arial, sans-serif;
+        color: #16997c;
+        background: #5bccb3;
+      }
+      body#styled main {
+        display: block;
+        max-width: 550px;
+        padding: 20px;
+        margin: 0 auto;
+        background: #ffffff;
+        box-sizing: border-box;
+      }
+      body#styled h1 {
+        text-align: center;
+        color: #CC183E;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 id="primary_heading">I should have a class of heading</h1>
+      <ul id="list">
+        <li>This list</li>
+        <li>Needs a class</li>
+        <li>Of bulleted</li>
+      </ul>
+      <p>This <a href="#" id="toggle">link</a> needs a click handler on it. The handler will find the div with id of notice and check its class. If it has a class of hidden, change it to a class of visible. Otherwise, change it to hidden.</p>
+      <div id="notice" class="hidden">
+        <p>Oh no! I'm allergic to the light! Hide me, quick! Click the link above!</p>
+      </div>
+      <p id="multiplication">What's 13 times 9?</p>
+    </main>
+  </body>
+</html>

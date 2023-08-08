@@ -73,7 +73,7 @@ There are two ways we can traverse the Document: as a tree of Element objects (i
 #### As a tree of Element objects
 
 - `parentNode`: it refers to the parent node, which can be an Element or the Document.
-- `children`: it contains to a NodeList with all the immediate Element children.
+- `children`: it refers to a HTMLCollection with all the immediate Element children.
 - `childElementCount`: The number of Element children, equivalent to `children.length`.
 - `firstElementChild`: The first Element child. `null` if the element has no children.
 - `lastElementChild`: The last Element child. `null` if the element has no children.
@@ -85,11 +85,26 @@ We use recursive functions to traverse the tree (as in any general tree data str
 ```js
 function traverse(element, callBack) {
   callBack(element);                        // call function on current element
-  for (let child of element.children) {     // iterate over all the children
+  for (let child of element.children) {     // iterate over all the children Element objects
     traverse(child, callBack);              // recurse on all the subsequent children
   }
 }
 ```
+
+You can use the `data` property to retrieve the textual content of a text node. This property belongs to the `CharacterData` DOM interface. It represents the textual data in the node as a `DOMString` object, which is a String-like object you can treat as a string.
+
+#### `style`
+
+The DOM defines a style property on all Element objects that correspond to the style attribute. Unlike most such properties, however, the
+style property is not a string. Instead, it is a CSSStyleDeclaration object: a parsed representation of the CSS styles that appear in textual form in the style attribute.
+
+We can use the style attribute to alter any CSS property: `h1.style.color = 'red'`
+
+To remove a CSS property, set the property to `null` with the `style` property:  `h1.style.color = null`
+
+When a CSS property's name contains dashes, you must use a camelCased version of the name to access that property: `h1.style.lineHeight = '3em'`
+
+Most applications don't use the style property often; it's easier and more manageable to use classes in your stylesheet to alter the characteristics of your elements. You can add or remove CSS class names to or from any DOM Element.
 
 #### As a tree of nodes
 
@@ -107,6 +122,17 @@ All Node objects are defined with the following properties:
 
 It's important to note that this API is extremely sensitive to variations in the document text. For example, a newline character between the `<html>` and the `<head>` tag can make the document to have 3 direct children, and not the expected 2 (the head and the body of the HTML document).
 
+Tree traversal function for all nodes in the tree:
+
+```js
+function traverse(element, callBack) {
+  callBack(element);                        // call function on current element
+  for (let child of element.childNodes) {     // iterate over all the children Node objects
+    traverse(child, callBack);              // recurse on all the subsequent children
+  }
+}
+```
+
 ### Query or set HTML element attributes
 
 HTML consist of a tag name, a set of key-value pairs called _attributes_, and optional text content for some elements. 
@@ -115,7 +141,6 @@ There are various ways to query or to set attributes for elements:
 
 - Via general methods
 - HTML attributes as element properties
-
 
 #### General methods
 
