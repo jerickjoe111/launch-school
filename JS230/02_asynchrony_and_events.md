@@ -19,6 +19,8 @@ In essence, asynchronous programming in JavaScript is based on _callbacks_, func
     - without `async`/`await` syntax.
     - with `async`/`await` syntax.
 
+(all synchronous code runs before any asynchronous code does) ???? The event loop
+
 ## Callback-based asynchronous programming
 
 ### Timers
@@ -27,7 +29,7 @@ The simplest kind of asynchronous programming can be achieved with the help of f
 
 - `setTimeout()`: this function accepts two arguments: the first one is the callback function, and the second is the amount of time in milliseconds. The callback will be _registered_ synchronously when the line is executed, but the function will be asynchronously invoked when that milliseconds have passed.
 
-- `setInterval()`: this function accepts the same arguments as the previous one, but it will call the first argument on intervals of the specified milliseconds.
+- `setInterval()`: this function accepts the same arguments as the previous one, but it will call the first argument on intervals of the specified milliseconds. This method returns an id that we can pass to a `clearInterval()` function to cancel the interval.
 
 ### Events
 
@@ -144,6 +146,12 @@ In ES2018 a `finally()` method for Promises was introduced, which works similarl
 
 `Promise.resolve()`: It takes a value as its single argument and returns a Promise that will immediately, but asynchronously, be fulfilled to that value.
 `Promise.reject()`: It takes a value as its single argument and returns a Promise that will immediately, but asynchronously, be rejected with that value as the reason.
+
+### Making Promises from scratch:
+
+constructor
+
+> Once a Promise is resolved or rejected, any additional attempts to settle it will fail silently.
 
 ### `async` and `await`
 

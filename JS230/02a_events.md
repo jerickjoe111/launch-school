@@ -144,3 +144,4 @@ The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'`.
 
 Capturing listeners can be very helpful when we want to inspect an event before it is dispatched to its target, for instance when debugging. One common use for event capturing is for handling mouse drags.
 
+[Add table of commonly used events]

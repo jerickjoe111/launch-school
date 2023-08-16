@@ -1,5 +1,7 @@
 # 01 The DOM
 
+[add cheatsheet important methods like `textContent`, etc.]
+
 ## The Document object
 
 The Document object represents the HTML document that is displayed in the browser window or tab.
@@ -168,6 +170,8 @@ For the most part, the attributes have string values. For boolean attributes, th
 Note that the only way to remove an attribute is the general `removeAttribute()` method. 
 
 ##### The `class` attribute
+
+[describe methods]
 
 Element objects define a `classList` property that refers to an iterable array-like object with all the classes defined for that element. This object defines an interface with the following self-explanatory methods:
 
