@@ -155,6 +155,8 @@ constructor
 
 ### `async` and `await`
 
+[complete with MDN]
+
 These new keywords were introduced in ES2017, and their aim is to simplify Promise-based asynchronous code even more. `async` and `await` are basically wrappers for traditional Promises: they hide Promises, so the asynchronous code can look like synchronous code, thus making it much easier to read and understand.
 
 #### `await` expressions

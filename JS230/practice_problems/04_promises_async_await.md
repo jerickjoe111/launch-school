@@ -199,6 +199,7 @@ function test2() {
 test1();
 test2();
 ```
+
 2, 3, 1
 
 the asynchronous code won't be called until all the synchronous code has run.

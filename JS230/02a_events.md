@@ -1,5 +1,7 @@
 # Events
 
+[add the event loop]
+
 Client-side JavaScript programs use an _event-driven programming model_. In this model, the program waits for _events_ to occur - the browser generates an event whenever something interesting happens to the document or browser or some object associated with it, for example, when the DOM finishes loading, or the user clicks on an element or press a keyboard key. We can define in our JavaScript programs what type of events we are interested in, so we can register one or more functions to be called when an event of that particular type occurs. This is not unique in JavaScript: all applications with a graphical interface are designed to work like this.
 
 In client-side JavaScript, events can occur on any HTML element, even on the document itself, or not triggered by user activity, but by the browser itself or the network, indicating some alteration in their state, document loading, elapsed time, errors in JavaScript code, etc. This makes the event-driven model more complex, and it's necessary to give some basic definitions:
