@@ -26,7 +26,7 @@ Extra:
 * **[find()](http://api.jquery.com/find)**: 
 * **[load()](http://api.jquery.com/load)**: 
 * **[empty()](http://api.jquery.com/empty)**: 
-* **[remove()](http://api.jquery.com/remove)**: 
+* **[remove()](http://api.jquery.com/remove)**: Remove the set of matched elements from the DOM.
 
 * **[eq()](http://api.jquery.com/)**: Reduce the set of matched elements to the one at the specified index.
 * **[odd()](http://api.jquery.com/odd)**: 
@@ -34,6 +34,8 @@ Extra:
 * **[last()](http://api.jquery.com/last)**: 
 
 * **[filter()](http://api.jquery.com/filter)**: 
+
+* **[proxy()](http://api.jquery.com/filter)**: Takes a function and returns a new one that will always have a particular context. (like `bind()`)
 
 Pseudo-selectors:
 

@@ -120,7 +120,7 @@ All Node objects are defined with the following properties:
 - `previousSibling`: The Node sibling immediately before the node. `null` if the node has no siblings.
 - `nodeType`: A number that specifies the type of node: `1` for Element, `3` for Text, `8` for Comment, `9` for Document.
 - `nodeValue`: The textual content of a Text or Comment node (`null` for other types).
-- `nodeName`: The HTML tag name of an Element object, in uppercase (`null` for other types).
+- `nodeName`: The HTML tag name of an Element object, in uppercase (`null` for other types of nodes).
 
 It's important to note that this API is extremely sensitive to variations in the document text. For example, a newline character between the `<html>` and the `<head>` tag can make the document to have 3 direct children, and not the expected 2 (the head and the body of the HTML document).
 
@@ -177,10 +177,10 @@ Element objects define a `classList` property that refers to an iterable array-l
 
 (passing the class name as a string)
 
-- `add()`
-- `rename()`
-- `contains()`
-- `toggle()`
+- `add()`:
+- `rename()`:
+- `contains()`:
+- `toggle()`:
 
 ### Query or modify document content
 

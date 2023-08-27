@@ -231,6 +231,10 @@ form.addEventListener('submit', event => {
 });
 ```
 
+#### `URLSearchParams`
+
+[Describe]
+
 #### Handling the response
 
 We can usually check if the request was successful by checking the status code of the response is what we were looking for (for instance, `201`, that means the resource was added successfully on the server), or by adding specific error-handling listeners triggered by `error` events, etc.
