@@ -63,15 +63,15 @@ Both accept multiple CSS selectors as arguments; the element(s) selected will ha
 The DOM also defines other older element selection methods, more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use the return value).
 
 - `getElementById()`: the one that is mostly in use today. The argument is just the ID string, without `#`. Returns a single element.
-- `getElementByName()`: Returns the list of all descendant elements that have an HTML `name` attribute with the passed in string value.
-- `getElementByTagName()`: Returns the list of all descendant elements of the passed in type (i.e.: `h1`, `p`, etc.)
-- `getElementByClassName()`: Returns the list of all descendant elements with a class as the passed in string (without the `.`)
+- `getElementByName()`: Returns the list of all descendant elements that have an HTML `name` attribute with the passed-in string value.
+- `getElementByTagName()`: Returns the list of all descendant elements of the passed-in type (i.e.: `h1`, `p`, etc.)
+- `getElementByClassName()`: Returns the list of all descendant elements with a class as the passed-in string (without the `.`)
 
 #### Shortcut properties
 
 The document defines shortcut properties to access certain kinds of nodes. These properties refer to HTMLCollection objects, which are similar to NodeList objects, but they can be indexed by element ID or name. For example, to access all images there is the `images` property, and the same with `forms` and `links` (`<a>` elements with `href` attributes only).
 
-### Traverse the tree-like structure of the Document
+### 2. Traverse the tree-like structure of the Document
 
 The DOM traversal API does not provide any methods, but a series of properties to refer to the parent, siblings, and children relative to a given node.
 
@@ -139,9 +139,9 @@ It's important to note that this API is extremely sensitive to variations in the
 Tree traversal function for all nodes in the tree:
 
 ```js
-function traverse(element, callBack) {
-  callBack(element);                        // call function on current element
-  for (let child of element.childNodes) {     // iterate over all the children Node objects
+function traverse(node, callBack) {
+  callBack(node);                        // call function on current node
+  for (let child of node.childNodes) {     // iterate over all the children Node objects
     traverse(child, callBack);              // recurse on all the subsequent children
   }
 }
@@ -154,9 +154,9 @@ We can use different techniques to determine a Node's type:
 - `tagname` property
 - `toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyperreference.
 
-### Query or set HTML element attributes
+### 3. Query or set HTML element attributes
 
-HTML consist of a tag name, a set of key-value pairs called _attributes_, and optional text content for some elements. 
+HTML elements consist of a tag name, a set of name-value pairs called _attributes_, and optional text content for some elements. 
 
 There are various ways to query or to set attributes for elements:
 
@@ -167,10 +167,10 @@ There are various ways to query or to set attributes for elements:
 
 The Element class defines general methods:
 
-- `getAttribute()`: retrieves the value of the attribute key passed in as a string, returns `null` if there's no attribute with that name.
-- `setAttribute()`: sets the value of the attribute key passed in as a string.
-- `hasAttribute()`: returns `true` if the element has an attribute with the passed in string as a name, 'false` otherwise.
-- `removeAttribute()`: deletes attribute of the passed in name. This is the only way to delete attributes.
+- `getAttribute()`: retrieves the value of the attribute name passed-in as a string, returns `null` if there's no attribute with that name.
+- `setAttribute()`: sets the value of the attribute name passed-in as a string.
+- `hasAttribute()`: returns `true` if the element has an attribute with the passed-in string as a name, 'false` otherwise.
+- `removeAttribute()`: deletes attribute of the passed-in name. This is the only way to delete attributes.
 
 #### HTML attributes as element properties
 
@@ -178,7 +178,7 @@ It is much easier to work with HTML attributes as element properties: the attrib
 
 - The `Element` class defines properties for the universal HTML attributes such as `id`, `title`, `lang`, and `dir`, and event handlers as `onclick`. 
 
-- Element-specific subtypes define attributes specific for those elements. For example, to query the URL of an image element, we can use the `src` property of the Element object that represents that element. (For some elements, like the `<input>` element, some of their attributes have different property names, for example, the `value` attribute of the `<input>` is mirrored by the JavaScript `defaultValue` property. The JavaScript `value` property contains the user's current input, but changing this value does not affect the `defaultValue` property or the `value` attribute of the element.)
+- Element-specific subtypes define attributes specific for those elements. For example, to query the URL of an image element, we can use the `src` property of the Element object that represents that element.
 
 JavaScript property names are written in `camelCase` if the attribute is more than one word long. `onclick`, among a few others, are an exception.
 
@@ -204,7 +204,7 @@ Instead, Element objects define a `classList` property that refers to an iterabl
 - `length`: it returns the number of classes
 
 
-### Query or modify document content
+### 4. Query or modify document content
 
 The content of an element can be understood as:
 
@@ -229,7 +229,7 @@ There are two read/write properties and one method to interact with the element 
 
 The `textContent` property is defined by the `Node` class, so it works for Text nodes and Element nodes. For Element nodes, it returns all the text in all descendants of the element (without the HTML syntax). Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
 
-### Creating, inserting and deleting nodes.
+### 5. Creating, inserting and deleting nodes.
 
 The `Document` class defines instance methods for creating Element objects.
 
@@ -264,10 +264,9 @@ greetings.after(paragraph, document.createElement('hr'));
 
 Elements can only be inserted at one spot in the document. If an element is already in the document, and you insert it somewhere else, the element will be moved to the new location, not copied.
 
-To make a copy of an element, we can use the `cloneNode()` method, passing `true` as argument to copy all of its content.
+To make a copy of an element, we can use the `cloneNode()` method, passing `true` as argument to copy all of its content. This method returns the copy.
 
 You can remove an Element or Text node from the document by calling its `remove()` method, or you can replace it by calling `replaceWith()` instead. `remove()` takes no arguments; `replaceWith()` takes any number of strings and elements just like `before()` and `after()` do.
-
 
 #### Older generation methods:
 
