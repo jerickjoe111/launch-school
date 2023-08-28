@@ -77,7 +77,6 @@ The DOM traversal API does not provide any methods, but a series of properties t
 
 There are two ways we can traverse the Document: as a tree of Element objects (ignoring non-Element objects), or as a tree of Node objects (including Text and Comment objects). These approaches are different based on the set of properties we use to traverse the tree.
 
-
 #### As a tree of Element objects
 
 - `parentNode`: it refers to the parent node, which can be an Element or the Document.
