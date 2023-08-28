@@ -151,7 +151,7 @@ We can use different techniques to determine a Node's type:
 
 - `Object.getPrototypeOf()`: it returns the prototype of the specified DOM element.
 - `instanceof` operator
-- `tagname` property
+- `tagName` property
 - `toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyperreference.
 
 ### 3. Query or set HTML element attributes
