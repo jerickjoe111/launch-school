@@ -1,7 +1,5 @@
 # 01 The DOM
 
-[add cheatsheet important methods like `textContent`, etc.]
-
 ## The Document object
 
 The Document object represents the HTML document that is displayed in the browser window or tab.
@@ -10,13 +8,21 @@ The Document object represents the HTML document that is displayed in the browse
 
 The Document Object Model (DOM) is the API that works with HTML documents, via the Document object.
 
-HTML documents contain HTML elements nested within one another forming a tree-like structure. 
+HTML documents contain HTML elements nested within one another forming a tree-like structure. If an element that should exist is missing, browsers insert them automatically (_HTML permissiveness_).
 
-The DOM API mirrors the tree structure of an HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. The Document, Element and Text classes are subclasses of the more general Node class, and Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API.
+The DOM API mirrors the tree structure of an HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. The top-most node, the `document` node, represents the whole HTML document (a Document object), and it is the great ancestor of all the other nodes.
+
+Text nodes can be _empty_; this means that they contain only whitespace, and they usually appear from whitespace inserted before or after tags in the HTML document. They are not reflected visually, and, as they are often forgotten, they can be a source of bugs.
+
+The Document, Element and Text classes are subclasses of the more general Node class, and Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments in the HTML document are also part of the DOM as nodes.
 
 There is a JavaScript class corresponding to each HTML (tag) element type, and each occurrence of the tag in a document is represented by an instance of the class. The JavaScript element objects have properties that correspond to the HTML attributes of the tags.
 
 In a tree, a node directly above another node is the _parent_ of that node; the nodes one level directly below another node are the _children_ of that node; nodes at the same level, with the same parent, are _siblings_. The set of nodes any number of levels below another node are the _descendants_ of that node. The parent, grandparent, and all nodes above a node, are the _ancestors_ of that node.
+
+## DOM Levels
+
+DOM levels refer to different W3 specifications and standards that define what DOM API features should be supported by the web browser; as a reference, MDN pages contain detailed tables with this information.
 
 ## The DOM API
 
@@ -44,13 +50,13 @@ There are three ways to select specific elements in the document:
 
 The CSS syntax provides a powerful way to refer to specific elements or sets of elements within a document called _selectors_. This allows us to refer to elements within a document by type, ID, class, attributes, and position within the document.
 
-[selectors cheatsheet]
-
 We have two methods at our disposal: `querySelector()` and `querySelectorAll()`. Both are implemented by the Element class and the Document class. When invoked on an element, they will only return elements that are descendants of that element.
 
 - `querySelector()` accepts a CSS selector as a string, and returns the first matching element, or `null` if there are no matches.
 
 - `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
+
+Both accept multiple CSS selectors as arguments; the element(s) selected will have to match all provided selectors.
 
 #### Other methods
 
@@ -75,12 +81,16 @@ There are two ways we can traverse the Document: as a tree of Element objects (i
 #### As a tree of Element objects
 
 - `parentNode`: it refers to the parent node, which can be an Element or the Document.
+
 - `children`: it refers to a HTMLCollection with all the immediate Element children.
 - `childElementCount`: The number of Element children, equivalent to `children.length`.
 - `firstElementChild`: The first Element child. `null` if the element has no children.
 - `lastElementChild`: The last Element child. `null` if the element has no children.
+
 - `nextElementSibling`: The Element sibling immediately after the element. `null` if the element has no siblings.
 - `previousElementSibling`: The Element sibling immediately before the element.  `null` if the element has no siblings.
+
+- `textContent`: It represents the text content of the node and its descendants. Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
 
 We use recursive functions to traverse the tree (as in any general tree data structure):
 
@@ -113,14 +123,19 @@ Most applications don't use the style property often; it's easier and more manag
 All Node objects are defined with the following properties:
 
 - `parentNode`: it refers to the parent node, which can be an Element or the Document.
+
 - `childNodes`: A read-only NodeList that contains all Node children (Element nodes, Text nodes, etc.)
 - `firstChild`: The first child Node of node, `null` if the node has no children.
 - `lastChild`: The last child Node of node, `null` if the node has no children. 
+
 - `nextSibling`: The Node sibling immediately after the node. `null` if the node has no siblings.
 - `previousSibling`: The Node sibling immediately before the node. `null` if the node has no siblings.
+
 - `nodeType`: A number that specifies the type of node: `1` for Element, `3` for Text, `8` for Comment, `9` for Document.
-- `nodeValue`: The textual content of a Text or Comment node (`null` for other types).
-- `nodeName`: The HTML tag name of an Element object, in uppercase (`null` for other types of nodes).
+- `nodeName`: The HTML tag name of an Element object, in uppercase. Other types of nodes return, i.e.: `#text`, or `#comment` for Text or Comment nodes.
+- `nodeValue`: The textual content of a Text or Comment node (`null` for other types). It can work as a setter too.
+
+- `textContent`: It represents the text content of the node and its descendants. Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
 
 It's important to note that this API is extremely sensitive to variations in the document text. For example, a newline character between the `<html>` and the `<head>` tag can make the document to have 3 direct children, and not the expected 2 (the head and the body of the HTML document).
 
@@ -134,6 +149,13 @@ function traverse(element, callBack) {
   }
 }
 ```
+
+We can use different techniques to determine a Node's type:
+
+- `Object.getPrototypeOf()`: it returns the prototype of the specified DOM element.
+- `instanceof` operator
+- `tagname` property
+- `toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyperreference.
 
 ### Query or set HTML element attributes
 
@@ -171,16 +193,19 @@ Note that the only way to remove an attribute is the general `removeAttribute()`
 
 ##### The `class` attribute
 
-[describe methods]
+The `className` property of Element objects returns a string representing the class or space-separated classes of the current element. It's not very useful for when we need more than one class.
 
-Element objects define a `classList` property that refers to an iterable array-like object with all the classes defined for that element. This object defines an interface with the following self-explanatory methods:
+Instead, Element objects define a `classList` property that refers to an iterable array-like object with all the classes defined for that element. This object defines an interface with the following self-explanatory methods:
 
 (passing the class name as a string)
 
-- `add()`:
-- `rename()`:
-- `contains()`:
-- `toggle()`:
+- `add()`: Adds the token.
+- `remove()`: Removes the existing token
+- `replace()`: Replaces an existing token with a new token
+- `toggle()`: Removes the existing token from the class list, or adds it if it does not exist. 
+- `contains()`: Returns true if the class token exists in the class list.
+- `length`: it returns the number of classes
+
 
 ### Query or modify document content
 
@@ -202,7 +227,6 @@ There are two read/write properties and one method to interact with the element 
     - `'afterbegin'`: right after the enclosing, first tag.
     - `'beforeend'`: right before the enclosing, last tag.
     - `'afterend'`:  right after the enclosing, last tag.
-
 
 #### Element content as plain text
 
@@ -256,7 +280,7 @@ These methods are harder to use, and there is no reason to ever need them:
 | --- | --- |
 | `parent.appendChild(node)` | Append `node` to the end of `parent.childNodes` |
 | `parent.insertBefore(node, targetNode)` | Insert node into `parent.childNodes` before `targetNode` |
-| `parent.replaceChild(node, targetNode) `| Remove `targetNode` from `parent.childNodes` and insert node in its place |
+| `parent.replaceChild(node, targetNode)`| Remove `targetNode` from `parent.childNodes` and insert node in its place |
 
 `document.appendChild` causes an error. Use `document.body.appendChild` instead.
 
@@ -269,7 +293,6 @@ These methods insert a node before, after, or within an Element:
 
 `position` must be one of the following String values:
 
-
 | Position | description |
 | --- | --- |
 | `beforebegin` | Before the element |
@@ -278,7 +301,6 @@ These methods insert a node before, after, or within an Element:
 | `afterend` | After the element |
 
 We also can remove a node from the document with `parent.removeChild(node)`. If we remove a node, it becomes eligible for garbage collection unless we store a reference to it.
-
 
 ## The BOM
 
