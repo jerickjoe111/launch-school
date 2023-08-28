@@ -236,7 +236,7 @@ The `Document` class defines instance methods for creating Element objects.
 
 The `Element` and `Text` classes define instance methods for inserting, deleting, and replacing nodes in the tree.
 
-We can create a new element with the `createElement()` method on a Document object, and add strings of texts or other elements to it on the resulting Element object with the `append()` or `prepend()` methods: (You can create Text nodes explicitly with `document.createTextNode()`, but there is rarely any reason todo so.)
+We can create a new element with the `createElement()` method on a Document object, and add strings of texts or other elements to it on the resulting Element object with the `append()` or `prepend()` methods: (You can create Text nodes explicitly with `document.createTextNode()`, but there is rarely any reason to do so.)
 
 ```js
 let paragraph = document.createElement('p'); // create an empty <p> element
