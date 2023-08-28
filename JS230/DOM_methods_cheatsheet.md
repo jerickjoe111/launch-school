@@ -2,7 +2,7 @@
 
 ## General Overview
 
-1. Selecting Nodes and Elements
+1. [Selecting Nodes and Elements](#selecting-nodes-and-elements)
 
     - CSS selectors
 
@@ -23,7 +23,7 @@
         - `document.getElementByTagName()`
         - `document.getElementByClassName()`
 
-2. Properties used for DOM traversal
+2. [Properties used for DOM traversal](#properties-for-dom-traversal)
 
     - DOM as a tree of Elements
 
@@ -54,7 +54,7 @@
         - `element.nodeName`
         - `element.nodeValue`
 
-3. Getting/Setting Elements HTML Attributes
+3. [Getting/Setting Elements HTML Attributes](#gettingsetting-element-html-attributes)
 
     - General Methods (old school)
 
@@ -83,7 +83,7 @@
             - `input.value`
             - etc.
 
-4. Getting/Setting Document Content
+4. [Getting/Setting Document Content](#gettingsetting-document-content)
 
     - Element Content as HTML
 
@@ -95,7 +95,7 @@
 
         - `textContent`
 
-5. Creating, inserting, deleting nodes
+5. [Creating, inserting, deleting nodes](#creating-inserting-and-deleting-nodes)
 
     - Element creation
 
@@ -121,3 +121,38 @@
 
         - `node.remove()`
         - `node.replaceWith(strings or elements)`
+
+## Selecting Nodes and Elements
+
+### CSS Selector Methods
+
+### Old School Methods
+
+## Properties for DOM Traversal
+
+### DOM as a tree of Elements
+
+### DOM as a tree of Nodes
+
+## Getting/Setting Element HTML Attributes
+
+### Old School General Methods
+
+### Attributes as Element object properties
+
+## Getting/Setting Document Content
+
+### Element content as HTML
+
+### Element content as plain text
+
+## Creating, Inserting and Deleting Nodes
+
+### Element creation
+
+### Element insertion
+
+### Element cloning
+
+### Element deletion
+
