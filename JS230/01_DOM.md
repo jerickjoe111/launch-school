@@ -220,7 +220,7 @@ There are two read/write properties and one method to interact with the element 
 
 - `innerHTML`: it returns the content of the element as a string of HTML. Setting this property invokes the web browser's parser and replaces the element's current content with a parsed representation of the new string. (This is a very efficient operation, unless the `+=` operator for appending content is used.)
 - `outerHTML`: it returns the content of the element as a string of HTML, but this string includes the element itself (the opening and closing tags of the element). Setting the value of this property, the new content replaces _the element itself_. 
-- `insertAdjacentHTML()`: This method accepts two arguments: the first argument is a string that represents the insertion point of the second argument; the second argument is an arbitrary string. The first argument string has to be one of the following:
+- `insertAdjacentHTML()`: This method accepts two arguments: the first argument is a string that represents the insertion point of the second argument; the second argument is an arbitrary string to be parsed as HTML. The first argument string has to be one of the following:
     - `'beforebegin'`: right before the enclosing, first tag. 
     - `'afterbegin'`: right after the enclosing, first tag.
     - `'beforeend'`: right before the enclosing, last tag.
@@ -228,7 +228,7 @@ There are two read/write properties and one method to interact with the element 
 
 #### Element content as plain text
 
-The `textContent` property is defined by the `Node` class, so it works for Text nodes and Element nodes. For Element nodes, it returns all the text in all descendants of the element (without the HTML syntax).
+The `textContent` property is defined by the `Node` class, so it works for Text nodes and Element nodes. For Element nodes, it returns all the text in all descendants of the element (without the HTML syntax). Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
 
 ### Creating, inserting and deleting nodes.
 
