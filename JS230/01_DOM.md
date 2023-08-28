@@ -135,8 +135,6 @@ All Node objects are defined with the following properties:
 - `nodeName`: The HTML tag name of an Element object, in uppercase. Other types of nodes return, i.e.: `#text`, or `#comment` for Text or Comment nodes.
 - `nodeValue`: The textual content of a Text or Comment node (`null` for other types). It can work as a setter too.
 
-- `textContent`: It represents the text content of the node and its descendants. Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
-
 It's important to note that this API is extremely sensitive to variations in the document text. For example, a newline character between the `<html>` and the `<head>` tag can make the document to have 3 direct children, and not the expected 2 (the head and the body of the HTML document).
 
 Tree traversal function for all nodes in the tree:
