@@ -54,9 +54,11 @@ We have two methods at our disposal: `querySelector()` and `querySelectorAll()`.
 
 - `querySelector()` accepts a CSS selector as a string, and returns the first matching element, or `null` if there are no matches.
 
-- `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
+- `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop, and `forEach`. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
 
-Both accept multiple CSS selectors as arguments; the element(s) selected will have to match all provided selectors.
+Both accept multiple CSS selectors as arguments; the element(s) selected will have to match all provided selectors. 
+
+WARNING: pure numeric ids have to be escaped using `CSS.scape(id)`. We can always use `getElementById(id)`.
 
 #### Other methods
 
