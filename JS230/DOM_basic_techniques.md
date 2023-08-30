@@ -16,7 +16,7 @@ function traverse(element, callback) {
 
 ```js
 function siblings(element, callback) {
-  for (let sibling of element?.parentNode.children) {
+  for (let sibling of element?.parentNode?.children) {
     callback(element);
   }
 }

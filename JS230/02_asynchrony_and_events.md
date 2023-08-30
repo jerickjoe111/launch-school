@@ -4,7 +4,7 @@
 
 In a _synchronous_ computer program, the different operations are executed step by step (besides jumps, conditionals, etc.), following the main flow; the program executes some code, waits for the computation to end, and then does another operation with that results, until there are no more operations to be performed. This means that each operation depends on the previous one: the following computation can't be performed if the previous one has finished and yielded its results. We can talk about operations _blocking_ the program in this case.
 
-In most real-world computer programs (and in most real-world JavaScript), however, the execution is _asynchronous_. This means that there are operations performed _independently_ of the main program flow: when an asynchronous part of the program is executed, some operation (a function's invocation, for instance) is _paused_, _left pending_, until some condition is met or some event occurs, _without block the program to wait for results_.
+In most real-world computer programs (and in most real-world JavaScript), however, the execution is _asynchronous_. This means that there are operations performed _independently_ of the main program flow: when an asynchronous part of the program is executed, some operation (a function's invocation, for instance) is _left pending_, until some condition is met or some event occurs, _without blocking the program to wait for the result_.
 
 In essence, asynchronous programming in JavaScript is based on _callbacks_, functions passed to other functions as arguments; when some event is triggered or some condition is met, the other functions invoke (_calls back_) the passed-in function. However, based on how this process is structured, what features of the JavaScript language is supported by, or what syntax is used, we can classify the different models of asynchronous programming by:
 
@@ -19,7 +19,11 @@ In essence, asynchronous programming in JavaScript is based on _callbacks_, func
     - without `async`/`await` syntax.
     - with `async`/`await` syntax.
 
-(all synchronous code runs before any asynchronous code does) ???? The event loop
+It's very important to note that _all synchronous code runs before any asynchronous code does_. This happens because of the way JavaScript handles the synchronous and asynchronous parts in the same program: the event loop.
+
+### The event loop
+
+
 
 ## Callback-based asynchronous programming
 
@@ -61,12 +65,34 @@ request.addEventListener('error', event => {
 
 Promises are a core JavaScript feature released on ES6 designed to simplify asynchronous programming in this language. In essence, Promises are an easier, alternative way to work with callback-based asynchrony that seek to solve two major problems this approach has:
 
-- The first and most obvious problem with pure callbacks is that it is easy ending up with multi-level callbacks, one nested in each other, which makes code difficult to read: Promises re-express this nested callback mess as a more linear _promise chain_ much easier to read and to understand.
-- The other major problem is handling errors. If an asynchronous function throws an exception, there is no way for that exception to propagate back to the initiator function: this approach breaks exception handling. Promises, on the hand, standardize error handling and provide a way for exceptions to propagate through a chain of Promises.
+- The first and most obvious problem with pure callbacks is that it is easy ending up with **multi-level callbacks**, one nested in each other, which makes code difficult to read: Promises re-express this nested callback mess as a more linear _promise chain_ much easier to read and to understand.
+- The other major problem is **handling errors**. If an asynchronous function throws an exception, there is no way for that exception to propagate back to the initiator function: this approach breaks exception handling. Promises, on the hand, standardize error handling and provide a way for exceptions to propagate through a chain of Promises.
 
 A promise is an object that represents the _result_ of an eventual asynchronous computation. That result may or may not be ready at determined time. This is by design: there is no way to synchronously get the value of a promise, the only thing we can expect is to it to invoke some callback function when that value is ready.
 
 It's important to note that Promises represent eventual **single** asynchronous computations, and cannot be used to represent repeated asynchronous computations.
+
+### Promise terminology
+
+There are five technical terms with precise answers whose differences have to be understood in order to really understand Promises. 
+
+- **Fulfilled**: we say that a Promise is fulfilled if the operation associated with it has been completed successfully. For instance, when we call `then()` with two callbacks as arguments, a fulfilled Promise would mean that the _first_ callback has been invoked.
+- **Rejected**: If the operation failed. For instance, when we call `then()` with two callback as arguments, a fulfilled Promise would mean that the _second_ callback has been invoked.
+- **Pending**: The initial state of a Promise; it's neither fulfilled nor rejected.
+- **Settled**: The Promise that it is either fulfilled or rejected, but not pending.
+- **Resolved**: Colloquially used as a synonym of _fulfilled_, but it's not quite the same. A promise can be _resolved_ but still _pending_: a resolved Promise is the Promise that has been bound or 'locked-onto' another Promise. For example, when the potential value of a Promise is another Promise, the first one may be resolved, but it won't be settled until the second Promise is also settled. When this happens, we say that the first Promise has been 'locked-in' to the second Promise, and the fate of the former (first Promise) depends entirely on the other (the second Promise).
+
+```js
+new Promise((outerCallback) => { // First Promise
+  resolveOuter(
+    new Promise((resolveInner) => { // Second Promise
+      setTimeout(resolveInner, 1000);
+    }),
+  );
+});
+```
+
+In this case, the first Promise is immediately _resolved_ because `resolveOuter` has been called synchronously, but, as its value is another Promise (the second Promise), it won't be _fulfilled_ until 1 second later, when the second Promise fulfills.
 
 ### Basic Promise use
 
@@ -86,28 +112,6 @@ fetch(someUrl)
 Another very important point about promises is that, when we write chains of `then()` methods, we are not registering multiple callbacks on a single Promise: each invocation of `then()` returns a new `Promise` object, and that new `Promise` object won't be fulfilled until the function passed to `then()` finishes its execution.
 
 As a convention, we name functions that return Promises with verbs, and we append `then()` to the function directly, instead of storing the Promise in a variable.
-
-### Promise terminology
-
-There are five technical terms with precise answers whose differences have to be understood in order to really understand Promises. 
-
-- **Fulfilled**: we say that a Promise is fulfilled if the operation associated with it has been completed successfully. For instance, when we call `then()` with two callbacks as arguments, a fulfilled Promise would mean that the _first_ callback has been invoked.
-- **Rejected**: If the operation failed. For instance, when we call `then()` with two callback as arguments, a fulfilled Promise would mean that the _second_ callback has been invoked.
-- **Pending**: The initial state of a Promise; it's neither fulfilled nor rejected.
-- **Settled**: The Promise that it is either fulfilled or rejected, but not pending.
-- **Resolved**: Colloquially used as a synonym of _fulfilled_, but it's not quite the same. A promise can be _resolved_ but still _pending_: a resolved Promise is the Promise that has become associated or 'locked-onto' another Promise. For example, when the potential value of a Promise is another Promise, the first one may be resolved, but it won't be settled until the second Promise is settled: the first Promise has been 'locked-in' to the second Promise, and the fate of the former depends now entirely on the other.
-
-```js
-new Promise((outerCallback) => { // First Promise
-  resolveOuter(
-    new Promise((resolveInner) => { // Second Promise
-      setTimeout(resolveInner, 1000);
-    }),
-  );
-});
-```
-
-In this case, the first Promise is immediately _resolved_ because `resolveOuter` has been called synchronously, but, as its value is another Promise (the second Promise), it won't be _fulfilled_ until 1 second later, when the second Promise fulfills.
 
 ### Handling Errors with Promises
 
@@ -140,7 +144,7 @@ In ES2018 a `finally()` method for Promises was introduced, which works similarl
 
 `Promise.all()`: this method takes an array of `Promise` objects as argument and returns another Promise. That Promise will be fulfilled with an array of the fulfillment values of each of the input Promises in the array argument; it will be rejected if any of the input Promises is rejected. The input array can take any kind of value: for non-Promise values, it will be treated as it is the value of an already fulfilled Promise.
 `Promise.allSettled()`: this method takes an array of Promises and returns another Promise. This Promise won't be fulfilled until all the Promises in the input array have settled. The value of this Promise is an array of special objects, one per input Promise, that have three properties: `status`, `value`, and `reason`, all self-explanatory.
-`Promise.race()`: This method takes an array of Promises and returns another Promise. This Promise is fulfilled or rejected when the first of the Promises in the input array is fulfilled or rejected (or the first of non-Promise values).
+`Promise.race()`: This method takes an array of Promises and returns another Promise. This Promise is fulfilled or rejected when the first of the Promises in the input array is fulfilled or rejected (or the first of non-Promise values, as they count as immediately fulfilled).
 
 ### Promises based on synchronous values
 

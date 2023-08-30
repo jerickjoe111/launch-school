@@ -52,7 +52,7 @@ And then we send the request, with an argument in case we want to send data in t
 request.send(data)
 ```
 
-It's important to note here that the `send()` method sends the requests _asynchronously_. This object will generate events during the request-response cycle, indicating different stages in its life cycle; the developer can use these events to set up event listeners.
+It's important to note here that the `send()` method sends the requests _asynchronously_. The XHR object will generate events during the request-response cycle, indicating different stages in its life cycle; the developer can use these events to set up event listeners.
 
 We interact with this API by invoking the methods of the XHR object, accessing or setting its properties, and indirectly with the events associated with this object.
 

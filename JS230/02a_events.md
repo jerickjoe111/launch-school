@@ -102,7 +102,7 @@ Event listeners are passed an `Event` object upon invocation as a single argumen
 
 This object has some general properties, available to every `Event` object, and some type-specific properties.
 
-All `Event` object have:
+All `Event` objects have:
 
 - `type`: The type of event as a string.
 - `target`: The object on which the event _ocurred_.
@@ -119,10 +119,10 @@ Examples of type-specific properties on the `Event` object are, for mouse events
 And, for keyboard-related events:
 
 - `key`: The string value of the pressed key (not supported by old browsers)
-- `shiftKey`: Boolean value that indicates whether the user pressed the shift key
-- `altKey`: Boolean value that indicates whether the user pressed the aly key
-- `ctrlKey`: Boolean value that indicates whether the user pressed the control key
-- `metaKey`: Boolean value that indicates whether the user pressed the command or meta key
+- `shiftKey`: Boolean indicating whether the user pressed the shift key
+- `altKey`: Boolean indicating whether the user pressed the alt key
+- `ctrlKey`: Boolean indicating whether the user pressed the control key
+- `metaKey`: Boolean indicating whether the user pressed the command or meta key
 
 ### Methods
 
@@ -138,12 +138,57 @@ In JavaScript, most events that occur on document elements _propagate_. This mea
 
 1. In the **capturing phase**, the event gets 'dispatched' or 'transmitted' first to the `window` object, then to the `document` object, and then all the way down until reaching the target element. In practice this means that, if any, the capturing listeners (listeners registered with the appropriate _options_ argument) of the `Window` object are invoked first, then the capturing listeners on `document`, then on `body`, and so on all the way down the DOM tree until the capturing listeners of the parent of the event target are called. Capturing listeners on the event target itself, however, are not invoked.
 2. In the **target phase**, non-capturing listeners are invoked on the target object on which the event was fired originally.
-3. The **bubbling phase**. Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
+3. The **bubbling phase**: Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
 
 Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and can become memory-heavy (if we define different functions on each different element).
 
 The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'`. The `'load'` event on document elements bubbles, but it stops at the `Document` object, not propagating into the `window` object.
 
-Capturing listeners can be very helpful when we want to inspect an event before it is dispatched to its target, for instance when debugging. One common use for event capturing is for handling mouse drags.
+Capturing listeners can be very helpful when we want to inspect an event before it is dispatched to its target, for instance when debugging. Other common use for event capturing is for handling mouse drags.
 
 [Add table of commonly used events]
+
+User interface
+
+load
+unload
+error
+resize
+scroll
+
+Focus and blur
+
+focus
+blur
+focus in
+focus out
+
+Mouse events
+
+click
+dbclick
+mousedown
+mouseup
+mouseover
+mouseout
+mousemove
+
+Keyboard events
+input
+keydown
+keyup
+keypress
+
+Form events
+
+submit
+change
+input
+
+HTML5 Events
+
+DOMcontentLoaded
+hashchange
+beforeunload
+
+Mutation events and observers
