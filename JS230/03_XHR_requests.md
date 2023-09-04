@@ -1,25 +1,24 @@
 # 03 HTTP Requests with `XMLHttpRequest`
 
-
 ## How non-AJAX web application work
 
-Classic non-AJAX web applications are entirely based on the HTTP request-response cycle: in order to interact with them, the user must perform an action (click on a link, reload the page, etc.) to which the browser automatically responds by sending a request to a server, receiving back the entire HTML code for the page in the response. Then, the browser parses the received HTML code and renders its content onto the page. For every asset in the page, the browser will also send requests to fetch them from their locations, until no more requests are needed, and the page is fully loaded.
+Classic non-AJAX web applications are entirely based on the HTTP request-response cycle: in order to interact with them, the user must perform an action (click on a link, reload the page, etc.) to which the browser automatically responds by sending a request to a server, receiving back the entire HTML code with the updated data for the page in the response. Then, the browser parses the received HTML code and renders its content onto the page. For every asset in the page, the browser will also send requests to fetch them from their locations, until no more requests are needed, and the page is fully loaded.
 
-This approach has the main problem of having to reload the entire web page just to update a part, or even a little interface component. And, as web applications became more complex, this was a big limiting factor. AJAX is the technique that allows us to work around this limitation.
+This approach has the main problem of having to reload the entire web page just to update a part of it, even a little interface component, which is not very efficient. And, as web applications became more complex, this was a big limiting factor. AJAX is the technique that allows us to work around this limitation.
 
 ## What is AJAX and how AJAX-based web applications work
 
-AJAX stands for Asynchronous JavaScript And XML, and it is one, if not the most, important defining characteristic of modern web applications. It refers to the set of features that let the browser make HTTP requests to fetch data from a server _without having to reload the entire pager_. For example, if we have a widget on a webpage that indicates the to-the-minute updated weather report, the JavaScript script is probably performing requests to a server at short intervals, without us noticing, to update just that little element on the page with the received, updated weather information. And all this is achieved without the hurdle of having to reload the main web page again and again!
+AJAX stands for Asynchronous JavaScript And XML, and it is one, if not the most, important defining characteristic of modern web applications. It refers to the set of features that lets the browser make HTTP requests to fetch data from a server _without having to reload the entire page_. For example, if we have a widget on a webpage that indicates the to-the-minute updated weather report, the JavaScript script is probably performing requests to a server at short intervals, without us noticing, to update just that little element on the page with the received, updated weather information. And all this is achieved without the hurdle of having to reload the main web page again and again!
 
 AJAX presents other useful perks: first, that it allows us to use all HTTP methods besides `GET` and `POST` (`PUT`, `DELETE`, etc.); second, that AJAX gives us the opportunity to fine tune the requests, allowing us to set the headers and data format (in HTML, JSON or XML formats) according to our needs.
 
-However, there is one issue we have to take into account. Because the browser can't make requests by itself, we have to write JavaScript code that handles the AJAX: on one side we have to write the code that initializes the asynchronous requests (typically with the help of event listeners), and, for the other, we also have to write code that handles the response, either by taking its body and updating the page accordingly (inserting HTML code), or ignoring it, for example.
+However, there is one issue we have to take into account. Because the browser can't make requests by itself, we have to write JavaScript code that handles the AJAX: on one side we have to write the code that initializes the asynchronous requests (typically with the help of event listeners), and, for the other, we also have to write code that handles the response, for example, by taking its body and updating the page accordingly (inserting HTML code), or even ignoring it.
 
 Other common examples of AJAX in action are the 'autocomplete' functionality in text fields, in which each key press by the user is roughly equivalent to a _minirequest_ made by the JavaScript code; and also forms: if the user enters invalid information in the inputs, asynchronous requests can be made periodically to save the already valid data, while just updating the fields with invalid inputs with error messages, for example.
 
 ## Single-page web applications
 
-These applications are based on the idea of creating the entire DOM from fetched data in a serialized format using client-side code. The data is normally sent and received in JSON format used to update the page and in client-server interactions, instead of injecting raw HTML code from the responses' body.
+These applications are based on the idea of creating the entire DOM from fetched data in a serialized format using client-side code. The data is normally received in JSON format used to update the page and in client-server interactions, instead of injecting raw HTML code from the responses' body.
 
 ## The `XMLHttpRequest` object ('XHR')
 
@@ -32,6 +31,7 @@ The basic use of the XHR API consists on these three main steps:
 1. Instantiation of the `XMLHttpRequest` class.
 2. Setting the HTTP request (method, host, path, headers...).
 3. Sending the request, with or without data in its body.
+4. Handling the response (usually with the help of event listeners)
 
 We can create a new XHR object by the usual constructor way:
 
@@ -64,7 +64,7 @@ We interact with this API by invoking the methods of the XHR object, accessing o
 | `send(data)` | Sends the request, with an optional `data` in its body |
 | `setRequestHeader(name, value)` | Sets a header with the name of the first argument, to the value of the second |
 | `getRequestHeader(name)` | Gets the response's value for the indicated header |
-| `abort(data)` | Cancels an active request |
+| `abort()` | Cancels an active request |
 
 ### XHR object properties
 
@@ -78,7 +78,7 @@ We interact with this API by invoking the methods of the XHR object, accessing o
 
 ### XHR object events
 
-The life cycle of an XHR object is comprised by different stages: initializing the request, sending the request, waiting for the response, and, hopefully, receiving the response. These beginning and the end of this cycle is marked by the following events associated with the XHR object:
+The life cycle of an XHR object is comprised by different stages: initializing the request, sending the request, waiting for the response, and, hopefully, receiving the response. The beginning and the end of this cycle is marked by the following events associated with the XHR object:
 
 - `loadstart`: This event is fired when the request is sent to the server.
 - `loadend`: This is the last event fired, when all other events have fired.
@@ -96,15 +96,17 @@ Inside a callback passed in to `addEventListener` when adding an event listener,
 
 ## Data serialization
 
-Clients and servers need some standard format that both parts are able to understand and process, in the way that all information is preserved. This is achieved by implementing data structures (_data serialization formats_) that work well representing hierarchical data; these formats structure the data in a form that can be efficiently stored, transferred, and converted back into the original format by the receiver. An example of these formats could be XML, but JSON is the most widely used by far due to its convenient and universal nature.
+Clients and servers need some standard format that both parties are able to understand and process, in a way that all information is preserved. This is achieved by implementing data structures (_data serialization formats_) that work well representing hierarchical data; these formats structure the data in a form that can be efficiently stored, transferred, and converted back into the original format by the receiver. An example of these formats could be XML, but JSON is the most widely used by far due to its convenient and universal nature.
+
+There are three main serialization formats:
 
 ### Query string/URL encoding
 
 This a very basic form of data serialization; it consists of one or more `name=value` pairs delimited by the `&` character. As a _query string_ the list of pairs can be sent via the URL in `GET` requests marked with the `?` character, or in the body of `POST` requests (without `?`). 
 
-In any case, the query string has to be _encoded_ if it includes alphanumeric characters (like white spaces `' '`). Thankfully, JavaScript provides a method for this task: `encodeURIComponent`.
+In any case, the query string has to be _encoded_ if it includes more than alphanumeric characters (including white spaces `' '`). Thankfully, JavaScript provides a method for this task: `encodeURIComponent`.
 
-In `POST` requests, to send data in this format we have to include a header named `Content-Type` with the value `application/x-www-form-urlencoded`.
+In `POST` requests, to send data in this format we have to include a header named `Content-Type` with the value `application/x-www-form-urlencoded`. For this we just have to pass the encoded query string as an argument to `send()`.
 
 ### Multipart Forms
 
@@ -114,7 +116,7 @@ In this format we can send name-value pairs in the body of `POST` requests, with
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywDbHM6i57QWyAWro
 ```
 
-`POST` requests use this format with forms that include file uploads or that use `FormData` objects to fetch data.
+`POST` requests use this format with forms that include file uploads or that use `FormData` objects to send data.
 
 Also, in the body of these types of requests each pair is sent in a specific format that first identifies the pair's name, and then, after a blank line, adds the value. The final boundary delimiter has to include an extra `--` to mark the end of the content.
 
@@ -164,7 +166,7 @@ Accept: */*
 
 ## Basic XHR Techniques
 
-### 01. Load HTML via XHR (request HTML code from store, use response body to update web page)
+### 01. Load HTML via XHR (request HTML piece of code from server, use response body to update web page)
 
 This technique is useful for when we want to fetch some content (like HTML code) from a server and use it to update a web page element by inserting the code directly into the DOM. It's usually accompanied by a combination of different listeners that work together to, for instance, prevent default browser behavior and create custom interactions. 
 
@@ -213,7 +215,7 @@ This technique implies consists of three basic steps:
 2. Send the request.
 3. Handle the response (success/error).
 
-There are three main ways to serialize form data to send to the server via HTTP requests: sending the URL-encoded query string; serialize the form element values manually, and sending them in the body of the request; using the `FormData` API. 
+There are two main ways to serialize form data to send to the server via HTTP requests: serialize the form element values manually, and sending them in the body of the request; using the `FormData` API. 
 
 There is no reason to use the other methods over the `FormData` API: this method is the most convenient, easy to use, and less prone to errors. The only disadvantage of this method is that it only works with form input fields that have a `name` attribute. `FormData` serializes the data into a _multipart_ format (used with file uploads).
 
@@ -222,7 +224,7 @@ This is an example of a custom listener that submits the form data this way:
 ```js
 form.addEventListener('submit', event => {
   event.preventDefault(); // we prevent the browser from submitting the form
-
+  let form = document.querySelector('form')
   let data = new FormData(form); // we convert the form data by passing the element to the constructor
 
   let request = new XMLHttpRequest();
@@ -234,6 +236,21 @@ form.addEventListener('submit', event => {
 #### `URLSearchParams`
 
 [Describe]
+
+The `URLSearchParams` interface defines utility methods to work with the query string of a URL.
+
+An object implementing `URLSearchParams` can directly be used in a `for`...`of` structure to iterate over key/value pairs in the same order as they appear in the query string.
+
+##### Basic use
+
+We can create `URLSearchParams` object passing the query string as an argument:
+
+```js
+const paramsString = "q=URLUtils.searchParams&topic=api";
+const searchParams = new URLSearchParams(paramsString);
+```
+
+This object defines useful properties and methods (`size`, `append()`, `forEach()`, `get()`, `set()`, `has()`...)
 
 #### Handling the response
 
@@ -247,9 +264,22 @@ Steps:
 
 1. We initialize the request.
 2. We set the `responseType` property of the XHR object to the string `json`;
-3. And then, when the response has been received, we can access to the already JSON-parsed data via the `response` property of the XHR object. If the response body couldn't be parsed or other error, the value of this property will be simply `null`
+3. And then, when the response has been received, we can access to the already JSON-parsed data via the `response` property of the XHR object. If the response body couldn't be parsed or other error occurs, the value of this property will be simply `null`
+
+The `JSON.parse()` static method parses a JSON string, and creates the equivalent JavaScript value or object. It will throw an exception if the string to parse is not valid.
 
 If we don't set the `responseType` property, we will have to write our own extra error-handling code along the `JSON.parse()` method, to which we will have to pass the value of the `response` property of the XHR object. As it seems obvious, there is no reason we should prefer this over the much more convenient way of setting the `responseType` property.
+
+```js
+let request = new XMLHttpRequest();
+request.open('GET', 'https://host.com/path');
+request.responseType = 'json';
+request.send();
+
+request.addEventListener('load', event => {
+  let data = request.response;
+})
+```
 
 ### 04. Sending JSON via XHR
 
@@ -263,7 +293,7 @@ This technique consists of three steps:
 
 #### Serializing Data to JSON
 
-To serialize data into valid JSON format from JavaScript code we must: first, create or retrieve a JavaScript value (an object, an array, a date...); and second, convert the value to a JSON string via the method `JSON.stringify()`, passing it as argument.
+To serialize data into valid JSON format from JavaScript code we must: first, create or retrieve a JavaScript value (an object, an array, etc.); and, second, convert the value to a JSON string via the method `JSON.stringify()`, passing it as argument.
 
 ```js
 let request = new XMLHttpRequest();
@@ -298,7 +328,7 @@ The _same-origin policy_ is one of the most important guards against common secu
 
 Every request sent to a _different origin_ (different scheme, different host, or different path), relative to the URL from which the request is sent, is considered a _cross-origin request_. The cross-domain request is the most important of the three possible cross-origin requests;
 
-When almost any cross-origin resource request from APIs is restricted by this policy, there are interactions from different origins that are not restricted: for example, linking, redirections, form submissions, or embedding of external resources (like videos). However, this policy includes a Cross-origin Resource Sharing or CORS, a W3C specification that allows for certain specified allowed cross-origin resource request with the help of some special HTTP headers. This is specially important for the interaction of different web APIs.
+While almost any cross-origin resource request from APIs is restricted by this policy, there are interactions from different origins that are not restricted: for example, linking, redirections, form submissions, or embedding of external resources (like videos). However, this policy also includes a Cross-origin Resource Sharing or CORS, a W3C specification that allows for certain specified allowed cross-origin resource requests thanks to some special HTTP headers. This is specially important for the interaction of different web APIs.
 
 ### CORS
 
@@ -308,10 +338,12 @@ This header's value will be used by the server to check if it should send a corr
 
 Any browser will automatically add the `Origin` header with the appropriate value when performing an HTTP request, via XHR or `fetch()`. 
 
-When the server receives the requests, it uses the value in this header represents a valid origin (an origin that is allowed to access the response). If the origin is allowed, it sends back the response with another header `Access-Control-Allow-Origin`, with a value of that same origin. The requested resource may be available universally; if this is the case, this header will be set a wildcard `*`. 
+When the server receives the request, it uses the value in the `Origin` header to check whether it represents a valid origin (an origin that is allowed to access the response): If the origin is allowed by the server, it sets a header `Access-Control-Allow-Origin` in the response with the same origin value. The requested resource may be available universally; if this is the case, this header will be set a wildcard character `*`. 
 
-The browser will then determine if it let the application access to the response: if the `Access-Control-Allow-Origin` header has the correct origin or the `*` character as value, it will make the response accessible by the application; otherwise, it will raise an error. This is true for any case: if the server does not send this header with the correct value, even in a correct response, it still won't let the application access to the response.
+The browser will then determine if it lets the web application to access the response: if the `Access-Control-Allow-Origin` header has the correct origin or the `*` character as value, it will make the response accessible; otherwise, it will raise an error. This is true for any case: if the browser does not receive this header with the correct value, even in a correct response, it still won't let the application access to the response.
 
 ## Throttling
 
-Throttling seeks controlling the rate at which a function is invoked, preventing superfluous invocations and, in consequence, HTTP requests sent to the server, which puts an unnecessary strain on the server. This technique works by setting a delay period of time between a function invocation and sending a request; if, for example, the user types fast the beginning of a word in a text input that has implemented the autocomplete functionality, it's not necessary to make requests for all the letters typed. We can just make the request for the final result, the beginning portion of the word: if a request becomes irrelevant due to a newer request, we can forget the original request (the first letters quickly typed) and start a new delay period for the newer request, until the user pauses. In the example, the newer request is the beginning of the word, which should trigger the only necessary request.
+Throttling seeks controlling the rate at which a function is invoked, preventing superfluous invocations and, in consequence, HTTP requests sent to the server, which puts an unnecessary strain on the server. 
+
+This technique works by setting a delay period of time between a function invocation and sending a request; if, for example, the user quickly types the beginning of a word in a text input that has implemented the 'autocomplete' functionality, it's not necessary to make requests for all the letters typed, for every single keyboard input. We can just make the request for the final result, the written portion of the word: if a request becomes irrelevant due to a newer request, we can forget the original request (the first letters quickly typed) and start a new delay period for the newer request, until the user pauses.

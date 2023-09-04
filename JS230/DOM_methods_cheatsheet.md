@@ -154,7 +154,7 @@
 | `element.previousElementSibling` | returns the Element immediately prior to the specified one in its parent's children list, or `null` if the specified element is the first one in the list.| Element |  |
 | `element.nextElementSibling` | returns the element immediately following the specified one in its parent's children list, or null if the specified element is the last one in the list. | Element |  |
 | `element.textcontent` | Represents the text content of the node and its descendants. |  | Setting `textContent` on a node removes all the node's children and replaces them with a single text node with the given string value. Sometimes people use `innerHTML` to retrieve or write text inside an element, but `textContent` has better performance because its value is not parsed as HTML. |
-
+| `element.tagName` | Returns the tag name of the element on which it's called, in uppercase. | A string | It's the same as `node.nodeName`, but only for Element nodes. |
 ### DOM as a tree of Nodes
 
 | Property | Description | Value | Notes |
