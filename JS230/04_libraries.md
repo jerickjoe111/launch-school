@@ -301,7 +301,7 @@ Handlebars blocks:
 
 ## `fetch()`
 
-This is the newer, better alternative to the callback-based `XMLHttpRequest` API. The promise-based Fetch API is comprises by a series of interfaces for accessing and manipulating parts of HTTP, specially requests and responses. It's specially important the `fetch()` global function.
+This is the newer, better alternative to the callback-based `XMLHttpRequest` API. The promise-based Fetch API is comprised by a series of interfaces for accessing and manipulating aspects of the HTTP, specially requests and responses. It's specially important the `fetch()` global function.
 
 The global `fetch()` method asynchronously sends an HTTTP request, returning a Promise fulfilled when the response has fully arrived; the fulfillment value of this promise is a `Response` object.
 
