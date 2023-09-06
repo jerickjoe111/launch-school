@@ -1,20 +1,22 @@
 # 01 The DOM
 
+[table: live collections vs. static, what methods return what]
+
 ## The Document object
 
 The Document object represents the HTML document that is displayed in the browser window or tab.
 
 ## The DOM
 
-The Document Object Model (DOM) is the API that works with HTML documents, via the Document object.
+The Document Object Model (DOM) refers to the in-memory representation of an HTML document's structure which provides the API that works with HTML documents, via the Document object.
 
 HTML documents contain HTML elements nested within one another forming a tree-like structure. If an element that should exist is missing, browsers insert them automatically (_HTML permissiveness_).
 
-The DOM API mirrors the tree structure of an HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. The top-most node, the `document` node, represents the whole HTML document (a Document object), and it is the great ancestor of all the other nodes.
+The DOM API mirrors the tree structure of the HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. And the same for other types of nodes (for example, Comments). The top-most node, the `document` node, represents the whole HTML document (a Document object), and it is the great ancestor of all the other nodes.
 
 Text nodes can be _empty_; this means that they contain only whitespace, and they usually appear from whitespace inserted before or after tags in the HTML document. They are not reflected visually, and, as they are often forgotten, they can be a source of bugs.
 
-The Document, Element and Text classes are subclasses of the more general Node class, and Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments in the HTML document are also part of the DOM as nodes.
+The Document, Element and Text classes are subclasses of the more general `Node` class, and Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments, for example, in the HTML document are also part of the DOM as nodes.
 
 There is a JavaScript class corresponding to each HTML (tag) element type, and each occurrence of the tag in a document is represented by an instance of the class. The JavaScript element objects have properties that correspond to the HTML attributes of the tags.
 

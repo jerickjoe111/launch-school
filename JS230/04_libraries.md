@@ -80,7 +80,9 @@ jQuery works as a function to which we can pass:
 - A string (a CSS selector) or a single DOM element
 - A function.
 
-If we passed a CSS selector string or a DOM element, this function will return a jQuery object that, not only _represents a collection of one or more elements_ (either the DOM element passed, or all elements that match the passed-in CSS selector string), but also has a number of _very useful methods_ to access or modify the elements represented in by the collection, or even to add new elements.
+If we passed a CSS selector string or a DOM element, this function will return a _jQuery object_ that, not only _represents a collection of one or more elements_ (either the DOM element passed, or all elements that match the passed-in CSS selector string), but also has a number of _very useful methods_ to access or modify the elements represented in by the collection, or even to add new elements.
+
+But if we passed a function, it will work as a callback to be executed when the HTML document is loaded (but without waiting for the assets, like images included in `<img>` elements)
 
 By convention, we name the jQuery functions as the character `$`, and the returned jQuery object is also prepended `$`:
 
@@ -96,19 +98,17 @@ We can check that a variable or property references a jQuery object by trying to
 
 jQuery provides a way to run JavaScript code when the DOM content is loaded. There are two modalities:
 
-- Code run when the DOM is loaded _without waiting for the assets to load (like images)_:
+- Code run when the DOM is loaded _without waiting for the assets to load (like images included in `<img>` elements)_:
 
 ```js
-$(handler)
+$(handler) // recommended syntax
 ```
 
 ```js
-$(document).ready(handler)
+$(document).ready(handler) // this one is deprecated
 ```
 
-(Only the first syntax is recommended; the other is deprecated)
-
-- Code run when the DOM is fully loaded, _including all assets_:
+- Code run when the DOM is fully loaded, _including all images and assets_:
 
 ```js
 $(window).load(handler)
@@ -121,6 +121,8 @@ $(window).on('load', handler)
 The passed-in callback or _handler_ will be invoked as soon as the condition for each modality is met (DOM loaded, etc.)
 
 ### jQuery Object Methods
+
+[See jQuery methods cheat sheet](./jQuery_methods_cheatsheet.md)
 
 We use methods of the jQuery object (that contains a collection that represents one or more elements) to retrieve or modify the elements. Most of these methods work both as getters and setters: _if called without arguments, the method simply returns the value; if called with an argument, that argument is used to set some value._
 
@@ -151,7 +153,7 @@ We may need to escape some CSS selector characters. jQuery also has some custom 
 
 #### Convenience Methods
 
-jQuery also includes some convenient methods that are called directly on the jQuery object:
+jQuery also includes some convenient methods that are called directly on the jQuery object: `$isArray()`, `$isFunction()`, `$merge()`, `$map()`, `$ajax()`, etc.
 
 ### jQuery DOM Traversal
 
@@ -175,10 +177,10 @@ jQuery objects offer useful methods for DOM traversal to be used from different 
 
 | Name | Description |
 | --- | --- |
-| `find(selector)` | Searches through the descendants of these elements in the DOM tree and construct a new jQuery object from the matching elements; travels many levels down |
+| `find(selector)` | Searches through the descendants of these elements in the DOM tree and construct a new jQuery object from the matching elements; travels multiple levels down |
 | `children([selector])` | Get the _direct_ children of each element in the set of matched elements; only travels a single level down  |
 
-The selector expression is required in a call to .find(). If we need to retrieve all the descendant elements, we can pass in the universal selector `*` to accomplish this.
+The selector expression is required in a call to `.find()`. If we need to retrieve all the descendant elements, we can pass in the universal selector `*` to accomplish this.
 
 #### Finding Sibling Elements
 
@@ -192,7 +194,7 @@ The selector expression is required in a call to .find(). If we need to retrieve
 
 ### jQuery Event Management
 
-We can use the `on()` method to register event listeners on a jQuery object representing one or more DOM elements (if it is the latter case, the listener will be registered on every element.)
+We can use the `on()` method to register event listeners on a jQuery object representing one or more DOM elements (if it is the latter case, the listener will be registered _on every element_.)
 
 The syntax for this method is:
 
@@ -207,9 +209,9 @@ The syntax for this method is:
 
 If `[selector]` is omitted or is `null`, the event handler is referred to as _direct_ or _directly-bound_. The handler is called every time an event occurs on the selected elements, whether it occurs directly on the element or bubbles from a descendant (inner) element.
 
-When a `[selector]` is provided, the event handler is referred to as _delegated_. The handler is not called when the event occurs directly on the bound element, but only for descendants (inner elements) that match the selector. jQuery bubbles the event from the event target up to the element where the handler is attached.
+When a `[selector]` is provided, the event handler is referred to as _delegated_. The handler is not called when the event occurs directly on the bound element, but only for descendants (inner elements) that match the selector. jQuery bubbles the event from the event target up to the element where the handler is registered.
 
-We can remove an event handler that were registered using `on()` with the `off()` method. Calling `off()` with no arguments removes all handlers attached to the elements. Specific event handlers can be removed on elements by providing combinations of event names, selectors, or handler function names. When multiple filtering arguments are given, all the arguments provided must match for the event handler to be removed.
+We can remove an event handler that was registered (using `on()`) with the `off()` method. Calling `off()` with no arguments removes all handlers attached to the elements. Specific event handlers can be removed on elements by providing combinations of event names, selectors, or handler function names. When multiple filtering arguments are given, all the arguments provided must match for the event handler to be removed.
 
 We can execute all handlers and behaviors attached to the matched elements for the given event type with the help of the `trigger()` method:
 
@@ -219,14 +221,14 @@ Any event handlers attached with `on()` or one of its shortcut methods are trigg
 
 ### jQuery AJAX Requests
 
-We can perform asynchronous HTTP requests (AJAX) via the `$.ajax([settings])` method. The `[settings]` parameter consists of a configuration object that can set all the request characteristics: URL, type (the method), the data type, headers, the data sent to the server, etc. This method will return a jQuery XHR object (`jqXHR`) on which we can invoke methods to handle different outcomes (success, error, etc.): `done()`, `fail()`, `always()`, among others. To these methods we pass a callback function that will be executed upon each outcome case.
+We can perform asynchronous HTTP requests (AJAX) via the `$.ajax([settings])` method. The `[settings]` parameter consists of a _configuration object_ that can set all the request characteristics: URL, type (the method), the data type, headers, the data sent to the server, etc. This method will return a jQuery XHR object (`jqXHR`) on which we can invoke methods to handle different outcomes (success, error, etc.): `done()`, `fail()`, `always()`, among others. To these methods we pass a callback function that will be executed upon each outcome case.
 
 This is an example of an HTTP request made from jQuery:
 
 ```js
 $.ajax( {
   url: 'https://host.com/path',
-  type: 'GET',
+  type: 'POST', // the method
   dataType: 'json',
   headers: { name: 'value' },
   data: { a: "bc", d: "e,f" },
@@ -243,7 +245,7 @@ There is also a very handy method `load()` that loads data from the server and p
 
 Basic Handlebars use:
 
-1. Create HTML code for template. It has to be wrapped by a `<script>` element:
+1. Create HTML code for template. It has to be wrapped by a `<script>` element, with the appropriate 'id' and 'type' attribute values:
 
 ```html
 <script id='templateName' type='text/x-handlebars'>
@@ -251,16 +253,31 @@ Basic Handlebars use:
 </script>
 ```
 
-2. Compile HTML code into a function via `Handlebars.compile()`
-3. Register any partial template (templates that can be used by other templates) with `Handlebars.registerPartial(name, htmlCode)`
-4. Inject return value of function from step 2 called with a _context_ argument.
+2. Compile HTML code into a function via `Handlebars.compile()`, passing the inner HTML content of the `<script>` element that contains the template. This method will return a function that, when passed a _context_ object argument, will compile into ready-to-be-injected HTML code, with the appropriate data based on that context.
 
+With jQuery:
+
+```js
+let compiler = Handlebars.compile($('templateName').html())
+
+let context = {
+  a: 1,
+  b: 2,
+}
+
+$('element').html(compiler(context)) // the compiled HTML is injected into the page
+```
+
+3. Register any partial template (templates that can be used by other templates) with `Handlebars.registerPartial(partialName, partialHTMLCode)`.
+4. Inject return value of function from step 2 (compiled HTML code) called with a _context_ argument into the page, as the inner HTML of an element. Each property between curly braces in the template will be replaced on the HTML by the value of that property from the passed context object.
 
 Handlebars syntax:
 
 - `{{propertyName}}`: anywhere in the template HTML code; it will be replaced by the value of the property from the passed in context argument object.
 
 - `{{> partialTemplateName}}`: loads a partial (has to be registered first)
+
+- `{{{}}}`: use triple curly braces to allow unescaped HTML
 
 Handlebars blocks:
 
@@ -273,20 +290,22 @@ Handlebars blocks:
 ```
 
 ```html
-{{#each propertyName}}
+{{#each propertyName}} <- iterates through an array assigned to a property of the passed in object
 ...
-{{@index}}
+{{@index}} <- index of each element of the collection on each iteration
+...
+{{this}} <- we can access each element of the collection on each iteration via `this`
 ...
 {{/each}}
 ```
 
 ## `fetch()`
 
-The global `fetch()` method starts the asynchronous process of fetching a resource from the network, returning a promise which is fulfilled once the response is available.
+This is the newer, better alternative to the callback-based `XMLHttpRequest` API. The promise-based Fetch API is comprises by a series of interfaces for accessing and manipulating parts of HTTP, specially requests and responses. It's specially important the `fetch()` global function.
 
-The promise resolves to the `Response` object representing the response to your request.
+The global `fetch()` method asynchronously sends an HTTTP request, returning a Promise fulfilled when the response has fully arrived; the fulfillment value of this promise is a `Response` object.
 
-A `fetch()` promise only rejects when a network error is encountered (which is usually when there's a permissions issue or similar). A `fetch() `promise does not reject on HTTP errors (`404`, etc.). Instead, a `then()` handler must check the `Response.ok` and/or `Response.status` properties.
+Note that this method is only rejected upon network errors(mainly, permission issues), and not upon HTTP errors, for instance, 4xx errors, etc. It's the developer's task to handle each scenario via the `Response` object interface.
 
 Syntax:
 
@@ -303,3 +322,32 @@ fetch(resource, [options])
     - `redirect`
 
 `fetch()` returns a Promise that resolves to a `Response` object. For this reason, we can chain multiple calls to `then()`, etc.
+
+For instance (MDN):
+
+```js
+fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  }
+);
+```
+
+### The `Response` object:
+
+The resolve value of the Promised returned by `fetch()` defines a series of useful instance properties and methods that work as an interface for the response:
+
+- `response.body`: returns a `ReadableStream` object with the body contents
+- `response.text()`: returns a Promise whose resolve value is a text representation of the body
+- `response.ok`: A boolean indicating whether the response was successful (status in the range 200 – 299) or not.
+- `response.status`: The status code of the response. (This will be 200 for a success).
+- `response.statusText`: The status message corresponding to the status code.
