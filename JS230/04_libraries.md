@@ -60,7 +60,7 @@ Other tips, trick and routines when studying documentation:
 
 Some important points:
 
-- The last two attributes are part of the _Subresource Integrity_, an essential browser's security feature.
+- The last two attributes are part of the _Subresource Integrity_ (SRI), an essential browser's security feature that ensures the resources have not been tampered with.
 
 - The `<script>` that loads the library should be included in the HTML _before_ any other script that uses that library.
 

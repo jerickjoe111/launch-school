@@ -177,6 +177,8 @@ Mouse events
 `mouseover`
 `mouseout`
 `mousemove`
+`mouseenter`
+`mouseleave`
 
 Keyboard events
 `input`

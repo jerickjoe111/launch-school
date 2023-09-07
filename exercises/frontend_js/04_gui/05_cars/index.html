@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>05 Car Shop</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Buy Used Cars</h1>
+    <div id="filters"></div>
+  </header>
+  <main>
+    <div id="cars"></div>
+  </main>
+  <script id="filters-template" type="text/x-handlebars-template">
+    <label for="make-select">Make</label>
+    <select name="make" id="make-select">
+      <option value="">All</option>
+      {{#each makes}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <label for="model-select">Model</label>
+    <select name="model" id="model-select">
+      <option value="">All</option>
+      {{#each models}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <label for="price-select">Price</label>
+    <select name="price" id="price-select">
+      <option value="">Any</option>
+      {{#each prices}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <label for="year-select">Year</label>
+    <select name="year" id="year-select">
+      <option value="">Any</option>
+      {{#each years}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <button class="filter-btn">Filter</button>
+  </script>
+  <script id="cars-template" type="text/x-handlebars-templates">
+    {{#each cars}}
+      {{>car-template}}
+    {{/each}}
+  </script>
+  <script id="car-template" type="text/x-handlebars-templates">
+    <div class="car">
+      <figure>
+        <img src="{{image}}">
+      </figure>
+      <h2>{{make}} {{model}}</h2>
+      <p class="year">Year: {{year}}</p>
+      <p class="price">Price: ${{price}}</p>
+      <a href="#">Buy</a>
+    </div>
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>03 Custom Delete</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h2>Todos</h2>
+  <ul id="todos"></ul>
+  <div class="overlay"></div>
+  <div class="confirm-prompt"></div>
+  <script id="todos-template" type="text/x-handlebars-template">
+    {{#each todos}}
+      <li data-id="{{id}}">{{title}}<span class="remove"></span></li>
+    {{/each}}
+  </script>
+  <script id="confirm-template" type="text/x-handlebars-template">
+    <div class="confirm-wrapper" data-id="{{id}}">
+      <p>Are you sure you want to delete this todo?</p>
+      <div class="confirm-actions">
+        <a href="#" class="confirm-yes">Yes</a>
+        <a href="#" class="confirm-no">No</a>
+      </div>
+    </div>
+  </script>
+</body>
+</html>

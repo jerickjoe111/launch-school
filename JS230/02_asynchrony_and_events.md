@@ -54,9 +54,9 @@ console.log('This second'); // 2 (Synchronous)
 
 The simplest kind of asynchronous programming can be achieved with the help of functions that execute another function (callback) after some time has passed, or upon previously-set intervals, without making the program to stop its main flow. These functions are:
 
-- `setTimeout()`: this function accepts two arguments: the first one is the callback function, and the second is the amount of time in milliseconds. The callback will be _registered_ synchronously when the line is executed, but the function will be _asynchronously invoked_ when the milliseconds have passed.
+- `setTimeout()`: this function accepts two arguments: the first one is the callback function, and the second is the amount of time in milliseconds. The callback will be _registered_ synchronously when the line is executed, but the function will be _asynchronously invoked_ when the milliseconds have passed. This method returns an identifier that we can pass to a `clearTimeout()` function to cancel the timer.
 
-- `setInterval()`: this function accepts the same arguments as the previous one, but it will call the first argument on intervals of the specified milliseconds. This method returns an identifier that we can pass to a `clearInterval()` function to cancel the interval.
+- `setInterval()`: this function accepts the same arguments as the previous one, but it will call the first argument on intervals of the specified milliseconds. This method returns an identifier that we can pass to a `clearInterval()` function to cancel the interval timer.
 
 ### Events
 

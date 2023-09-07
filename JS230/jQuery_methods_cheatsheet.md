@@ -3,6 +3,7 @@ Here is the list of most commonly used jQuery API functions:
 (all these are methods to be called on jQuery objects, with or without a selector argument)
 
 DOM traversal/manipulation
+
 * **[find()](http://api.jquery.com/find)**: Gets a collection of descendant elements based on the provided selector string, jquery object, or element
 * **[children()](http://api.jquery.com/after)**:  Like `find()`, but only travels one level (only direct children)
 * **[append()](http://api.jquery.com/append)** inserts the specified content as the last child of each element in the jQuery collection
@@ -13,6 +14,7 @@ DOM traversal/manipulation
 * **[empty()](http://api.jquery.com/empty)**:  Remove all child nodes of the set of matched elements from the DOM.
 
 Element querying
+
 * **[html()](http://api.jquery.com/html)**: Gets or sets an inner HTML of an element   
 * **[val()](http://api.jquery.com/val)**: Gets or sets the `value` attribute of an element
 * **[text()](http://api.jquery.com/text)**: Gets the combined text of an element and its children
@@ -20,14 +22,18 @@ Element querying
 * **[attr()](http://api.jquery.com/attr)** Gets or sets any attribute of an element
 
 Events
+
 * **[on()](http://api.jquery.com/on)**: Attaches an event listener to an element
-* **[off()](http://api.jquery.com/off)** Detaches an event listener from an element
+* **[off()](http://api.jquery.com/off)**: Detaches an event listener from an element
+* **[one()](http://api.jquery.com/off)**: identical to `.on()`, except that the handler for a given element and event type is unbound after its first invocation. 
 
 Iterators
+
 * **[each()](http://api.jquery.com/each)**: Iterates over a set of matched elements
 * **[map()](http://api.jquery.com/map)**:  Pass each element in the current matched set through a function, producing a new jQuery object containing the return values.
 
 CSS/Animations
+
 * **[hide()](http://api.jquery.com/hide)**: Hides an element if it was visible
 * **[show()](http://api.jquery.com/show)**: Shows an element if it was hidden
 * **[addClass()](http://api.jquery.com/)**: Adds the specified class(es) to each element in the set of matched elements.
@@ -35,6 +41,8 @@ CSS/Animations
 * **[toggleClass()](http://api.jquery.com/toggle)**:  Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 
 Extra:
+
+* **[add()](http://api.jquery.com/load)**: Given a jQuery object that represents a set of DOM elements, the .add() method constructs a new jQuery object from the union of those elements and the ones passed into the method.
 
 * **[load()](http://api.jquery.com/load)**: Load data from the server and place the returned HTML into the matched elements.
 

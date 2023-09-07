@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>02 Programming Languages</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1>Programming Languages</h1>
+  <div id="languages"></div>
+  
+  <script id="languages-template" type="text/x-handlebars">
+    {{#each languages}}
+    
+      {{>language-template}}
+    {{/each}}
+  </script>
+  <script id="language-template" type='text/x-handlebars'>
+    <div class="lang" data-lang="{{name}}">
+      <h2>{{name}}</h2>
+      <p>{{description}}</p>
+      <a href="#" class="more">Show More</a>
+    </div>
+  </script>
+</body>
+</html>
