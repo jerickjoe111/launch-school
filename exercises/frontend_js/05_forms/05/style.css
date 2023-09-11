@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #eee9ce;
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+.wrapper {
+  width: 600px;
+  margin: 20px auto;
+}
+
+form {
+  margin: 30px 0 0 0;
+}
+
+label {
+  display: block;
+  margin-top: 5px;
+}
+
+.question {
+  margin: 0 0 10px 0;
+}
+
+.question .description {
+  margin: 0 0 10px 0;
+}
+
+.submit, .reset-form{
+  background: transparent;
+  padding: 5px 15px;
+  background: #55ec39;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+a.disabled {
+  background: #ccc;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 10px;
+  height: 35px;
+  padding: 5px;
+}
+
+.result.correct {
+  border: 1px solid green;
+}
+
+.result.wrong {
+  border: 1px solid red;
+}

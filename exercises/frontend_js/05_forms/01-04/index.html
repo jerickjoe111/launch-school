@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 Form Validation</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1>Sign Up Form</h1>
+  <form action="#" method="post" novalidate>
+    <p class="form-errors"></p>
+    <fieldset>
+    <dl>
+      <dt>
+        <label for="first-name">First Name</label>
+      </dt>
+      <dd>
+        <input type="text" name="first-name" id="first-name" required>
+        <span class="error-message"></span>
+      </dd>
+      <dt>
+        <label for="last-name">Last Name</label>
+      </dt>
+      <dd>
+        <input type="text" name="last-name" id="last-name" required>
+        <span class="error-message"></span>
+      </dd>
+      <dt>
+        <label for="email">Email</label>
+      </dt>
+      <dd>
+        <input type="email" name="email" id="email" required
+        placeholder="someone@example.com" pattern=".+@.+\..+">
+        <span class="error-message"></span>
+      </dd>
+      <dt>
+        <label for="phone">Phone Number</label>
+      </dt>
+      <dd>
+        <input type="text" name="phone" id="phone" pattern="\d{3}-\d{3}-\d{4}"
+        placeholder="i.e.: 111-222-3333">
+        <span class="error-message"></span>
+      </dd>
+      <dt>
+        <label for="credit-card">Credit Card</label>
+      </dt>
+      <dd id="autotab">
+        <input type="text" name="credit-card" id="cd1" maxlength="4" pattern="\d{4}"> -
+        <input type="text" name="credit-card" id="cd2" maxlength="4" pattern="\d{4}"> -
+        <input type="text" name="credit-card" id="cd3" maxlength="4" pattern="\d{4}"> -
+        <input type="text" name="credit-card" id="cd4" maxlength="4" pattern="\d{4}">
+        <span class="error-message"></span>
+      </dd>
+      <button type="submit">Sign Up</button>
+      </dl>
+    </fieldset>
+  </form>
+  <h1>Serialized Form</h1>
+  <p id="form-data"></p>
+</body>
+</html>

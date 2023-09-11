@@ -108,6 +108,14 @@ In any case, the query string has to be _encoded_ if it includes more than alpha
 
 In `POST` requests, to send data in this format we have to include a header named `Content-Type` with the value `application/x-www-form-urlencoded`. For this we just have to pass the encoded query string as an argument to `send()`.
 
+Converting input/form data into a query string:
+
+```js
+let data = new FormData()
+document.querySelectorAll('input').forEach(input => data.append(input.name, input.value))
+let queryString = new URLSearchParams(data).toString()
+```
+
 ### Multipart Forms
 
 In this format we can send name-value pairs in the body of `POST` requests, with each pair separated by a boundary delimiter defined in the `Content-Type` request header, after the media type, like:

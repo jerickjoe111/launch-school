@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 Multiple Choice Quiz</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>Multiple Choice Quiz</h1>
+    <form action="#" method="post" novalidate>
+      <p class="form-errors"></p>
+      <fieldset>
+
+      </fieldset>
+      <a class="submit">Submit quiz</a>
+      <a class="reset-form disabled">Reset</a>
+    </form>
+    <script id="question-template" type="text/x-handlebars-template">
+      <div class="question" data-id="{{id}}">
+        <p class="description">Q{{id}}. {{{description}}}</p>
+          {{#each options}}
+            <label>
+              <input name="{{../id}}" type="radio" value="{{this}}"/>
+              {{this}}
+            </label>
+          {{/each}}
+        <p class="result"></p>
+      </div>
+    </script>
+  </div>
+</body>
+</html>

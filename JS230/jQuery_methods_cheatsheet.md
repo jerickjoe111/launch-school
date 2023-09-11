@@ -41,6 +41,7 @@ CSS/Animations
 * **[toggleClass()](http://api.jquery.com/toggle)**:  Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 
 Extra:
+* **[is()](http://api.jquery.com/)**: Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments. Useful to be used with pseudo-attribute selectors: `':invalid'`, etc
 
 * **[add()](http://api.jquery.com/load)**: Given a jQuery object that represents a set of DOM elements, the .add() method constructs a new jQuery object from the union of those elements and the ones passed into the method.
 
