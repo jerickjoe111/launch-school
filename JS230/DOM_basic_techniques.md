@@ -1,6 +1,14 @@
 # DOM Traversal Basic Techniques
 
-## All descendants (children, grandchildren, etc)
+## Count all elements in the DOM
+
+the callback adds one to a variable per node traversed
+
+## Count all nodes in the DOM
+
+the callback adds one to a variable per node traversed
+
+## All descendants elements (children, grandchildren, etc)
 
 ```js
 function traverse(element, callback) {

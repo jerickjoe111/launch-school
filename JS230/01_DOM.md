@@ -11,12 +11,9 @@ The Document object represents the HTML document that is displayed in the browse
 The Document Object Model (DOM) refers to the in-memory representation of an HTML document's structure which provides the API that works with HTML documents, via the Document object.
 
 HTML documents contain HTML elements nested within one another forming a tree-like structure. If an element that should exist is missing, browsers insert them automatically (_HTML permissiveness_).
+The DOM API mirrors the tree structure of the HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. The top-most node, the `document` node, represents the whole HTML document (a `Document` object), and it is the great ancestor of all the other nodes. The Document, Element and Text classes are subclasses of the more general `Node` class; Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments, for example, in the HTML document are also part of the DOM as nodes.
 
-The DOM API mirrors the tree structure of the HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. And the same for other types of nodes (for example, Comments). The top-most node, the `document` node, represents the whole HTML document (a Document object), and it is the great ancestor of all the other nodes.
-
-Text nodes can be _empty_; this means that they contain only whitespace, and they usually appear from whitespace inserted before or after tags in the HTML document. They are not reflected visually, and, as they are often forgotten, they can be a source of bugs.
-
-The Document, Element and Text classes are subclasses of the more general `Node` class, and Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments, for example, in the HTML document are also part of the DOM as nodes.
+Text nodes can be _empty_; this means that they contain only whitespace, and they usually appear from whitespace inserted before or after tags in the HTML document. They are not reflected visually, and, as they are often forgotten, they can be a source of bugs. Empty nodes typically occur due to whitespace before and after tags in the HTML
 
 There is a JavaScript class corresponding to each HTML (tag) element type, and each occurrence of the tag in a document is represented by an instance of the class. The JavaScript element objects have properties that correspond to the HTML attributes of the tags.
 
@@ -25,6 +22,21 @@ In a tree, a node directly above another node is the _parent_ of that node; the 
 ## DOM Levels
 
 DOM levels refer to different W3 specifications and standards that define what DOM API features should be supported by the web browser; as a reference, MDN pages contain detailed tables with this information.
+
+## NodeList vs. HTMLCollection
+
+- `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop, and `forEach`. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
+
+The DOM also defines other older element selection methods (`getElementBy*` methods), more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use the return value).
+
+The document defines shortcut properties to access certain kinds of nodes. These properties refer to `HTMLCollection` objects, which are similar to NodeList objects, but they can be indexed by element ID or name. For example, to access all images there is the `images` property, and the same with `forms` and `links` (`<a>` elements with `href` attributes only).
+
+- `childNodes`: A read-only NodeList that contains all Node children (Element nodes, Text nodes, etc.)
+- `children`: it refers to an `HTMLCollection` with all the immediate Element children.
+
+> (NodeList on some browsers does support `forEach`, but not on all browsers; `HTMLCollection` provides no support for `forEach`.) To loop through the elements returned by these methods, use a `for` loop or convert the object into an array and then use the higher-order array functions.
+
+> HTMLCollection and NodeList have differences, but they aren't important right now. All you must know is that `document.getElementsByTagName` returns one in some browsers and the other in other browsers.
 
 ## The DOM API
 
@@ -58,18 +70,35 @@ We have two methods at our disposal: `querySelector()` and `querySelectorAll()`.
 
 - `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop, and `forEach`. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
 
-Both accept multiple CSS selectors as arguments; the element(s) selected will have to match all provided selectors. 
+Both accept multiple CSS selectors as arguments; the element(s) selected will have to match all provided selectors.
 
 WARNING: pure numeric ids have to be escaped using `CSS.scape(id)`. We can always use `getElementById(id)`.
 
+```html
+<p id='paragraph'>I am a paragraph</p>
+```
+
+```js
+document.querySelector('#paragraph').textContent // => I am a paragraph
+document.querySelector('p').textContent // => I am a paragraph
+```
+
 #### Other methods
 
-The DOM also defines other older element selection methods, more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use the return value).
+The DOM also defines other older element selection methods, more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use their return values).
 
-- `getElementById()`: the one that is mostly in use today. The argument is just the ID string, without `#`. Returns a single element.
+- `getElementById()`: the one that is mostly in use today. The argument is just the ID string, without the `#`. Returns a single element.
 - `getElementByName()`: Returns the list of all descendant elements that have an HTML `name` attribute with the passed-in string value.
 - `getElementByTagName()`: Returns the list of all descendant elements of the passed-in type (i.e.: `h1`, `p`, etc.)
 - `getElementByClassName()`: Returns the list of all descendant elements with a class as the passed-in string (without the `.`)
+
+```html
+<p id='paragraph'>I am a paragraph</p>
+```
+
+```js
+document.getElementById('paragraph').textContent // => I am a paragraph
+```
 
 #### Shortcut properties
 
@@ -93,7 +122,7 @@ There are two ways we can traverse the Document: as a tree of Element objects (i
 - `nextElementSibling`: The Element sibling immediately after the element. `null` if the element has no siblings.
 - `previousElementSibling`: The Element sibling immediately before the element.  `null` if the element has no siblings.
 
-- `textContent`: It represents the text content of the node and its descendants. Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
+- `textContent`: It represents the text content of the node and its descendants (without the HTML syntax). Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
 
 We use recursive functions to traverse the tree (as in any general tree data structure):
 
@@ -111,7 +140,7 @@ You can use the `data` property to retrieve the textual content of a text node. 
 #### `style`
 
 The DOM defines a style property on all Element objects that correspond to the style attribute. Unlike most such properties, however, the
-style property is not a string. Instead, it is a CSSStyleDeclaration object: a parsed representation of the CSS styles that appear in textual form in the style attribute.
+style property is not a string. Instead, it is a `CSSStyleDeclaration` object: a parsed representation of the CSS styles that appear in textual form in the style attribute.
 
 We can use the style attribute to alter any CSS property: `h1.style.color = 'red'`
 
@@ -153,10 +182,10 @@ function traverse(node, callBack) {
 
 We can use different techniques to determine a Node's type:
 
-- `Object.getPrototypeOf()`: it returns the prototype of the specified DOM element.
-- `instanceof` operator
-- `tagName` property
-- `toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyperreference.
+- `Object.getPrototypeOf([node])`: it returns the prototype of the specified DOM element.
+- `[node] instanceof [class]` operator
+- `node.tagName` property
+- `node.toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyper reference.
 
 ### 3. Query or set HTML element attributes
 
@@ -184,11 +213,11 @@ It is much easier to work with HTML attributes as element properties: the attrib
 
 - Element-specific subtypes define attributes specific for those elements. For example, to query the URL of an image element, we can use the `src` property of the Element object that represents that element.
 
-JavaScript property names are written in `camelCase` if the attribute is more than one word long. `onclick`, among a few others, are an exception.
+JavaScript property names are written in `camelCase` if the attribute is more than one word long. `onclick`, among a few others, are the exception.
 
 Some HTML attribute names are reserved words in JavaScript, for example, the `class` attribute name is also a keyword in JavaScript. This attribute becomes `className` in JavaScript.
 
-For the most part, the attributes have string values. For boolean attributes, the JavaScript values are booleans or numbers. Event handles always have functions or `null`.
+For the most part, the attributes have string values. For boolean attributes, the JavaScript values are booleans or numbers. Event listeners always have functions or `null`.
 
 Note that the only way to remove an attribute is the general `removeAttribute()` method. 
 
@@ -196,16 +225,28 @@ Note that the only way to remove an attribute is the general `removeAttribute()`
 
 The `className` property of Element objects returns a string representing the class or space-separated classes of the current element. It's not very useful for when we need more than one class.
 
-Instead, Element objects define a `classList` property that refers to an iterable array-like object with all the classes defined for that element. This object defines an interface with the following self-explanatory methods:
+Instead, Element objects define a `classList` property that refers to an iterable array-like object with all the classes defined for that element. This object provides an interface with the following self-explanatory methods:
 
 (passing the class name as a string)
 
 - `add()`: Adds the token.
 - `remove()`: Removes the existing token
 - `replace()`: Replaces an existing token with a new token
-- `toggle()`: Removes the existing token from the class list, or adds it if it does not exist. 
+- `toggle()`: Removes the existing token from the class list, or adds it if it does not exist. The optional second argument turns the `toggle` into a one way-only operation. If set to `false`, then the class token will only be removed, but not added. If set to `true`, then token will only be added, but not removed.
 - `contains()`: Returns true if the class token exists in the class list.
 - `length`: it returns the number of classes
+
+##### Dataset
+
+We can store any kind of data into elements with `data-*` element attributes assigned to an arbitrary string; to access `data-*` type of attributes of an element we must use the `dataset` property of the element and then the name after the dash in the attribute name, for example:
+
+```html
+<h1 class="header" data-id="1">Header</h1>
+```
+
+```js
+document.querySelector('.header').dataset.id // => 1
+```
 
 
 ### 4. Query or modify document content
@@ -229,9 +270,34 @@ There are two read/write properties and one method to interact with the element 
     - `'beforeend'`: right before the enclosing, last tag.
     - `'afterend'`:  right after the enclosing, last tag.
 
+Before:
+
+```html
+<h1>Hey, ho</h1>
+```
+
+```js
+document.querySelector('h1').insertAdjacentHTML('beforeend', '<em>, let\'s go!</em>')
+```
+
+After:
+
+```html
+<h1>Hey Ho<em>, let's go!</em></h1>
+```
+
 #### Element content as plain text
 
 The `textContent` property is defined by the `Node` class, so it works for Text nodes and Element nodes. For Element nodes, it returns all the text in all descendants of the element (without the HTML syntax). Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
+
+```html
+<h1>Hey Ho<em>, let's go!</em></h1>
+```
+
+```js
+document.querySelector('h1').innerHTML // => "Hey Ho<em>, let's go!</em>"
+document.querySelector('h1').textContent // => "Hey Ho, let's go!"
+```
 
 ### 5. Creating, inserting and deleting nodes.
 
@@ -239,7 +305,7 @@ The `Document` class defines instance methods for creating Element objects.
 
 The `Element` and `Text` classes define instance methods for inserting, deleting, and replacing nodes in the tree.
 
-We can create a new element with the `createElement()` method on a Document object, and add strings of texts or other elements to it on the resulting Element object with the `append()` or `prepend()` methods: (You can create Text nodes explicitly with `document.createTextNode()`, but there is rarely any reason to do so.)
+We can create a new element with the `createElement()` method on a Document object (passing the tag name string as argument, like in `document.createElement('p')`), and add strings of texts or other elements to it on the resulting Element object with the `append()` or `prepend()` methods: (You can create Text nodes explicitly with `document.createTextNode()`, but there is rarely any reason to do so.)
 
 ```js
 let paragraph = document.createElement('p'); // create an empty <p> element
@@ -266,11 +332,13 @@ greetings.after(paragraph, document.createElement('hr'));
 
 `prepend()` and `append()` are only defined on Element objects, but `before()` and `after()` work with Element and Text nodes: you can use them to insert content relative to a Text node.
 
-Elements can only be inserted at one spot in the document. If an element is already in the document, and you insert it somewhere else, the element will be moved to the new location, not copied.
+Elements can only be inserted at one point on the document; if an element is already in the document, and we insert it somewhere else, the element will be moved to the new location, not copied.
 
-To make a copy of an element, we can use the `cloneNode()` method, passing `true` as argument to copy all of its content. This method returns the copy.
+To make a copy of an element, we can use the `cloneNode()` method, passing `true` as an argument to copy all of its content. This method returns the copy.
 
 You can remove an Element or Text node from the document by calling its `remove()` method, or you can replace it by calling `replaceWith()` instead. `remove()` takes no arguments; `replaceWith()` takes any number of strings and elements just like `before()` and `after()` do.
+
+> Instead of swapping two nodes by cloning them, we can just save their references, and append them to the parent element in the desired order. !!
 
 #### Older generation methods:
 

@@ -2,7 +2,7 @@
 
 Client-side JavaScript programs use an _event-driven programming model_. In this model, the program waits for _events_ to occur - the browser generates an event whenever something interesting happens to the document or browser or some object associated with it, for example, when the DOM finishes loading, or the user clicks on an element or press a keyboard key. We can define in our JavaScript programs what type of events we are interested in, so we can register one or more functions to be called when an event of that particular type occurs. This is not unique to JavaScript: all applications with a graphical interface are designed to work like this.
 
-In client-side JavaScript, events can occur on any HTML element, even on the document itself, or not triggered by user activity, but by the browser itself or the network, indicating some alteration in their state, document loading, elapsed time, errors in JavaScript code, etc. 
+In client-side JavaScript, events can occur on any HTML element, even on the document itself, or not being triggered by user activity at all, but by the browser itself or the network, indicating some alteration in their state, document loading, elapsed time, errors in JavaScript code, etc. 
 
 This makes the event-driven model more complex, and it's necessary to give some basic definitions:
 
@@ -36,13 +36,13 @@ We can classify the types of events in some general categories:
 
 The fully functional webpage displayed on the browser's window is the result of a cycle consisting of three main phases: the initial document HTTP request-response, a document-loading phase, and an asynchronous or _event driven_ phase:
 
-1. In the first phase the browsers sends the request asking the server for the main document, who sends back the response with the HTML code in its body.
+1. In the first phase the browser sends the request asking the server for the main document, who sends back the response with the HTML code in its body.
 
-2. In the second phase the document content is loaded and the code within `<script>` elements, both internal and external, is executed: the browser first creates a `Document` object, adding the corresponding `Element` and `Text` nodes as the HTML is parsed, the JavaScript code is evaluated normally, and the DOM is constructed from the parsed HTML. The DOM loading marks the end of this phase and the beginning of the last phase.
+2. In the second phase the document content is loaded and the code within `<script>` elements, both internal and external, is executed: the browser first creates a `Document` object, adding the corresponding nodes as the HTML is parsed, then the JavaScript code is evaluated normally, and the DOM is constructed from the parsed HTML. The DOM loading marks the end of this phase and the beginning of the last phase.
 
 3. In the third and last phase, the `DOMContentLoaded` event is fired on `document`. This marks the transition from the synchronous phase to the next, asynchronous phase. The page is displayed on the browser's window, while the rest of the document's external resources, like images or videos, (_assets_) are being loaded. The `DOMContentLoaded` event is triggered when the HTML document as been completely loaded and parsed, however, the `load` event is only triggered much later, when all the assets are fully loaded.
 
-The second, page loading phase is relatively short, but once the document is loaded, the asynchronous, event-driven phase lasts as long as the document is displayed by the browser. It is during this last phase when the browser invokes event listeners and other callbacks in response to events that occur asynchronously. 
+The second, page loading phase is relatively short, but once the document is loaded, the asynchronous, event-driven phase lasts indefinitely, as long as the document is displayed by the browser. It is during this last phase when the browser invokes event listeners and other callbacks in response to events that occur asynchronously. 
 
 It's often the case that we use the `DOMContentLoaded` event as a trigger to execute code or register other event listeners that use the DOM in some way, as the `load` event may delay an indeterminate amount of time.
 
@@ -135,7 +135,8 @@ This object provides useful methods:
 - `stopPropagation()`: cancels the propagation of events. If there are other listeners defined on the same object, the rest of those listeners will still be invoked, but no event listeners _on any other object_ will be invoked after this method is called. This method works during the capturing phase, the event target itself, and during the bubbling phase.
 - `stopImmediatePropagation()`: it works as `stopPropagation()`, except it prevents also the invocation of any subsequent event listeners registered on the same object.
 
-It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it performs the default action of the event (like clicking on a link), but if there's any listener on the path with a `preventDefault()` call, then that default action will be prevented
+!
+> It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it performs the default action of the event (like clicking on a link), but if there's any listener on the path with a `preventDefault()` call, then that default action will be prevented.
 
 ## Event dispatch and propagation
 
@@ -143,13 +144,24 @@ In JavaScript, most events that occur on document elements _propagate_. This mea
 
 1. In the **capturing phase**, the event gets 'dispatched' or 'transmitted' first to the `window` object, then to the `document` object, and then all the way down until reaching the target element. In practice, this means that, if any, the capturing listeners (listeners registered with the appropriate _options_ argument) of the `Window` object are invoked first, then the capturing listeners on `document`, then on `body`, and so on all the way down the DOM tree until the capturing listeners of the parent of the event target are called. Capturing listeners on the event target itself, however, are not invoked.
 2. In the **target phase**, non-capturing listeners are invoked on the target object on which the event was fired originally.
-3. The **bubbling phase**: Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
+3. The **bubbling phase**: Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners for this type of event, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
 
-Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and can become memory-heavy (if we define different functions on each different element).
+> The browser waits for the event object to go through the propagation phases (capturing and bubbling) before it performs the default action of the event. If there's an event handler with a `preventDefault` call somewhere in the propagation path, the default behavior is skipped.
 
-The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'`. The `'load'` event on document elements bubbles, but it stops at the `Document` object, not propagating into the `window` object.
+Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and can become memory-heavy (we would be defining different functions for each different element).
+
+The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'` (meaning that listeners for them have to be registered as capturing listeners via the `addEventListener` third argument). The `'load'` event on document elements bubbles, but it stops at the `Document` object, not propagating into the `window` object.
 
 Capturing listeners can be very helpful when we want to inspect an event before it is dispatched to its target, for instance when debugging. Other common use for event capturing is for handling mouse drags.
+
+We can create our own custom events with the `dispatchEvent()` method, invoked on the element that we want to dispatch the event to, and passing the event object as argument:
+
+```js
+let element = document.querySelector('#element')
+let event = new CustomEvent('[event-type]');
+
+element.dispatchEvent(event);
+```
 
 [Add table of commonly used events]
 

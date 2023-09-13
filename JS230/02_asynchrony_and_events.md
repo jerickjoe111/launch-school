@@ -86,12 +86,12 @@ request.addEventListener('error', event => {
 
 ## Promise-based asynchronous programming.
 
-Promises are a core JavaScript feature released on ES6 designed to simplify asynchronous programming in this language. In essence, Promises are an easier, alternative to pure callback-based asynchrony that seek to solve two major problems the other approach has:
+Promises are a core JavaScript feature released on ES6 designed to simplify asynchronous programming in this language. In essence, Promises are an easier alternative to pure callback-based asynchrony, seeking to solve two major problems the callback approach has:
 
 - The first and most obvious problem with pure callbacks is that it is easy ending up with **multi-level callbacks**, one nested in each other, which makes code difficult to read: Promises reinvent this nested callback mess as a more linear _promise chain_, much easier to read and understand.
 - The other major problem is **error handling**. If an asynchronous callback function throws an exception, there is no way for that exception to propagate back to the caller function: this is way pure callback-based code breaks exception handling. Promises, on the hand, standardize error handling and provide a way for exceptions to propagate through the chain of Promises.
 
-A Promise is an object that represents the _result_ of an eventual asynchronous computation. That result may or may not be ready at determined time; this is by design: there is no way to synchronously get the value of a promise, the only thing we can expect is to it to invoke some callback function when that value is ready.
+A Promise is an object that represents the _result_ of an eventual asynchronous computation. That result may or may not be ready at certain time; this is by design: there is no way to synchronously get the value of a promise, the only thing we can expect is to it to invoke some callback function when that value is ready.
 
 It's important to note that Promises represent eventual **single** asynchronous computations, and cannot be used to represent repeated asynchronous computations.
 
@@ -119,18 +119,18 @@ In this case, the first Promise is immediately _resolved_ because `resolveOuter`
 
 ### Basic Promise use
 
-We use Promises in combination with functions that specifically return a `Promise` object, instance methods defined on every `Promise`, like `then()`, callbacks, and, in some case `Promise` static methods that provide additional functionality for Promises. A typical example of a Promise-returning function is `fetch()`:
+We use Promises in combination with: functions that specifically return a `Promise` object; instance methods defined on every Promise, like `then()`; callbacks, and, in some case `Promise` class static methods that provide additional functionality for Promises. A typical example of a Promise-returning function is `fetch()`:
 
 ```js
 fetch(someUrl)
   .then(response => {
-    // does something with the response
+    // does something with the Response object
   })
 ```
 
 `fetch()` is a global function that makes an HTTP request and returns a `Promise` object. The Promise defines a `then()` instance method: when the response arrives, the callback we pass to `then()` is invoked with the value of the Promise as argument. In this case, the value of the `Promise` object returned by `fetch` is a `Response` object.
 
-`then()` is the distinctive feature of Promises, and it works like a callback registration method for listeners, but each `Promise` object represents a single operation, and each callback within `then()` will only be called once. 
+`then()` is the distinctive feature of Promises, and it works like a callback registration method for listeners, but each `Promise` object represents a single operation, and each callback within `then()` will only be called once.
 
 The callback passed to `then()` will always be invoked asynchronously, even if the operation is already ready when `then()` is invoked.
 
@@ -144,7 +144,7 @@ Every code that involves some kind of networking has to be prepared to deal with
 
 #### with `then()` second argument
 
-This method accepts another callback as a second argument: this is the error-handling function. If a Promise-based asynchronous operation completes normally, it passes the result of the Promise to the first argument of `then()`, the main callback. But, if there is an error, the Promise passes the exception (usually an `Error` object) to the second function passed to `then()`, the error-handling function:
+This method accepts another callback as a second argument: this is the error-handling function. If a Promise-based asynchronous operation completes normally, it passes the result of the Promise to the first argument of `then()`, the main callback. But, if there is an error, the Promise passes the exception (usually an `Error` object) to the second argument passed to `then()`, the error-handling function:
 
 ```js
 fetch(someUrl)
@@ -163,11 +163,11 @@ fetch(someUrl)
 
 `catch()` is really a shortcut for calling `then()` with a `null` first argument and a function as second argument.
 
-In ES2018 a `finally()` method for Promises was introduced, which works similarly to the `finally` of `try`/`catch`/`finally` statements. We add this method at the end of a Promise chain, passing a callback as an argument; this callback will be invoked at the end when the Promise you called it on settles. It won't be called any arguments, so we can't know if it was fulfilled or rejected, but this method is useful to make some kind of cleanup or closing connections.
+In ES2018 a `finally()` method for Promises was introduced, which works similarly to the `finally` of `try`/`catch`/`finally` statements. We add this method at the end of a Promise chain, passing a callback as an argument; this callback will be invoked at the end when the Promise you called it on settles. _It won't be called with any arguments_, so we can't know if it was fulfilled or rejected, but this method is useful to make some kind of cleanup or closing connections.
 
 ### Promises in parallel
 
-`Promise.all()`: One of the promise concurrency methods (it will tell all the promises in the argument array to run concurrently). It can be useful for aggregating the results of multiple promises. This method takes an array of `Promise` objects as argument and returns another Promise. That Promise will be fulfilled with an array of the fulfillment values of each of the input Promises in the array argument; it will be rejected if any of the input Promises is rejected. The argument array can take any kind of value: for non-Promise values, it will be treated as it is the value of an already fulfilled Promise.
+`Promise.all()`: One of the Promise concurrency methods (it will tell all the promises in the argument array to run concurrently). It can be useful for aggregating the results of multiple promises. This method takes an array of `Promise` objects as argument and returns another Promise. That Promise will be fulfilled with an array of the fulfillment values of each of the input Promises in the array argument; it will be rejected if any of the input Promises is rejected. The argument array can take any kind of value: for non-Promise values, it will be treated as it is the value of an already fulfilled Promise.
 `Promise.allSettled()`: this method takes an array of Promises and returns another Promise. This Promise won't be fulfilled until all the Promises in the input array have settled. The value of this Promise is an array of special objects, one per input Promise, that have three properties: `status`, `value`, and `reason`, all self-explanatory.
 `Promise.race()`: This method takes an array of Promises and returns another Promise. This Promise is fulfilled or rejected when the first of the Promises in the input array is fulfilled or rejected (or the first of non-Promise values, as they count as immediately fulfilled).
 
@@ -206,7 +206,6 @@ The promise object will become resolved when either of the functions are invoked
 
 ### `async` and `await`
 
-
 These new keywords were introduced in ES2017, and their aim is to simplify Promise-based asynchronous code even more. `async` and `await` are basically wrappers for traditional Promises: they hide Promises, so the asynchronous code can look like synchronous code, thus making it much easier to read and understand.
 
 #### `await` expressions
@@ -219,7 +218,7 @@ We use the `await` operator before the invocation of a function that returns a P
 let response = await fetch(url);
 ```
 
-_Any code that uses the `await` keyword is itself asynchronous_: this keyword does not 'block' the program waiting for the result of the computation, it simply 'disguises' the asynchrony. However, using `await` _pauses the execution of its surrounding async function until the promise is settled_. When execution continues, the value of the `await` expression becomes that of the fulfilled promise.
+_Any code that uses the `await` keyword is itself asynchronous_: this keyword does not 'block' the program waiting for the result of the computation, it simply 'disguises' the asynchrony. However, using `await` _pauses the execution of its surrounding `async` function until the promise is settled_. When execution continues, the value of the `await` expression becomes that of the fulfilled promise.
 
 Syntax: 
 
@@ -262,13 +261,13 @@ If the result of a second `await` does not depend on the first `await` expressio
 async function doubleFetch(url1, url2) {
   let promise1 = fetchProperty(url1);
   let promise2 = fetchProperty(url2);
-  let valuesArray = await Promise.all(promise1, promise2);
+  let valuesArray = await Promise.all([promise1, promise2]);
 
   return valuesArray;
 }
 ```
 
-Another great advantage of `async` functions is the ability to wrap our code in a `try`/`catch` block, instead of chaining `then()` and `catch()` like in traditional Promises:
+Another great advantage of `async` functions is the ability to wrap our code in a `try`/`catch` block, instead of chaining `then()` and `catch()` like with traditional Promises:
 
 ```js
 async function doubleFetch(url1, url2) {

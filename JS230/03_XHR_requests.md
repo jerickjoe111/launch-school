@@ -26,14 +26,14 @@ The `XMLHttpRequest` object ('XHR') is not a core JavaScript feature, but part o
 
 Today this API has been mainly replaced by the more convenient and easier to use `fetch()` method.
 
-The basic use of the XHR API consists on these three main steps:
+The basic use of the XHR API consists on these main steps:
 
 1. Instantiation of the `XMLHttpRequest` class.
 2. Setting the HTTP request (method, host, path, headers...).
 3. Sending the request, with or without data in its body.
 4. Handling the response (usually with the help of event listeners)
 
-We can create a new XHR object by the usual constructor way:
+We can create a new XHR object with the constructor:
 
 ```js
 let request = new XMLHttpRequest();
