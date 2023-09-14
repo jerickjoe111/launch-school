@@ -1,42 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
-  function validInput(data) {
-    for (let value of Object.values(data)) {
-      if (value.length === 0) return false
-    }
+  document.querySelector('#submit-button').addEventListener('click', event => {
+    event.preventDefault();
 
-    return true;
-  }
+    let form = document.querySelector('form')
+    let formData = new FormData(form)
 
-  function addStaffMember(data) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/staff_members')
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')
-    xhr.responseType = 'json'
-    let json = JSON.stringify(data)
+    let request = new XMLHttpRequest()
+    request.open('POST', '/api/staff_members')
+    request.addEventListener('load', () => {
 
-    xhr.addEventListener('load', event => {
-      if (xhr.status === 400) {
-        alert('Bad request')
-        return;
-      }
-      alert(`User succesfully created with id: ${xhr.response.id}`)
-      form.reset()
+      let message;
+      if (request.status === 201) {
+        let id = JSON.parse(request.response).id
+        message = `New staff added with id ${id}.`
+        form.reset()
+      } else message = request.response
+      alert(message)
     })
 
-    xhr.send(json)
-  }
-
-  let form = document.querySelector('form');
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    formData = new FormData(form)
-    let data = {}
-    for (let k of formData) data[k[0]] = k[1];
-    if (!validInput(data)) {
-      alert('Invalid input data')
-      return
-    }
-    
-    addStaffMember(data)
+    request.send(formData)
   })
 })

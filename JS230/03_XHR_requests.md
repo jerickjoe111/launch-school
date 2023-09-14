@@ -2,23 +2,23 @@
 
 ## How non-AJAX web application work
 
-Classic non-AJAX web applications are entirely based on the HTTP request-response cycle: in order to interact with them, the user must perform an action (click on a link, reload the page, etc.) to which the browser automatically responds by sending a request to a server, receiving back the entire HTML code with the updated data for the page in the response. Then, the browser parses the received HTML code and renders its content onto the page. For every asset in the page, the browser will also send requests to fetch them from their locations, until no more requests are needed, and the page is fully loaded.
+Traditional non-AJAX web applications are entirely based on the HTTP request-response cycle: in order to interact with them, the user must perform an action (click on a link, reload the page, etc.) to which the browser automatically responds by sending a request to a server, expecting to receive the new HTML document with the updated data in the response body. Then, the browser parses the received HTML code and renders its content onto the page. For every asset in the page, the browser will also send requests to fetch them from their locations, until no more requests are needed, and the page is fully loaded.
 
 This approach has the main problem of having to reload the entire web page just to update a part of it, even a little interface component, which is not very efficient. And, as web applications became more complex, this was a big limiting factor. AJAX is the technique that allows us to work around this limitation.
 
 ## What is AJAX and how AJAX-based web applications work
 
-AJAX stands for Asynchronous JavaScript And XML, and it is one, if not the most, important defining characteristic of modern web applications. It refers to the set of features that lets the browser make HTTP requests to fetch data from a server _without having to reload the entire page_. For example, if we have a widget on a webpage that indicates the to-the-minute updated weather report, the JavaScript script is probably performing requests to a server at short intervals, without us noticing, to update just that little element on the page with the received, updated weather information. And all this is achieved without the hurdle of having to reload the main web page again and again!
+AJAX stands for Asynchronous JavaScript And XML, and it is one, if not the most, important defining aspect of modern web applications. It refers to the set of features that lets the browser make HTTP requests to fetch data from a server _without having to reload the entire page_. For example, if we have a widget on a webpage that indicates the to-the-minute updated weather report, the JavaScript script is probably performing requests to a server at short intervals, without us noticing, to update just that little element on the page with the received, updated weather information. And all this is achieved without the hurdle of having to reload the main web page again and again!
 
 AJAX presents other useful perks: first, that it allows us to use all HTTP methods besides `GET` and `POST` (`PUT`, `DELETE`, etc.); second, that AJAX gives us the opportunity to fine tune the requests, allowing us to set the headers and data format (in HTML, JSON or XML formats) according to our needs.
 
-However, there is one issue we have to take into account. Because the browser can't make requests by itself, we have to write JavaScript code that handles the AJAX: on one side we have to write the code that initializes the asynchronous requests (typically with the help of event listeners), and, for the other, we also have to write code that handles the response, for example, by taking its body and updating the page accordingly (inserting HTML code), or even ignoring it.
+However, there is one issue we have to take into account. Because the browser can't make requests by itself, we have to write JavaScript code that handles the AJAX: on one side we have to write the code that initializes the asynchronous requests (typically with the help of event listeners), and, for the other, we also have to write code that handles the response, for example, by taking the received HTML code and updating some page component accordingly, or even ignoring it.
 
 Other common examples of AJAX in action are the 'autocomplete' functionality in text fields, in which each key press by the user is roughly equivalent to a _minirequest_ made by the JavaScript code; and also forms: if the user enters invalid information in the inputs, asynchronous requests can be made periodically to save the already valid data, while just updating the fields with invalid inputs with error messages, for example.
 
 ## Single-page web applications
 
-These applications are based on the idea of creating the entire DOM from fetched data in a serialized format using client-side code. The data is normally received in JSON format used to update the page and in client-server interactions, instead of injecting raw HTML code from the responses' body.
+These applications are based on the idea of creating the entire DOM from fetched data in a serialized format using client-side code. The data is normally received in JSON format used to update the page and via client-server interactions, instead of injecting raw HTML code from the responses' body.
 
 ## The `XMLHttpRequest` object ('XHR')
 
@@ -52,7 +52,9 @@ And then we send the request, with an argument in case we want to send data in t
 request.send(data)
 ```
 
-It's important to note here that the `send()` method sends the requests _asynchronously_. The XHR object will generate events during the request-response cycle, indicating different stages in its life cycle; the developer can use these events to set up event listeners.
+It's important to note that the `send()` method sends the request _asynchronously_. The XHR object will generate events during the request-response cycle, indicating different stages in its life cycle; the developer can use these events to set up event listeners.
+
+## XHR Interface
 
 We interact with this API by invoking the methods of the XHR object, accessing or setting its properties, and indirectly with the events associated with this object.
 
@@ -74,7 +76,7 @@ We interact with this API by invoking the methods of the XHR object, accessing o
 | `readyState` | Indicates the current request state | No |
 | `response` | Parsed content of the response's body (not always _meaningful_) | No |
 | `responseText` | Raw text of the response's body | No |
-| `responseType` | Specifies the type of data contained in the response (`'text'`, `'json'`, `'arraybuffer'`, `'blob'`, `'document'`) | Yes |
+| `responseType` | Specifies the type of data contained in the expected response (`'text'`, `'json'`, `'arraybuffer'`, `'blob'`, `'document'`) | Yes |
 
 ### XHR object events
 
@@ -102,11 +104,11 @@ There are three main serialization formats:
 
 ### Query string/URL encoding
 
-This a very basic form of data serialization; it consists of one or more `name=value` pairs delimited by the `&` character. As a _query string_ the list of pairs can be sent via the URL in `GET` requests marked with the `?` character, or in the body of `POST` requests (without `?`). 
+This a very basic form of data serialization; it consists of one or more `name=value` pairs delimited by the `&` character. As a _query string_ the list of pairs can be sent appended to the request path in `GET` requests, after the `?` character, or in the body of `POST` requests (without the `?`). 
 
 In any case, the query string has to be _encoded_ if it includes more than alphanumeric characters (including white spaces `' '`). Thankfully, JavaScript provides a method for this task: `encodeURIComponent`.
 
-In `POST` requests, to send data in this format we have to include a header named `Content-Type` with the value `application/x-www-form-urlencoded`. For this we just have to pass the encoded query string as an argument to `send()`.
+In `POST` requests, to send data in this format we have to include a header named `Content-Type` with the value `application/x-www-form-urlencoded`, and then just pass the encoded query string as an argument to `send()`.
 
 Converting input/form data into a query string:
 
@@ -180,18 +182,26 @@ This technique is useful for when we want to fetch some content (like HTML code)
 
 This approach can be useful for web applications that mainly use server-side rendering to generate the user interface.
 
+Basic use:
+
+1. Instantiate the XHR object
+2. Set the XHR object (method, path, headers...)
+3. Set listener that will parse and insert the HTML code received in the response
+4. Send the request
+5. Let the listener handle the response
+
 Fetching HTML code from server and updating a DOM element:
 
 ```js
 document.addEventListener('DOMContentLoaded', () => {
   let request = new XMLHttpRequest();
   request.open('GET', 'https://host.com/path');
-  request.send();
-
   request.addEventListener('load', () => {
     let element = document.querySelector('#id-of-element');
     element.innerHTML = request.response; // we update the content of the element with the received raw HTML code
   });
+
+  request.send();
 });
 ```
 
@@ -204,13 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
   someElement.addEventListener('click', event => { 
     event.preventDefault();
 
-    let elementReference = someElement.href;
+    let elementReference = someElement.dataset.id;
 
     let request = new XMLHttpRequest();
     request.open('GET', `https://host.com/path/info/${elementReference}`);
-    request.send();
+    request.addEventListener('load', () => someElement.innerHTML = request.response );
 
-    request.addEventListener('load', () => someElement.innerHTML = request.response; );
+    request.send();
   });
 });
 ```
@@ -223,9 +233,30 @@ This technique implies consists of three basic steps:
 2. Send the request.
 3. Handle the response (success/error).
 
-There are two main ways to serialize form data to send to the server via HTTP requests: serialize the form element values manually, and sending them in the body of the request; using the `FormData` API. 
+There are different ways to serialize form data to send to the server via HTTP requests: serialize the form element values manually, and sending them in the body of the request, as a query string; using the `FormData` API. 
 
-There is no reason to use the other methods over the `FormData` API: this method is the most convenient, easy to use, and less prone to errors. The only disadvantage of this method is that it only works with form input fields that have a `name` attribute. `FormData` serializes the data into a _multipart_ format (used with file uploads).
+We can send the data via an encoded query string, that can be written directly or programmatically (the `URLSearchParams` interface can be of help here) from various input elements. We need to set a `Content-Type` header to `application/x-www-form-urlencoded` first:
+
+```js
+let request = new XMLHttpRequest();
+request.open('POST', 'path');
+
+request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+let data = 'name=values&other=more%20data';
+
+request.addEventListener('load', () => {
+  if (request.status === 201) {
+    alert(`The data was sent successfully: ${request.responseText}`);
+  }
+});
+
+request.send(data);
+```
+
+There is no reason to use the other methods over the `FormData` API: this method is the most convenient, easy to use, and less prone to errors. The only disadvantage of this method is that it only works with form input fields that have a `name` attribute. `FormData` serializes the data into a _multipart_ format (used with file uploads). The `Content-Type` header will be set automatically. 
+
+The `Accept` header will be automatically set to `*/*` (accepts anything) if it is not set manually via `setRequestHeader()`.
 
 This is an example of a custom listener that submits the form data this way:
 
@@ -236,7 +267,7 @@ form.addEventListener('submit', event => {
   let data = new FormData(form); // we convert the form data by passing the element to the constructor
 
   let request = new XMLHttpRequest();
-  request.open(form.method, `https://host/${form.action)}`);
+  request.open(form.method, `path`);
   request.send(data); // and we just send the form data to the server
 });
 ```
@@ -266,7 +297,7 @@ We can usually check if the request was successful by checking the status code o
 
 ### 03. Loading JSON via XHR
 
-This technique is useful for when we want the server to send to the client the data in a structured way, to then render it client-side; for instance, when loading widgets that the server does not render by itself. The best way we can structure that data is by the JSON format.
+This technique is useful for when we expect to receive from the server data in a structured way, and then render it client-side; for instance, when loading widgets that the server can't do by itself. The best way we can structure that data is by the JSON format.
 
 Steps:
 
@@ -274,7 +305,7 @@ Steps:
 2. We set the `responseType` property of the XHR object to the string `json`;
 3. And then, when the response has been received, we can access to the already JSON-parsed data via the `response` property of the XHR object. If the response body couldn't be parsed or other error occurs, the value of this property will be simply `null`
 
-The `JSON.parse()` static method parses a JSON string, and creates the equivalent JavaScript value or object. It will throw an exception if the string to parse is not valid.
+The `JSON.parse()` static method parses a JSON string, and creates the equivalent JavaScript value or object. It will throw an exception if the string to parse is not valid. (Not necessary in modern browsers when we set the `responseType` property to `'json'`, as the data in the `response` will already be parsed.)
 
 If we don't set the `responseType` property, we will have to write our own extra error-handling code along the `JSON.parse()` method, to which we will have to pass the value of the `response` property of the XHR object. As it seems obvious, there is no reason we should prefer this over the much more convenient way of setting the `responseType` property.
 
@@ -286,6 +317,7 @@ request.send();
 
 request.addEventListener('load', event => {
   let data = request.response;
+  // does something the the parsed data
 })
 ```
 
