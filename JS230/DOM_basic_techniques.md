@@ -23,11 +23,13 @@ function traverse(element, callback) {
 ## All siblings
 
 ```js
-function siblings(element, callback) {
-  for (let sibling of element?.parentNode?.children) {
-    callback(element);
+  function siblings(element, callback) {
+    if (element.parentNode) {
+      for (let sibling of element.parentNode.children) {
+        callback(sibling)
+      }
+    }
   }
-}
 ```
 
 ## All ancestors
@@ -35,14 +37,39 @@ function siblings(element, callback) {
 ```js
 function ancestors(element, callback) {
   let parent = element.parentNode; 
-  while (parent && parent.nodeName !== 'HTML') {
+  while (parent) {
     callback(parent)
     parent = parent.parentNode;
   }
 }
 ```
 
-## All cousins (same generation/depth nodes)
+## All cousins
+
+```js
+  function siblings(element, callback) {
+    if (element.parentNode) {
+      for (let sibling of element.parentNode.children) {
+        callback(sibling)
+      }
+    }
+  }
+
+  function cousins(element) {
+    let grandpa = element.parentNode.parentNode
+    let uncles = grandpa.children
+    let cousins = []
+    for (let uncle of uncles) {
+      for (let cousin of uncle.children) {
+        cousins.push(cousin)
+      }
+    }
+
+    return cousins
+  }
+```
+
+## All cousins (by generation/depth nodes)
 
 ```js
 function traverse(element, generation, callback) {
@@ -64,7 +91,31 @@ function sameGeneration(target, callback) {
 }
 ```
 
+## All grandchildren
+
+```js
+  function grandChildren(grandparent) {
+    let children = grandparent?.children
+    if (!children) return
+
+    let grandchildrenOutput = []
+    for (let child of children) {
+      let grandchildren = child?.children
+      for (let grandchild of grandchildren) {
+        grandchildrenOutput.push(grandchild)
+      }
+    }
+
+    return grandchildrenOutput
+```
+
 ## Swap two nodes
+
+The easiest way is to locate the parent, and the two references to the elements. Then, just call `append()` on the parent, passing the elements as arguments in the inverse order we found them:
+
+```js
+parent.append(element2, element1)
+```
 
 ```js
 function nodeSwap(idA, idB) {

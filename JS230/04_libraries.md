@@ -80,9 +80,9 @@ jQuery works as a function to which we can pass:
 - A string (a CSS selector) or a single DOM element
 - A function.
 
-If we passed a CSS selector string or a DOM element, this function will return a _jQuery object_ that, not only _represents a collection of one or more elements_ (either the DOM element passed, or all elements that match the passed-in CSS selector string), but also has a number of _very useful methods_ to access or modify the elements represented in by the collection, or even to add new elements.
+If we pass a CSS selector string or a DOM element, this function will return a _jQuery object_ that, not only _represents a collection of one or more elements_ (either the DOM element passed, or all elements that match the passed-in CSS selector string), but also has a number of _very useful methods_ to access or modify the elements represented in by the collection, or even to add new elements.
 
-But if we passed a function, it will work as a callback to be executed when the HTML document is loaded (but without waiting for the assets, like images included in `<img>` elements)
+But if we pass a function, it will work as a callback to be executed when the HTML document is loaded (but without waiting for the assets, like images included in `<img>` elements)
 
 By convention, we name the jQuery functions as the character `$`, and the returned jQuery object is also prepended `$`:
 
@@ -299,6 +299,37 @@ Handlebars blocks:
 {{/each}}
 ```
 
+### Use of templates and partials:
+
+If we have repeated elements, we can define a main template on which we will load each individual element, each one compiled using a partial template:
+
+```html
+<script id='main-template' type='text/x-handlebars'>
+  {{#each items}}
+    {{> item-template}}
+  {{/each}}
+</script>
+
+<script id='item-template' type='text/x-handlebars'>
+  {{property 1}}
+  {{property 2}}
+  {{property 3}}
+</script>
+```
+
+Then we must:
+
+1. Compile the main template
+2. Register the partial template (`item-template`)
+3. Invoke the compiler function passing an object with a single property with the name after the `each` within the main template, with a value of an array containing all the items.
+4. We have to insert the resulting HTML code string into the appropriate element parent using `insertAdjacentHTML()`
+
+```js
+let mainCompiler = Handlebars.(mainTemplate.innerHTML)
+Handlebars.registerPartial('partial-template', partialTemplate.innerHTML)
+parentElement.innerHTML = mainCompiler({items: itemsArray})
+```
+
 ## `fetch()`
 
 This is the newer, better alternative to the callback-based `XMLHttpRequest` API. The promise-based Fetch API is comprised by a series of interfaces for accessing and manipulating aspects of the HTTP, specially requests and responses. It's specially important the `fetch()` global function.
@@ -306,6 +337,9 @@ This is the newer, better alternative to the callback-based `XMLHttpRequest` API
 The global `fetch()` method asynchronously sends an HTTTP request, returning a Promise fulfilled when the response has fully arrived; the fulfillment value of this promise is a `Response` object.
 
 Note that this method is only rejected upon network errors(mainly, permission issues), and not upon HTTP errors, for instance, 4xx errors, etc. It's the developer's task to handle each scenario via the `Response` object interface.
+
+Also, `fetch()` won't send cookies by default; it's the developer's task to set the `credentials` parameter in the configuration object to `include` or `same-origin`.
+That last value means that the request will send credentials only if the request URL is on the same origin as the calling script.
 
 Syntax:
 
@@ -332,11 +366,10 @@ fetch(url, {
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/json", // 'application/x-www-form-urlencoded', etc
     },
     redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    referrerPolicy: "no-referrer", // no-referrer, origin, origin-when-cross-origin, same-origin...
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   }
 );
@@ -351,3 +384,15 @@ The resolve value of the Promised returned by `fetch()` defines a series of usef
 - `response.ok`: A boolean indicating whether the response was successful (status in the range 200 – 299) or not.
 - `response.status`: The status code of the response. (This will be 200 for a success).
 - `response.statusText`: The status message corresponding to the status code.
+- `response.json()`:It returns a promise which resolves with the result of parsing the body text as JSON. The Promise resolves to a JavaScript object. This object could be anything that can be represented by JSON — an object, an array, a string, a number:
+
+```js
+fetch(url)
+  .then(response => response.json())
+  .then(data => 
+    for (let property in data) {
+      // does something with the parsed json
+      console.log(data[property])
+    }
+  ) 
+```

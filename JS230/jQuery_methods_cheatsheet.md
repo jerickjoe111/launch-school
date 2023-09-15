@@ -39,6 +39,7 @@ CSS/Animations
 * **[addClass()](http://api.jquery.com/)**: Adds the specified class(es) to each element in the set of matched elements.
 * **[toggle()](http://api.jquery.com/toggle)**:  Display or hide the matched elements.
 * **[toggleClass()](http://api.jquery.com/toggle)**:  Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
+* **[slideToggle()](http://api.jquery.com/toggle)**:   Display or hide the matched elements with a sliding motion.
 
 Extra:
 * **[is()](http://api.jquery.com/)**: Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments. Useful to be used with pseudo-attribute selectors: `':invalid'`, etc

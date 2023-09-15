@@ -45,7 +45,7 @@ function formDataToJson(formData) {
     json[name] = value;
   }
 
-  return json;
+  return JSON.stringify(json);
 }
 ```
 

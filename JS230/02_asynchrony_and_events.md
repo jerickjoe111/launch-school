@@ -2,7 +2,7 @@
 
 ## Asynchrony
 
-In a _synchronous_ computer program, the different operations are executed step by step (besides jumps, conditionals, etc.), following the main flow; the program executes some code, waits for the computation to end, and then does another operation with that results, until there are no more operations to be performed. This means that each operation depends on the previous one: the following computation can't be performed if the previous one has finished and yielded its results. We can talk about operations _blocking_ the program in this case.
+In a _synchronous_ computer program, the different operations are executed step by step (besides jumps, conditionals, etc.), following the main flow; the program executes some code, waits for the computation to end, and then does another operation with those results, until there are no more operations to be performed. This means that each operation depends on the previous one: the following computation can't be performed if the previous one has not finished and yielded its results. We can talk about operations _blocking_ the program in this case.
 
 In most real-world computer programs (and in most real-world JavaScript), however, the execution is _asynchronous_. This means that there are operations performed _independently_ of the main program flow: when an asynchronous part of the program is executed, some operation (a function's invocation, for instance) is _left pending_, until some condition is met or some event occurs, _without blocking the program to wait for the result_.
 
@@ -27,7 +27,7 @@ It's very important to note that _all synchronous code runs before any asynchron
 
 We can understand the JavaScript Runtime Environment as having three main components or _sub-environments_: the _call stack_; the web APIs (or the core C/C++ APIs if we are in Node.js); and the _message or macro-task queue_. The last two are not part of the JavaScript engine itself, but they belong to the browser's environment or the Node.js environment.
 
-The call stack is the stack-like structure (Last In, First Out) that stores information about the active functions in a program in _frames_; once a function is executes, it is removed or _popped out_ from the top of the stack, so the one immediately below it can be invoked and popped. This is the basis for how recursion works.
+The call stack is the stack-like structure (Last In, First Out) that stores information about the active functions in a program in _frames_; once a function is executed, it is removed or _popped out_ from the top of the stack, so the one immediately below it can be invoked and popped. This is the basis for how recursion works.
 
 The APIs handle the asynchronous code, whether it's timer-based or event-based. In essence, all of them are based on callbacks that will get executed when certain conditions are met (for instance, when a response arrives or an event occurs); when those conditions are met, the callbacks will be placed into the message queue.
 
@@ -69,7 +69,7 @@ Another common sample of asynchronous programming in JavaScript is performing ne
 ```js
 let request = new XMLHttpRequest();
 request.open('GET', '/path');
-request.send();
+request.send(); // The request is sent asynchronously
 
 request.addEventListener('load', event => {
   if (request.status === 200) {
@@ -91,9 +91,9 @@ Promises are a core JavaScript feature released on ES6 designed to simplify asyn
 - The first and most obvious problem with pure callbacks is that it is easy ending up with **multi-level callbacks**, one nested in each other, which makes code difficult to read: Promises reinvent this nested callback mess as a more linear _promise chain_, much easier to read and understand.
 - The other major problem is **error handling**. If an asynchronous callback function throws an exception, there is no way for that exception to propagate back to the caller function: this is way pure callback-based code breaks exception handling. Promises, on the hand, standardize error handling and provide a way for exceptions to propagate through the chain of Promises.
 
-A Promise is an object that represents the _result_ of an eventual asynchronous computation. That result may or may not be ready at certain time; this is by design: there is no way to synchronously get the value of a promise, the only thing we can expect is to it to invoke some callback function when that value is ready.
+A Promise is an object that represents the _result_ of an eventual asynchronous operation. That result may or may not be ready at certain time; this is by design: there is no way to synchronously get the value of a promise, the only thing we can expect is to it to invoke some callback function when that value is ready.
 
-It's important to note that Promises represent eventual **single** asynchronous computations, and cannot be used to represent repeated asynchronous computations.
+It's important to note that Promises represent eventual **single** asynchronous operations, and cannot be used to represent repeated asynchronous operations.
 
 ### Promise terminology
 
@@ -119,7 +119,7 @@ In this case, the first Promise is immediately _resolved_ because `resolveOuter`
 
 ### Basic Promise use
 
-We use Promises in combination with: functions that specifically return a `Promise` object; instance methods defined on every Promise, like `then()`; callbacks, and, in some case `Promise` class static methods that provide additional functionality for Promises. A typical example of a Promise-returning function is `fetch()`:
+The basic components of Promise use are: functions that specifically return a `Promise` object; Promise instance (like `then()`); callbacks, and, in some case `Promise` class static methods that provide additional functionality for Promises (like `Promise.all()`). A typical example of a Promise-returning function is `fetch()`:
 
 ```js
 fetch(someUrl)
@@ -128,7 +128,9 @@ fetch(someUrl)
   })
 ```
 
-`fetch()` is a global function that makes an HTTP request and returns a `Promise` object. The Promise defines a `then()` instance method: when the response arrives, the callback we pass to `then()` is invoked with the value of the Promise as argument. In this case, the value of the `Promise` object returned by `fetch` is a `Response` object.
+`fetch()` is a global function that sends an asynchronous HTTP request and returns a pending `Promise` object. The Promise defines a `then()` instance method: when the Promise is fulfilled (when the response arrives), the callback we pass to `then()` is invoked with the resolve value of the Promise as argument. In this case, the value of the `Promise` object returned by `fetch` is a `Response` object.
+
+### `then()`
 
 `then()` is the distinctive feature of Promises, and it works like a callback registration method for listeners, but each `Promise` object represents a single operation, and each callback within `then()` will only be called once.
 
@@ -137,6 +139,17 @@ The callback passed to `then()` will always be invoked asynchronously, even if t
 Another very important point about promises is that, when we write chains of `then()` methods, we are not registering multiple callbacks on a single Promise: each invocation of `then()` returns a new `Promise` object, and that new `Promise` object won't be fulfilled until the function passed to `then()` finishes its execution.
 
 As a convention, we name functions that return Promises with verbs, and we append `then()` to the function directly, instead of storing the Promise in a variable.
+
+> Returns a new Promise immediately. This new promise is always pending when returned, regardless of the current promise's status.
+
+> One of the `onFulfilled` and `onRejected` handlers will be executed to handle the current promise's fulfillment or rejection. The call always happens asynchronously, even when the current promise is already settled. The behavior of the returned promise (call it `p`) depends on the handler's execution result, following a specific set of rules. If the handler function:
+
+- returns a value: `p` gets fulfilled with the returned value as its value.
+- doesn't return anything: `p` gets fulfilled with undefined as its value.
+- throws an error: `p` gets rejected with the thrown error as its value.
+- returns an already fulfilled promise: `p` gets fulfilled with that promise's value as its value.
+- returns an already rejected promise: `p` gets rejected with that promise's value as its value.
+- returns another pending promise: `p` is pending and becomes fulfilled/rejected with that promise's value as its value immediately after that promise becomes fulfilled/rejected.
 
 ### Handling Errors with Promises
 
@@ -210,7 +223,7 @@ These new keywords were introduced in ES2017, and their aim is to simplify Promi
 
 #### `await` expressions
 
-The `await` operator takes a Promise and turns it back into a return value or a thrown exception. It can be used with any value to wait for. Imagine an expression `await p`, where `p` is a `Promise` object. This expression `await p` waits asynchronously until `p` is settled; if `p` is fulfilled, then the value of the `await` expression is the fulfillment value of `p`; if `p` is rejected, then the expression throws the rejection value of `p`.
+The `await` operator takes a Promise and turns it back into a return value or a thrown exception. It can be used with any value to wait for. If there is an expression `await p`, where `p` is a `Promise` object, this expression `await p` waits asynchronously until `p` is settled; if `p` is fulfilled, then the value of the `await` expression is the fulfillment value of `p`; if `p` is rejected, then the expression throws the rejection value of `p`.
 
 We use the `await` operator before the invocation of a function that returns a Promise:
 
@@ -251,19 +264,17 @@ async function fetchProperty(url) {
 }
 ```
 
-A function declared this way makes its return value to be a Promise, even if the code within its body is not Promise-related. The apparent explicit return value of an `async` function (expression preceded by the `return` keyword), is, in fact, the resolve value of the real function's return value: a Promise. And, if the `async` Function seems to throw an exception, then the Promise object that the function returns will be rejected with that exception.
+A function declared this way makes its return value to be a Promise, even if the code within its body is not Promise-related. The apparent explicit return value of an `async` function (expression preceded by the `return` keyword), is, in fact, the resolve value of the function's real return value: a Promise. And, if the `async` Function seems to throw an exception, then the Promise object that the function returns will be rejected with that exception.
 
 There are two important caveats to remember about `async` functions: first, that we can't use `await` on the top level or inside a function that is not declared with `async`; in these cases we will have to use classic Promise `then()` chains. Secondly, that we can use `async` with any function declaration, expression, arrow function, etc.
 
-If the result of a second `await` does not depend on the first `await` expression (unlike the case in the previous snippet), we should try to fetch both resources at the same time: we can use `await` with a set of asynchronous `async` functions with the help of the `Promise.all()` method, as we did with classic Promises syntax:
+If the result of a second `await` does not depend on the first `await` expression (unlike the case in the previous snippet), we should try to fetch both resources concurrently: we can use `await` with a set of asynchronous `async` functions with the help of the `Promise.all()` method, as we did with classic Promises syntax:
 
 ```js
 async function doubleFetch(url1, url2) {
   let promise1 = fetchProperty(url1);
   let promise2 = fetchProperty(url2);
-  let valuesArray = await Promise.all([promise1, promise2]);
-
-  return valuesArray;
+  return await Promise.all([promise1, promise2]); 
 }
 ```
 

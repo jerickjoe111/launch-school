@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Document</title>
+  <script src="./06.js"></script>
+  <style>
+    .border {
+      border: 3px solid black;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <button id="schedules">Log Schedules</button>
+  <button id="dates">Log Dates</button>
+  <div id="schedules-load"></div>
+
+  <script id="schedules-list" type="text/x-handlebars">
+    {{#each schedules}}
+      {{>schedule-template}}
+    {{/each}}
+  </script>
+
+  <script id="schedule-template" type="text/x-handlebars">
+    <div class="border">
+      <p>Id: {{id}}</p>
+      <p>Staff Id: {{staff_id}}</p>
+      <p>Student Email: {{student_email}}</p>
+      <p>Date: {{date}}</p>
+      <p>Time: {{time}}</p>
+    </div>
+  </script>
+</body>
+</html>

@@ -376,7 +376,7 @@ According to this specification, every HTTP request sent by the web browser must
 
 This header's value will be used by the server to check if it should send a corresponding header in the response.
 
-Any browser will automatically add the `Origin` header with the appropriate value when performing an HTTP request, via XHR or `fetch()`. 
+Any browser will automatically add the `Origin` header with the appropriate value when performing an HTTP request, via XHR or `fetch()`.
 
 When the server receives the request, it uses the value in the `Origin` header to check whether it represents a valid origin (an origin that is allowed to access the response): If the origin is allowed by the server, it sets a header `Access-Control-Allow-Origin` in the response with the same origin value. The requested resource may be available universally; if this is the case, this header will be set a wildcard character `*`. 
 
@@ -387,3 +387,13 @@ The browser will then determine if it lets the web application to access the res
 Throttling seeks controlling the rate at which a function is invoked, preventing superfluous invocations and, in consequence, HTTP requests sent to the server, which puts an unnecessary strain on the server. 
 
 This technique works by setting a delay period of time between a function invocation and sending a request; if, for example, the user quickly types the beginning of a word in a text input that has implemented the 'autocomplete' functionality, it's not necessary to make requests for all the letters typed, for every single keyboard input. We can just make the request for the final result, the written portion of the word: if a request becomes irrelevant due to a newer request, we can forget the original request (the first letters quickly typed) and start a new delay period for the newer request, until the user pauses.
+
+## On methods:
+
+> The `PUT` method is usually used when you're modifying a singular resource which is already a part of some sort of resources collection (e.g., a database). `POST` is used when you're adding a new item to the collection.
+
+> There are other differences as well - `PUT` is idempotent which means that make a series of identical requests is the same as making a single request. `POST` is not idempotent - multiple identical requests end up adding multiple entries in the collection.
+
+> Another difference is that the URL for a `PUT` operation should be the same URL you will use in the future to access that same data. (When you know the URL, you can, in theory, use `PUT` to create data.) `POST` is more general - you don't need to know the specific URL.
+
+> In short, you use `POST` for (most) create operations, and `PUT` for update operations.

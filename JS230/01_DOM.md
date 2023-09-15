@@ -8,7 +8,7 @@ The Document object represents the HTML document that is displayed in the browse
 
 ## The DOM
 
-The Document Object Model (DOM) refers to the in-memory representation of an HTML document's structure which provides the API that works with HTML documents, via the Document object.
+The Document Object Model (DOM) refers to the in-memory representation of an HTML document's structure which provides the API that works with HTML documents.
 
 HTML documents contain HTML elements nested within one another forming a tree-like structure. If an element that should exist is missing, browsers insert them automatically (_HTML permissiveness_).
 The DOM API mirrors the tree structure of the HTML document: for each HTML tag (one for HTML element) in the document, there is a corresponding Element object, and for each run of _text_ (including whitespace characters) in the document, there is a corresponding Text object. The top-most node, the `document` node, represents the whole HTML document (a `Document` object), and it is the great ancestor of all the other nodes. The Document, Element and Text classes are subclasses of the more general `Node` class; Node objects are organized into a tree structure that JavaScript can query and traverse using the DOM API. Comments, for example, in the HTML document are also part of the DOM as nodes.
@@ -25,7 +25,7 @@ DOM levels refer to different W3 specifications and standards that define what D
 
 ## NodeList vs. HTMLCollection
 
-- `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop, and `forEach`. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
+- `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`.
 
 The DOM also defines other older element selection methods (`getElementBy*` methods), more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use the return value).
 
@@ -35,6 +35,10 @@ The document defines shortcut properties to access certain kinds of nodes. These
 - `children`: it refers to an `HTMLCollection` with all the immediate Element children.
 
 > (NodeList on some browsers does support `forEach`, but not on all browsers; `HTMLCollection` provides no support for `forEach`.) To loop through the elements returned by these methods, use a `for` loop or convert the object into an array and then use the higher-order array functions.
+
+> Both types are array-like objects, which means they are containers for other objects indexed by non-negative integers. According to the JS docs, to say that an object is "array-like" only implies that it has length.
+
+> Since these are not JavaScript arrays, they do not support `forEach` or other array methods. (NodeList on some browsers does support `forEach`, but not on all browsers; `HTMLCollection` provides no support for `forEach`.) To loop through the elements returned by these methods, use a for loop or convert the object into an array and then use the higher-order array functions.
 
 > HTMLCollection and NodeList have differences, but they aren't important right now. All you must know is that `document.getElementsByTagName` returns one in some browsers and the other in other browsers.
 
@@ -108,7 +112,7 @@ The document defines shortcut properties to access certain kinds of nodes. These
 
 The DOM traversal API does not provide any methods, but a series of properties to refer to the parent, siblings, and children relative to a given node.
 
-There are two ways we can traverse the Document: as a tree of Element objects (ignoring non-Element objects), or as a tree of Node objects (including Text and Comment objects). These approaches are different based on the set of properties we use to traverse the tree.
+There are two ways we can understand and traverse the Document: as a tree of Element objects (ignoring non-Element objects), or as a tree of Node objects (including Text and Comment objects). These approaches are different based on the set of properties we use to traverse the tree.
 
 #### As a tree of Element objects
 
@@ -123,6 +127,10 @@ There are two ways we can traverse the Document: as a tree of Element objects (i
 - `previousElementSibling`: The Element sibling immediately before the element.  `null` if the element has no siblings.
 
 - `textContent`: It represents the text content of the node and its descendants (without the HTML syntax). Setting `textContent` on a node removes all the node's children and replaces them with a single Text node with the given string value.
+
+- `matches(selector)`: The `matches()` method of the `Element` interface tests whether the element would be selected by the specified CSS selector.
+
+- `closest(selector)`: The `closest()` method of the `Element` interface traverses the element and its parents (heading toward the document root) until it finds a node that matches the specified CSS selector.
 
 We use recursive functions to traverse the tree (as in any general tree data structure):
 
@@ -167,6 +175,10 @@ All Node objects are defined with the following properties:
 - `nodeName`: The HTML tag name of an Element object, in uppercase. Other types of nodes return, i.e.: `#text`, or `#comment` for Text or Comment nodes.
 - `nodeValue`: The textual content of a Text or Comment node (`null` for other types). It can work as a setter too.
 
+- `contains()`: returns a boolean value indicating whether a node is a descendant of a given node, that is the node itself, one of its direct children (`childNodes`), one of the children's direct children, and so on.
+
+> Note: A node is contained inside itself.
+
 It's important to note that this API is extremely sensitive to variations in the document text. For example, a newline character between the `<html>` and the `<head>` tag can make the document to have 3 direct children, and not the expected 2 (the head and the body of the HTML document).
 
 Tree traversal function for all nodes in the tree:
@@ -184,6 +196,7 @@ We can use different techniques to determine a Node's type:
 
 - `Object.getPrototypeOf([node])`: it returns the prototype of the specified DOM element.
 - `[node] instanceof [class]` operator
+- `constructor` property
 - `node.tagName` property
 - `node.toString()` method or the `String` constructor: this does not work with all elements; anchors, for instance, get converted to a string containing the hyper reference.
 

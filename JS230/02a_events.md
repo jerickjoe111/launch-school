@@ -40,7 +40,7 @@ The fully functional webpage displayed on the browser's window is the result of 
 
 2. In the second phase the document content is loaded and the code within `<script>` elements, both internal and external, is executed: the browser first creates a `Document` object, adding the corresponding nodes as the HTML is parsed, then the JavaScript code is evaluated normally, and the DOM is constructed from the parsed HTML. The DOM loading marks the end of this phase and the beginning of the last phase.
 
-3. In the third and last phase, the `DOMContentLoaded` event is fired on `document`. This marks the transition from the synchronous phase to the next, asynchronous phase. The page is displayed on the browser's window, while the rest of the document's external resources, like images or videos, (_assets_) are being loaded. The `DOMContentLoaded` event is triggered when the HTML document as been completely loaded and parsed, however, the `load` event is only triggered much later, when all the assets are fully loaded.
+3. In the third and last phase, the `DOMContentLoaded` event is fired on `document`. This marks the transition from the synchronous phase to the next, asynchronous phase. The page is displayed on the browser's window, while the rest of the document's external resources, like images or videos, (_assets_) are loaded. The `DOMContentLoaded` event is triggered when the HTML document as been completely parsed and loaded, however, the `load` event is only triggered much later, when all the assets are fully loaded.
 
 The second, page loading phase is relatively short, but once the document is loaded, the asynchronous, event-driven phase lasts indefinitely, as long as the document is displayed by the browser. It is during this last phase when the browser invokes event listeners and other callbacks in response to events that occur asynchronously. 
 
@@ -136,19 +136,21 @@ This object provides useful methods:
 - `stopImmediatePropagation()`: it works as `stopPropagation()`, except it prevents also the invocation of any subsequent event listeners registered on the same object.
 
 !
-> It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it performs the default action of the event (like clicking on a link), but if there's any listener on the path with a `preventDefault()` call, then that default action will be prevented.
+It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it does the default action of the event (like loading a new page after clicking on a link), but if there's any listener on the path with a `preventDefault()` invocation, then that default action will be prevented.
 
 ## Event dispatch and propagation
 
 In JavaScript, most events that occur on document elements _propagate_. This means that, when the event occurs, it is _dispatched_ all throughout the `window` object up and down the containing DOM elements in three distinct phases: the _capturing phase_, the _target phase_, and the _bubbling phase_.
 
-1. In the **capturing phase**, the event gets 'dispatched' or 'transmitted' first to the `window` object, then to the `document` object, and then all the way down until reaching the target element. In practice, this means that, if any, the capturing listeners (listeners registered with the appropriate _options_ argument) of the `Window` object are invoked first, then the capturing listeners on `document`, then on `body`, and so on all the way down the DOM tree until the capturing listeners of the parent of the event target are called. Capturing listeners on the event target itself, however, are not invoked.
+1. In the **capturing phase**, the event gets 'dispatched' or 'transmitted' first to the `window` object, then to the `document` object, and then all the way down until reaching the target element. In practice, this means that, if any, the capturing listeners (listeners registered with the appropriate _options_ argument) of the `Window` object are invoked first, then the capturing listeners on `document`, then on `body`, and so on all the way down the DOM tree until the capturing listeners of the parent of the event target are called. 
 2. In the **target phase**, non-capturing listeners are invoked on the target object on which the event was fired originally.
 3. The **bubbling phase**: Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners for this type of event, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
 
-> The browser waits for the event object to go through the propagation phases (capturing and bubbling) before it performs the default action of the event. If there's an event handler with a `preventDefault` call somewhere in the propagation path, the default behavior is skipped.
+It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it does the default action of the event (like loading a new page after clicking on a link), but if there's any listener on the path with a `preventDefault()` invocation, then that default action will be prevented.
 
-Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and can become memory-heavy (we would be defining different functions for each different element).
+### Delegation
+
+Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and/or become memory-heavy (we would be creating different functions objects for each different element).
 
 The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'` (meaning that listeners for them have to be registered as capturing listeners via the `addEventListener` third argument). The `'load'` event on document elements bubbles, but it stops at the `Document` object, not propagating into the `window` object.
 
@@ -167,49 +169,50 @@ element.dispatchEvent(event);
 
 User interface
 
-`load`
+`load`The load event is fired when the whole page has loaded, including all dependent resources such as stylesheets, scripts, iframes, and images
+
 `unload`
 `error`
-`resize`
+`resize` when the document view (window) has been resized.This event is not cancelable and does not bubble.
 `scroll`
 
 Focus and blur
 
-`focus`
-`blur`
+`focus` when an element has received focus. The event does not bubble, but the related `focusin` event that follows does bubble.
+`blur` The opposite of focus is the blur event, which fires when the element has lost focus.
 `focusin`
 `focusout`
 
 Mouse events
 
-`click`
+`click` when a pointing device button (such as a mouse's primary mouse button) is both pressed and released while the pointer is located inside the element.
 `dbclick`
 `mousedown`
 `mouseup`
 `mouseover`
 `mouseout`
 `mousemove`
-`mouseenter`
-`mouseleave`
+`mouseenter` when a pointing device (usually a mouse) is initially moved so that its hotspot is within the element at which the event was fired.
+`mouseleave` when the cursor of a pointing device (usually a mouse) is moved out of it. mouseleave does not bubble 
+
+This means that mouseleave is fired when the pointer has exited the element and all of its descendants, whereas mouseout is fired when the pointer leaves the element or leaves one of the element's descendants (even if the pointer is still within the element).
 
 Keyboard events
-`input`
-`keydown`
-`keyup`
-`keypress`
-`key`
-`code`
+`input` The input event fires when the value of an <input>, <select>, or <textarea> element has been changed as a direct result of a user action (such as typing in a textbox or checking a checkbox).
+`keydown` The keydown event is fired when a key is pressed. fired for all keys, regardless of whether they produce a character value.
+The keydown and keyup events provide a code indicating which key is pressed, while keypress indicates which character was entered. For example, a lowercase "a" will be reported as 65 by keydown and keyup, but as 97 by keypress. An uppercase "A" is reported as 65 by all events.
+`keyup` The keyup event is fired when a key is released.
+`keypress` (deprecated) The keypress event is fired when a key that produces a character value is pressed down.
 
 Form events
 
-`submit`
-`change`
-`input`
-`change`
+`submit` The submit event fires when a <form> is submitted. Note that the submit event fires on the <form> element itself The submit event fires when the user clicks a submit button or presses Enter while editing a field
+`change` The change event is fired for <input>, <select>, and <textarea> elements when the user modifies the element's value. Unlike the input event, the change event is not necessarily fired for each alteration to an element's value.
+`input` The input event fires when the value of an <input>, <select>, or <textarea> element has been changed as a direct result of a user action (such as typing in a textbox or checking a checkbox).
 
 HTML5 Events
 
-`DOMcontentLoaded`
+`DOMcontentLoaded` The DOMContentLoaded event fires when the HTML document has been completely parsed, and all deferred scripts (<script defer src="…"> and <script type="module">) have downloaded and executed. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
 `hashchange`
 `beforeunload`
 
