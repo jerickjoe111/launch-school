@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelector('div#c').addEventListener('click', event => {
     console.log(event.currentTarget.id)
-    event.stopPropagation()
+    // event.stopPropagation()
   }, true)
 })
 

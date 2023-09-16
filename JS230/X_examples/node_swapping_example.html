@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node Swapping</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let [a, b] = document.querySelectorAll('li')
+      let list = document.querySelector('ul')
+      document.querySelector('button').addEventListener('click', () => {
+        if (list.children[0].textContent === 'A') list.append(b, a)
+        else list.append(a, b)
+      })
+
+    })
+  </script>
+</head>
+<body>
+  <ul>
+    <li>A</li>
+    <li>B</li>
+  </ul>
+  <button>Swap Nodes</button>
+</body>
+</html>

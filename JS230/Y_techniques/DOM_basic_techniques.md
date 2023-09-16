@@ -4,6 +4,10 @@
 
 the callback adds one to a variable per node traversed
 
+```js
+document.body.querySelectorAll('*').length + 1 // 1 for the body itself
+```
+
 ## Count all nodes in the DOM
 
 the callback adds one to a variable per node traversed

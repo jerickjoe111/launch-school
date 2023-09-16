@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 2. Send the request.
 3. Handle the response (success/error).
 
-URL Encoding serialization:
+### URL Encoding serialization:
 
 ```js
 let request = new XMLHttpRequest();
@@ -51,9 +51,9 @@ request.addEventListener('load', () => {
 request.send(data);
 ```
 
-We can also add the query string to the path after the `?` symbol, instead of sending the string in the request body.
+We can also add the query string to the path after the `?` symbol, in a `GET` request, instead of sending the string in the request body.
 
-MultiForm serialization:
+### `MultiForm` serialization:
 
 ```js
 document.addEventListener('DOMContentLoaded', () => {

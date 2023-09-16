@@ -18,19 +18,17 @@ async function makeSmoothie() { // slow (not optimized: not concurrent)
 
   return [a, b];
 }
-
 makeSmoothie().then(console.log) // ==> [ '🍍', '🍓' ]
 
 function makeSmoothie2() {
-  let a;
+  let fruitA;
   return getFruit('pinneaple') // this is an async function (returns a Promise)
-           .then(value => {
-              a = value;
+           .then(fruit => {
+              fruitA = fruit;
               return getFruit('strawberry')
            })
-           .then(value => [a, value])
+           .then(fruitB => [fruitA, fruitB])
 }
-
 makeSmoothie2().then(console.log) // ==> [ '🍍', '🍓' ]
 
 

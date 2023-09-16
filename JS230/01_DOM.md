@@ -25,13 +25,15 @@ DOM levels refer to different W3 specifications and standards that define what D
 
 ## NodeList vs. HTMLCollection
 
+(both can be converted to arrays with `[...object]`)
+
 - `querySelectorAll()` works similarly, but returns the set of all elements that match the selector. The return value is an array-like object called a NodeList. This object is iterable and indexed, which means that they can be used with a `for`/`of` loop and a classic `for` loop. They also come with a `length` property. If there were no matches, the NodeList will have a `length` property of `0`. It can be converted to an array with `[...NodeList]`
 
 The DOM also defines other older element selection methods (`getElementBy*` methods), more or less obsolete now. They all return a NodeList except `getElementById()`, which returns a single element. The NodeList object these methods return, however, are _live_: they are automatically updated to reflect changes in the DOM (this can lead to unexpected behavior, specially when you iterate over it or use the return value).
 
 The document defines shortcut properties to access certain kinds of nodes. These properties refer to `HTMLCollection` objects, which are similar to NodeList objects, but they can be indexed by element ID or name. For example, to access all images there is the `images` property, and the same with `forms` and `links` (`<a>` elements with `href` attributes only).
 
-- `childNodes`: A read-only NodeList that contains all Node children (Element nodes, Text nodes, etc.)
+- `childNodes`: A read-only `NodeList` that contains all Node children (Element nodes, Text nodes, etc.)
 - `children`: it refers to an `HTMLCollection` with all the immediate Element children.
 
 > (NodeList on some browsers does support `forEach`, but not on all browsers; `HTMLCollection` provides no support for `forEach`.) To loop through the elements returned by these methods, use a `for` loop or convert the object into an array and then use the higher-order array functions.

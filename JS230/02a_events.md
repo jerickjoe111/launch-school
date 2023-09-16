@@ -38,7 +38,7 @@ The fully functional webpage displayed on the browser's window is the result of 
 
 1. In the first phase the browser sends the request asking the server for the main document, who sends back the response with the HTML code in its body.
 
-2. In the second phase the document content is loaded and the code within `<script>` elements, both internal and external, is executed: the browser first creates a `Document` object, adding the corresponding nodes as the HTML is parsed, then the JavaScript code is evaluated normally, and the DOM is constructed from the parsed HTML. The DOM loading marks the end of this phase and the beginning of the last phase.
+2. In the second phase the document content is loaded and the code within `<script>` elements, both internal and external, is executed: the browser first creates a `Document` object, adding the corresponding nodes as the HTML is parsed, the JavaScript code is evaluated normally as it is found, and the DOM is constructed from the parsed HTML. The DOM loading marks the end of this phase and the beginning of the last phase.
 
 3. In the third and last phase, the `DOMContentLoaded` event is fired on `document`. This marks the transition from the synchronous phase to the next, asynchronous phase. The page is displayed on the browser's window, while the rest of the document's external resources, like images or videos, (_assets_) are loaded. The `DOMContentLoaded` event is triggered when the HTML document as been completely parsed and loaded, however, the `load` event is only triggered much later, when all the assets are fully loaded.
 
@@ -136,7 +136,7 @@ This object provides useful methods:
 - `stopImmediatePropagation()`: it works as `stopPropagation()`, except it prevents also the invocation of any subsequent event listeners registered on the same object.
 
 !
-It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it does the default action of the event (like loading a new page after clicking on a link), but if there's any listener on the path with a `preventDefault()` invocation, then that default action will be prevented.
+It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it causes the event's default behavior (like loading a new page after clicking on a link); but that default action will be prevented if there's any listener on the path with a `preventDefault()` invocation.
 
 ## Event dispatch and propagation
 
@@ -146,15 +146,15 @@ In JavaScript, most events that occur on document elements _propagate_. This mea
 2. In the **target phase**, non-capturing listeners are invoked on the target object on which the event was fired originally.
 3. The **bubbling phase**: Most events on documents 'bubble': after the listeners on the target phase are invoked, the listeners for this type of event, if any, registered on the target's parent are invoked, and then again, if any, the listeners on the parent's parent are also invoked, and then this process continues up to the `Document` and the `Window` object. This event propagation phase is like the capturing phase in reverse.
 
-It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it does the default action of the event (like loading a new page after clicking on a link), but if there's any listener on the path with a `preventDefault()` invocation, then that default action will be prevented.
-
-### Delegation
-
-Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and/or become memory-heavy (we would be creating different functions objects for each different element).
+It's very important to remember that the browser lets the event go through the capturing and bubbling phases before it does the default action of the event (like loading a new page after clicking on a link), but that default action will be prevented if there's any listener on the path with a `preventDefault()` invocation.
 
 The vast majority of events bubble, except `'focus'`, `'blur'`, and `'scrolls'` (meaning that listeners for them have to be registered as capturing listeners via the `addEventListener` third argument). The `'load'` event on document elements bubbles, but it stops at the `Document` object, not propagating into the `window` object.
 
 Capturing listeners can be very helpful when we want to inspect an event before it is dispatched to its target, for instance when debugging. Other common use for event capturing is for handling mouse drags.
+
+### Delegation
+
+Although not very intuitive at first, event propagation allows us to implement _event delegation_: Thanks to the 'bubbling' phase, we can register a single listener on a common ancestor element and handle the event response from there, instead of having to add individual listeners to each element, which can lead to extremely confusing code and/or become memory-heavy (we would be creating different functions objects for each different element).
 
 We can create our own custom events with the `dispatchEvent()` method, invoked on the element that we want to dispatch the event to, and passing the event object as argument:
 

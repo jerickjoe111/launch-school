@@ -16,10 +16,10 @@ DOM traversal/manipulation
 Element querying
 
 * **[html()](http://api.jquery.com/html)**: Gets or sets an inner HTML of an element   
-* **[val()](http://api.jquery.com/val)**: Gets or sets the `value` attribute of an element
-* **[text()](http://api.jquery.com/text)**: Gets the combined text of an element and its children
-* **[css()](http://api.jquery.com/css)**: Gets or sets the style attribute value of an element        
-* **[attr()](http://api.jquery.com/attr)** Gets or sets any attribute of an element
+* **[val()](http://api.jquery.com/val)**: Gets or sets the `value` attribute of an element (for inputs)
+* **[text()](http://api.jquery.com/text)**: Gets the combined text of an element and its children (textContent)
+* **[css()](http://api.jquery.com/css)**: Gets or sets the style attribute value of an element (pass configuration object)
+* **[attr()](http://api.jquery.com/attr)** Gets or sets any attribute of an element 
 
 Events
 
@@ -40,6 +40,8 @@ CSS/Animations
 * **[toggle()](http://api.jquery.com/toggle)**:  Display or hide the matched elements.
 * **[toggleClass()](http://api.jquery.com/toggle)**:  Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the state argument.
 * **[slideToggle()](http://api.jquery.com/toggle)**:   Display or hide the matched elements with a sliding motion.
+* **[fadeIn()](http://api.jquery.com/toggle)**:  Display the matched elements by fading them to opaque.
+* **[fadeOut()](http://api.jquery.com/toggle)**:  Hide the matched elements by fading them to transparent.
 
 Extra:
 * **[is()](http://api.jquery.com/)**: Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments. Useful to be used with pseudo-attribute selectors: `':invalid'`, etc

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    a {
+      border: 2px solid greenyellow;
+      /* width: 500px;
+      height: 500px; */
+    }
+
+    img {
+      border: 1px solid brown;
+      /* margin-top: 220px;
+      margin-left: 200px; */
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('a').addEventListener('click', event => {
+        alert('Link listener activated')
+      })
+
+      document.querySelector('img').addEventListener('click', event => {
+        alert('Img listener activated')
+        event.stopPropagation()
+        event.preventDefault()
+      })
+    })
+  </script>
+</head>
+<body>
+  <a href="http://fasdf.com">This is a link
+    <img src="https://placehold.co/600x400/png" alt="">
+  </a>
+</body>
+</html>
