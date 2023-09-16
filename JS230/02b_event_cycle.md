@@ -32,4 +32,4 @@ listener triggered:
 
           target phase
 
-          bubling phase
+          bubbling phase

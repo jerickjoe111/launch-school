@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let element = document.querySelector('#element-id');
     element.innerHTML = request.response; // we update the content of the element with the received raw HTML code
   });
+  request.addEventListener('error', () => {
+    console.log('Error') // we inform the user if there was an error
+  })
 
   request.send();
 });

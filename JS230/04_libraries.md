@@ -198,7 +198,9 @@ We can use the `on()` method to register event listeners on a jQuery object repr
 
 The syntax for this method is:
 
-`$elementCollection.on(events, [selector], [data], handler)`
+```js
+$elementCollection.on(event, [selector], [data], handler)
+```
 
 | Parameter name | Required | Description |
 | --- | --- | --- |
@@ -214,8 +216,9 @@ When a `[selector]` is provided, the event handler is referred to as _delegated_
 We can remove an event handler that was registered (using `on()`) with the `off()` method. Calling `off()` with no arguments removes all handlers attached to the elements. Specific event handlers can be removed on elements by providing combinations of event names, selectors, or handler function names. When multiple filtering arguments are given, all the arguments provided must match for the event handler to be removed.
 
 We can execute all handlers and behaviors attached to the matched elements for the given event type with the help of the `trigger()` method:
-
-`$elementsCollection.trigger(eventType, [extraParameters])`
+```js
+$elementsCollection.trigger(eventType, [extraParameters])
+```
 
 Any event handlers attached with `on()` or one of its shortcut methods are triggered when the corresponding event occurs. They can be fired manually, however, with the `trigger()` method.
 
@@ -269,7 +272,7 @@ $('element').html(compiler(context)) // the compiled HTML is injected into the p
 ```
 
 3. Register any partial template (templates that can be used by other templates) with `Handlebars.registerPartial(partialName, partialHTMLCode)`.
-4. Inject return value of function from step 2 (compiled HTML code) called with a _context_ argument into the page, as the inner HTML of an element. Each property between curly braces in the template will be replaced on the HTML by the value of that property from the passed context object.
+4. Inject return value of function from step 2 (compiled HTML code) called with a _context_ argument into the page, as the inner HTML of an element. Each property between curly braces in the template will be replaced in the HTML by the value of that property from the passed context object.
 
 Handlebars syntax:
 
@@ -321,11 +324,11 @@ Then we must:
 
 1. Compile the main template
 2. Register the partial template (`item-template`)
-3. Invoke the compiler function passing an object with a single property with the name after the `each` within the main template, with a value of an array containing all the items.
+3. Invoke the template function passing an object with a single property with the name after the `each` within the main template, with a value of an array containing all the items.
 4. We have to insert the resulting HTML code string into the appropriate element parent using `insertAdjacentHTML()`
 
 ```js
-let mainCompiler = Handlebars.(mainTemplate.innerHTML)
+let mainCompiler = Handlebars.compile(mainTemplate.innerHTML)
 Handlebars.registerPartial('partial-template', partialTemplate.innerHTML)
 parentElement.innerHTML = mainCompiler({items: itemsArray})
 ```
@@ -389,10 +392,10 @@ The resolve value of the Promised returned by `fetch()` defines a series of usef
 ```js
 fetch(url)
   .then(response => response.json())
-  .then(data => 
+  .then(data => {
     for (let property in data) {
       // does something with the parsed json
       console.log(data[property])
     }
-  ) 
+  }) 
 ```

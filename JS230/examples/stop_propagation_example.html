@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      border: 2px solid greenyellow;
+      width: 500px;
+      height: 500px;
+    }
+
+    button {
+      margin-top: 220px;
+      margin-left: 200px;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('div').addEventListener('click', event => {
+        alert('Div listener activated')
+      })
+
+      document.querySelector('button').addEventListener('click', event => {
+        alert('Button listener activated')
+        event.stopPropagation() // !!
+      })
+    })
+  </script>
+</head>
+<body>
+  <div>
+    <button>Click Me</button>
+  </div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # 03 HTTP Requests with `XMLHttpRequest`
 
-## How non-AJAX web application work
+## How non-AJAX web applications work
 
 Traditional non-AJAX web applications are entirely based on the HTTP request-response cycle: in order to interact with them, the user must perform an action (click on a link, reload the page, etc.) to which the browser automatically responds by sending a request to a server, expecting to receive the new HTML document with the updated data in the response body. Then, the browser parses the received HTML code and renders its content onto the page. For every asset in the page, the browser will also send requests to fetch them from their locations, until no more requests are needed, and the page is fully loaded.
 
@@ -14,7 +14,7 @@ AJAX presents other useful perks: first, that it allows us to use all HTTP metho
 
 However, there is one issue we have to take into account. Because the browser can't make requests by itself, we have to write JavaScript code that handles the AJAX: on one side we have to write the code that initializes the asynchronous requests (typically with the help of event listeners), and, for the other, we also have to write code that handles the response, for example, by taking the received HTML code and updating some page component accordingly, or even ignoring it.
 
-Other common examples of AJAX in action are the 'autocomplete' functionality in text fields, in which each key press by the user is roughly equivalent to a _minirequest_ made by the JavaScript code; and also forms: if the user enters invalid information in the inputs, asynchronous requests can be made periodically to save the already valid data, while just updating the fields with invalid inputs with error messages, for example.
+Other common examples of AJAX in action is the 'autocomplete' functionality in text fields, in which each key press by the user is roughly equivalent to a _minirequest_ made by the JavaScript code; and also forms: if the user enters invalid information in the inputs, asynchronous requests can be made periodically to save the already valid data, while just updating the fields with invalid inputs with error messages, for example.
 
 ## Single-page web applications
 
@@ -31,7 +31,7 @@ The basic use of the XHR API consists on these main steps:
 1. Instantiation of the `XMLHttpRequest` class.
 2. Setting the HTTP request (method, host, path, headers...).
 3. Sending the request, with or without data in its body.
-4. Handling the response (usually with the help of event listeners)
+4. Handling the response (with the help of event listeners)
 
 We can create a new XHR object with the constructor:
 
@@ -94,7 +94,7 @@ However, in between these two events another important one will fire, depending 
 
 Additionally, there's a `progress` event that is fired periodically when a request receives more data.
 
-Inside a callback passed in to `addEventListener` when adding an event listener, we can access to the request object itself via the `target` property of the `Event` object (the argument that will be passed to the listened when the event is fired).
+Inside a callback passed in to `addEventListener` when adding an event listener, we can access to the request object itself via the `target` property of the `Event` object (the argument that will be passed to the listener when the event is fired).
 
 ## Data serialization
 
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### 02. Submitting a Form via XHR
 
-This technique implies consists of three basic steps:
+This technique consists of three basic steps:
 
 1. Serialize form data (that the user introduced in the form input elements).
 2. Send the request.
@@ -297,7 +297,7 @@ We can usually check if the request was successful by checking the status code o
 
 ### 03. Loading JSON via XHR
 
-This technique is useful for when we expect to receive from the server data in a structured way, and then render it client-side; for instance, when loading widgets that the server can't do by itself. The best way we can structure that data is by the JSON format.
+This technique is useful for when we expect to receive from the server data in a structured way, to then render it client-side, for instance, when loading widgets that the server can't load by itself. The best way we can structure that data is by the JSON format.
 
 Steps:
 

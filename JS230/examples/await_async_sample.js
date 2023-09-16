@@ -1,4 +1,4 @@
-const getFruit = async(name) => {
+async function getFruit(name) {
   const FRUITS = {
     pinneaple: '🍍',
     peach: '🍑',
@@ -6,11 +6,13 @@ const getFruit = async(name) => {
   }
 
   return FRUITS[name]; 
-  // In an async function, this is equal to:
+  // In an async function, this is equivalent to:
   // return Promise.resolve(FRUITS[name]);
 }
 
-const makeSmoothie = async() => { // slow (not optimized: not concurrent)
+// These two functions are equivalent:
+
+async function makeSmoothie() { // slow (not optimized: not concurrent)
   let a = await getFruit('pinneaple'); 
   let b = await getFruit('strawberry'); // this has to await for the previous one
 
@@ -19,7 +21,7 @@ const makeSmoothie = async() => { // slow (not optimized: not concurrent)
 
 makeSmoothie().then(console.log) // ==> [ '🍍', '🍓' ]
 
-const makeSmoothie2 = () => {
+function makeSmoothie2() {
   let a;
   return getFruit('pinneaple') // this is an async function (returns a Promise)
            .then(value => {
@@ -31,7 +33,10 @@ const makeSmoothie2 = () => {
 
 makeSmoothie2().then(console.log) // ==> [ '🍍', '🍓' ]
 
-const makeSmoothieConcurrent = async() => { // fast (optimize: concurrent)
+
+// Optimized:
+
+async function makeSmoothieConcurrent() { // fast (optimize: concurrent)
   let a = getFruit('pinneaple'); 
   let b = getFruit('strawberry');
 
