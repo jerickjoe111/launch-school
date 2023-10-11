@@ -18,7 +18,7 @@ the callback adds one to a variable per node traversed
 function traverse(element, callback) {
   callback(element);
 
-  for (let child of element.children) {
+  for (let child of element.childNodes) {
     traverse(child, callback);
   }
 }

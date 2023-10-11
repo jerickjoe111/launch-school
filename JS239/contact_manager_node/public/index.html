@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
+  <title>Contact Manager</title>
+  <link rel="stylesheet" href="./stylesheets/reset.css">
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <script src="./javascripts/app.js" type="module"></script>
+  <style>
+    ul li {
+      border: 1px solid greenyellow;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="http://localhost:3000">Contact Manager</a>
+  </header>
+  <main>
+    <div class="sidebar">
+      <ul>
+        <li><button class="add-contact" id="add-contact">Add Contact</button></li>
+        <li><form class="add-tag-form"><label for="add-tag">Create a tag!</label><input type="text" name="add-tag" id="add-tag"><button type="submit">Add</button></form></li>
+        <li><form class="search-form"><label for="search"></label><input type="text" name="search" id="search" placeholder="search..."></li>
+        <li><p class="add-tag-message">ADD TAG MOCK MESSAGE</p></li>
+      </ul>
+    </div>
+    <div id="contacts-container"></div>
+  </main>
+  <footer>
+    Contact Manager - Lucas Sorribes, 2023.
+  </footer>
+
+  <script id='contact-card-template' type='text/x-handlebars'>
+    <div class="contact-card" data-id={{id}}>
+      <div class="contact-card-heading">
+        <h3>{{full_name}}</h3>
+      </div>
+      <div class="contact-card-body">
+        <dl>
+          <dt>Phone Number: </dt>
+          <dd>{{phone_number}}</dd>
+          <dt>Email:</dt>
+          <dd>{{email}}</dd>
+          {{#if tags}}
+            <dt>Tags:</dt>
+            <dd>{{tags}}</dd>
+          {{else}}
+            <dt>No tags.</dt>
+          {{/if}}
+        </dl>
+      </div>
+      <div class="contact-card-buttons">
+        <button class="contact-edit" id="edit-contact">Edit</button>
+        <button class="contact-delete" id="delete-contact">Delete</button>
+      </div>
+    </div>
+  </script>
+
+  <script id='contacts-template' type='text/x-handlebars'>
+    {{#each contacts}}
+      {{> contact-card-template}}
+    {{/each}}
+  </script>
+
+  <script id="add-contact-template" type="text/x-handlebars">
+    <div id="add-contact-container">
+      <h2>Contact info</h2>
+      <form action="/api/contacts" method="post" id="add-contact-form">
+        <div>
+          <label for="full-name">Full name:</label>
+          <input required id="full-name" name="full_name" type="text" value="{{full_name}}">
+          <span class="hidden">Please enter a name.</span>
+        </div>
+        <div>
+          <label for="email-address">Email address:</label>
+          <input required id="email-address" name="email" type="email" value="{{email}}">
+          <span class="hidden">Please enter an email.</span>
+        </div>
+        <div>
+          <label for="phone-number">Telephone number:</label>
+          <input required id="phone-number" name="phone_number" type="tel" value="{{phone_number}}">
+          <span class="hidden">Please enter a phone number.</span>
+        </div>
+        <div>
+          <label for="tags">Tags:</label>
+          <input id="tags" name="tags" type="text" placeholder="Press enter to add new tag.">
+          <span class="hidden">Please enter a tag(s).</span>
+          <ul class="tags-section">
+            {{#each tags}}
+            <li id="{{this}}" class="tag">
+              <button>{{this}}</button>
+            </li>
+            {{/each}}
+          </ul>
+        </div>
+        <fieldset class="contact-buttons">
+          <button class="button" type="submit" id="submit">Submit</button>
+          <button class="button" id='cancel'>Cancel</button>
+        </fieldset>
+      </form>
+    </div>
+  </script>
+</body>
+</html>
