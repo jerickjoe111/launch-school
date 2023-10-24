@@ -119,7 +119,7 @@ Examples:
 
 #### Big O Complexity Chart
 
-![Big-O complexity chart](/01.png)
+![Big-O complexity chart](./01.png)
 
 ### Space Complexity
 
