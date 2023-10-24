@@ -130,3 +130,35 @@ The key difference between time and space complexity is what they measure: time 
 For example, if an algorithm has a space complexity of O(N), it means that the maximum memory usage of the algorithm grows linearly with the input size. However, it's important to note that this doesn't necessarily mean that the memory usage will grow for every input, but rather it sets an upper limit on the memory consumption.
 
 We will usually face trade-offs between time and space efficiency. This will involve examining scenarios where increasing space usage can lead to improved time complexity or vice versa.
+
+## Fine-tuning Time Complexity Analysis
+
+### Removing Constants from Time Complexity - Simplifying Complex Expressions
+
+When analyzing time complexity, it is essential to focus on the dominant term that determines the growth rate as the input size increases. This simplification is valid because the dominant factor driving the growth rate remains the same -the size of the collection. This simplifies the time complexity of an algorithm from O(2N) to O(N): 2 is the constant, N is the dominant term. 
+
+This simplification is valid because, in the context of time complexity analysis, we are primarily interested in the growth rate and how it scales with larger input sizes. Removing the non-dominant term allows us to focus on the essential aspect of time complexity—the relationship between the input size and the number of operations.
+
+### The Arbitrary Name "N" - Distinct Variable Names for Different Collections
+
+The variable name "N" is commonly used to represent the length of a collection or input size in time complexity analysis. However, it's essential to understand that "N" is arbitrary and can be replaced with any meaningful variable name that accurately represents the quantity we are measuring.
+
+We can use a more meaningful variable name, such as "M" to represent another different input set. Distinguishing between distinct collections or data structures is crucial when performing time complexity analysis. It's important to name variables differently to accurately represent each collection and understand the separate contributions to the overall time complexity.
+
+By recognizing that collections or data structures can have different sizes and accounting for that in our time complexity analysis, we gain a more comprehensive understanding of how the algorithm's performance scales in different scenarios.
+
+In conclusion, fine-tuning time complexity analysis is crucial for optimizing code efficiency. By removing constants, simplifying complex expressions, using appropriate variable names, and considering different collections separately, we achieve a more accurate understanding of algorithm growth rates.
+
+## Algorithm Discovery Process
+
+Once we have coded a naive solution (after PEDAC), the next step is to analyze its runtime and explore potential optimizations. This is where the algorithm discovery process comes into play.
+
+### Pushing the Big O curve down 1 level - Optimization techniques
+
+One approach to the algorithm discovery process is to incrementally improve the efficiency of our solution by pushing the Big O curve we discussed in the previous assignment 1 level at the time.
+
+For example, one powerful optimization technique is the strategic use of hash tables. By employing a hash table (or an object in JavaScript), we can significantly improve the time complexity of certain algorithms. Retrieval from a hash table has a constant time complexity of O(1), allowing for quick lookups. However, it's essential to be aware that this improvement comes at the cost of increased space complexity. We make a trade off, accepting higher memory usage in exchange for faster data retrieval with hash tables.
+
+### Conclusion
+
+In summary, the algorithm discovery process entails analyzing and refining our solutions, seeking to optimize time complexity by pushing the curve downwards. This involves evaluating the runtime of our initial solution, exploring various optimizations, and utilizing techniques like using hash tables. By leveraging these approaches, we can enhance the efficiency of our algorithms and tackle problems more effectively. Throughout this process, PEDAC remains a valuable tool, providing a systematic approach to problem-solving and guiding us to arrive at a naive solution.
