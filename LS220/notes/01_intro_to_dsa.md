@@ -1,4 +1,4 @@
-# Introduction to Data Structures and Algorithms
+# 01 Introduction to Data Structures and Algorithms
 
 ## Why Data Structures Matter
 

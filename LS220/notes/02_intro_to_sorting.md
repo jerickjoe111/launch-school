@@ -1,4 +1,4 @@
-# Introduction to Sorting Algorithms
+# 02 Introduction to Sorting Algorithms
 
 Sorting is a fundamental operation in computer science that involves arranging elements in a specific order, typically in ascending or descending order. It plays a vital role in various domains, ranging from data organization to search algorithms and optimization problems. Understanding sorting algorithms and their applications is crucial for efficient data manipulation and retrieval in a wide range of computational tasks.
 
