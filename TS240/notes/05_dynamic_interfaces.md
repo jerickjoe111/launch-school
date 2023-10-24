@@ -594,3 +594,5 @@ function describeItem<T extends { age: number }>(item: T) {
 Here, we use the constraint `T extends { age: number }`. The function will accept an item argument of any type, as long as it contains an `age` property with a value of type `number`:
 
 The constraint creates a type intersection in which, at least, the second member properties must be present. If a passed-in object does not have these properties, it won't be of the appropriate type, and the compiler will raise an error.
+
+Generic constraints form the basis of many advanced patterns in TypeScript. Understanding and applying generic constraints is a key step towards mastering TypeScript and building robust, type-safe applications.
