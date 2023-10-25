@@ -10,7 +10,7 @@ Type aliases abstract away the details of your custom types and make them easier
 
 Type aliases are created using the `type` keyword, followed by an identifier that represents the name of the type alias, an equals sign, and the type that you want to alias.
 
-```js
+```ts
 type Person = { name: string; age: number };
 type BooleansFunction = () => boolean[];
 ```
@@ -19,7 +19,7 @@ type BooleansFunction = () => boolean[];
 
 We can use Type Aliases as a shorthand for typing a function's parameter types and return type:
 
-```js
+```ts
 type GreetFunction = (name?: string) => string; // a type (or 'shape') for functions
 
 const greet: GreetFunction = (name) => {
@@ -41,7 +41,7 @@ The "shape" of an object refers to the structure of its properties and their typ
 
 If we try to access a non-existent property like occupation on the person object, TypeScript will produce an error. This error helps catch errors early in the development process.
 
-```js
+```ts
 type Person = {
   name: string;
   age: number;
@@ -55,7 +55,7 @@ Object properties can be simple types like strings or numbers, but they can also
 
 Sometimes it's not worth defining an object type, especially when we are using an object type just once. In such cases, we can put the object type directly in a function's signature as a literal object type. A literal object type is an object type defined inline, directly in the function signature.
 
-```js
+```ts
 function processObject(obj: { name: string; value: number }) {
   // ...
 }
@@ -65,7 +65,7 @@ function processObject(obj: { name: string; value: number }) {
 
 In JavaScript, we can further destructure objects that are passed as function parameters and assign their properties to variables inside the function. For example:
 
-```js
+```ts
 function processObject({ name, value }: { name: string; value: number }) {
                   //   |_____________|  |_____________________________| 
                   //         ^                         ^
@@ -87,7 +87,7 @@ Interfaces are an alternative to defining objects with a type alias:
 <tr>
 <td> 
 
-```js
+```ts
 type Address = {
   street: string;
   city: string;
@@ -106,7 +106,7 @@ type Person = {
 
 <td>
 
-```js
+```ts
 interface Address {
   street: string;
   city: string;
@@ -139,7 +139,7 @@ There are some important details to TypeScript's structural typing rules. If we 
 
 However, the extra properties are, from the perspective of the TS Compiler, no longer accessible (although they exist on the object, and we can access them on runtime)
 
-```js
+```ts
 type Student = { name: string; age: number; gpa: number };
 type Employee = { name: string; age: number };
 
@@ -158,7 +158,7 @@ Under TypeScript's structural typing rules, we can assign a type with more prope
 
 There is an exception to this rule, and that is when we are using object literals:
 
-```js
+```ts
 type Employee = { name: string; age: number };
 const jane: Employee = { name: "Jane Smith", age: 30, gpa: 4.0 }; // Type '{ name: string; age: number; gpa: number; }' is not assignable to type 'Employee'.
 // Object literal may only specify known properties, and 'gpa' does not exist in type 'Employee'.
@@ -168,7 +168,7 @@ TypeScript prevents us from assigning an object literal with additional properti
 
 While a structural typing system allows for greater flexibility, there are some cases where it can cause unintended issues. See this example of 'duck-typing' or structural typing:
 
-```js
+```ts
 type Animal = { color: string; legs: number };
 type Table = { color: string; legs: number };
 
@@ -180,7 +180,7 @@ const diningTable: Table = bear;
 
 In TypeScript, optional properties are a way to define properties on an interface that are not required to be present:
 
-```js
+```ts
 interface Person {
   name: string;
   age: number;
@@ -202,7 +202,7 @@ In TypeScript, `readonly` properties are used to create properties that can only
 
 The syntax to define a `readonly` property in TypeScript using an interface is:
 
-```js
+```ts
 interface InterfaceName {
   readonly propertyName: propertyType;
 }
@@ -220,7 +220,7 @@ One edge case to keep in mind when using readonly properties is that if the `rea
 
 To avoid this problem, we have two possible solutions. The first is to apply readonly to the object's properties to prevent them from being modified:
 
-```js
+```ts
 interface User {
   readonly address: { readonly street: string; readonly city: string };
 }
@@ -234,7 +234,7 @@ user.address.street = "999 Main St"; // Cannot assign to 'street' because it is 
 
 If we need runtime protection from object mutation, we can freeze the object using the `Object.freeze()` method upon the object's creation:
 
-```js
+```ts
 const user: User = {
   address: Object.freeze({ street: "123 Main St", city: "Anytown" }),
 };
@@ -260,7 +260,7 @@ However, it is a feature that should be used rarely and with caution. Do not rea
 
 There are some scenarios where type assertions may be necessary. Let's look at one common example: working with elements in the DOM.
 
-```js
+```ts
 const inputElement = document.querySelector("input"); // const inputElement: Element | null
 console.log(inputElement && inputElement.value); // Property 'value' does not exist on type 'Element'.
 ```
@@ -270,7 +270,7 @@ We see on line 1 that the `querySelector` method returns a value of type `Elemen
 However, we can be certain that if a DOM element is returned from this query, then it will be an `HTMLInputElement`.
 To resolve the issue, we can use a type assertion to override the compiler and treat `inputElement` as an `HTMLInputElement`:
 
-```js
+```ts
 // With type assertion
 const inputElement = document.querySelector("input");
 console.log(inputElement && (inputElement as HTMLInputElement).value); // No error, logs the value of the input
@@ -288,7 +288,7 @@ The difference between JS classes and TS classes are:
 
 Example:
 
-```js
+```ts
 class Point {
   x: number;
   y: number;
@@ -318,7 +318,7 @@ Remember that classes in JavaScript are templates for the creation of objects. I
 
 This keyword works like a contract between an interface and the class implementation for that interface. We use `implements` to check whether a class satisfies the shape of a particular interface. An error will be issued if a class fails to correctly implement it. But it is just a check: it won't change the types within the class, or the interface. `implements` doesn't directly add type information to the properties or methods of the class. 
 
-```js
+```ts
 interface Animal {
   name: string;
   makeNoise(): string;
@@ -339,7 +339,7 @@ class Dog implements Animal {
 
 Classes may implement multiple interfaces:
 
-```js
+```ts
 class Class implements InterfaceA, Interface B {
   // ...
 }
@@ -357,7 +357,7 @@ A subclass is always a subtype of its base class. In other words, an instance of
 
 TypeScript requires that if a subclass overrides a property of its superclass, then that property's type must be assignable to the superclass's property type. 
 
-```js
+```ts
 class Person {
   // ...previous implementation
 
@@ -382,7 +382,7 @@ person.sayName(); // Would crash at runtime
 
 We can fix this by We can achieve this by updating `Student.prototype.sayName` to take friend as an optional argument:
 
-```js
+```ts
 class Student extends Person {
   // ...
   sayName(friend?: string): void {

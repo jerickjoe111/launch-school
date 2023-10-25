@@ -7,7 +7,7 @@ However, when we want to access specific properties on those values, having a "w
 
 For example:
 
-```js
+```ts
 type Circle = {
   color: string;
   radius: number;
@@ -46,7 +46,7 @@ TypeScript uses a technique called control flow analysis to narrow a set of type
 
 For example, if we have: 
 
-```js
+```ts
 function describeShape(shape: Shape) {
   let area: number;
   console.log("This shape is " + shape.color); // ok
@@ -68,7 +68,7 @@ The expression `"radius" in shape` acts as a **type guard** in TypeScript. The c
 
 Use the `typeof` operator to narrow sets of primitive types. As a reminder, the `typeof` operator returns a string that indicates the value's type:
 
-```js
+```ts
 function logValue(value: string | number): void {
   if (typeof value === "string") {
     console.log("String value:", value.toUpperCase());
@@ -86,7 +86,7 @@ For arrays, we can use the JS method: `Array.isArray()`.
 
 The `in` operator is a JavaScript feature that returns `true` if a property exists in an object or its prototype chain. In TypeScript, we can use the `in` operator to narrow down the type of an object based on its unique properties. 
 
-```js
+```ts
 function describeShape(shape: Shape) {
   let area: number;
   console.log("This shape is " + shape.color); // ok
@@ -104,7 +104,7 @@ function describeShape(shape: Shape) {
 
 We can use truthiness as a simple type guard by checking if a variable or expression evaluates to a truthy value. Although it's not as precise as other type guards like `typeof`, `instanceof`, or user-defined type guards, truthiness can still be helpful in some scenarios, such as narrowing a type from a union type that includes `null` or `undefined`.
 
-```js
+```ts
 type Circle = {
   radius: number;
 };
@@ -125,7 +125,7 @@ Keep in mind that using truthiness as a type guard might not be sufficient in al
 
 The `instanceof` operator can be used as a type guard in TypeScript when working with classes or constructor functions. It checks whether an object is an instance of a specific class or constructor function. It tests to see if the `prototype` property of a constructor appears anywhere in the prototype chain of an object (`[object] instanceof [constructor]`).
 
-```js
+```ts
 class Circle {
   constructor(radius: number) {}
 }
@@ -151,7 +151,7 @@ TypeScript does this with a feature called type predicates. Type predicates are 
 
 When the function returns a truthy value, the TypeScript compiler will determine that the specified argument is of the given type.
 
-```js
+```ts
 function isCircle(shape: Shape): shape is Circle {
   return "radius" in shape;
 }
@@ -178,7 +178,7 @@ Short-circuiting is a behavior of the logical operators (`&&` and `||`) in which
 
 Short-circuiting is a concise alternative to more verbose conditional syntax like if statements, and can be helpful to narrow types in simple situations.
 
-```js
+```ts
 type Circle = {
   radius: number;
   opacity?: number;
@@ -202,7 +202,7 @@ A common technique to identify and narrow custom object types is with a feature 
 
 The type on each discriminant property is a string literal, which describes the type (it is common practice for the discriminant to be the name of the type in lowercase):
 
-```js
+```ts
 type Circle = {
   kind: "circle"; // This is the discriminant property
   radius: number;
@@ -245,7 +245,7 @@ Discriminated unions are helpful in many situations in TypeScript:
 1.	Representing different variants of a data structure: When you have multiple types in a union that share some common properties, but also have distinct properties, discriminated unions can clearly express the relationship between them.
 2.	Modeling workflows or processes: When modeling processes that have a discrete set of steps or possible states, discriminated unions can be a powerful tool to express different states and their corresponding transitions. For example, you might model the various states of an HTTP Request:
 
-```js
+```ts
 // Initial state before the request is made
 type HttpRequestInitial = {
   status: "initial";
@@ -295,7 +295,7 @@ The most common way to take advantage of exhaustiveness checking is with the `ne
 
 Exhaustiveness checks are a helpful feature of many typed languages, including TypeScript. They improve the robustness and reliability of our applications by catching potential oversights as types change over time. We can take advantage of the `never` type to add an exhaustiveness check in the `default` case of `switch` statements.
 
-```js
+```ts
 function describeShape(shape: Shape) {
   let area: number;
 
@@ -332,7 +332,7 @@ Using `any` essentially turns off type checking for a given value or assignment.
 
 While `any` makes your code more flexible, it also prevents the type system from ensuring that variables have the types that we think they have. This can make it easy to assign the incorrect value to a variable or access a property or method that doesn't exist -- in all cases leading to the sort of runtime errors TypeScript is designed to catch:
 
-```js
+```ts
 // Accessing a method that doesn't exist
 let isStudent: any = true;
 let school: string = isStudent;
@@ -355,7 +355,7 @@ Type unsoundness happens when the type system fails to prevent type errors, resu
 
 One common source of type unsoundness is when we use the `any` type. 
 
-```js
+```ts
 let x: any = "Launch School";
 const y: number = x;
 console.log(y);
@@ -363,14 +363,14 @@ console.log(y);
 
 Another source of type unsoundness is when we use type assertions. Type assertions allow us to tell TypeScript that a value has a certain type, even if TypeScript can't verify it.
 
-```js
+```ts
 let x: any = "Launch School";
 const y: number = x as number;
 ```
 
 A third source of type unsoundness is when we index beyond the end of an array. 
 
-```js
+```ts
 const names: string[] = ["John", "Jane"];
 const name: string = names[2];
 name; // undefined
@@ -392,7 +392,7 @@ If we want to narrow an `unknown` type to a object type, we will need to do a bi
 
 This is a good candidate to use a custom type guard with a type predicate. We need custom type predicate functions to narrow down an `unknown` object.
 
-```js
+```ts
 function isCircle(shape: unknown): shape is Circle {
   return (
     typeof shape === "object" &&
@@ -441,7 +441,7 @@ Now, you may ask why not directly type the response parameter in the function as
 
 Using a type assertion within the function after performing necessary checks or validations is a way to inform TypeScript about the expected type while still maintaining the benefits of type safety.
 
-```js
+```ts
 type MovieApiResponse = {
   status: string;
   data: {

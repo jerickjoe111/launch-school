@@ -6,7 +6,7 @@ In dynamically typed languages, variables are not assigned a specific data type 
 
 While this flexibility can be useful in some cases, it can also lead to problems.:
 
-```js
+```ts
 function add(a, b) {
   return a + b;
 }
@@ -66,7 +66,7 @@ The programming community has rapidly adopted TypeScript. In less than a decade,
 
 Example of `tsconfig` file:
 
-```json
+```tson
 {
   "compilerOptions": {
     "target": "ES2015", // ??
@@ -121,7 +121,7 @@ In TypeScript, primitives are the most basic data types available. Understanding
 
 The boolean type represents a logical value that can either be `true` or `false`. We can initialize a variable with the `boolean` type using the following syntax
 
-```js
+```ts
 let isCompleted: boolean = true;
 ```
 
@@ -129,13 +129,13 @@ let isCompleted: boolean = true;
 
 The number type represents a numeric value. It can be either an integer or a floating-point number. 
 
-```js
+```ts
 let num: number = 1;
 ```
 
 We can also use other numeric formats such as hexadecimal, binary, and octal as follows:
 
-```js
+```ts
 let hex: number = 0xf00d;
 let binary: number = 0b1010;
 let octal: number = 0o744;
@@ -145,13 +145,13 @@ let octal: number = 0o744;
 
 The string type represents textual data. It can contain letters, numbers, and symbols.
 
-```js
+```ts
 let firstName: string = "Jane";
 ```
 
 We can also concatenate two or more strings using the string interpolation feature as follows:
 
-```js
+```ts
 let firstName: string = "Jane";
 let lastName: string = "Doe";
 let fullName: string = `${firstName} ${lastName}`;
@@ -161,7 +161,7 @@ let fullName: string = `${firstName} ${lastName}`;
 
 The `null` type represents a value that is intentionally absent, or a deeper kind of absence. 
 
-```js
+```ts
 let x: null = null;
 ```
 
@@ -171,7 +171,7 @@ It is important to note that `null` is a value that represents the intentional a
 
 The `undefined` type indicates the absence of a value, an uninitialized variable, or a non-existent property. In TypeScript, we can declare a variable with the `undefined` type with the following syntax:
 
-```js
+```ts
 let y: undefined;
 ```
 
@@ -195,19 +195,19 @@ Remember that type annotations are completely removed when TypeScript is compile
 
 An array is a collection of values of the same data type that are stored in contiguous memory locations. In TypeScript, you can define an array using the following syntax:
 
-```js
+```ts
 let numbers: number[] = [1, 2, 3, 4, 5];
 ```
 
 You can also define an array using this syntax:
 
-```js
+```ts
 let numbers: Array<number> = [1, 2, 3, 4, 5];
 ```
 
 When we access a particular element of an array, the value retrieved is of the same data type as the type of the element stored in the array.
 
-```js
+```ts
 let numbers: number[] = [1, 2, 3, 4, 5];
 const myNum: number = numbers[2];
 ```
@@ -216,7 +216,7 @@ const myNum: number = numbers[2];
 
 Because JavaScript arrays have a dynamic length, the TypeScript compiler doesn't know whether any particular index is out of bounds. As a result, it infers that any elements returned from the array are of the type the array contains:
 
-```js
+```ts
 let numbers: Array<number> = [1, 2, 3, 4, 5];
 let myNum: number = numbers[5];
 console.log(myNum); // Output: undefined
@@ -226,7 +226,7 @@ There are two main ways to fix this issue:
 
 ##### Check for `undefined` elements:
 
-```js
+```ts
 let numbers: number[] = [1, 2, 3, 4, 5];
 const num = numbers[5];
 
@@ -241,7 +241,7 @@ if (num !== undefined) {
 
 To enable `noUncheckedIndexedAccess`, you can add the following line to your `tsconfig.json` file:
 
-```json
+```tson
 {
   "compilerOptions": {
     "noUncheckedIndexedAccess": true
@@ -257,7 +257,7 @@ A tuple is a collection of values that are stored in a specific order. **Unlike 
 
 Tuples can be very useful in TypeScript when you want to work with a collection of values that have a specific order and data type. Tuples are defined using a fixed-length array with elements of different types, like this:
 
-```js
+```ts
 let aTuple: [string, number, boolean] = ["Launch School", 1, true];
 ```
 
@@ -279,7 +279,7 @@ For this reason, it is generally considered a best practice to avoid using metho
 
 In TypeScript, you can specify the types of function parameters to ensure that they are of the correct type.
 
-```js
+```ts
 function add(a: number, b: number): number {
   return a + b;
 }
@@ -289,7 +289,7 @@ function add(a: number, b: number): number {
 
 You can also use optional parameters in TypeScript functions. 
 
-```js
+```ts
 function greet(name?: string): string {
   return name ? `Hello, ${name}!` : `Hello, World!`;
 }
@@ -301,7 +301,7 @@ As a result, it determines that the parameter could either be its declared type 
 
 Finally, as in JavaScript, you can specify default parameters.
 
-```js
+```ts
 function greet(name = "World"): string {
   return `Hello, ${name}!`;
 }
@@ -316,7 +316,7 @@ Because we've provided a default value, the TypeScript compiler will infer the t
 
 In addition to specifying the types of a function's parameters, you can also specify the return type of a TypeScript function. 
 
-```js
+```ts
 function getFullName(firstName: string, lastName: string): string {
   return `${firstName} ${lastName}`;
 }
@@ -342,7 +342,7 @@ TypeScript's support for native JavaScript methods not only eases an application
 
 For example:
 
-```js
+```ts
 const myStringArray: string[] = ["1", "2", "3"];
 let myNumberArray: number[];
 myNumberArray = myStringArray.map((str) => parseInt(str, 10));
@@ -362,7 +362,7 @@ In the context of using built-in JavaScript methods in TypeScript, type inferenc
 
 In TypeScript, void is a type that represents the absence of a value. It's commonly used as the return type for functions that don't return a value. 
 
-```js
+```ts
 function logMessage(message: string): void {
   console.log(message);
 }
@@ -372,7 +372,7 @@ In JavaScript, a function that doesn't explicitly provide a return value will re
 
 Values with the void type cannot be used with or assigned to any other data type:
 
-```js
+```ts
 function greet(name: string): void {
   console.log(`Hello, ${name}!`);
 }
@@ -384,7 +384,7 @@ const myBool: boolean = result ? true : false; // An expression of type 'void' c
 
 The benefit of `void` over `undefined` in these cases is that it prevents developers from accidentally using the return value of functions in cases where the function does not have a meaningful return value.
 
-```js
+```ts
 const elements: number[] = [1, 2, 3].forEach((el) => console.log(el * 2)); // Type 'void' is not assignable to type 'number[]'.
 ```
 
@@ -394,21 +394,21 @@ In TypeScript, literal types are a way to describe specific values that a variab
 
 String literal types are used to define a type that can only have a specific string value. Here is an example:
 
-```js
+```ts
 let color: "red" | "blue" | "green" = "red"; // This is valid
 color = "yellow"; // Type '"yellow"' is not assignable to type '"red" | "blue" | "green"'
 ```
 
 We can also define a numeric literal type that can only have a specific number value.
 
-```js
+```ts
 let five: 5 = 5;
 five = 4; // Type '4' is not assignable to type '5'
 ```
 
 Finally, we can define a boolean literal type that can have a specific boolean value.
 
-```js
+```ts
 let hasName: true = true;
 hasName = false; // Type 'false' is not assignable to type 'true'
 ```

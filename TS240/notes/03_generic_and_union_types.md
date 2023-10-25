@@ -6,13 +6,13 @@ There are some situations where a value could be one of multiple acceptable type
 
 We can define a union type using the `|` operator. 
 
-```js
+```ts
 type Status = "success" | "warning" | "error";
 ```
 
 We can use union types in any situation where we can use other types. For example, we can use union types as function parameters and return types:
 
-```js
+```ts
 function getLengthOfArray(value: string | string[]): number | string {
   if (Array.isArray(value)) {
     return value.length;
@@ -24,7 +24,7 @@ function getLengthOfArray(value: string | string[]): number | string {
 
 We can also create union types with objects:
 
-```js
+```ts
 type Dog = { breed: string; age: number };
 type Cat = { breed: string; age: number; whiskerLength: number };
 
@@ -39,7 +39,7 @@ When discussing assignability, developers sometimes refer to "narrow" and "wide"
 
 Assignability comes into play when you try to assign a value of one type to a variable of another type. In general, you can assign a value of a narrower type to a variable of a wider type without issues, as long as the wider type can accommodate all values of the narrower type. However, the reverse is not true: assigning a value of a wider type to a variable of a narrower type will cause a type error.
 
-```js
+```ts
 function assignValueToMyString(myUnion: string | boolean) {
   let myString: string;
   myString = myUnion; // Type 'string | boolean' is not assignable to type 'string'
@@ -48,7 +48,7 @@ function assignValueToMyString(myUnion: string | boolean) {
 
 To fix this issue, you can use a type guard to ensure that `myUnion` is a string before assigning it to `myString`.
 
-```js
+```ts
 function assignValueToMyString(myUnion: string | boolean) {
   let myString: string;
   if (typeof myUnion === "string") {
@@ -68,7 +68,7 @@ Recall that the `typeof` operator is a JavaScript operator, not a TypeScript fea
 There are many real-life use cases for union types in TypeScript. Here are some examples:
 - API responses: When working with APIs, we often need to handle different types of responses. For example, an API might return a JSON object that has a data property that can be either a string or an array of strings. We can represent this using a union type:
 
-```js
+```ts
 type ApiResponse = {
   data: string | string[];
 };
@@ -76,13 +76,13 @@ type ApiResponse = {
 
 - Event handlers: In UI development, we often need to handle different types of events. For example, a button can be clicked, a form can be submitted, or a user can hover over an element. We can represent these events using a union type:
 
-```js
+```ts
 type MyEventHandler = (event: MouseEvent | SubmitEvent | HoverEvent) => void;
 ```
 
 - Configurations: When creating a configuration object for a library or an application, we might have different options that can take different types. For example, we might have an option that can take a boolean or a number. We can represent this using a union type:
 
-```js
+```ts
 type MyConfig = {
   option1: boolean | number;
   option2: string | null;
@@ -95,7 +95,7 @@ In conclusion, union types in TypeScript allow us to define a type that can hold
 
 We can create union types with objects. When using a union of objects, by default the TypeScript compiler will only allow us to access properties that are available on all the objects.
 
-```js
+```ts
 type Dog = { breed: string; age: number };
 type Cat = { breed: string; age: number; whiskerLength: number };
 
@@ -116,7 +116,7 @@ One way to narrow our object type with the TypeScript compiler is to use the in 
 
 Function overloads allow us to define multiple function signatures for the same function, each with different parameter and return types. 
 
-```js
+```ts
 function getLengthOfArray(value: string[]): number;
 function getLengthOfArray(value: string): string;
 function getLengthOfArray(value: string | string[]): number | string {
@@ -163,7 +163,7 @@ Generic functions are:
 
 With generics, we can refactor this code:
 
-```js
+```ts
 function first(arr: any[]): any {
   return arr[0];
 }
@@ -171,7 +171,7 @@ function first(arr: any[]): any {
 
 Into a generic function:
 
-```js
+```ts
 function first<T>(arr: T[]): T {
   return arr[0];
 }
@@ -183,7 +183,7 @@ function first<T>(arr: T[]): T {
 
 Here's an example of how you might use this function:
 
-```js
+```ts
 let numArray = [1, 2, 3, 4, 5];
 let strArray = ["a", "b", "c", "d", "e"];
 
@@ -203,7 +203,7 @@ In these examples we use `T` to denote the generic type parameter. However, ther
 
 TypeScript can infer the generic type T based on the argument you pass to the function. This means you typically don't need to explicitly specify the type when calling the function. 
 
-```js
+```ts
 let numArray = [1, 2, 3, 4, 5];
 let strArray = ["a", "b", "c", "d", "e"];
 
@@ -219,7 +219,7 @@ One of the most common ways you will use generics is when defining new types of 
 
 We can create objects with placeholders for types (generics) to be used within the object's properties or methods:
 
-```js
+```ts
 type User<T> = {
   name: string;
   age: T;
@@ -240,7 +240,7 @@ const user2: User<string> = {
 
 Generic objects can take more than one generic type parameter.
 
-```js
+```ts
 type User<T1, T2> = {
   name: string;
   age: T1;
@@ -268,13 +268,13 @@ You can think of arrays as types that accept an argument within the `<>` bracket
 
 We can also use type unions to indicate that the array can contain multiple types:
 
-```js
+```ts
 const numsAndStrings: Array<string | number> = [1, "2"];
 ```
 
 Nested arrays, which are arrays within arrays, can also be created using generic arrays. 
 
-```js
+```ts
 const matrix: Array<Array<number>> = [
   [1, 2],
   [3, 4],
@@ -283,7 +283,7 @@ const matrix: Array<Array<number>> = [
 
 As with generic functions, we can usually rely on the TypeScript compiler to infer the type of our arrays:
 
-```js
+```ts
 const values = [1, "2", false]; // Type is Array<string | number | boolean>
 ```
 
@@ -291,7 +291,7 @@ const values = [1, "2", false]; // Type is Array<string | number | boolean>
 
 There is an alternative syntax using `T[]`:
 
-```js
+```ts
 let numbers: number[] = [1, 2, 3, 4, 5];
 ```
 

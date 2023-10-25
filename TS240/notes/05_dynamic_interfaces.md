@@ -8,7 +8,7 @@ Declaration merging refers to the TypeScript compiler's ability to take two sepa
 
 We can merge an imported interface with an interface defined locally with the same name:
 
-```js
+```ts
 import { Mammal } from "./animals";
 /*
 interface Mammal {
@@ -40,7 +40,7 @@ let cat: Mammal = {
 
 If the two declarations define the same member in incompatible ways, TypeScript will raise an error:
 
-```js
+```ts
 interface Mammal {
   legs: number;
 }
@@ -52,7 +52,7 @@ interface Mammal {
 
 It's important to note that declaration merging only works with interfaces, not type aliases. In other words, this works:
 
-```js
+```ts
 interface Student {
   id: number;
   name: string;
@@ -66,7 +66,7 @@ interface Student {
 
 Whereas this will raise an error:
 
-```js
+```ts
 type Student = {
   id: number;
   name: string;
@@ -88,7 +88,7 @@ You will use extends frequently as you begin building interfaces based on other 
 
 `extends` is frequently used when defining a more specific type based on a general type. 
 
-```js
+```ts
 interface Mammal {
   name: string;
   legs: number;
@@ -106,7 +106,7 @@ const ellie: Elephant = {
 ```
 
 An interface can extend multiple types in the same definition:
-```js
+```ts
 interface Mammal {
   name: string;
   legs: number;
@@ -132,7 +132,7 @@ const ellie: Elephant = {
 
 Note that interfaces can extend types defined via interface or type:
 
-```js
+```ts
 interface Mammal {
   name: string;
   legs: number;
@@ -153,7 +153,7 @@ interface Elephant extends Mammal, Tusked {
 
 If you try to extend an interface with another interface that has the same property, then the two properties must have compatible types. Otherwise, the compiler with throw an error:
 
-```js
+```ts
 interface User {
   id: string;
   name: string;
@@ -175,7 +175,7 @@ We could resolve the above error in two ways:
 
 1. Change the `id` property on User to a wider type that includes `number`.
 
-```js
+```ts
 interface User {
   id: string | number;
   name: string;
@@ -189,7 +189,7 @@ interface Student extends User {
 
 2. Change the `id` property on Student to a narrower type assignable to `string` (for example, a string literal)
 
-```js
+```ts
 interface User {
   id: string;
   name: string;
@@ -207,7 +207,7 @@ Type intersections allow you to combine multiple types into a single type. This 
 
 Let's take a look at the example from our previous assignment on extends, and refactor it to use an intersection:
 
-```js
+```ts
 type Mammal = {
   name: string;
   legs: number;
@@ -228,7 +228,7 @@ const ellie: Elephant = {
 
 We can create intersections also with object literal types:
 
-```js
+```ts
 type Product = {
   id: string;
   name: string;
@@ -254,7 +254,7 @@ Type intersection create 'sub-intersections' for conflicting properties, with th
 
 > The `never` type is a special type in TypeScript: the compiler will raise an error when you assign any value to a variable of type never.
 
-```js
+```ts
 type User = {
   id: string;
   name: string;
@@ -269,7 +269,7 @@ type Student = User & {
 
 Then, given the above type definitions
 
-```js
+```ts
 const alice: Student = {
   id: 42, // Type 'number' is not assignable to type 'never'
   courses: ["Biology", "Philosophy"],
@@ -326,7 +326,7 @@ Index signatures in TypeScript allow you to define a dynamic set of properties f
 
 The basic syntax for defining an index signature in TypeScript is as follows:
 
-```js
+```ts
 interface Interface {
   [key: string]: Type;
 }
@@ -338,7 +338,7 @@ In this example, `Interface` is an interface that defines an object with a key o
 
 For example:
 
-```js
+```ts
 interface Accounts {
   [username: string]: UserProfile;
 }
@@ -369,7 +369,7 @@ In this example, we define `Accounts` as an interface with an index signature th
 
 We can use an index signature in combination with specific named properties:
 
-```js
+```ts
 interface Accounts {
   [username: string]: UserProfile;
   admin: UserProfile;
@@ -400,7 +400,7 @@ Note that named properties must have types that are consistent with the type in 
 
 We can apply the `readonly` keyword index signatures just like other properties:
 
-```js
+```ts
 interface UserProfile {
   readonly [key: string]: string;
 }
@@ -417,7 +417,7 @@ Index signatures can be used in a variety of scenarios, and are especially usefu
 
 When parsing JSON data, we often don't know the exact structure of the data. Using index signatures can help parse JSON data more easily:
 
-```js
+```ts
 interface MyJSONData {
   [key: string]:
     | string
@@ -453,7 +453,7 @@ The relationship between arrays and objects in JavaScript can cause confusion, e
 
 For example, using generics in TypeScript, we don't have to do too much work to create a simple `CustomArray` type:
 
-```js
+```ts
 interface CustomArray<T> {
   length: number;
   [index: number]: T;
@@ -470,7 +470,7 @@ We can't use the `typeof` operator to narrow the type to an array in TypeScript,
 
 The object type represents any non-primitive value. We generally recommend avoiding using it, but in this case, we can use it to show the relationship between objects and arrays. If a function takes an object, TypeScript will let us pass an array as well:
 
-```js
+```ts
 function doSomething(obj: object) {
   console.log("It worked!");
 }
@@ -483,7 +483,7 @@ doSomething([1, 2, 3]); // 'It worked!'
 
 The object type is a built-in type that can be assigned any non-primitive value.
 
-```js
+```ts
 let obj: object;
 obj = { name: "Pete" }; // OK
 obj = []; // OK
@@ -500,7 +500,7 @@ The `object` type is almost never useful because it doesn't provide any informat
 
 Although there aren't many situations where we truly don't know anything about an object's properties at runtime, in those cases we can define interfaces with flexible properties using index signatures and strong type safety with `unknown`.
 
-```js
+```ts
 interface CustomObject {
   [key: string]: unknown;
 }
@@ -514,7 +514,7 @@ The `unknown` type for each value will give us a measure of type safety by forci
 
 TypeScript can't verify that some string as a function parameter will be a valid (existing) key for an interface (we could pass any string). Even if it is a valid property name, the compiler doesn't know what the value's type is, so it defaults to `any`. 
 
-```js
+```ts
 type Animal = {
   name: string;
   species: string;
@@ -530,7 +530,7 @@ function getAnimalProp(animal: Animal, key: string): unknown {
 
 To deal with this problem, we can use the `keyof` operator. This operator evaluates to a union of an interface's properties:
 
-```js
+```ts
 function getAnimalProp(animal: Animal, key: keyof Animal): unknown {
   return animal[key];
 }
@@ -544,7 +544,7 @@ The `keyof` operator is very useful whenever we want to dynamically create a new
 
 Generics, which allow us to create reusable and flexible types and functions:
 
-```js
+```ts
 function first<T>(arr: T[]): T {
   return arr[0];
 }
@@ -560,7 +560,7 @@ In this example, the `first` function accepts any type `T` as a type parameter. 
 
 Here the compiler raises an error because it cannot determine that the generic argument `T` will have an age property on it:
 
-```js
+```ts
 function describeItem<T>(item: T) {
   if (item.age < 10) {
     // Property 'age' does not exist on type 'T'
@@ -578,7 +578,7 @@ function describeItem<T>(item: T) {
 
 A generic constraint is defined using the `extends` keyword:
 
-```js
+```ts
 function describeItem<T extends { age: number }>(item: T) {
   //                  ^^^^^^^^^^^^^^^^^^^^^^^^^
   if (item.age < 10) {
