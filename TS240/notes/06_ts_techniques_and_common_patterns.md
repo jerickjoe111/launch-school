@@ -7,11 +7,11 @@
 - Defining Options types
 - Passing Literal Objects
 - Working with Exceptions
-- Working with Promises: Async / await
+- Working with Promises: `async` / `await`
 - Rejected Promises
-- Pick and Omit
-- Return Type and Parameters
-- Partial
+- `Pick` and `Omit`
+- `ReturnType` and `Parameters`
+- `Partial`
 - Object Values at Runtime
 
 ## Extracting Shared Properties to a Common Type

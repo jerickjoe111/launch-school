@@ -1,5 +1,17 @@
 # 04: Narrowing
 
+## Content
+
+- Overview of Narrowing
+- Narrowing with Type Guards
+- Type Predicates
+- Narrowing with Short Circuiting
+- Discriminated Unions
+- Exhaustiveness Checking
+- The `any` type
+- Type soundness
+- `unknown`
+
 ## Overview of Narrowring
 
 There are various ways to widen the set of possible types that a value may represent. Union types and Generics offer us flexibility in the types of values we pass around our code.

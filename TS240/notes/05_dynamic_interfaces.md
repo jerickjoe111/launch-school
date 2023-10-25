@@ -1,5 +1,17 @@
 # 05: Dynamic Interfaces
 
+## Content
+
+- Declaration Merging
+- Extending Interfaces
+- Type Intersections
+- Differences between Interfaces and Types
+- Index Signatures
+- Arrays and Index Signatures
+- The `object` Type
+- The `keyof` Operator
+- Generic Constraints
+
 We will delve into more advanced concepts that allow us to work with objects in even more flexible and powerful ways. We will explore how to extend, combine, and define interfaces with a flexible number of properties. We will also take a look at how interfaces represent special types of JavaScript objects like functions, classes, and arrays. 
 
 ## Declaration Merging

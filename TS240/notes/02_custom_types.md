@@ -1,8 +1,19 @@
 # 02: Defining Custom Types
 
-You can define type aliases for any type, including primitives, objects, functions, and more advanced types like type unions and generics (which we will cover in future in lessons), and you can use them anywhere you use types
+## Content
+
+- Type Aliases
+- Object Types
+- Interfaces
+- Structural Typing
+- Optional Properties
+- `readonly` Properties
+- Type Assertions
+- Classes
 
 ## Type Aliases
+
+You can define type aliases for any type, including primitives, objects, functions, and more advanced types like type unions and generics, and you can use them anywhere you use types.
 
 Type aliases enable developers to define new custom types, based on existing types.
 

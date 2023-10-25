@@ -1,5 +1,23 @@
 # 01: Introduction to TypeScript
 
+## Content
+
+- Why TypeScript? What is type safety? Why does it matter?
+- The History and Tradeoffs of TypeScript
+- TypeScript is a superset of JavaScript
+- Compiling TypeScript to JavaScript
+- The TypeScript Language Service
+- Primitive Types
+- Practice Problems: Primitive Types
+- Arrays and Tuples
+- Functions: Parameter types and return types
+- Functions: Working with built-in JS methods
+- `void`
+- Literal Types
+- Explicit Typing vs Type Inference
+- Type Errors vs. Syntax Errors
+
+
 ## Why TypeScript? What is type safety? Why does it matter?
 
 In dynamically typed languages, variables are not assigned a specific data type when they are declared. Instead, the type of a variable is determined at runtime based on the type of value it is assigned.
@@ -31,7 +49,7 @@ Beyond type safety, Typescript also detects many other common errors that JavaSc
 
 ### History
 
-As JavaScript became a common choice for more types of application development, some detractors criticized the language for its lack of type safety. The argument was that Javascript was not a good choice for large or serious applications because its dynamic typing made runtime errors common and difficult to detect. This was the motivation for the development of Typescript.
+As JavaScript became a common choice for more types of application development, some detractors criticized the language for its lack of type safety. The argument was that JavaScript was not a good choice for large or serious applications because its dynamic typing made runtime errors common and difficult to detect. This was the motivation for the development of Typescript.
 
 TypeScript's journey began in 2010, when a team of Microsoft engineers led by Anders Hejlsberg started working on the language. Hejlsberg was also responsible for creating the C# programming language.
 

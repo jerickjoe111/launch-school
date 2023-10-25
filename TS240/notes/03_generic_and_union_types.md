@@ -1,5 +1,13 @@
 # 03: Generic and Union Types
 
+## Content
+
+- Union Types and Objects
+- Function Overloads
+- Generic Functions
+- Generic Objects
+- Generic Arrays
+
 ## Union Types and Type Guards
 
 There are some situations where a value could be one of multiple acceptable types. One way we can represent this is by using type unions, which allow us to define a type that can be one of different types.
